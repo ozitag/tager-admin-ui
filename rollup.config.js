@@ -2,9 +2,10 @@ import path from 'path';
 
 import alias from '@rollup/plugin-alias';
 import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import svg from 'rollup-plugin-vue-inline-svg';
 import vue from 'rollup-plugin-vue';
-import { getBabelOutputPlugin } from '@rollup/plugin-babel';
+import styles from 'rollup-plugin-styles';
 
 export default {
   input: 'src/index.js',
@@ -12,48 +13,43 @@ export default {
     {
       file: 'dist/index.esm.js',
       format: 'es',
-      plugins: [
-        getBabelOutputPlugin({
-          presets: ['@babel/preset-env'],
-          plugins: [['@babel/plugin-transform-runtime', { useESModules: true }]]
-        })
-      ]
+      assetFileNames: '[name][extname]',
     },
     {
       file: 'dist/index.umd.js',
       format: 'umd',
-      name: 'TagerAdminCore',
+      name: 'TagerAdminUi',
       globals: {
         vue: 'Vue',
-        'vue-router': 'VueRouter'
-      }
+      },
+      assetFileNames: '[name][extname]',
     },
     {
       file: 'dist/index.min.js',
       format: 'iife',
-      name: 'TagerAdminCore',
+      name: 'TagerAdminUi',
       globals: {
         vue: 'Vue',
-        'vue-router': 'VueRouter'
-      }
-    }
+      },
+      assetFileNames: '[name][extname]',
+    },
   ],
-  external: ['vue', 'vue-router'],
+  external: ['vue'],
   plugins: [
     alias({
       entries: [
         {
           find: /^@\/(.*)$/,
-          replacement: `${path.resolve(__dirname, 'src')}/$1`
-        }
-      ]
+          replacement: `${path.resolve(__dirname, 'src')}/$1`,
+        },
+      ],
     }),
-    resolve(),
+    resolve({ extensions: ['.js', '.css', '.svg', '.vue'] }),
+    commonjs(),
     svg({ svgoConfig: { plugins: [{ removeViewBox: false }] } }),
-    vue()
-    // babel({
-    //   babelHelpers: 'runtime',
-    //   plugins: ['@babel/plugin-transform-runtime']
-    // })
-  ]
+    vue(),
+    styles({
+      mode: ['extract', './admin-ui.css'],
+    }),
+  ],
 };

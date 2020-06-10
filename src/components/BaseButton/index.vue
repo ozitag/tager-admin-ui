@@ -3,7 +3,7 @@
     :class="['button', variant, { loading: loading }]"
     :type="type"
     :disabled="disabled || loading"
-    @click="$emit('click', $event)"
+    v-on="$listeners"
   >
     <span v-if="loading" class="spinner-wrapper">
       <spinner class="button-spinner" size="28" />
@@ -16,21 +16,25 @@
 <script lang="js">
 import Vue from 'vue';
 
+import Spinner from '@/components/Spinner';
+
 export default Vue.extend({
+  name: 'BaseButton',
+  components: { Spinner },
   props: {
     variant: {
       type: String,
       validator(value) {
-        return ['outline-primary', 'outline-secondary', 'icon'].includes(value);
-      },
+        return ['primary', 'outline-primary', 'secondary', 'outline-secondary', 'icon'].includes(value);
+      }
     },
     type: {
       type: String,
-      default: 'button',
+      default: 'button'
     },
     disabled: Boolean,
-    loading: Boolean,
-  },
+    loading: Boolean
+  }
 });
 </script>
 
@@ -55,6 +59,7 @@ export default Vue.extend({
 
   &:disabled {
     cursor: not-allowed;
+    opacity: 0.65;
   }
 
   &.loading {
@@ -69,7 +74,6 @@ export default Vue.extend({
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: white;
   border-radius: 0.25rem;
 
   display: flex;
@@ -81,13 +85,64 @@ export default Vue.extend({
   }
 }
 
+.primary {
+  color: white;
+  border-color: var(--primary);
+  background-color: var(--primary);
+
+  .button-spinner {
+    color: white;
+  }
+
+  &:not(:disabled):hover,
+  &:not(:disabled):active {
+    background-color: var(--primary-dark);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem var(--primary-shadow);
+  }
+}
+
+.secondary {
+  color: white;
+  border-color: var(--secondary);
+  background-color: var(--secondary);
+
+  .button-spinner {
+    color: white;
+  }
+
+  &:not(:disabled):hover,
+  &:not(:disabled):active {
+    background-color: var(--secondary-dark);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem var(--secondary-shadow);
+  }
+}
+
 .outline-primary {
   color: var(--primary);
   border-color: var(--primary);
 
-  &:hover {
+  .button-spinner {
+    color: var(--primary);
+  }
+
+  &:not(:disabled):hover,
+  &:not(:disabled):active {
     background-color: var(--primary);
     color: white;
+
+    .button-spinner {
+      color: white;
+    }
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem var(--primary-shadow);
   }
 }
 
@@ -110,7 +165,7 @@ export default Vue.extend({
   }
 
   &:focus {
-    box-shadow: 0 0 0 0.2rem rgba(11, 37, 37, 0.4);
+    box-shadow: 0 0 0 0.2rem var(--secondary-shadow);
   }
 }
 
