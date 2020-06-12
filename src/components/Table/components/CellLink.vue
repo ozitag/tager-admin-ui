@@ -1,6 +1,8 @@
 <template>
   <td>
-    <a :href="value">{{ label }}</a>
+    <a v-if="Boolean(link)" :href="link && link.href">
+      {{ link && link.label }}
+    </a>
   </td>
 </template>
 
@@ -19,20 +21,11 @@ export default Vue.extend({
     }
   },
   computed: {
-    value() {
-      if (this.column.getLinkHref) {
-        return this.column.getLinkHref(this.row, this.column);
-      }
-
-      return this.row[this.column.field];
+    link() {
+      return this.column.format
+              ? this.column.format({ row: this.row, column: this.column })
+              : this.row[this.column.field];
     },
-    label() {
-      if (this.column.getLinkLabel) {
-        return this.column.getLinkLabel(this.row, this.column);
-      }
-
-      return this.value;
-    }
   }
 });
 </script>

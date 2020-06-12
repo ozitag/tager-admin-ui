@@ -1,23 +1,19 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
 
+export type DateCellValue = Date | null;
+export type StringCellValue = string | null;
+export type ImageCellValue = string | null;
+export type LinkCellValue = { href: string; label: string } | null;
+
 export type ColumnDefinition = {
   id: number;
   name: string;
   field: string;
   type?: 'string' | 'date' | 'image' | 'link';
-  format?: (
-    value: any,
-    row: { [key: string]: any },
-    column: ColumnDefinition
-  ) => string;
-  getLinkLabel?: (
-    row: { [key: string]: any },
-    column: ColumnDefinition
-  ) => string;
-  getLinkHref?: (
-    row: { [key: string]: any },
-    column: ColumnDefinition
-  ) => string;
+  format?: <T = { [key: string]: any }>(params: {
+    row: T;
+    column: ColumnDefinition;
+  }) => any;
 };
 
 export declare const BaseButton: VueConstructor<Vue>;

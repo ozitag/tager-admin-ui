@@ -20,7 +20,11 @@ export default Vue.extend({
   },
   computed: {
     value() {
-      return formatDate(new Date(this.row[this.column.field]));
+      const date = this.column.format
+              ? this.column.format({ row :this.row, column: this.column })
+              : this.row[this.column.field];
+
+      return date ? formatDate(new Date(date)) : '';
     }
   }
 });

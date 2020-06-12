@@ -18,11 +18,9 @@ export default Vue.extend({
   },
   computed: {
     value() {
-      const value = this.row[this.column.field];
-
       return this.column.format
-        ? this.column.format(value, this.row, this.column)
-        : value;
+        ? this.column.format({ row: this.row, column: this.column })
+        : this.row[this.column.field];
     }
   }
 });
