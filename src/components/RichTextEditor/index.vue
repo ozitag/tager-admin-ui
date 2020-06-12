@@ -24,7 +24,10 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+ul {
+  list-style-type: disc;
+}
 .rich-text-editor-container {
   @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;600;700&display=swap');
   body {
@@ -87,6 +90,9 @@ export default Vue.extend({
     *margin-right: 0px;
     /* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
     padding: 0 40px;
+  }
+  ul {
+    list-style-type: disc;
   }
 
   h1,
