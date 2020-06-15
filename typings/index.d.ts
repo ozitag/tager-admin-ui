@@ -5,15 +5,12 @@ export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
 export type LinkCellValue = { href: string; label: string } | null;
 
-export type ColumnDefinition = {
+export type ColumnDefinition<RowData = { [key: string]: any }> = {
   id: number;
   name: string;
   field: string;
   type?: 'string' | 'date' | 'image' | 'link';
-  format?: <T = { [key: string]: any }>(params: {
-    row: T;
-    column: ColumnDefinition;
-  }) => any;
+  format?: (params: { row: RowData; column: ColumnDefinition<RowData> }) => any;
 };
 
 export declare const BaseButton: VueConstructor<Vue>;
