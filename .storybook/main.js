@@ -26,6 +26,7 @@ module.exports = {
           options: { svgo: { plugins: [{ removeViewBox: false }] } },
         },
       ],
+      include: path.resolve(__dirname, '../src/assets/svg'),
     });
 
     // setup URL Alias

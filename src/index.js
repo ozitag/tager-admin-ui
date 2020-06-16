@@ -5,6 +5,7 @@ export { default as BaseCheckbox } from '@/components/BaseCheckbox';
 export { default as FormFieldCheckbox } from '@/components/FormFieldCheckbox';
 export { default as FormField } from '@/components/FormField';
 export { default as FormFieldError } from '@/components/FormFieldError';
+export { default as FormFieldRichText } from '@/components/FormFieldRichText';
 export { default as BaseInput } from '@/components/BaseInput';
 export { default as BaseTextArea } from '@/components/BaseTextArea';
 export { default as InputLabel } from '@/components/InputLabel';
