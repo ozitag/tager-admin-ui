@@ -4,6 +4,21 @@ export type DateCellValue = Date | null;
 export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
 export type LinkCellValue = { href: string; label: string } | null;
+export type IconName =
+  | 'home'
+  | 'group'
+  | 'viewList'
+  | 'expandLess'
+  | 'expandMore'
+  | 'edit'
+  | 'delete'
+  | 'upload'
+  | 'clear'
+  | 'close'
+  | 'menu'
+  | 'settings'
+  | 'assignment'
+  | 'chevronRight';
 
 export type OptionType<V = string> = {
   value: V;
