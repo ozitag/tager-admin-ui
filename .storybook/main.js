@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   stories: ['../src/**/*.stories.[tj]s'],
@@ -34,6 +35,17 @@ module.exports = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, '../src'),
     };
+
+    config.plugins = config.plugins.filter(
+      (plugin) => !(plugin instanceof webpack.DefinePlugin)
+    );
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.VUE_APP_API_ORIGIN': JSON.stringify(
+          process.env.VUE_APP_API_ORIGIN
+        ),
+      })
+    );
     return config;
   },
 };
