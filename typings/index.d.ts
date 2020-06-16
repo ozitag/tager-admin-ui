@@ -5,6 +5,11 @@ export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
 export type LinkCellValue = { href: string; label: string } | null;
 
+export type OptionType<V = string> = {
+  value: V;
+  label: string;
+};
+
 export type ColumnDefinition<RowData = { [key: string]: any }> = {
   id: number;
   name: string;

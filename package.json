@@ -1,6 +1,6 @@
 {
   "name": "@tager/admin-ui",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -54,5 +54,8 @@
   "peerDependencies": {
     "@tager/admin-services": "0.0.3",
     "vue": "2.6.x"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
