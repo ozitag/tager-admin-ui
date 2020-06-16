@@ -35,11 +35,16 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
 
 export declare const BaseButton: VueConstructor<Vue>;
 export declare const BaseCheckbox: VueConstructor<Vue>;
-export declare const FormFieldCheckbox: VueConstructor<Vue>;
-export declare const FormField: VueConstructor<Vue>;
-export declare const FormFieldError: VueConstructor<Vue>;
 export declare const BaseInput: VueConstructor<Vue>;
 export declare const BaseTextArea: VueConstructor<Vue>;
+export declare const BaseRichTextInput: VueConstructor<Vue>;
+
+export declare const FormFieldCheckbox: VueConstructor<Vue>;
+export declare const FormField: VueConstructor<Vue>;
+export declare const FormGroup: VueConstructor<Vue>;
+export declare const FormFieldError: VueConstructor<Vue>;
+export declare const FormFieldRichTextInput: VueConstructor<Vue>;
+
 export declare const InputLabel: VueConstructor<Vue>;
 export declare const MainLayout: VueConstructor<Vue>;
 export declare const PageTitle: VueConstructor<Vue>;
@@ -47,7 +52,6 @@ export declare const Spinner: VueConstructor<Vue>;
 export declare const SvgIcon: VueConstructor<Vue>;
 export declare const Table: VueConstructor<Vue>;
 export declare const TableCell: VueConstructor<Vue>;
-export declare const FormGroup: VueConstructor<Vue>;
 export declare const ImageInput: VueConstructor<Vue>;
 
 export declare const AdminUiPlugin: PluginFunction<undefined>;

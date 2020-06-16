@@ -14,6 +14,8 @@ import Table from '@/components/Table';
 import TableCell from '@/components/Table/components/Cell';
 import FormGroup from '@/components/FormGroup';
 import ImageInput from '@/components/ImageInput';
+import FormFieldRichTextInput from '@/components/FormFieldRichTextInput';
+import BaseRichTextInput from '@/components/BaseRichTextInput';
 
 export function AdminUiPlugin(Vue) {
   Vue.component('base-button', BaseButton);
@@ -22,10 +24,14 @@ export function AdminUiPlugin(Vue) {
   Vue.component('base-table', Table);
   Vue.component('base-table-cell', TableCell);
   Vue.component('base-textarea', BaseTextArea);
+  Vue.component('base-rich-text-input', BaseRichTextInput);
+
   Vue.component('form-field', FormField);
   Vue.component('form-field-checkbox', FormFieldCheckbox);
   Vue.component('form-field-error', FormFieldError);
+  Vue.component('form-field-rich-text-input', FormFieldRichTextInput);
   Vue.component('form-group', FormGroup);
+
   Vue.component('input-label', InputLabel);
   Vue.component('main-layout', MainLayout);
   Vue.component('page-title', PageTitle);
