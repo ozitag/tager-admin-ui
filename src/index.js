@@ -19,5 +19,7 @@ export { default as TableCel } from '@/components/Table/components/Cell';
 export { default as FormGroup } from '@/components/FormGroup';
 export { default as FileInput } from '@/components/FileInput';
 export { default as FormFieldFileInput } from '@/components/FormFieldFileInput';
+export { default as MultiSelect } from '@/components/MultiSelect';
+export { default as FormFieldMultiSelect } from '@/components/FormFieldMultiSelect';
 
 export { AdminUiPlugin } from './plugin';

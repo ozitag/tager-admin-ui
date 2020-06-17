@@ -17,6 +17,8 @@ import FileInput from '@/components/FileInput';
 import FormFieldFileInput from '@/components/FormFieldFileInput';
 import FormFieldRichTextInput from '@/components/FormFieldRichTextInput';
 import BaseRichTextInput from '@/components/BaseRichTextInput';
+import MultiSelect from '@/components/MultiSelect';
+import FormFieldMultiSelect from '@/components/FormFieldMultiSelect';
 
 export function AdminUiPlugin(Vue) {
   Vue.component('base-button', BaseButton);
@@ -28,13 +30,15 @@ export function AdminUiPlugin(Vue) {
   Vue.component('base-rich-text-input', BaseRichTextInput);
   Vue.component('base-file-input', FileInput);
 
+  Vue.component('form-group', FormGroup);
   Vue.component('form-field', FormField);
   Vue.component('form-field-checkbox', FormFieldCheckbox);
   Vue.component('form-field-error', FormFieldError);
   Vue.component('form-field-rich-text-input', FormFieldRichTextInput);
   Vue.component('form-field-file-input', FormFieldFileInput);
-  Vue.component('form-group', FormGroup);
+  Vue.component('form-field-multi-select', FormFieldMultiSelect);
 
+  Vue.component('multi-select', MultiSelect);
   Vue.component('input-label', InputLabel);
   Vue.component('main-layout', MainLayout);
   Vue.component('page-title', PageTitle);

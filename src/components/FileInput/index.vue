@@ -93,10 +93,7 @@ export default Vue.extend({
         return !value || ['image'].includes(value);
       }
     },
-    scenario: {
-      type: String,
-      default: 'default',
-    }
+    scenario: String
   },
   data() {
     return {
@@ -184,9 +181,7 @@ export default Vue.extend({
         fileArray.map(file => {
           return upload({
               file,
-              params: {
-                scenario: this.scenario
-              }
+              params: this.scenario ? { scenario: this.scenario } : null
             })
             .catch(error => {
               console.error(error);

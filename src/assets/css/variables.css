@@ -1,5 +1,7 @@
 :root {
-    --primary: #0d6efd;
+    --text-color: #495057;
+
+    --primary: #6ba0ff;
     --primary-dark: #0069d9;
     --primary-shadow: rgba(38,143,255,.5);
 
