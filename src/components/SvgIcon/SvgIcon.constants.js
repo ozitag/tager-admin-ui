@@ -11,6 +11,7 @@ import MenuIcon from '@/assets/svg/menu.svg';
 import SettingsIcon from '@/assets/svg/settings.svg';
 import AssignmentIcon from '@/assets/svg/assignment.svg';
 import ChevronRightIcon from '@/assets/svg/chevron_right.svg';
+import DescriptionIcon from '@/assets/svg/description.svg';
 
 export const ICON_MAP = {
   home: HomeIcon,
@@ -27,4 +28,5 @@ export const ICON_MAP = {
   settings: SettingsIcon,
   assignment: AssignmentIcon,
   chevronRight: ChevronRightIcon,
+  description: DescriptionIcon,
 };

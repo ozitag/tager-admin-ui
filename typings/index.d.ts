@@ -18,7 +18,8 @@ export type IconName =
   | 'menu'
   | 'settings'
   | 'assignment'
-  | 'chevronRight';
+  | 'chevronRight'
+  | 'description';
 
 export type OptionType<V = string> = {
   value: V;
@@ -44,6 +45,7 @@ export declare const FormField: VueConstructor<Vue>;
 export declare const FormGroup: VueConstructor<Vue>;
 export declare const FormFieldError: VueConstructor<Vue>;
 export declare const FormFieldRichTextInput: VueConstructor<Vue>;
+export declare const FormFieldFileInput: VueConstructor<Vue>;
 
 export declare const InputLabel: VueConstructor<Vue>;
 export declare const MainLayout: VueConstructor<Vue>;
@@ -52,6 +54,6 @@ export declare const Spinner: VueConstructor<Vue>;
 export declare const SvgIcon: VueConstructor<Vue>;
 export declare const Table: VueConstructor<Vue>;
 export declare const TableCell: VueConstructor<Vue>;
-export declare const ImageInput: VueConstructor<Vue>;
+export declare const FileInput: VueConstructor<Vue>;
 
 export declare const AdminUiPlugin: PluginFunction<undefined>;

@@ -17,6 +17,7 @@ export { default as SvgIcon } from '@/components/SvgIcon';
 export { default as Table } from '@/components/Table';
 export { default as TableCel } from '@/components/Table/components/Cell';
 export { default as FormGroup } from '@/components/FormGroup';
-export { default as ImageInput } from '@/components/ImageInput';
+export { default as FileInput } from '@/components/FileInput';
+export { default as FormFieldFileInput } from '@/components/FormFieldFileInput';
 
 export { AdminUiPlugin } from './plugin';

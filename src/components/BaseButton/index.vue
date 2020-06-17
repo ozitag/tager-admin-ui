@@ -180,10 +180,6 @@ export default Vue.extend({
     transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
-  &:not(:disabled):hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-
   &:disabled {
     background-color: rgba(0, 0, 0, 0.08);
   }

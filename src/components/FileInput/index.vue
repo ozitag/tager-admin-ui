@@ -19,24 +19,35 @@
           ref="fileInput"
           type="file"
           class="visually-hidden"
-          accept="image/*"
+          :accept="acceptableMimeTypes"
           :multiple="multiple"
           @change="handleChange"
         />
       </label>
     </div>
 
-    <div class="image-grid">
-      <div v-for="image of images" :key="image.id" class="image-container">
+    <div class="file-grid">
+      <div
+        v-for="file of files"
+        :key="file.id"
+        class="file-container"
+        :title="getFileHtmlTitle(file)"
+      >
         <base-button
           class="clear-button"
           variant="icon"
           title="Clear"
-          @click="clearImage(image.id)"
+          @click="clearImage(file.id)"
         >
           <svg-icon name="clear" />
         </base-button>
-        <img :src="image.url" />
+
+        <a :href="file.url" target="_blank">
+          <img v-if="file.mime.startsWith('image/')" :src="file.url" />
+          <svg-icon v-else class="file-icon" name="description" />
+        </a>
+
+        <span class="file-caption">{{ getFileCaption(file) }}</span>
       </div>
     </div>
   </div>
@@ -45,6 +56,9 @@
 <script lang="js">
 import Vue from 'vue';
 import { upload } from '@tager/admin-services';
+
+import SvgIcon from '@/components/SvgIcon';
+import BaseButton from '@/components/BaseButton';
 
 function isImageObject(image) {
   return (
@@ -56,6 +70,7 @@ function isImageObject(image) {
 
 export default Vue.extend({
   name: 'ImageInput',
+  components: { SvgIcon, BaseButton },
   model: {
     prop: 'value',
     event: 'change'
@@ -70,15 +85,17 @@ export default Vue.extend({
       }
     },
     multiple: Boolean,
+    accept: String,
     maxFileCount: Number,
-    /** kilobytes */
-    maxFileSize: Number,
+    fileType: {
+      type: String,
+      validator(value) {
+        return !value || ['image'].includes(value);
+      }
+    },
     scenario: {
       type: String,
       default: 'default',
-      validator(value) {
-        return ['product', 'product-preset', 'default'].includes(value);
-      }
     }
   },
   data() {
@@ -87,7 +104,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    images() {
+    files() {
       if (this.multiple) {
         return this.value;
       } else {
@@ -96,14 +113,23 @@ export default Vue.extend({
     },
     shouldDisplayDropbox() {
       if (this.multiple && typeof this.maxFileCount === 'number') {
-        return this.images.length < this.maxFileCount;
+        return this.files.length < this.maxFileCount;
       }
 
       if (!this.multiple) {
-        return this.images.length === 0;
+        return this.files.length === 0;
       }
 
       return true;
+    },
+    acceptableMimeTypes() {
+      if (this.accept) return this.accept;
+
+      if (this.fileType === 'image') {
+        return 'image/*'
+      }
+
+      return undefined;
     }
   },
   watch: {
@@ -168,8 +194,8 @@ export default Vue.extend({
             });
         })
       )
-        .then(images => {
-          const newImages = [...this.images, ...images].filter(Boolean);
+        .then(files => {
+          const newImages = [...this.files, ...files].filter(Boolean);
 
           this.emitChangeEvent(newImages);
         })
@@ -214,13 +240,37 @@ export default Vue.extend({
       this.handleFiles(dataTransfer?.files ?? null);
     },
     clearImage(imageId) {
-      const newImages = this.images.filter(image => image.id !== imageId);
+      const newImages = this.files.filter(image => image.id !== imageId);
       this.emitChangeEvent(newImages);
     },
     emitChangeEvent(newImages) {
       const newValue = this.multiple ? newImages : newImages[0];
 
       this.$emit('change', newValue);
+    },
+    getFileSize(bytes) {
+      const unitList = ['bytes', 'kB', 'MB'];
+      let fileSize = bytes
+      let unitIndex = 0;
+
+      while (fileSize > 1024) {
+        fileSize = fileSize / 1024;
+        unitIndex += 1;
+      }
+
+      const fractionDigitCount = fileSize < 10 ? 2 : fileSize < 100 ? 1 : 0;
+
+      return [fileSize.toFixed(fractionDigitCount), unitList[unitIndex]].join(' ') ;
+    },
+    getFileCaption(file) {
+      return `${file.name} (${this.getFileSize(file.size)})`;
+    },
+    getFileHtmlTitle(file) {
+      return [
+        `Name: ${file.name}`,
+        `Size: ${this.getFileSize(file.size)} (${file.size} bytes)`,
+        `MIME type: ${file.mime}`
+      ].join('\n');
     }
   }
 });
@@ -239,6 +289,7 @@ export default Vue.extend({
   border-radius: 3px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   transition: background-color 0.15s linear;
+  margin-bottom: 1rem;
 
   &:hover {
     background-color: rgba(62, 69, 81, 0.05);
@@ -283,13 +334,16 @@ export default Vue.extend({
   clip: rect(1px, 1px, 1px, 1px);
 }
 
-.image-grid {
+.file-grid {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.image-container {
+.file-container {
   display: inline-block;
   position: relative;
   margin: 20px;
+  text-align: center;
   /*width: 250px;*/
 
   .clear-button {
@@ -306,6 +360,19 @@ export default Vue.extend({
       box-shadow: 0px 3px 2px -1px rgba(0, 0, 0, 0.2),
         0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
     }
+  }
+
+  .file-icon {
+    display: block;
+    height: 200px;
+    width: auto;
+    fill: #999;
+  }
+
+  .file-caption {
+    display: inline-block;
+    max-width: 200px;
+    word-break: break-all;
   }
 
   img {
