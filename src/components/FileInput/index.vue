@@ -72,7 +72,7 @@ function isFileObject(image) {
 }
 
 export default Vue.extend({
-  name: 'ImageInput',
+  name: 'FileInput',
   components: { SvgIcon, BaseButton },
   model: {
     prop: 'value',
