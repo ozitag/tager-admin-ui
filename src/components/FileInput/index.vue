@@ -60,11 +60,14 @@ import { upload } from '@tager/admin-services';
 import SvgIcon from '@/components/SvgIcon';
 import BaseButton from '@/components/BaseButton';
 
-function isImageObject(image) {
+function isFileObject(image) {
   return (
     typeof image === 'object' &&
     typeof image?.id === 'number' &&
-    typeof image?.url === 'string'
+    typeof image?.url === 'string' &&
+    typeof image?.name === 'string' &&
+    typeof image?.size === 'number' &&
+    typeof image?.mime === 'string'
   );
 }
 
@@ -80,8 +83,8 @@ export default Vue.extend({
       required: true,
       validator(value) {
         return Array.isArray(value)
-          ? value.every(isImageObject)
-          : isImageObject(value) || value === null;
+          ? value.every(isFileObject)
+          : isFileObject(value) || value === null;
       }
     },
     multiple: Boolean,
@@ -134,7 +137,7 @@ export default Vue.extend({
       immediate: true,
       handler() {
         if (this.multiple) {
-          if (!Array.isArray(this.value) || !this.value.every(isImageObject)) {
+          if (!Array.isArray(this.value) || !this.value.every(isFileObject)) {
             const message = JSON.stringify(
               {
                 message: 'ImageInput: value should be Array<ImageType>',
@@ -147,7 +150,7 @@ export default Vue.extend({
             console.error(message);
           }
         } else {
-          if (!isImageObject(this.value) && this.value !== null) {
+          if (!isFileObject(this.value) && this.value !== null) {
             const message = JSON.stringify(
               {
                 message: 'ImageInput: value should be ImageType or null',
