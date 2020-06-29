@@ -14,8 +14,8 @@ const TEST_FILES = [
   },
   {
     id: 175,
-    mime: 'image/jpeg',
-    name: 'e0cbc508796c2af24.jpg',
+    mime: 'ima3ge/jpeg',
+    name: 'e0cbc508796c2af24.zip',
     size: 386793,
     url: 'https://new.ozitag.com/uploads/tmp/zx/0q/Zx0qap7Hvw.jpg',
   },

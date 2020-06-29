@@ -33,11 +33,14 @@
         class="file-container"
         :title="getFileHtmlTitle(file)"
       >
+        <!--        <spinner-container>-->
+        <!--          <spinner :size="40" />-->
+        <!--        </spinner-container>-->
         <base-button
           class="clear-button"
           variant="icon"
           title="Clear"
-          @click="clearImage(file.id)"
+          @click="clearFile(file.id)"
         >
           <svg-icon name="clear" />
         </base-button>
@@ -50,6 +53,7 @@
         <span v-if="!isImage(file)" class="file-caption">
           {{ getFileCaption(file) }}
         </span>
+        <progress-bar percent="26" class="upload-progress" />
       </div>
     </div>
   </div>
@@ -61,6 +65,9 @@ import { upload } from '@tager/admin-services';
 
 import SvgIcon from '@/components/SvgIcon';
 import BaseButton from '@/components/BaseButton';
+import Spinner from '@/components/Spinner';
+import SpinnerContainer from '@/components/SpinnerContainer';
+import ProgressBar from '@/components/ProgressBar';
 
 import { getFileIconName } from './FileInput.helpers';
 
@@ -77,7 +84,7 @@ function isFileObject(image) {
 
 export default Vue.extend({
   name: 'FileInput',
-  components: { SvgIcon, BaseButton },
+  components: { SvgIcon, BaseButton, Spinner, SpinnerContainer, ProgressBar },
   model: {
     prop: 'value',
     event: 'change'
@@ -104,16 +111,15 @@ export default Vue.extend({
   },
   data() {
     return {
-      isDragOver: false
+      isDragOver: false,
+      uploadingFileList: [],
     };
   },
   computed: {
     files() {
-      if (this.multiple) {
-        return this.value;
-      } else {
-        return [this.value].filter(Boolean);
-      }
+      const fileList = this.multiple ? this.value : [this.value].filter(Boolean);
+
+      return [...fileList, ...this.uploadingFileList];
     },
     shouldDisplayDropbox() {
       if (this.multiple && typeof this.maxFileCount === 'number') {
@@ -184,6 +190,8 @@ export default Vue.extend({
       const fileArray = fileList ? [...fileList] : [];
       console.log('Files: ', fileArray);
 
+      this.uploadingFileList.push(fileArray.map(this.createUploadingFile));
+
       Promise.all(
         fileArray.map(file => {
           return upload({
@@ -241,7 +249,7 @@ export default Vue.extend({
 
       this.handleFiles(dataTransfer?.files ?? null);
     },
-    clearImage(imageId) {
+    clearFile(imageId) {
       const newImages = this.files.filter(image => image.id !== imageId);
       this.emitChangeEvent(newImages);
     },
@@ -279,6 +287,18 @@ export default Vue.extend({
     },
     getFileIcon(file) {
       return getFileIconName(file);
+    },
+    createUploadingFile(nativeFile) {
+      return {
+        id: Math.round(Math.random() + 10000),
+        url: URL.createObjectURL(nativeFile),
+        name: nativeFile.name,
+        size: nativeFile.size ?? 0,
+        mime: nativeFile.type ?? '',
+
+        status: 'uploading',
+        progress: 1,
+      }
     }
   }
 });
@@ -389,6 +409,10 @@ export default Vue.extend({
     /*width: 100%;*/
     /*height: 100%;*/
     /*object-fit: contain;*/
+  }
+
+  .upload-progress {
+    margin-top: 1rem;
   }
 }
 </style>
