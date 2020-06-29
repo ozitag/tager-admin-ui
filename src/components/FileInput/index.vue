@@ -43,11 +43,13 @@
         </base-button>
 
         <a :href="file.url" target="_blank">
-          <img v-if="file.mime.startsWith('image/')" :src="file.url" />
-          <svg-icon v-else class="file-icon" name="description" />
+          <img v-if="isImage(file)" :src="file.url" />
+          <svg-icon v-else class="file-icon" :name="getFileIcon(file)" />
         </a>
 
-        <span class="file-caption">{{ getFileCaption(file) }}</span>
+        <span v-if="!isImage(file)" class="file-caption">
+          {{ getFileCaption(file) }}
+        </span>
       </div>
     </div>
   </div>
@@ -59,6 +61,8 @@ import { upload } from '@tager/admin-services';
 
 import SvgIcon from '@/components/SvgIcon';
 import BaseButton from '@/components/BaseButton';
+
+import { getFileIconName } from './FileInput.helpers';
 
 function isFileObject(image) {
   return (
@@ -269,6 +273,12 @@ export default Vue.extend({
         `Size: ${this.getFileSize(file.size)} (${file.size} bytes)`,
         `MIME type: ${file.mime}`
       ].join('\n');
+    },
+    isImage(file) {
+      return file.mime.startsWith('image/')
+    },
+    getFileIcon(file) {
+      return getFileIconName(file);
     }
   }
 });
@@ -364,7 +374,6 @@ export default Vue.extend({
     display: block;
     height: 200px;
     width: auto;
-    fill: #999;
   }
 
   .file-caption {

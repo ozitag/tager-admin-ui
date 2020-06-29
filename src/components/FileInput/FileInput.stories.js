@@ -14,8 +14,8 @@ const TEST_FILES = [
   },
   {
     id: 175,
-    mime: 'text/jpeg',
-    name: 'e0cbc508796c2af24357b5f056aa2bdb0000033333.jpg',
+    mime: 'image/jpeg',
+    name: 'e0cbc508796c2af24.jpg',
     size: 386793,
     url: 'https://new.ozitag.com/uploads/tmp/zx/0q/Zx0qap7Hvw.jpg',
   },
@@ -31,7 +31,7 @@ const TEST_FILES = [
 export const Default = () => ({
   components: { FileInput },
   data() {
-    return { image: TEST_FILES[0] };
+    return { image: TEST_FILES[1] };
   },
   template: `
       <file-input :value="null" v-model="image"/>`,

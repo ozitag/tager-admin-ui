@@ -19,7 +19,23 @@ export type IconName =
   | 'settings'
   | 'assignment'
   | 'chevronRight'
-  | 'description';
+  | 'description'
+  | 'fileAvi'
+  | 'fileCss'
+  | 'fileCsv'
+  | 'fileDoc'
+  | 'fileHtml'
+  | 'fileJs'
+  | 'fileMp3'
+  | 'fileMp4'
+  | 'filePdf'
+  | 'filePpt'
+  | 'filePsd'
+  | 'fileTxt'
+  | 'fileUnknown'
+  | 'fileXls'
+  | 'fileXml'
+  | 'fileZip';
 
 export type OptionType<V = string> = {
   value: V;

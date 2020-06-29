@@ -13,6 +13,24 @@ import AssignmentIcon from '@/assets/svg/assignment.svg';
 import ChevronRightIcon from '@/assets/svg/chevron_right.svg';
 import DescriptionIcon from '@/assets/svg/description.svg';
 
+/** File icons */
+import FileAviIcon from '@/assets/svg/file_avi.svg';
+import FileCssIcon from '@/assets/svg/file_css.svg';
+import FileCsvIcon from '@/assets/svg/file_csv.svg';
+import FileDocIcon from '@/assets/svg/file_doc.svg';
+import FileHtmlIcon from '@/assets/svg/file_html.svg';
+import FileJsIcon from '@/assets/svg/file_js.svg';
+import FileMp3Icon from '@/assets/svg/file_mp3.svg';
+import FileMp4Icon from '@/assets/svg/file_mp4.svg';
+import FilePdfIcon from '@/assets/svg/file_pdf.svg';
+import FilePptIcon from '@/assets/svg/file_ppt.svg';
+import FilePsdIcon from '@/assets/svg/file_psd.svg';
+import FileTxtIcon from '@/assets/svg/file_txt.svg';
+import FileUnknownIcon from '@/assets/svg/file_unknown.svg';
+import FileXlsIcon from '@/assets/svg/file_xls.svg';
+import FileXmlIcon from '@/assets/svg/file_xml.svg';
+import FileZipIcon from '@/assets/svg/file_zip.svg';
+
 export const ICON_MAP = {
   home: HomeIcon,
   group: GroupIcon,
@@ -29,4 +47,21 @@ export const ICON_MAP = {
   assignment: AssignmentIcon,
   chevronRight: ChevronRightIcon,
   description: DescriptionIcon,
+
+  fileAvi: FileAviIcon,
+  fileCss: FileCssIcon,
+  fileCsv: FileCsvIcon,
+  fileDoc: FileDocIcon,
+  fileHtml: FileHtmlIcon,
+  fileJs: FileJsIcon,
+  fileMp3: FileMp3Icon,
+  fileMp4: FileMp4Icon,
+  filePdf: FilePdfIcon,
+  filePpt: FilePptIcon,
+  filePsd: FilePsdIcon,
+  fileTxt: FileTxtIcon,
+  fileUnknown: FileUnknownIcon,
+  fileXls: FileXlsIcon,
+  fileXml: FileXmlIcon,
+  fileZip: FileZipIcon,
 };
