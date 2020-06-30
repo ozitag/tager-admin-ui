@@ -4,7 +4,11 @@
       <div
         v-for="file of fileList"
         :key="file.id"
-        class="file-wrapper"
+        :class="[
+          'file-wrapper',
+          { single: !multiple },
+          { uploading: file.status === 'UPLOADING' },
+        ]"
         :title="getFileHtmlTitle(file)"
       >
         <div class="file-container">
@@ -22,6 +26,7 @@
             :percent="file.progress"
             class="upload-progress"
           />
+
           <div v-else class="file-inner">
             <a :href="file.url" class="file-link" target="_blank">
               <img v-if="isImage(file)" :src="file.url" />
@@ -30,8 +35,7 @@
 
             <span v-if="!isImage(file)" class="file-caption">
               {{ file.name }}
-              <br />
-              ({{ getFileSize(file.size) }})
+              <small>({{ getFileSize(file.size) }})</small>
             </span>
           </div>
         </div>
@@ -312,9 +316,9 @@ export default Vue.extend({
   overflow: hidden;
   padding: 5px 10px;
   border-radius: 3px;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  transition: background-color 0.15s linear;
+  transition: background-color 0.15s linear, box-shadow 0.15s linear;
   margin-bottom: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.16);
 
   &:hover {
     background-color: rgba(62, 69, 81, 0.05);
@@ -362,16 +366,26 @@ export default Vue.extend({
 .file-grid {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  margin: -1rem -1rem 0 -1rem;
 }
 
 .file-wrapper {
   flex: 0 0 25%;
   padding: 1rem;
   display: flex;
+
+  &.single {
+    flex-basis: auto;
+
+    &.uploading {
+      flex-basis: 300px;
+    }
+  }
 }
 
 .file-container {
+  padding: 0.6rem;
+
   width: 100%;
   position: relative;
   display: flex;
@@ -417,13 +431,21 @@ export default Vue.extend({
   }
 
   .file-caption {
+    margin-top: 0.5rem;
+
     display: inline-block;
-    /*max-width: 200px;*/
     word-break: break-all;
+
+    small {
+      display: block;
+      margin-top: 0.2rem;
+      color: #999;
+    }
   }
 
   img {
-    width: 100%;
+    max-width: 100%;
+    width: auto;
     height: 200px;
     object-fit: contain;
   }
