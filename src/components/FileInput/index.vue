@@ -8,6 +8,7 @@
           'file-wrapper',
           { single: !multiple },
           { uploading: file.status === 'UPLOADING' },
+          { error: file.status === 'ERROR' },
         ]"
         :title="getFileHtmlTitle(file)"
       >
@@ -26,6 +27,13 @@
             :percent="file.progress"
             class="upload-progress"
           />
+          <div v-else-if="file.status === 'ERROR'" class="error-message">
+            {{ file.error }}
+            <div class="file-caption">
+              <span class="file-name">{{ file.name }}</span>
+              <small class="file-size">({{ getFileSize(file.size) }})</small>
+            </div>
+          </div>
           <div v-else class="file-inner">
             <a :href="file.url" class="file-link" target="_blank">
               <img v-if="isImage(file)" :src="file.url" :alt="file.name" />
@@ -34,7 +42,7 @@
 
             <div v-if="!isImage(file)" class="file-caption">
               <span class="file-name">{{ file.name }}</span>
-              <small>({{ getFileSize(file.size) }})</small>
+              <small class="file-size">({{ getFileSize(file.size) }})</small>
             </div>
 
             <base-text-area
@@ -80,7 +88,7 @@
 
 <script lang="js">
 import Vue from 'vue';
-import { upload } from '@tager/admin-services';
+import { getMessageFromError, upload } from '@tager/admin-services';
 
 import SvgIcon from '@/components/SvgIcon';
 import BaseButton from '@/components/BaseButton';
@@ -205,14 +213,12 @@ export default Vue.extend({
               const newFiles = [...this.savedFileList, savedFile].filter(Boolean);
 
               this.emitChangeEvent(newFiles);
-            })
-            .catch(console.error)
-            .finally(() => {
-              URL.revokeObjectURL(uploadingFile.url);
-              console.log('remove file', this.uploadingFileList, uploadingFile);
-              this.uploadingFileList = this.uploadingFileList.filter(file => file.id !== uploadingFile.id);
-              console.log('remove success', this.uploadingFileList);
 
+              this.uploadingFileList = this.uploadingFileList.filter(file => file.id !== uploadingFile.id);
+            })
+            .catch(error => {
+              uploadingFile.status = 'ERROR';
+              uploadingFile.error = getMessageFromError(error) || 'Error';
             });
         })
       )
@@ -257,6 +263,8 @@ export default Vue.extend({
     clearFile(fileToClear) {
       if (fileToClear.status === 'UPLOADING') {
         fileToClear.xhr.abort();
+      } if (fileToClear.status === 'ERROR') {
+        this.uploadingFileList = this.uploadingFileList.filter(file => file.id !== fileToClear.id);
       } else {
         const newFiles = this.savedFileList.filter(file => file.id !== fileToClear.id);
         this.emitChangeEvent(newFiles);
@@ -293,9 +301,6 @@ export default Vue.extend({
       const fractionDigitCount = fileSize < 10 ? 2 : fileSize < 100 ? 1 : 0;
 
       return [fileSize.toFixed(fractionDigitCount), unitList[unitIndex]].join(' ') ;
-    },
-    getFileCaption(file) {
-      return `${file.name} (${this.getFileSize(file.size)})`;
     },
     getFileHtmlTitle(file) {
       return [
@@ -411,6 +416,25 @@ export default Vue.extend({
   &.single {
     flex-basis: 100%;
   }
+
+  &.error {
+    .file-container {
+      border-color: var(--danger);
+    }
+
+    .clear-button {
+      background-color: rgba(220, 53, 69, 0.2);
+      color: var(--danger);
+      border-color: rgba(220, 53, 69, 0.4);
+      box-shadow: 0px 3px 2px -1px rgba(220, 53, 69, 0.2),
+        0px 1px 5px 0px rgba(220, 53, 69, 0.14),
+        0px 1px 5px 0px rgba(220, 53, 69, 0.12);
+    }
+
+    .file-size {
+      color: rgba(220, 53, 69, 0.7);
+    }
+  }
 }
 
 .file-container {
@@ -427,8 +451,8 @@ export default Vue.extend({
 
   .clear-button {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 3px;
+    top: 2px;
     background-color: #f9fafb;
     transition: transform 0.1s ease-in-out;
     border: 1px solid #ddd;
@@ -437,43 +461,6 @@ export default Vue.extend({
       transform: scale(1.1);
       box-shadow: 0px 3px 2px -1px rgba(0, 0, 0, 0.2),
         0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-    }
-  }
-
-  .file-inner {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .file-link {
-    display: flex;
-    justify-content: center;
-    flex: 1;
-    min-height: 1px;
-  }
-
-  .file-icon {
-    display: block;
-    height: 100%;
-    width: auto;
-  }
-
-  .file-caption {
-    margin-top: 0.5rem;
-
-    .file-name {
-      white-space: nowrap;
-      display: block;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-
-    small {
-      display: block;
-      margin-top: 0.2rem;
-      color: #999;
     }
   }
 
@@ -489,6 +476,47 @@ export default Vue.extend({
   .caption-text-area {
     resize: none;
     margin-top: 0.5rem;
+  }
+
+  .error-message {
+    color: var(--danger);
+  }
+}
+
+.file-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-link {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  min-height: 1px;
+}
+
+.file-icon {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+.file-caption {
+  margin-top: 0.5rem;
+
+  .file-name {
+    white-space: nowrap;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .file-size {
+    display: block;
+    margin-top: 0.2rem;
+    color: #999;
   }
 }
 </style>

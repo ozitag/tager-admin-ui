@@ -1359,10 +1359,10 @@
     ts-dedent "^1.1.0"
     webpack "^4.33.0"
 
-"@tager/admin-services@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.0.4.tgz#b9521b019eab5612f1dd606e3e6d76907d7471be"
-  integrity sha512-YWyAdREdiFARr+rNKab/4KtbWfOi0W5bGthhGrR5kVhW1lxSy0PfuT0SNT72x5Jn9y2CUYG+FGXSHp6poHa7tQ==
+"@tager/admin-services@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.0.7.tgz#713582f66c2da5962f355025fc711b0db7ad6fd1"
+  integrity sha512-0iYuAxfSjOWRiyubDWy/atEjAN7wECCdHNBJFTeKLErDcxlIzdDCWgnpGW8I5SdXUduAYDj8Th1mIa6dpFATwQ==
 
 "@types/anymatch@*":
   version "1.3.1"
