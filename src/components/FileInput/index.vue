@@ -1,5 +1,43 @@
 <template>
   <div>
+    <div class="file-grid">
+      <div
+        v-for="file of fileList"
+        :key="file.id"
+        class="file-wrapper"
+        :title="getFileHtmlTitle(file)"
+      >
+        <div class="file-container">
+          <base-button
+            class="clear-button"
+            variant="icon"
+            title="Clear"
+            @click="clearFile(file)"
+          >
+            <svg-icon name="clear" />
+          </base-button>
+
+          <progress-bar
+            v-if="file.status === 'UPLOADING'"
+            :percent="file.progress"
+            class="upload-progress"
+          />
+          <div v-else class="file-inner">
+            <a :href="file.url" class="file-link" target="_blank">
+              <img v-if="isImage(file)" :src="file.url" />
+              <svg-icon v-else class="file-icon" :name="getFileIcon(file)" />
+            </a>
+
+            <span v-if="!isImage(file)" class="file-caption">
+              {{ file.name }}
+              <br />
+              ({{ getFileSize(file.size) }})
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div
       v-if="shouldDisplayDropbox"
       ref="dropbox"
@@ -25,33 +63,6 @@
         />
       </label>
     </div>
-
-    <div class="file-grid">
-      <div
-        v-for="file of files"
-        :key="file.id"
-        class="file-container"
-        :title="getFileHtmlTitle(file)"
-      >
-        <base-button
-          class="clear-button"
-          variant="icon"
-          title="Clear"
-          @click="clearImage(file.id)"
-        >
-          <svg-icon name="clear" />
-        </base-button>
-
-        <a :href="file.url" target="_blank">
-          <img v-if="isImage(file)" :src="file.url" />
-          <svg-icon v-else class="file-icon" :name="getFileIcon(file)" />
-        </a>
-
-        <span v-if="!isImage(file)" class="file-caption">
-          {{ getFileCaption(file) }}
-        </span>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -61,23 +72,14 @@ import { upload } from '@tager/admin-services';
 
 import SvgIcon from '@/components/SvgIcon';
 import BaseButton from '@/components/BaseButton';
+import ProgressBar from '@/components/ProgressBar';
 
-import { getFileIconName } from './FileInput.helpers';
-
-function isFileObject(image) {
-  return (
-    typeof image === 'object' &&
-    typeof image?.id === 'number' &&
-    typeof image?.url === 'string' &&
-    typeof image?.name === 'string' &&
-    typeof image?.size === 'number' &&
-    typeof image?.mime === 'string'
-  );
-}
+import { getFileIconName, logPropsValidationErrors, validateValue } from './FileInput.helpers';
+import { ARCHIVE_ACCEPT } from '@/constants/common';
 
 export default Vue.extend({
   name: 'FileInput',
-  components: { SvgIcon, BaseButton },
+  components: { SvgIcon, BaseButton, ProgressBar },
   model: {
     prop: 'value',
     event: 'change'
@@ -86,42 +88,50 @@ export default Vue.extend({
     value: {
       required: true,
       validator(value) {
-        return Array.isArray(value)
-          ? value.every(isFileObject)
-          : isFileObject(value) || value === null;
+        return validateValue(value);
       }
     },
     multiple: Boolean,
-    accept: String,
-    maxFileCount: Number,
+    accept: {
+      type: String,
+      default: null,
+    },
+    maxFileCount: {
+      type: Number,
+      default: null,
+    },
     fileType: {
       type: String,
       validator(value) {
-        return !value || ['image'].includes(value);
-      }
+        return !value || ['image', 'archive'].includes(value);
+      },
+      default: null,
     },
-    scenario: String
+    scenario: {
+      type: String,
+      default: null,
+    }
   },
   data() {
     return {
-      isDragOver: false
+      isDragOver: false,
+      uploadingFileList: [],
     };
   },
   computed: {
-    files() {
-      if (this.multiple) {
-        return this.value;
-      } else {
-        return [this.value].filter(Boolean);
-      }
+    savedFileList() {
+      return this.multiple ? this.value : [this.value].filter(Boolean);
+    },
+    fileList() {
+      return [...this.savedFileList, ...this.uploadingFileList];
     },
     shouldDisplayDropbox() {
       if (this.multiple && typeof this.maxFileCount === 'number') {
-        return this.files.length < this.maxFileCount;
+        return this.fileList.length < this.maxFileCount;
       }
 
       if (!this.multiple) {
-        return this.files.length === 0;
+        return this.fileList.length === 0;
       }
 
       return true;
@@ -130,7 +140,11 @@ export default Vue.extend({
       if (this.accept) return this.accept;
 
       if (this.fileType === 'image') {
-        return 'image/*'
+        return 'image/*';
+      }
+
+      if (this.fileType === 'archive') {
+        return ARCHIVE_ACCEPT;
       }
 
       return undefined;
@@ -140,33 +154,7 @@ export default Vue.extend({
     $props: {
       immediate: true,
       handler() {
-        if (this.multiple) {
-          if (!Array.isArray(this.value) || !this.value.every(isFileObject)) {
-            const message = JSON.stringify(
-              {
-                message: 'ImageInput: value should be Array<ImageType>',
-                value: this.value,
-                multiple: this.multiple
-              },
-              null,
-              4
-            );
-            console.error(message);
-          }
-        } else {
-          if (!isFileObject(this.value) && this.value !== null) {
-            const message = JSON.stringify(
-              {
-                message: 'ImageInput: value should be ImageType or null',
-                value: this.value,
-                multiple: this.multiple
-              },
-              null,
-              4
-            );
-            console.error(message);
-          }
-        }
+        logPropsValidationErrors({ value: this.value, multiple: this.multiple  })
       }
     }
   },
@@ -184,26 +172,37 @@ export default Vue.extend({
       const fileArray = fileList ? [...fileList] : [];
       console.log('Files: ', fileArray);
 
+      this.uploadingFileList.push(...fileArray.map(this.createUploadingFile));
+
+      console.log('Uploading files: ', this.uploadingFileList);
+
       Promise.all(
-        fileArray.map(file => {
+        this.uploadingFileList.map(uploadingFile => {
           return upload({
-              file,
-              params: this.scenario ? { scenario: this.scenario } : null
+              file: uploadingFile.nativeFile,
+              params: this.scenario ? { scenario: this.scenario } : null,
+              onProgress: ({ progress }) => {
+                uploadingFile.progress = progress * 100;
+              },
+              xhr: uploadingFile.xhr,
             })
-            .catch(error => {
-              console.error(error);
-              return null;
+            .then(savedFile => {
+              console.log('Uploaded file: ', savedFile);
+              const newFiles = [...this.savedFileList, savedFile].filter(Boolean);
+
+              this.emitChangeEvent(newFiles);
+            })
+            .catch(console.error)
+            .finally(() => {
+              URL.revokeObjectURL(uploadingFile.url);
+              console.log('remove file', this.uploadingFileList, uploadingFile);
+              this.uploadingFileList = this.uploadingFileList.filter(file => file.id !== uploadingFile.id);
+              console.log('remove success', this.uploadingFileList);
+
             });
         })
       )
-        .then(files => {
-          const newImages = [...this.files, ...files].filter(Boolean);
-
-          this.emitChangeEvent(newImages);
-        })
-        .catch(error => {
-          console.error(error);
-
+        .finally(() => {
           /** Clear value of file input */
           if (this.$refs.fileInput) {
             this.$refs.fileInput.value = '';
@@ -241,12 +240,16 @@ export default Vue.extend({
 
       this.handleFiles(dataTransfer?.files ?? null);
     },
-    clearImage(imageId) {
-      const newImages = this.files.filter(image => image.id !== imageId);
-      this.emitChangeEvent(newImages);
+    clearFile(fileToClear) {
+      if (fileToClear.status === 'UPLOADING') {
+        fileToClear.xhr.abort();
+      } else {
+        const newFiles = this.savedFileList.filter(file => file.id !== fileToClear.id);
+        this.emitChangeEvent(newFiles);
+      }
     },
-    emitChangeEvent(newImages) {
-      const newValue = this.multiple ? newImages : newImages[0];
+    emitChangeEvent(newFiles) {
+      const newValue = this.multiple ? newFiles : newFiles[0];
 
       this.$emit('change', newValue);
     },
@@ -279,6 +282,20 @@ export default Vue.extend({
     },
     getFileIcon(file) {
       return getFileIconName(file);
+    },
+    createUploadingFile(nativeFile) {
+      return {
+        id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER),
+        url: '',
+        name: nativeFile.name,
+        size: nativeFile.size ?? 0,
+        mime: nativeFile.type ?? '',
+
+        nativeFile,
+        xhr: new XMLHttpRequest(),
+        status: 'UPLOADING',
+        progress: 1,
+      }
     }
   }
 });
@@ -345,50 +362,74 @@ export default Vue.extend({
 .file-grid {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.file-wrapper {
+  flex: 0 0 25%;
+  padding: 1rem;
+  display: flex;
 }
 
 .file-container {
-  display: inline-block;
+  width: 100%;
   position: relative;
-  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  /*width: 250px;*/
+  min-height: 200px;
+  border: 1px solid #ccc;
 
   .clear-button {
     position: absolute;
     right: 0;
     top: 0;
-    transform: translate(50%, -50%);
     background-color: #f9fafb;
     transition: transform 0.1s ease-in-out;
     border: 1px solid #ddd;
 
     &:hover {
-      transform: translate(50%, -50%) scale(1.1);
+      transform: scale(1.1);
       box-shadow: 0px 3px 2px -1px rgba(0, 0, 0, 0.2),
         0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
     }
   }
 
+  .file-inner {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .file-link {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+
   .file-icon {
     display: block;
-    height: 200px;
+    height: 100%;
     width: auto;
   }
 
   .file-caption {
     display: inline-block;
-    max-width: 200px;
+    /*max-width: 200px;*/
     word-break: break-all;
   }
 
   img {
-    max-height: 250px;
-    vertical-align: middle;
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+  }
 
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*object-fit: contain;*/
+  .upload-progress {
+    width: 90%;
   }
 }
 </style>

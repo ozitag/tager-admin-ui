@@ -102,3 +102,50 @@ export function getFileIconName(file) {
 
   return 'fileUnknown';
 }
+
+export function isFileObject(image) {
+  return (
+    typeof image === 'object' &&
+    typeof image?.id === 'number' &&
+    typeof image?.url === 'string' &&
+    typeof image?.name === 'string' &&
+    typeof image?.size === 'number' &&
+    typeof image?.mime === 'string'
+  );
+}
+
+export function logPropsValidationErrors({ value, multiple }) {
+  if (multiple) {
+    if (!Array.isArray(value) || !value.every(isFileObject)) {
+      const message = JSON.stringify(
+        {
+          message: 'ImageInput: value should be Array<ImageType>',
+          value,
+          multiple,
+        },
+        null,
+        4
+      );
+      console.error(message);
+    }
+  } else {
+    if (!isFileObject(value) && value !== null) {
+      const message = JSON.stringify(
+        {
+          message: 'ImageInput: value should be ImageType or null',
+          value,
+          multiple,
+        },
+        null,
+        4
+      );
+      console.error(message);
+    }
+  }
+}
+
+export function validateValue(value) {
+  return Array.isArray(value)
+    ? value.every(isFileObject)
+    : isFileObject(value) || value === null;
+}
