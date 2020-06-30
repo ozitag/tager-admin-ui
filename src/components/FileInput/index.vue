@@ -88,7 +88,7 @@
 
 <script lang="js">
 import Vue from 'vue';
-import { getMessageFromError, upload } from '@tager/admin-services';
+import { getMessageFromError, RequestError, upload } from '@tager/admin-services';
 
 import SvgIcon from '@/components/SvgIcon';
 import BaseButton from '@/components/BaseButton';
@@ -218,7 +218,7 @@ export default Vue.extend({
             })
             .catch(error => {
               uploadingFile.status = 'ERROR';
-              uploadingFile.error = getMessageFromError(error) || 'Error';
+              uploadingFile.error = this.getUploadErrorMessage(error);
             });
         })
       )
@@ -228,6 +228,17 @@ export default Vue.extend({
             this.$refs.fileInput.value = '';
           }
         });
+    },
+    getUploadErrorMessage(error) {
+      if (error instanceof RequestError) {
+        switch (error.status.code) {
+          case 413: return 'File too large';
+          case 404: return 'Upload endpoint is not found';
+          default: return getMessageFromError(error) || 'Error';
+        }
+      }
+
+      return getMessageFromError(error) || 'Error';
     },
     handleDragEnter(event) {
       event.stopPropagation();
