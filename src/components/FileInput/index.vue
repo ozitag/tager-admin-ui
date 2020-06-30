@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="file-grid">
+  <div :class="['file-input-container', { 'with-captions': withCaptions }]">
+    <div v-if="fileList.length > 0" class="file-grid">
       <div
         v-for="file of fileList"
         :key="file.id"
@@ -26,17 +26,25 @@
             :percent="file.progress"
             class="upload-progress"
           />
-
           <div v-else class="file-inner">
             <a :href="file.url" class="file-link" target="_blank">
-              <img v-if="isImage(file)" :src="file.url" />
+              <img v-if="isImage(file)" :src="file.url" :alt="file.name" />
               <svg-icon v-else class="file-icon" :name="getFileIcon(file)" />
             </a>
 
-            <span v-if="!isImage(file)" class="file-caption">
-              {{ file.name }}
+            <div v-if="!isImage(file)" class="file-caption">
+              <span class="file-name">{{ file.name }}</span>
               <small>({{ getFileSize(file.size) }})</small>
-            </span>
+            </div>
+
+            <base-text-area
+              v-if="withCaptions"
+              class="caption-text-area"
+              rows="2"
+              placeholder="Caption"
+              :value="file.caption || ''"
+              @input="handleCaptionChange(file, $event)"
+            />
           </div>
         </div>
       </div>
@@ -76,6 +84,7 @@ import { upload } from '@tager/admin-services';
 
 import SvgIcon from '@/components/SvgIcon';
 import BaseButton from '@/components/BaseButton';
+import BaseTextArea from '@/components/BaseTextArea';
 import ProgressBar from '@/components/ProgressBar';
 
 import { getFileIconName, logPropsValidationErrors, validateValue } from './FileInput.helpers';
@@ -83,7 +92,7 @@ import { ARCHIVE_ACCEPT } from '@/constants/common';
 
 export default Vue.extend({
   name: 'FileInput',
-  components: { SvgIcon, BaseButton, ProgressBar },
+  components: { SvgIcon, BaseButton, ProgressBar, BaseTextArea },
   model: {
     prop: 'value',
     event: 'change'
@@ -96,6 +105,7 @@ export default Vue.extend({
       }
     },
     multiple: Boolean,
+    withCaptions: Boolean,
     accept: {
       type: String,
       default: null,
@@ -252,6 +262,19 @@ export default Vue.extend({
         this.emitChangeEvent(newFiles);
       }
     },
+    handleCaptionChange(file, newCaption) {
+      const newFiles = this.savedFileList.map(savedFile => {
+        if (savedFile.id === file.id) {
+          return {
+            ...savedFile, caption: newCaption
+          };
+        }
+
+        return savedFile;
+      });
+
+      this.emitChangeEvent(newFiles);
+    },
     emitChangeEvent(newFiles) {
       const newValue = this.multiple ? newFiles : newFiles[0];
 
@@ -306,9 +329,17 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+.file-input-container {
+  &.with-captions {
+    .drop-zone,
+    .file-container {
+      height: 300px;
+    }
+  }
+}
 .drop-zone {
   position: relative;
-  height: 250px;
+  height: 220px;
   max-height: 100%;
   display: flex;
   align-items: center;
@@ -317,7 +348,6 @@ export default Vue.extend({
   padding: 5px 10px;
   border-radius: 3px;
   transition: background-color 0.15s linear, box-shadow 0.15s linear;
-  margin-bottom: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.16);
 
   &:hover {
@@ -326,6 +356,10 @@ export default Vue.extend({
 
   &.highlight {
     background-color: rgba(62, 69, 81, 0.05);
+  }
+
+  &:not(:first-child) {
+    margin-top: 1rem;
   }
 }
 
@@ -366,27 +400,23 @@ export default Vue.extend({
 .file-grid {
   display: flex;
   flex-wrap: wrap;
-  margin: -1rem -1rem 0 -1rem;
+  margin: -1rem;
 }
 
 .file-wrapper {
   flex: 0 0 25%;
   padding: 1rem;
-  display: flex;
+  overflow: hidden;
 
   &.single {
-    flex-basis: auto;
-
-    &.uploading {
-      flex-basis: 300px;
-    }
+    flex-basis: 100%;
   }
 }
 
 .file-container {
   padding: 0.6rem;
 
-  width: 100%;
+  height: 220px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -411,8 +441,8 @@ export default Vue.extend({
   }
 
   .file-inner {
-    height: 100%;
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -420,8 +450,8 @@ export default Vue.extend({
   .file-link {
     display: flex;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+    flex: 1;
+    min-height: 1px;
   }
 
   .file-icon {
@@ -433,8 +463,12 @@ export default Vue.extend({
   .file-caption {
     margin-top: 0.5rem;
 
-    display: inline-block;
-    word-break: break-all;
+    .file-name {
+      white-space: nowrap;
+      display: block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
 
     small {
       display: block;
@@ -444,14 +478,17 @@ export default Vue.extend({
   }
 
   img {
-    max-width: 100%;
     width: auto;
-    height: 200px;
-    object-fit: contain;
+    height: 100%;
   }
 
   .upload-progress {
     width: 90%;
+  }
+
+  .caption-text-area {
+    resize: none;
+    margin-top: 0.5rem;
   }
 }
 </style>

@@ -5,8 +5,8 @@
       :id="name"
       :name="name"
       :value="value"
-      v-on="$listeners"
       v-bind="$attrs"
+      v-on="$listeners"
     />
     <form-field-error v-if="Boolean(error)">{{ error }}</form-field-error>
   </form-group>
@@ -21,9 +21,12 @@ import FileInput from '@/components/FileInput';
 
 export default Vue.extend({
   name: 'FormFieldFileInput',
-  inheritAttrs: false,
   components: {
     FormGroup, FormFieldError, InputLabel, FileInput
+  },
+  inheritAttrs: false,
+  model: {
+    event: 'change'
   },
   props: {
     name: {
@@ -33,9 +36,6 @@ export default Vue.extend({
     label: String,
     value: [Array, Object],
     error: String
-  },
-  model: {
-    event: 'change'
   }
 });
 </script>
