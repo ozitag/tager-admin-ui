@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
 * {
     outline: none;
     padding: 0;
@@ -85,6 +87,7 @@ img {
 body {
     /** Reference: https://htmlacademy.ru/blog/boost/frontend/short-14 */
     font-family:
+    Nunito,
     -apple-system,
     'BlickMacSystemFont',
     'Segoe UI',
