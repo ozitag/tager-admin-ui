@@ -47,7 +47,15 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
   name: string;
   field: string;
   type?: 'string' | 'date' | 'image' | 'link';
-  format?: (params: { row: RowData; column: ColumnDefinition<RowData> }) => any;
+  format?: (params: {
+    row: RowData;
+    column: ColumnDefinition<RowData>;
+    rowIndex: number;
+  }) => any;
+  class?: any;
+  style?: string | object[] | object;
+  headStyle?: string | object[] | object;
+  useCustomDataCell?: boolean;
 };
 
 export declare const BaseButton: VueConstructor<Vue>;

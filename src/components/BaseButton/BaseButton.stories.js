@@ -1,4 +1,5 @@
 import BaseButton from './index.vue';
+import SvgIcon from '../SvgIcon';
 
 export default { title: 'BaseButton' };
 
@@ -41,5 +42,14 @@ export const PrimaryOutlineLoading = () => ({
   components: { BaseButton },
   template: `<div>
       <base-button variant="outline-primary" loading></base-button>
+  </div>`,
+});
+
+export const Icon = () => ({
+  components: { BaseButton, SvgIcon },
+  template: `<div>
+      <base-button variant="icon">
+          <svg-icon name="menu"/>
+      </base-button>
   </div>`,
 });

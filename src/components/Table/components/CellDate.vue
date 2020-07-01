@@ -16,13 +16,17 @@ export default Vue.extend({
     row: {
       type: Object,
       required: true
+    },
+    rowIndex: {
+      type: Number,
+      required: true
     }
   },
   computed: {
     value() {
       const date = this.column.format
-              ? this.column.format({ row :this.row, column: this.column })
-              : this.row[this.column.field];
+        ? this.column.format({ row :this.row, column: this.column, rowIndex: this.rowIndex })
+        : this.row[this.column.field];
 
       return date ? formatDate(new Date(date)) : '';
     }

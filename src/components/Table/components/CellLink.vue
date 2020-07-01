@@ -18,13 +18,17 @@ export default Vue.extend({
     row: {
       type: Object,
       required: true
+    },
+    rowIndex: {
+      type: Number,
+      required: true
     }
   },
   computed: {
     link() {
       return this.column.format
-              ? this.column.format({ row: this.row, column: this.column })
-              : this.row[this.column.field];
+        ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
+        : this.row[this.column.field];
     },
   }
 });

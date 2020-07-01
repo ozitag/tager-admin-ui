@@ -14,12 +14,16 @@ export default Vue.extend({
     row: {
       type: Object,
       required: true
+    },
+    rowIndex: {
+      type: Number,
+      required: true
     }
   },
   computed: {
     value() {
       return this.column.format
-        ? this.column.format({ row: this.row, column: this.column })
+        ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
         : this.row[this.column.field];
     }
   }

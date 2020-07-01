@@ -16,8 +16,13 @@ export default Vue.extend({
       type: Object,
       required: true
     },
+    rowIndex: {
+      type: Number,
+      required: true,
+    },
     scopedSlot: {
-      type: Function
+      type: Function,
+      default: null,
     }
   },
   render(createElement) {
@@ -37,25 +42,32 @@ export default Vue.extend({
       }
     }
 
+    const cellProps = {
+      row: this.row,
+      column: this.column,
+      rowIndex: this.rowIndex
+    };
+
     const scopedSlotNode = this.scopedSlot
-      ? this.scopedSlot({
-          row: this.row,
-          column: this.column
-        })
+      ? this.scopedSlot(cellProps)
       : null;
 
     const slotVNode = Array.isArray(scopedSlotNode)
       ? scopedSlotNode[0]
       : scopedSlotNode;
 
+    const customCellElement = this.column.useCustomDataCell
+      ? scopedSlotNode
+      : createElement('td', { style: this.column.style, class: this.column.class }, scopedSlotNode);
+
     return (
-      slotVNode ??
-      createElement(appropriateCellComponent(), {
-        props: {
-          row: this.row,
-          column: this.column
-        }
-      })
+      slotVNode
+        ? customCellElement
+        : createElement(appropriateCellComponent(), {
+            props: cellProps,
+            style: this.column.style,
+            class: this.column.class,
+          })
     );
   }
 });

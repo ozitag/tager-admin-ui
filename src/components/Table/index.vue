@@ -3,21 +3,25 @@
     <table>
       <thead>
         <tr>
-          <th v-for="column of columnDefs" :key="column.id">
+          <th
+            v-for="column of enhancedColumnDefs"
+            :key="column.id"
+            :style="column.headStyle"
+          >
             {{ column.name }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row of rowData" :key="row.id">
+        <tr v-for="(row, index) of rowData" :key="row.id">
           <base-table-cell
-            v-for="column of columnDefs"
+            v-for="column of enhancedColumnDefs"
             :key="column.id"
             :row="row"
+            :row-index="index"
             :column="column"
             :scoped-slot="getCellSlot(column.field)"
-          >
-          </base-table-cell>
+          ></base-table-cell>
         </tr>
       </tbody>
     </table>
@@ -42,9 +46,11 @@
 <script lang="js">
 import Vue from 'vue';
 import kebabCase from 'lodash.kebabcase';
+import BaseTableCell from './components/Cell';
 
 export default Vue.extend({
   name: 'BaseTable',
+  components: { BaseTableCell },
   props: {
     columnDefs: {
       type: Array,
@@ -54,6 +60,29 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
+    enumerable: Boolean,
+    indexColumnDef: {
+      type: Object,
+      default: null
+    },
+  },
+  computed: {
+    enhancedColumnDefs() {
+      const indexColumnDef = {
+        id: 'index',
+        name: '#',
+        format: ({ rowIndex }) => rowIndex + 1,
+        style: {
+          width: '50px',
+          textAlign: 'center'
+        },
+        headStyle: {
+          textAlign: 'center'
+        },
+        ...this.indexColumnDef,
+      }
+      return this.enumerable ? [indexColumnDef, ...this.columnDefs] : this.columnDefs;
+    }
   },
   methods: {
     getCellSlot(columnField) {

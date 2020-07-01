@@ -1,6 +1,6 @@
 <template>
   <td>
-    <div class="cell-inner" v-if="Boolean(value)">
+    <div v-if="Boolean(value)" class="cell-inner">
       <div class="image-wrapper">
         <img :src="value" alt="Photo" />
       </div>
@@ -20,13 +20,17 @@ export default Vue.extend({
     row: {
       type: Object,
       required: true
+    },
+    rowIndex: {
+      type: Number,
+      required: true
     }
   },
   computed: {
     value() {
       return this.column.format
-              ? this.column.format({ row: this.row, column: this.column })
-              : this.row[this.column.field];
+        ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
+        : this.row[this.column.field];
     }
   }
 });
