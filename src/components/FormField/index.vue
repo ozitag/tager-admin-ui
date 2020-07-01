@@ -1,13 +1,13 @@
 <template>
   <form-group>
     <input-label v-if="Boolean(label)" :for="name">{{ label }}</input-label>
-    <base-textarea
+    <base-text-area
       v-if="type === 'textarea'"
       :id="name"
       :name="name"
       :value="value"
-      v-on="$listeners"
       v-bind="$attrs"
+      v-on="$listeners"
     />
     <base-input
       v-else
@@ -15,8 +15,8 @@
       :name="name"
       :type="type"
       :value="value"
-      v-on="$listeners"
       v-bind="$attrs"
+      v-on="$listeners"
     />
 
     <form-field-error v-if="Boolean(error)">{{ error }}</form-field-error>
@@ -33,10 +33,10 @@ import BaseTextArea from '@/components/BaseTextArea';
 
 export default Vue.extend({
   name: 'FormField',
-  inheritAttrs: false,
   components: {
     FormGroup, FormFieldError, InputLabel, BaseInput, BaseTextArea
   },
+  inheritAttrs: false,
   props: {
     name: {
       type: String,

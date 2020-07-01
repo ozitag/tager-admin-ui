@@ -21,5 +21,6 @@ export { default as FileInput } from '@/components/FileInput';
 export { default as FormFieldFileInput } from '@/components/FormFieldFileInput';
 export { default as MultiSelect } from '@/components/MultiSelect';
 export { default as FormFieldMultiSelect } from '@/components/FormFieldMultiSelect';
+export { default as FormFieldUrlAliasInput } from '@/components/FormFieldUrlAliasInput';
 
 export { AdminUiPlugin } from './plugin';

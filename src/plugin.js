@@ -19,6 +19,7 @@ import FormFieldRichTextInput from '@/components/FormFieldRichTextInput';
 import BaseRichTextInput from '@/components/BaseRichTextInput';
 import MultiSelect from '@/components/MultiSelect';
 import FormFieldMultiSelect from '@/components/FormFieldMultiSelect';
+import FormFieldUrlAliasInput from '@/components/FormFieldUrlAliasInput';
 
 export function AdminUiPlugin(Vue) {
   Vue.component('base-button', BaseButton);
@@ -37,6 +38,7 @@ export function AdminUiPlugin(Vue) {
   Vue.component('form-field-rich-text-input', FormFieldRichTextInput);
   Vue.component('form-field-file-input', FormFieldFileInput);
   Vue.component('form-field-multi-select', FormFieldMultiSelect);
+  Vue.component('form-field-url-alias-input', FormFieldUrlAliasInput);
 
   Vue.component('multi-select', MultiSelect);
   Vue.component('input-label', InputLabel);

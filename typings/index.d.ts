@@ -71,6 +71,7 @@ export declare const FormFieldError: VueConstructor<Vue>;
 export declare const FormFieldRichTextInput: VueConstructor<Vue>;
 export declare const FormFieldFileInput: VueConstructor<Vue>;
 export declare const FormFieldMultiSelect: VueConstructor<Vue>;
+export declare const FormFieldUrlAliasInput: VueConstructor<Vue>;
 
 export declare const MultiSelect: VueConstructor<Vue>;
 export declare const InputLabel: VueConstructor<Vue>;
