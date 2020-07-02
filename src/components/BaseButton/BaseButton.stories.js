@@ -53,3 +53,12 @@ export const Icon = () => ({
       </base-button>
   </div>`,
 });
+
+export const Link = () => ({
+  components: { BaseButton },
+  template: `<div>
+      <base-button variant="primary" href="https://ozitag.com">
+          Link to OZiTAG
+      </base-button>
+  </div>`,
+});

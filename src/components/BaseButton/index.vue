@@ -1,8 +1,10 @@
 <template>
   <button
+    :is="isLink ? 'a' : 'button'"
     :class="['button', variant, { loading: loading }]"
-    :type="type"
+    :type="isLink ? undefined : type"
     :disabled="disabled || loading"
+    :href="isLink ? href : undefined"
     v-on="$listeners"
   >
     <span v-if="loading" class="spinner-wrapper">
@@ -33,8 +35,14 @@ export default Vue.extend({
       default: 'button'
     },
     disabled: Boolean,
-    loading: Boolean
-  }
+    loading: Boolean,
+    href: String,
+  },
+  computed: {
+    isLink() {
+      return Boolean(this.href);
+    }
+  },
 });
 </script>
 
