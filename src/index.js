@@ -10,17 +10,18 @@ export { default as BaseInput } from '@/components/BaseInput';
 export { default as BaseTextArea } from '@/components/BaseTextArea';
 export { default as BaseRichTextInput } from '@/components/BaseRichTextInput';
 export { default as InputLabel } from '@/components/InputLabel';
-export { default as MainLayout } from '@/components/MainLayout';
 export { default as PageTitle } from '@/components/PageTitle';
 export { default as Spinner } from '@/components/Spinner';
 export { default as SvgIcon } from '@/components/SvgIcon';
 export { default as Table } from '@/components/Table';
-export { default as TableCel } from '@/components/Table/components/Cell';
+export { default as TableCell } from '@/components/Table/components/Cell';
 export { default as FormGroup } from '@/components/FormGroup';
 export { default as FileInput } from '@/components/FileInput';
 export { default as FormFieldFileInput } from '@/components/FormFieldFileInput';
 export { default as MultiSelect } from '@/components/MultiSelect';
 export { default as FormFieldMultiSelect } from '@/components/FormFieldMultiSelect';
 export { default as FormFieldUrlAliasInput } from '@/components/FormFieldUrlAliasInput';
+
+export { ToastPlugin, ToastProvider } from '@/components/Toast';
 
 export { AdminUiPlugin } from './plugin';

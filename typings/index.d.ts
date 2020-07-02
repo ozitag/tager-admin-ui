@@ -58,6 +58,40 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
   useCustomDataCell?: boolean;
 };
 
+/** Toast */
+export type ToastVariant =
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'primary'
+  | 'secondary'
+  | 'info';
+
+export type ToastParams = {
+  variant: ToastVariant;
+  title: string;
+  body: string;
+};
+
+export type ToastItem = ToastParams & {
+  id: number;
+};
+
+export type ToastFunction = (params: ToastParams) => void;
+
+declare module 'vue/types/vue' {
+  // 3. Declare augmentation for Vue
+  interface Vue {
+    $toast: ToastFunction;
+  }
+  interface VueConstructor {
+    $toast: ToastFunction;
+  }
+}
+
+export declare const ToastPlugin: PluginFunction<undefined>;
+export declare const ToastProvider: VueConstructor<Vue>;
+
 export declare const BaseButton: VueConstructor<Vue>;
 export declare const BaseCheckbox: VueConstructor<Vue>;
 export declare const BaseInput: VueConstructor<Vue>;
@@ -75,7 +109,6 @@ export declare const FormFieldUrlAliasInput: VueConstructor<Vue>;
 
 export declare const MultiSelect: VueConstructor<Vue>;
 export declare const InputLabel: VueConstructor<Vue>;
-export declare const MainLayout: VueConstructor<Vue>;
 export declare const PageTitle: VueConstructor<Vue>;
 export declare const Spinner: VueConstructor<Vue>;
 export declare const SvgIcon: VueConstructor<Vue>;

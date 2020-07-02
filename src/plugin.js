@@ -6,7 +6,6 @@ import FormFieldError from '@/components/FormFieldError';
 import BaseInput from '@/components/BaseInput';
 import BaseTextArea from '@/components/BaseTextArea';
 import InputLabel from '@/components/InputLabel';
-import MainLayout from '@/components/MainLayout';
 import PageTitle from '@/components/PageTitle';
 import Spinner from '@/components/Spinner';
 import SvgIcon from '@/components/SvgIcon';
@@ -20,6 +19,7 @@ import BaseRichTextInput from '@/components/BaseRichTextInput';
 import MultiSelect from '@/components/MultiSelect';
 import FormFieldMultiSelect from '@/components/FormFieldMultiSelect';
 import FormFieldUrlAliasInput from '@/components/FormFieldUrlAliasInput';
+import { ToastProvider } from '@/components/Toast';
 
 export function AdminUiPlugin(Vue) {
   Vue.component('base-button', BaseButton);
@@ -42,8 +42,8 @@ export function AdminUiPlugin(Vue) {
 
   Vue.component('multi-select', MultiSelect);
   Vue.component('input-label', InputLabel);
-  Vue.component('main-layout', MainLayout);
   Vue.component('page-title', PageTitle);
   Vue.component('spinner', Spinner);
   Vue.component('svg-icon', SvgIcon);
+  Vue.component('toast-provider', ToastProvider);
 }
