@@ -29,7 +29,8 @@ export default Vue.extend({
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #eee;
-  padding: 15px;
+  padding: 10px 15px;
+  min-height: 60px;
 }
 
 .content {

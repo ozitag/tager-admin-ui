@@ -12,8 +12,8 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 h4 {
-  color: var(--secondary);
-  letter-spacing: 0.5px;
+  color: #000;
+  letter-spacing: 0.1em;
   font-size: 1.3rem;
   font-weight: 600;
 }
