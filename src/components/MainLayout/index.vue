@@ -20,21 +20,20 @@ export default Vue.extend({
 <style scoped lang="scss">
 .container {
   width: 100%;
-  padding: 0 15px;
+  padding: 0;
+  background: #fff;
 }
 
 .top {
-  margin-bottom: 2rem;
-  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
 }
 
 .content {
   background-color: white;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.0625);
-  padding: 20px;
+  padding: 15px;
 }
 </style>
