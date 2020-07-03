@@ -3,29 +3,30 @@
     <div v-for="(navItem, index) of navItems" :key="index" class="nav-card">
       <div class="inner">
         <span class="name">{{ navItem.name }}</span>
+        <div class="content">
+            <div v-if="Boolean(navItem.total)" class="total-block">
+              <spinner
+                v-if="navItem.total.status === 'LOADING'"
+                :size="50"
+                :stroke-width="3"
+                class="spinner"
+              />
+              <span v-else class="total-value">
+                {{ navItem.total.value }}
+              </span>
+            </div>
 
-        <div v-if="Boolean(navItem.total)" class="total-block">
-          <spinner
-            v-if="navItem.total.status === 'LOADING'"
-            :size="50"
-            :stroke-width="3"
-            class="spinner"
-          />
-          <span v-else class="total-value">
-            {{ navItem.total.value }}
-          </span>
-        </div>
-
-        <ul
-          v-if="navItem.linkList && navItem.linkList.length > 0"
-          class="link-list"
-        >
-          <li v-for="(link, linkIndex) of navItem.linkList" :key="linkIndex">
-            <router-link :to="link.href">
-              {{ link.label }}
-            </router-link>
-          </li>
-        </ul>
+            <ul
+              v-if="navItem.linkList && navItem.linkList.length > 0"
+              :class="['link-list',  { center: navItem.linkList.length === 1 }]"
+            >
+              <li v-for="(link, linkIndex) of navItem.linkList" :key="linkIndex">
+                <router-link :to="link.href">
+                  {{ link.label }}
+                </router-link>
+              </li>
+            </ul>
+          </div>
       </div>
     </div>
   </div>
@@ -66,8 +67,11 @@ export default Vue.extend({
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #fff;
   border-radius: 4px;
-  padding: 1rem;
   height: 100%;
+}
+
+.content{
+    padding: 1rem;
 }
 
 .name {
@@ -75,6 +79,8 @@ export default Vue.extend({
   font-size: 1.7rem;
   font-weight: 500;
   text-align: center;
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem;
 }
 
 .total-block {
@@ -88,6 +94,12 @@ export default Vue.extend({
 }
 
 .link-list {
+  margin-top: 0.5rem;
+
+    &.center{
+        text-align: center;
+    }
+
   a {
     color: #007bff;
 
