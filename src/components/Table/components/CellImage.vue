@@ -54,7 +54,8 @@ td {
   justify-content: center;
 }
 img {
-  width: 100%;
+  min-height: 100px;
+  margin: 5px 0;
   object-fit: cover;
 }
 </style>
