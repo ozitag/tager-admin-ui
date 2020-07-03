@@ -21,6 +21,7 @@ export { default as FormFieldFileInput } from '@/components/FormFieldFileInput';
 export { default as MultiSelect } from '@/components/MultiSelect';
 export { default as FormFieldMultiSelect } from '@/components/FormFieldMultiSelect';
 export { default as FormFieldUrlAliasInput } from '@/components/FormFieldUrlAliasInput';
+export { default as NavigationGrid } from '@/components/NavigationGrid';
 
 export { ToastPlugin, ToastProvider } from '@/components/Toast';
 

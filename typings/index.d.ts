@@ -1,4 +1,5 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
+import { FetchStatus } from '@tager/admin-services';
 
 export type DateCellValue = Date | null;
 export type StringCellValue = string | null;
@@ -58,6 +59,12 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
   useCustomDataCell?: boolean;
 };
 
+export type NavigationGridItem = {
+  name: string;
+  total?: { status: FetchStatus; value: number };
+  linkList?: Array<{ href: string; label: string }>;
+};
+
 /** Toast */
 export type ToastVariant =
   | 'success'
@@ -115,5 +122,6 @@ export declare const SvgIcon: VueConstructor<Vue>;
 export declare const Table: VueConstructor<Vue>;
 export declare const TableCell: VueConstructor<Vue>;
 export declare const FileInput: VueConstructor<Vue>;
+export declare const NavigationGrid: VueConstructor<Vue>;
 
 export declare const AdminUiPlugin: PluginFunction<undefined>;
