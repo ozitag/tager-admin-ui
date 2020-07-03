@@ -4,6 +4,7 @@
 
 <script lang="js">
 import Vue from 'vue';
+
 import { ICON_MAP } from './SvgIcon.constants';
 
 export default Vue.extend({

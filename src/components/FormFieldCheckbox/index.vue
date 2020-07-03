@@ -17,10 +17,10 @@
 
 <script lang="js">
 import Vue from 'vue';
-import BaseCheckbox from '@/components/BaseCheckbox'
-import FormGroup from '@/components/FormGroup';
-import InputLabel from '@/components/InputLabel';
-import FormFieldError from '@/components/FormFieldError';
+import BaseCheckbox from '../BaseCheckbox'
+import FormGroup from '../FormGroup';
+import InputLabel from '../InputLabel';
+import FormFieldError from '../FormFieldError';
 
 export default Vue.extend({
   name: 'FormFieldCheckbox',

@@ -15,6 +15,7 @@
 
 <script lang="js">
 import Vue from 'vue';
+
 import SvgIcon from '../SvgIcon';
 
 export default Vue.extend({

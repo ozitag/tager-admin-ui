@@ -1,6 +1,7 @@
-import NavigationGrid from './index';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
+import NavigationGrid from './index';
 
 Vue.use(VueRouter);
 

@@ -3,7 +3,9 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'BaseTextArea',
   props: {
     value: String,
@@ -19,7 +21,7 @@ export default {
       };
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

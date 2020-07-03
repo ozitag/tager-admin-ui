@@ -46,6 +46,7 @@
 <script lang="js">
 import Vue from 'vue';
 import kebabCase from 'lodash.kebabcase';
+
 import BaseTableCell from './components/Cell';
 
 export default Vue.extend({

@@ -19,7 +19,7 @@
 import Vue from 'vue';
 import { isAbsoluteUrl } from '@tager/admin-services';
 
-import Spinner from '@/components/Spinner';
+import Spinner from '../Spinner';
 
 export default Vue.extend({
   name: 'BaseButton',

@@ -14,10 +14,10 @@
 
 <script lang="js">
 import Vue from 'vue';
-import FormGroup from '@/components/FormGroup';
-import FormFieldError from '@/components/FormFieldError';
-import InputLabel from '@/components/InputLabel';
-import FileInput from '@/components/FileInput';
+import FormGroup from '../FormGroup';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
+import FileInput from '../FileInput';
 
 export default Vue.extend({
   name: 'FormFieldFileInput',

@@ -90,13 +90,14 @@
 import Vue from 'vue';
 import { getMessageFromError, RequestError, upload } from '@tager/admin-services';
 
-import SvgIcon from '@/components/SvgIcon';
-import BaseButton from '@/components/BaseButton';
-import BaseTextArea from '@/components/BaseTextArea';
-import ProgressBar from '@/components/ProgressBar';
+import { ARCHIVE_ACCEPT } from '../../constants/common';
+
+import SvgIcon from '../SvgIcon';
+import BaseButton from '../BaseButton';
+import BaseTextArea from '../BaseTextArea';
+import ProgressBar from '../ProgressBar';
 
 import { getFileIconName, logPropsValidationErrors, validateValue } from './FileInput.helpers';
-import { ARCHIVE_ACCEPT } from '@/constants/common';
 
 export default Vue.extend({
   name: 'FileInput',

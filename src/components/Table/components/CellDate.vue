@@ -5,7 +5,7 @@
 <script lang="js">
 import Vue from 'vue';
 
-import { formatDate } from '@/utils/common';
+import { formatDate } from '../../../utils/common';
 
 export default Vue.extend({
   props: {

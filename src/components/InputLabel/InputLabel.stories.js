@@ -1,5 +1,5 @@
-import FormField from '@/components/FormField';
-import FormFieldCheckbox from '@/components/FormFieldCheckbox';
+import FormField from '../FormField';
+import FormFieldCheckbox from '../FormFieldCheckbox';
 
 export default { title: 'InputLabel' };
 

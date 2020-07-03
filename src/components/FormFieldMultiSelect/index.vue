@@ -17,10 +17,11 @@
 
 <script lang="js">
 import Vue from 'vue';
-import FormGroup from '@/components/FormGroup';
-import FormFieldError from '@/components/FormFieldError';
-import InputLabel from '@/components/InputLabel';
-import MultiSelect from '@/components/MultiSelect';
+
+import FormGroup from '../FormGroup';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
+import MultiSelect from '../MultiSelect';
 
 function isValidOption(option) {
   return (

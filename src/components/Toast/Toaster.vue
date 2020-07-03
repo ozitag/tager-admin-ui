@@ -13,6 +13,7 @@
 
 <script lang="js">
 import Vue from 'vue';
+
 import Toast from './Toast.vue';
 import { EventBus } from './Toast.helpers';
 
