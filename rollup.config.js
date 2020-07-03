@@ -40,14 +40,6 @@ export default {
   ],
   external: ['vue', '@tager/admin-services', '@babel/runtime'],
   plugins: [
-    alias({
-      entries: [
-        {
-          find: /^@\/(.*)$/,
-          replacement: `${path.resolve(__dirname, 'src')}/$1`,
-        },
-      ],
-    }),
     resolve({ extensions: ['.js', '.css', '.svg', '.vue'] }),
     commonjs(),
     svg({ svgoConfig: { plugins: [{ removeViewBox: false }] } }),
