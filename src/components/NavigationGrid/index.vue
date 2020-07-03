@@ -4,29 +4,34 @@
       <div class="inner">
         <span class="name">{{ navItem.name }}</span>
         <div class="content">
-            <div v-if="Boolean(navItem.total)" class="total-block">
-              <spinner
-                v-if="navItem.total.status === 'LOADING'"
-                :size="50"
-                :stroke-width="3"
-                class="spinner"
-              />
-              <span v-else class="total-value">
-                {{ navItem.total.value }}
-              </span>
-            </div>
-
-            <ul
-              v-if="navItem.linkList && navItem.linkList.length > 0"
-              :class="['link-list',  { center: navItem.linkList.length === 1 }]"
+          <div v-if="Boolean(navItem.total)" class="total-block">
+            <spinner
+              v-if="navItem.total.status === 'LOADING'"
+              :size="50"
+              :stroke-width="3"
+              class="spinner"
+            />
+            <component
+              :is="navItem.total.href ? 'router-link' : 'span'"
+              v-else
+              class="total-value"
+              :to="navItem.total.href || undefined"
             >
-              <li v-for="(link, linkIndex) of navItem.linkList" :key="linkIndex">
-                <router-link :to="link.href">
-                  {{ link.label }}
-                </router-link>
-              </li>
-            </ul>
+              {{ navItem.total.value }}
+            </component>
           </div>
+
+          <ul
+            v-if="navItem.linkList && navItem.linkList.length > 0"
+            :class="['link-list', { center: navItem.linkList.length === 1 }]"
+          >
+            <li v-for="(link, linkIndex) of navItem.linkList" :key="linkIndex">
+              <router-link :to="link.href">
+                {{ link.label }}
+              </router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -70,8 +75,8 @@ export default Vue.extend({
   height: 100%;
 }
 
-.content{
-    padding: 1rem;
+.content {
+  padding: 1rem;
 }
 
 .name {
@@ -86,6 +91,12 @@ export default Vue.extend({
 .total-block {
   display: flex;
   justify-content: center;
+
+  a {
+    &:hover {
+      color: black;
+    }
+  }
 }
 
 .total-value {
@@ -96,9 +107,9 @@ export default Vue.extend({
 .link-list {
   margin-top: 0.5rem;
 
-    &.center{
-        text-align: center;
-    }
+  &.center {
+    text-align: center;
+  }
 
   a {
     color: #007bff;

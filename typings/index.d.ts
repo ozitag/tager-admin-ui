@@ -61,7 +61,7 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
 
 export type NavigationGridItem = {
   name: string;
-  total?: { status: FetchStatus; value: number };
+  total?: { status: FetchStatus; value: number; href?: string };
   linkList?: Array<{ href: string; label: string }>;
 };
 

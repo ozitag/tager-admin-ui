@@ -18,7 +18,7 @@ export const Default = () => ({
       navItemList: [
         {
           name: 'Presets',
-          total: { status: FETCH_STATUSES.SUCCESS, value: 5 },
+          total: { status: FETCH_STATUSES.SUCCESS, value: 5, href: '/presets' },
           linkList: [
             { href: '/presets', label: 'Preset list' },
             { href: '/presets/create', label: 'Create preset' },
