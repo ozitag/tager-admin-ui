@@ -17,23 +17,22 @@
   </select>
 </template>
 
-<script lang="ts">
+<script lang="js">
 import Vue from 'vue';
-import { OptionType } from '@tager/admin-ui';
 
 export default Vue.extend({
   name: 'BaseSelect',
   props: {
-    value: [Object, Array] as [() => OptionType, () => Array<OptionType>],
+    value: [Object, Array],
     multiple: {
       type: Boolean,
       default: false,
     },
     placeholder: String,
     options: {
-      type: Array as () => Array<OptionType>,
+      type: Array,
       default: () => [],
-      validator(options: any): boolean {
+      validator(options) {
         return (
           Array.isArray(options) &&
           options.every((option) => {
@@ -56,16 +55,15 @@ export default Vue.extend({
   },
   computed: {
     inputListeners() {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
       const vm = this;
 
       return {
         ...vm.$listeners,
-        input: (event: Event) =>
-          vm.$emit('input', (event.target as HTMLSelectElement).value),
-        change: (event: Event) => {
+        input: (event) =>
+          vm.$emit('input', event.target.value),
+        change: (event) => {
           // debugger;
-          const element = event.target as HTMLSelectElement;
+          const element = event.target;
           const selectedOptions = [...element.selectedOptions].map(
             (optionElement) => ({
               value: optionElement.value,
@@ -79,7 +77,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    isOptionSelected(optionValue: string | number) {
+    isOptionSelected(optionValue) {
       if (this.multiple && Array.isArray(this.value)) {
         return this.value.some(
           (option) => String(option.value) === String(optionValue)

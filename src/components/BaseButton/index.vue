@@ -5,7 +5,7 @@
     :type="isLink ? undefined : type"
     :disabled="disabled || loading"
     :href="isLink ? href : undefined"
-    v-on="$listeners"
+    v-on="buttonListeners"
   >
     <span v-if="loading" class="spinner-wrapper">
       <spinner class="button-spinner" size="28" />
@@ -17,6 +17,7 @@
 
 <script lang="js">
 import Vue from 'vue';
+import { isAbsoluteUrl } from '@tager/admin-services';
 
 import Spinner from '@/components/Spinner';
 
@@ -28,7 +29,8 @@ export default Vue.extend({
       type: String,
       validator(value) {
         return ['primary', 'outline-primary', 'secondary', 'outline-secondary', 'icon'].includes(value);
-      }
+      },
+      default: 'primary'
     },
     type: {
       type: String,
@@ -36,12 +38,43 @@ export default Vue.extend({
     },
     disabled: Boolean,
     loading: Boolean,
-    href: String,
+    href: {
+      type: String,
+      default: null
+    },
   },
   computed: {
     isLink() {
       return Boolean(this.href);
-    }
+    },
+    buttonListeners() {
+      const vm = this;
+
+      return {
+        ...vm.$listeners,
+        click: (event) => {
+          if (vm.href && !isAbsoluteUrl(vm.href)) {
+            event.preventDefault();
+
+            if (vm.$router) {
+              vm.$router.push(vm.href);
+            } else {
+              console.error(`Vue router is [${String(vm.$router)}]. Cannot make page transition`)
+            }
+          }
+
+          if (vm.$listeners.click) {
+            if (Array.isArray(vm.$listeners.click)) {
+              vm.$listeners.click.forEach(callback => {
+                callback(event);
+              })
+            } else {
+              vm.$listeners.click(event);
+            }
+          }
+        }
+      };
+    },
   },
 });
 </script>
