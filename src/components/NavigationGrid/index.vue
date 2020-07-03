@@ -7,7 +7,7 @@
           <div v-if="Boolean(navItem.total)" class="total-block">
             <spinner
               v-if="navItem.total.status === 'LOADING'"
-              :size="50"
+              :size="40"
               :stroke-width="3"
               class="spinner"
             />
@@ -91,10 +91,12 @@ export default Vue.extend({
 .total-block {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 50px;
 
   a {
     &:hover {
-      color: black;
+      opacity: 0.75;
     }
   }
 }
