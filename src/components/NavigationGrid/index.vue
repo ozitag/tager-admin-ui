@@ -16,7 +16,10 @@
           </span>
         </div>
 
-        <ul v-if="navItem.linkList.length > 0" class="link-list">
+        <ul
+          v-if="navItem.linkList && navItem.linkList.length > 0"
+          class="link-list"
+        >
           <li v-for="(link, linkIndex) of navItem.linkList" :key="linkIndex">
             <router-link :to="link.href">
               {{ link.label }}

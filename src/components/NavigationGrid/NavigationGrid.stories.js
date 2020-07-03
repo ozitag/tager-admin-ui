@@ -43,13 +43,13 @@ export const Default = () => ({
         },
         {
           name: 'Presets',
-          total: { status: 'SUCCESS', value: 0 },
+          // total: { status: 'SUCCESS', value: 0 },
           linkList: [{ href: '/presets', label: 'Preset list' }],
         },
         {
           name: 'Presets',
           total: { status: 'IN_PROGRESS', value: 115 },
-          linkList: [{ href: '/presets', label: 'Preset list' }],
+          // linkList: [{ href: '/presets', label: 'Preset list' }],
         },
       ],
     };
