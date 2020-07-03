@@ -6,7 +6,7 @@
 
         <div v-if="Boolean(navItem.total)" class="total-block">
           <spinner
-            v-if="navItem.total.status === 'IN_PROGRESS'"
+            v-if="navItem.total.status === 'LOADING'"
             :size="50"
             :stroke-width="3"
             class="spinner"
