@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="table-container">
     <table>
       <thead>
         <tr>
@@ -26,7 +26,7 @@
       </tbody>
     </table>
 
-    <!--    <div class="bottom">-->
+    <!--    <div class="table-bottom">-->
     <!--      <span>Showing 1 to 10 of 57 entries</span>-->
     <!--      <div class="pagination">-->
     <!--        <ul>-->
@@ -95,7 +95,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.container {
+.table-container {
   max-width: 100%;
   overflow: auto;
   font-size: 0.9375rem;
@@ -130,7 +130,7 @@ tbody tr {
   /*}*/
 }
 
-.bottom {
+.table-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="nav-container">
     <div v-for="(navItem, index) of navItems" :key="index" class="nav-card">
       <div class="inner">
         <span class="name">{{ navItem.name }}</span>
@@ -54,7 +54,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.container {
+.nav-container {
   display: flex;
   flex-wrap: wrap;
   margin: -0.5rem;
