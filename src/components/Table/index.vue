@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :class="$style.tableContainer">
     <table>
       <thead>
         <tr>
@@ -94,40 +94,40 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped lang="scss">
-.container {
+<style module lang="scss">
+.tableContainer {
   max-width: 100%;
   overflow: auto;
   font-size: 0.9375rem;
-}
 
-table {
-  width: 100%;
-  /*max-width: 100%;*/
-  border: 1px solid #e9ecef;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-  background-color: transparent;
-  text-align: left;
-  color: var(--secondary);
-}
-
-th,
-td {
-  border: 1px solid #e9ecef;
-  border-bottom-width: 2px;
-  padding: 0.75rem;
-  text-align: inherit;
-}
-
-tbody tr {
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.02);
+  table {
+    width: 100%;
+    /*max-width: 100%;*/
+    border: 1px solid #e9ecef;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    text-align: left;
+    color: var(--secondary);
   }
 
-  /*&:nth-of-type(odd) {*/
-  /*  background-color: rgba(0, 0, 0, 0.05);*/
-  /*}*/
+  th,
+  td {
+    border: 1px solid #e9ecef;
+    border-bottom-width: 2px;
+    padding: 0.75rem;
+    text-align: inherit;
+  }
+
+  tbody tr {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    /*&:nth-of-type(odd) {*/
+    /*  background-color: rgba(0, 0, 0, 0.05);*/
+    /*}*/
+  }
 }
 
 .bottom {
