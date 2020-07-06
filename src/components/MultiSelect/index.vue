@@ -102,7 +102,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 ul {
   max-height: 250px;
-  max-width: 400px;
   overflow: auto;
   border: 1px solid var(--input-border-color);
   border-radius: 3px;
