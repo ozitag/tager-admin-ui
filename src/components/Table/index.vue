@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
-    <spinner-container class="table-spinner">
-      <spinner v-if="loading" size="50" />
+    <spinner-container v-if="loading" class="table-spinner">
+      <spinner size="50" />
     </spinner-container>
     <table>
       <thead>
@@ -18,7 +18,9 @@
       <tbody>
         <tr v-if="rowData.length === 0">
           <td :colspan="enhancedColumnDefs.length" class="empty">
-            <span>{{ notFoundMessage }}</span>
+            <div>
+              <span v-if="!loading">{{ notFoundMessage }}</span>
+            </div>
           </td>
         </tr>
         <tr v-for="(row, index) of rowData" v-else :key="row.id">
@@ -142,8 +144,12 @@ td {
 }
 
 td.empty {
-  padding: 2rem;
-  text-align: center;
+  div {
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 tbody tr {
