@@ -14,7 +14,8 @@
   "scripts": {
     "build": "rollup --config",
     "storybook": "start-storybook",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "tager-update": "yarn upgrade --latest @tager/admin-services"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.2",
