@@ -123,5 +123,6 @@ export declare const Table: VueConstructor<Vue>;
 export declare const TableCell: VueConstructor<Vue>;
 export declare const FileInput: VueConstructor<Vue>;
 export declare const NavigationGrid: VueConstructor<Vue>;
+export declare const LoadableImage: VueConstructor<Vue>;
 
 export declare const AdminUiPlugin: PluginFunction<undefined>;

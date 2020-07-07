@@ -11,6 +11,12 @@ const defaultColumnDefs = [
     type: 'string',
   },
   {
+    id: 2.5,
+    name: 'Image cell',
+    field: 'imageUrl',
+    type: 'image',
+  },
+  {
     id: 3,
     name: 'Date cell (30%)',
     field: 'date',
@@ -45,6 +51,8 @@ const defaultRowData = [
   {
     id: 1,
     name: 'Ivan',
+    imageUrl:
+      'https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?cs=srgb&dl=scenic-view-of-forest-during-night-time-1252869.jpg&fm=jpg',
     date: new Date().toISOString(),
     link: 'https://ozitag.com',
     linkLabel: 'Ozitag website url',
@@ -54,6 +62,8 @@ const defaultRowData = [
   {
     id: 2,
     name: 'Ivan',
+    imageUrl:
+      'https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?cs=srgb&dl=scenic-view-of-forest-during-night-time-1252869.jpg&fm=jpg',
     date: new Date().toISOString(),
     link: 'https://ozitag.com',
     linkLabel: 'Ivan website url',
@@ -70,7 +80,7 @@ export const Default = () => ({
     };
   },
   template: `
-      <base-table :column-defs="columnDefs" :row-data="rowData" enumerable loading>
+      <base-table :column-defs="columnDefs" :row-data="rowData" enumerable>
           <template v-slot:cell(description)="{ row, column }">
               <td :style="column.style">
                   <h4>{{ row[column.field] }}</h4>

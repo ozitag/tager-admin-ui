@@ -1,9 +1,12 @@
 <template>
-  <td>
+  <td class="image-cell">
     <div v-if="Boolean(value)" class="cell-inner">
-      <div class="image-wrapper">
-        <img :src="value" alt="Photo" />
-      </div>
+      <loadable-image
+        :src="value"
+        alt="Photo"
+        image-style="object-fit: cover"
+        style="width: 100px; height: 100px;"
+      />
     </div>
   </td>
 </template>
@@ -11,7 +14,10 @@
 <script lang="js">
 import Vue from 'vue';
 
+import LoadableImage from '../../LoadableImage';
+
 export default Vue.extend({
+  components: { LoadableImage },
   props: {
     column: {
       type: Object,
@@ -37,25 +43,13 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-td {
+td.image-cell {
   padding: 0;
-  text-align: center;
-}
 
-.cell-inner {
-  display: flex;
-  justify-content: center;
-}
-
-.image-wrapper {
-  width: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-img {
-  min-height: 100px;
-  margin: 5px 0;
-  object-fit: cover;
+  .cell-inner {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+  }
 }
 </style>

@@ -36,7 +36,11 @@
           </div>
           <div v-else class="file-inner">
             <a :href="file.url" class="file-link" target="_blank">
-              <img v-if="isImage(file)" :src="file.url" :alt="file.name" />
+              <loadable-image
+                v-if="isImage(file)"
+                :src="file.url"
+                :alt="file.name"
+              />
               <svg-icon v-else class="file-icon" :name="getFileIcon(file)" />
             </a>
 
@@ -96,12 +100,13 @@ import SvgIcon from '../SvgIcon';
 import BaseButton from '../BaseButton';
 import BaseTextArea from '../BaseTextArea';
 import ProgressBar from '../ProgressBar';
+import LoadableImage from '../LoadableImage';
 
 import { getFileIconName, logPropsValidationErrors, validateValue } from './FileInput.helpers';
 
 export default Vue.extend({
   name: 'FileInput',
-  components: { SvgIcon, BaseButton, ProgressBar, BaseTextArea },
+  components: { SvgIcon, BaseButton, ProgressBar, BaseTextArea, LoadableImage },
   model: {
     prop: 'value',
     event: 'change'
