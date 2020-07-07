@@ -1,5 +1,8 @@
 <template>
   <div class="table-container">
+    <spinner-container class="table-spinner">
+      <spinner v-if="loading" size="50" />
+    </spinner-container>
     <table>
       <thead>
         <tr>
@@ -13,7 +16,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, index) of rowData" :key="row.id">
+        <tr v-if="rowData.length === 0">
+          <td :colspan="enhancedColumnDefs.length" class="empty">
+            <span>{{ notFoundMessage }}</span>
+          </td>
+        </tr>
+        <tr v-for="(row, index) of rowData" v-else :key="row.id">
           <base-table-cell
             v-for="column of enhancedColumnDefs"
             :key="column.id"
@@ -47,11 +55,14 @@
 import Vue from 'vue';
 import kebabCase from 'lodash.kebabcase';
 
+import Spinner from '../Spinner';
+import SpinnerContainer from '../SpinnerContainer';
+
 import BaseTableCell from './components/Cell';
 
 export default Vue.extend({
   name: 'BaseTable',
-  components: { BaseTableCell },
+  components: { BaseTableCell, Spinner, SpinnerContainer },
   props: {
     columnDefs: {
       type: Array,
@@ -62,10 +73,15 @@ export default Vue.extend({
       required: true,
     },
     enumerable: Boolean,
+    loading: Boolean,
     indexColumnDef: {
       type: Object,
       default: null
     },
+    notFoundMessage: {
+      type: String,
+      default: 'Items not found'
+    }
   },
   computed: {
     enhancedColumnDefs() {
@@ -99,6 +115,12 @@ export default Vue.extend({
   max-width: 100%;
   overflow: auto;
   font-size: 0.9375rem;
+  position: relative;
+
+  .table-spinner {
+    top: calc(50% + 46px / 2);
+  }
+  margin-bottom: 1rem;
 }
 
 table {
@@ -106,7 +128,6 @@ table {
   /*max-width: 100%;*/
   border: 1px solid #e9ecef;
   border-collapse: collapse;
-  margin-bottom: 1rem;
   background-color: transparent;
   text-align: left;
   color: var(--secondary);
@@ -118,6 +139,11 @@ td {
   border-bottom-width: 2px;
   padding: 0.75rem;
   text-align: inherit;
+}
+
+td.empty {
+  padding: 2rem;
+  text-align: center;
 }
 
 tbody tr {
