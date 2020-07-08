@@ -115,7 +115,8 @@ export default Vue.extend({
 <style scoped lang="scss">
 .table-container {
   max-width: 100%;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   font-size: 0.9375rem;
   position: relative;
 
