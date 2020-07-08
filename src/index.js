@@ -23,6 +23,7 @@ export { default as FormFieldMultiSelect } from './components/FormFieldMultiSele
 export { default as FormFieldUrlAliasInput } from './components/FormFieldUrlAliasInput';
 export { default as NavigationGrid } from './components/NavigationGrid';
 export { default as LoadableImage } from './components/LoadableImage';
+export { default as DropdownMenu } from './components/DropdownMenu';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

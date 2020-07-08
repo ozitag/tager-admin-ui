@@ -124,5 +124,15 @@ export declare const TableCell: VueConstructor<Vue>;
 export declare const FileInput: VueConstructor<Vue>;
 export declare const NavigationGrid: VueConstructor<Vue>;
 export declare const LoadableImage: VueConstructor<Vue>;
+export declare const DropdownMenu: VueConstructor<Vue>;
+
+export type DropdownMenuItemType = {
+  type: 'button' | 'link' | 'divider';
+  label?: string;
+  href?: string;
+  onClick?: (event: Event) => void;
+  style?: any;
+  class?: any;
+};
 
 export declare const AdminUiPlugin: PluginFunction<undefined>;
