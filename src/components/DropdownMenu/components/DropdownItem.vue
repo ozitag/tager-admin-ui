@@ -94,12 +94,6 @@ export default Vue.extend({
     color: #16181b;
     background-color: #f8f9fa;
   }
-
-  &:active {
-    color: #fff;
-    text-decoration: none;
-    background-color: var(--primary);
-  }
 }
 
 .dropdown-divider {
