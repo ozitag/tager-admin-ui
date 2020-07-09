@@ -2,9 +2,9 @@
   <div class="rich-text-editor-container">
     <ckeditor
       :editor="editor"
-      v-on="$listeners"
       v-bind="$attrs"
       :config="editorConfig"
+      v-on="$listeners"
     />
   </div>
 </template>
@@ -75,6 +75,10 @@ export default Vue.extend({
 <style lang="scss">
 .rich-text-editor-container {
   color: rgba(64, 81, 102, 0.96);
+
+  .ck.ck-editor__main > .ck-editor__editable {
+    min-height: 10rem;
+  }
 
   /* https://www.w3.org/TR/CSS2/sample.html */
   html,
