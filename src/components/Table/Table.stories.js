@@ -13,7 +13,7 @@ const defaultColumnDefs = [
   {
     id: 2.5,
     name: 'Image cell',
-    field: 'imageUrl',
+    field: 'image.url',
     type: 'image',
   },
   {
@@ -51,8 +51,10 @@ const defaultRowData = [
   {
     id: 1,
     name: 'Ivan',
-    imageUrl:
-      'https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?cs=srgb&dl=scenic-view-of-forest-during-night-time-1252869.jpg&fm=jpg',
+    image: {
+      url:
+        'https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?cs=srgb&dl=scenic-view-of-forest-during-night-time-1252869.jpg&fm=jpg',
+    },
     date: new Date().toISOString(),
     link: 'https://ozitag.com',
     linkLabel: 'Ozitag website url',
@@ -62,8 +64,10 @@ const defaultRowData = [
   {
     id: 2,
     name: 'Ivan',
-    imageUrl:
-      'https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?cs=srgb&dl=scenic-view-of-forest-during-night-time-1252869.jpg&fm=jpg',
+    image: {
+      url:
+        'https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?cs=srgb&dl=scenic-view-of-forest-during-night-time-1252869.jpg&fm=jpg',
+    },
     date: new Date().toISOString(),
     link: 'https://ozitag.com',
     linkLabel: 'Ivan website url',

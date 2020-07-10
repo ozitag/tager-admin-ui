@@ -8,6 +8,7 @@
 
 <script lang="js">
 import Vue from 'vue';
+import get from 'lodash.get';
 
 export default Vue.extend({
   props: {
@@ -28,7 +29,7 @@ export default Vue.extend({
     link() {
       return this.column.format
         ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
-        : this.row[this.column.field];
+        : get(this.row, this.column.field, null);
     },
   }
 });
