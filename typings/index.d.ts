@@ -57,6 +57,9 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
   style?: string | object[] | object;
   headStyle?: string | object[] | object;
   useCustomDataCell?: boolean;
+
+  /** Link cell */
+  shouldOpenNewTab?: boolean;
 };
 
 export type NavigationGridItem = {

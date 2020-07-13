@@ -1366,10 +1366,10 @@
     ts-dedent "^1.1.0"
     webpack "^4.33.0"
 
-"@tager/admin-services@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.1.0.tgz#c9b19cef6c7a941b44979168101fda7fbb9187fe"
-  integrity sha512-nwfJ6ILTaRgyrq0qF51xJitXMQNlgcK+/sIECo1eyCuKNwcNmQ/DZXvBVldSEE8nS+7ZB5nJxh1Y34EG17+0hw==
+"@tager/admin-services@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.1.5.tgz#1b489c0028ac9bb1d60cc141404dcdd15a9374fb"
+  integrity sha512-7tPiRFZ2IvcrrWlC9NmWn2J0fT7THQnCR32r/7fZrM+lSJhmi8QdMJvdPkP5JauSKaKtMIIApDQFrM5u5GY5tw==
   dependencies:
     i18next "^19.5.4"
 

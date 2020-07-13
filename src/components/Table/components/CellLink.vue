@@ -1,6 +1,6 @@
 <template>
   <td>
-    <a v-if="Boolean(link)" :href="link && link.href">
+    <a v-if="Boolean(link)" :href="link && link.href" v-bind="linkAttrs">
       {{ link && link.label }}
     </a>
   </td>
@@ -43,6 +43,15 @@ export default Vue.extend({
         : typeof value === 'string' && value.trim()
           ? { href: value, label: value }
           : null;
+    },
+    linkAttrs() {
+      const shouldOpenNewTab = Object.keys(this.column).includes('shouldOpenNewTab')
+        ? Boolean(this.column.shouldOpenNewTab)
+        : true;
+
+      return {
+        target: shouldOpenNewTab ? '_blank' : undefined
+      };
     }
   }
 });
