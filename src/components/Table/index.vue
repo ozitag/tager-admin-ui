@@ -16,8 +16,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="rowData.length === 0">
-          <td :colspan="enhancedColumnDefs.length" class="empty">
+        <tr v-if="rowData.length === 0" class="empty">
+          <td :colspan="enhancedColumnDefs.length">
             <div>
               <span v-if="!loading && !errorMessage">
                 {{ notFoundMessage }}
@@ -153,16 +153,22 @@ td {
   text-align: inherit;
 }
 
-td.empty {
-  div {
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+tr.empty {
+  td {
+    div {
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .error-message {
+      color: var(--danger);
+    }
   }
 
-  .error-message {
-    color: var(--danger);
+  &:hover {
+    background-color: white;
   }
 }
 
@@ -170,10 +176,6 @@ tbody tr {
   &:hover {
     background-color: rgba(0, 0, 0, 0.02);
   }
-
-  /*&:nth-of-type(odd) {*/
-  /*  background-color: rgba(0, 0, 0, 0.05);*/
-  /*}*/
 }
 
 .table-bottom {

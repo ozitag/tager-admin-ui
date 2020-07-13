@@ -98,9 +98,13 @@ export default Vue.extend({
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer;
 
+  &:hover {
+    text-decoration: none;
+  }
+
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.65;
+    opacity: 0.3;
   }
 
   &.loading {
@@ -221,11 +225,7 @@ export default Vue.extend({
     transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.08);
-  }
-
-  &:disabled {
+  &:not(:disabled):hover {
     background-color: rgba(0, 0, 0, 0.08);
   }
 }

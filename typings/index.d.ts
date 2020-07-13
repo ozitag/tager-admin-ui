@@ -4,7 +4,7 @@ import { FetchStatus } from '@tager/admin-services';
 export type DateCellValue = Date | null;
 export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
-export type LinkCellValue = { href: string; label: string } | null;
+export type LinkCellValue = { href: string; label: string } | string | null;
 export type IconName =
   | 'home'
   | 'group'
@@ -21,6 +21,10 @@ export type IconName =
   | 'assignment'
   | 'chevronRight'
   | 'description'
+  | 'arrowDownward'
+  | 'arrowUpward'
+  | 'north'
+  | 'south'
   | 'fileAvi'
   | 'fileCss'
   | 'fileCsv'
@@ -60,6 +64,7 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
 
   /** Link cell */
   shouldOpenNewTab?: boolean;
+  shouldUseRouter?: boolean;
 };
 
 export type NavigationGridItem = {

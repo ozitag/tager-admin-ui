@@ -1,14 +1,21 @@
 <template>
   <td>
-    <a v-if="Boolean(link)" :href="link && link.href" v-bind="linkAttrs">
-      {{ link && link.label }}
-    </a>
+    <component
+      :is="shouldUseRouter ? 'router-link' : 'a'"
+      v-if="Boolean(link)"
+      :href="shouldUseRouter ? undefined : link.href"
+      :to="shouldUseRouter ? link.href : undefined"
+      v-bind="linkAttrs"
+    >
+      {{ link.label }}
+    </component>
   </td>
 </template>
 
 <script lang="js">
 import Vue from 'vue';
 import get from 'lodash.get';
+import { isAbsoluteUrl } from '@tager/admin-services';
 
 function isLinkObject(value) {
   return typeof value === 'object'
@@ -44,15 +51,19 @@ export default Vue.extend({
           ? { href: value, label: value }
           : null;
     },
+    isAbsoluteLink() {
+      return this.link ? isAbsoluteUrl(this.link.href) : false;
+    },
+    shouldUseRouter() {
+      return this.column.shouldUseRouter ?? !this.isAbsoluteLink;
+    },
     linkAttrs() {
-      const shouldOpenNewTab = Object.keys(this.column).includes('shouldOpenNewTab')
-        ? Boolean(this.column.shouldOpenNewTab)
-        : true;
+      const shouldOpenNewTab = this.column.shouldOpenNewTab ?? !this.shouldUseRouter;
 
       return {
         target: shouldOpenNewTab ? '_blank' : undefined
       };
-    }
+    },
   }
 });
 </script>
