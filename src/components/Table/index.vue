@@ -19,7 +19,12 @@
         <tr v-if="rowData.length === 0">
           <td :colspan="enhancedColumnDefs.length" class="empty">
             <div>
-              <span v-if="!loading">{{ notFoundMessage }}</span>
+              <span v-if="!loading && !errorMessage">
+                {{ notFoundMessage }}
+              </span>
+              <span v-if="errorMessage" class="error-message">
+                {{ errorMessage }}
+              </span>
             </div>
           </td>
         </tr>
@@ -83,6 +88,10 @@ export default Vue.extend({
     notFoundMessage: {
       type: String,
       default: 'Items not found'
+    },
+    errorMessage: {
+      type: String,
+      default: null,
     }
   },
   computed: {
@@ -150,6 +159,10 @@ td.empty {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .error-message {
+    color: var(--danger);
   }
 }
 
