@@ -41,10 +41,10 @@ const defaultColumnDefs = [
     field: 'link',
     type: 'link',
     style: { width: '10%' },
-    format: ({ row, column }) => ({
-      href: row[column.field],
-      label: row.linkLabel,
-    }),
+    // format: ({ row, column }) => ({
+    //   href: row[column.field],
+    //   label: row.linkLabel,
+    // }),
   },
 ];
 const defaultRowData = [

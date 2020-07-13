@@ -10,6 +10,13 @@
 import Vue from 'vue';
 import get from 'lodash.get';
 
+function isLinkObject(value) {
+  return typeof value === 'object'
+    && value !== null
+    && typeof value.href === 'string'
+    && typeof value.label === 'string';
+}
+
 export default Vue.extend({
   props: {
     column: {
@@ -27,10 +34,16 @@ export default Vue.extend({
   },
   computed: {
     link() {
-      return this.column.format
+      const value = this.column.format
         ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
         : get(this.row, this.column.field, null);
-    },
+
+      return isLinkObject(value)
+        ? value
+        : typeof value === 'string' && value.trim()
+          ? { href: value, label: value }
+          : null;
+    }
   }
 });
 </script>
