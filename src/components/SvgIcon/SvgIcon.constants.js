@@ -12,6 +12,10 @@ import SettingsIcon from '../../assets/svg/settings.svg';
 import AssignmentIcon from '../../assets/svg/assignment.svg';
 import ChevronRightIcon from '../../assets/svg/chevron_right.svg';
 import DescriptionIcon from '../../assets/svg/description.svg';
+import ArrowDownwardIcon from '../../assets/svg/arrow_downward.svg';
+import ArrowUpwardIcon from '../../assets/svg/arrow_upward.svg';
+import NorthIcon from '../../assets/svg/north.svg';
+import SouthIcon from '../../assets/svg/south.svg';
 
 /** File icons */
 import FileAviIcon from '../../assets/svg/file_avi.svg';
@@ -47,6 +51,10 @@ export const ICON_MAP = {
   assignment: AssignmentIcon,
   chevronRight: ChevronRightIcon,
   description: DescriptionIcon,
+  arrowDownward: ArrowDownwardIcon,
+  arrowUpward: ArrowUpwardIcon,
+  north: NorthIcon,
+  south: SouthIcon,
 
   fileAvi: FileAviIcon,
   fileCss: FileCssIcon,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul>
+    <ul v-if="options.length > 0" class="option-list">
       <li
         v-for="(option, index) of options"
         :key="option.value"
@@ -26,6 +26,9 @@
         </div>
       </li>
     </ul>
+    <div v-else class="empty-block">
+      <span>Items not found</span>
+    </div>
   </div>
 </template>
 
@@ -52,14 +55,14 @@ export default Vue.extend({
   props: {
     options: {
       type: Array,
-      default: [],
+      default: () => [],
       validator(options) {
         return options.every(isValidOption)
       }
     },
     selectedOptions: {
       type: Array,
-      default: [],
+      default: () => [],
       validator(options) {
         return options.every(isValidOption)
       }
@@ -100,11 +103,22 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-ul {
+.option-list {
   max-height: 250px;
   overflow: auto;
   border: 1px solid var(--input-border-color);
   border-radius: 3px;
+}
+
+.empty-block {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  border: 1px solid var(--input-border-color);
+  border-radius: 3px;
+
+  span {
+    color: var(--secondary);
+  }
 }
 
 .option {

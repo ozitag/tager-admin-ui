@@ -1,13 +1,28 @@
 <template>
   <td>
-    <a v-if="Boolean(link)" :href="link && link.href">
-      {{ link && link.label }}
-    </a>
+    <component
+      :is="shouldUseRouter ? 'router-link' : 'a'"
+      v-if="Boolean(link)"
+      :href="shouldUseRouter ? undefined : link.href"
+      :to="shouldUseRouter ? link.href : undefined"
+      v-bind="linkAttrs"
+    >
+      {{ link.label }}
+    </component>
   </td>
 </template>
 
 <script lang="js">
 import Vue from 'vue';
+import get from 'lodash.get';
+import { isAbsoluteUrl } from '@tager/admin-services';
+
+function isLinkObject(value) {
+  return typeof value === 'object'
+    && value !== null
+    && typeof value.href === 'string'
+    && typeof value.label === 'string';
+}
 
 export default Vue.extend({
   props: {
@@ -26,9 +41,28 @@ export default Vue.extend({
   },
   computed: {
     link() {
-      return this.column.format
+      const value = this.column.format
         ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
-        : this.row[this.column.field];
+        : get(this.row, this.column.field, null);
+
+      return isLinkObject(value)
+        ? value
+        : typeof value === 'string' && value.trim()
+          ? { href: value, label: value }
+          : null;
+    },
+    isAbsoluteLink() {
+      return this.link ? isAbsoluteUrl(this.link.href) : false;
+    },
+    shouldUseRouter() {
+      return this.column.shouldUseRouter ?? !this.isAbsoluteLink;
+    },
+    linkAttrs() {
+      const shouldOpenNewTab = this.column.shouldOpenNewTab ?? !this.shouldUseRouter;
+
+      return {
+        target: shouldOpenNewTab ? '_blank' : undefined
+      };
     },
   }
 });

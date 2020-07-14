@@ -4,10 +4,9 @@ import VueRouter from 'vue-router';
 import NavigationGrid from './index';
 import { FETCH_STATUSES } from '@tager/admin-services';
 
-Vue.use(VueRouter);
-
 export default { title: 'NavigationGrid' };
 
+Vue.use(VueRouter);
 const router = new VueRouter({ mode: 'history' });
 
 export const Default = () => ({

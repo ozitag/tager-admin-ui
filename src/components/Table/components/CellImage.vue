@@ -5,7 +5,7 @@
         :src="value"
         alt="Photo"
         image-style="object-fit: cover"
-        style="width: 100px; height: 100px;"
+        style="width: 100px; height: 100px; min-width: 100px;"
       />
     </div>
   </td>
@@ -13,6 +13,7 @@
 
 <script lang="js">
 import Vue from 'vue';
+import get from 'lodash.get';
 
 import LoadableImage from '../../LoadableImage';
 
@@ -36,7 +37,7 @@ export default Vue.extend({
     value() {
       return this.column.format
         ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
-        : this.row[this.column.field];
+        : get(this.row, this.column.field, null);
     }
   }
 });

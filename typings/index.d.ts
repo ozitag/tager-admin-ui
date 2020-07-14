@@ -4,7 +4,7 @@ import { FetchStatus } from '@tager/admin-services';
 export type DateCellValue = Date | null;
 export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
-export type LinkCellValue = { href: string; label: string } | null;
+export type LinkCellValue = { href: string; label: string } | string | null;
 export type IconName =
   | 'home'
   | 'group'
@@ -21,6 +21,10 @@ export type IconName =
   | 'assignment'
   | 'chevronRight'
   | 'description'
+  | 'arrowDownward'
+  | 'arrowUpward'
+  | 'north'
+  | 'south'
   | 'fileAvi'
   | 'fileCss'
   | 'fileCsv'
@@ -57,6 +61,10 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
   style?: string | object[] | object;
   headStyle?: string | object[] | object;
   useCustomDataCell?: boolean;
+
+  /** Link cell */
+  shouldOpenNewTab?: boolean;
+  shouldUseRouter?: boolean;
 };
 
 export type NavigationGridItem = {
@@ -124,5 +132,15 @@ export declare const TableCell: VueConstructor<Vue>;
 export declare const FileInput: VueConstructor<Vue>;
 export declare const NavigationGrid: VueConstructor<Vue>;
 export declare const LoadableImage: VueConstructor<Vue>;
+export declare const DropdownMenu: VueConstructor<Vue>;
+
+export type DropdownMenuItemType = {
+  type: 'button' | 'link' | 'divider';
+  label?: string;
+  href?: string;
+  onClick?: (event: Event) => void;
+  style?: any;
+  class?: any;
+};
 
 export declare const AdminUiPlugin: PluginFunction<undefined>;

@@ -22,6 +22,7 @@ import FormFieldUrlAliasInput from './components/FormFieldUrlAliasInput';
 import { ToastProvider } from './components/Toast';
 import NavigationGrid from './components/NavigationGrid';
 import LoadableImage from './components/LoadableImage';
+import DropdownMenu from './components/DropdownMenu';
 
 export function AdminUiPlugin(Vue) {
   Vue.component('base-button', BaseButton);
@@ -50,4 +51,5 @@ export function AdminUiPlugin(Vue) {
   Vue.component('toast-provider', ToastProvider);
   Vue.component('navigation-grid', NavigationGrid);
   Vue.component('loadable-image', LoadableImage);
+  Vue.component('dropdown-menu', DropdownMenu);
 }

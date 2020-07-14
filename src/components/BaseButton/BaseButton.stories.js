@@ -49,7 +49,10 @@ export const Icon = () => ({
   components: { BaseButton, SvgIcon },
   template: `<div>
       <base-button variant="icon">
-          <svg-icon name="menu"/>
+          <svg-icon name="edit"/>
+      </base-button>
+      <base-button variant="icon" disabled>
+          <svg-icon name="edit"/>
       </base-button>
   </div>`,
 });

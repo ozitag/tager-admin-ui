@@ -1,15 +1,14 @@
 <template>
   <form-group>
-    <input-label v-if="Boolean(label)" :for="name"
-      >{{ label }} ({{ selectedOptions.length }} of
-      {{ options.length }})</input-label
-    >
+    <input-label v-if="Boolean(label)" :for="name">
+      {{ fieldLabel }}
+    </input-label>
     <multi-select
       :name="name"
       :options="options"
       :selected-options="selectedOptions"
-      v-on="$listeners"
       v-bind="$attrs"
+      v-on="$listeners"
     />
     <form-field-error v-if="Boolean(error)">{{ error }}</form-field-error>
   </form-group>
@@ -33,9 +32,13 @@ function isValidOption(option) {
 
 export default Vue.extend({
   name: 'FormFieldMultiSelect',
-  inheritAttrs: false,
   components: {
     FormGroup, FormFieldError, InputLabel, MultiSelect
+  },
+  inheritAttrs: false,
+  model: {
+    event: 'change',
+    prop: 'selectedOptions'
   },
   props: {
     name: {
@@ -46,24 +49,28 @@ export default Vue.extend({
     error: String,
     options: {
       type: Array,
-      default: [],
+      default: () => [],
       validator(options) {
         return options.every(isValidOption)
       }
     },
     selectedOptions: {
       type: Array,
-      default: [],
+      default: () => [],
       validator(options) {
         return options.every(isValidOption)
       }
     },
+  },
+  computed: {
+    fieldLabel() {
+      const countLabel = this.options.length > 0
+        ? `(${this.selectedOptions.length} of ${this.options.length})`
+        : '';
 
-  },
-  model: {
-    event: 'change',
-    prop: 'selectedOptions'
-  },
+      return [this.label, countLabel].join(' ');
+    }
+  }
 });
 </script>
 
