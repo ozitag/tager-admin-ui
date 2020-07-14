@@ -105,6 +105,7 @@ export default Vue.extend({
           textAlign: 'center'
         },
         headStyle: {
+          width: '50px',
           textAlign: 'center'
         },
         ...this.indexColumnDef,

@@ -47,16 +47,19 @@ export type OptionType<V = string> = {
   label: string;
 };
 
+export type ColumnType = 'string' | 'date' | 'image' | 'link';
+export type ColumnParamsArg<RowData> = {
+  row: RowData;
+  column: ColumnDefinition<RowData>;
+  rowIndex: number;
+};
+
 export type ColumnDefinition<RowData = { [key: string]: any }> = {
   id: number;
   name: string;
   field: string;
-  type?: 'string' | 'date' | 'image' | 'link';
-  format?: (params: {
-    row: RowData;
-    column: ColumnDefinition<RowData>;
-    rowIndex: number;
-  }) => any;
+  type?: ColumnType | ((params: ColumnParamsArg<RowData>) => ColumnType);
+  format?: (params: ColumnParamsArg<RowData>) => any;
   class?: any;
   style?: string | object[] | object;
   headStyle?: string | object[] | object;

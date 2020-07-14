@@ -26,7 +26,15 @@ export default Vue.extend({
     }
   },
   render(createElement) {
-    const cellType = this.column.type;
+    const cellProps = {
+      column: this.column,
+      row: this.row,
+      rowIndex: this.rowIndex
+    };
+
+    const cellType = typeof this.column.type === 'function'
+      ? this.column.type(cellProps)
+      : this.column.type;
 
     function appropriateCellComponent() {
       switch (cellType) {
@@ -41,12 +49,6 @@ export default Vue.extend({
           return CellString;
       }
     }
-
-    const cellProps = {
-      row: this.row,
-      column: this.column,
-      rowIndex: this.rowIndex
-    };
 
     const scopedSlotNode = this.scopedSlot
       ? this.scopedSlot(cellProps)
