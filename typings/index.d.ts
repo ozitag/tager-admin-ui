@@ -25,6 +25,7 @@ export type IconName =
   | 'arrowUpward'
   | 'north'
   | 'south'
+  | 'email'
   | 'fileAvi'
   | 'fileCss'
   | 'fileCsv'
