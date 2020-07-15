@@ -26,6 +26,7 @@ export type IconName =
   | 'north'
   | 'south'
   | 'email'
+  | 'contentCopy'
   | 'fileAvi'
   | 'fileCss'
   | 'fileCsv'
@@ -48,7 +49,7 @@ export type OptionType<V = string> = {
   label: string;
 };
 
-export type ColumnType = 'string' | 'date' | 'image' | 'link';
+export type ColumnType = 'string' | 'date' | 'datetime' | 'image' | 'link';
 export type ColumnParamsArg<RowData> = {
   row: RowData;
   column: ColumnDefinition<RowData>;
@@ -148,3 +149,8 @@ export type DropdownMenuItemType = {
 };
 
 export declare const AdminUiPlugin: PluginFunction<undefined>;
+
+export declare function formatDate(date: Date): string;
+export declare function formatDateTime(date: Date): string;
+export declare function formatTime(date: Date): string;
+export declare function formatBoolean(value: any): string;

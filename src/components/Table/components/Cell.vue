@@ -38,6 +38,7 @@ export default Vue.extend({
 
     function appropriateCellComponent() {
       switch (cellType) {
+        case 'datetime':
         case 'date':
           return CellDate;
         case 'image':
