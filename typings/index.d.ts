@@ -27,6 +27,7 @@ export type IconName =
   | 'south'
   | 'email'
   | 'contentCopy'
+  | 'openInNew'
   | 'fileAvi'
   | 'fileCss'
   | 'fileCsv'
@@ -74,6 +75,7 @@ export type ColumnDefinition<RowData = { [key: string]: any }> = {
 
 export type NavigationGridItem = {
   name: string;
+  href?: string;
   total?: { status: FetchStatus; value: number; href?: string };
   linkList?: Array<{ href: string; label: string }>;
 };

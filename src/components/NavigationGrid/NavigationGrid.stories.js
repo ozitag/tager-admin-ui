@@ -43,8 +43,9 @@ export const Default = () => ({
         },
         {
           name: 'Presets',
+          href: '/presets',
           // total: { status: FETCH_STATUSES.SUCCESS, value: 0 },
-          linkList: [{ href: '/presets', label: 'Preset list' }],
+          // linkList: [{ href: '/presets', label: 'Preset list' }],
         },
         {
           name: 'Presets',
@@ -55,5 +56,5 @@ export const Default = () => ({
     };
   },
   template:
-    '<div style="padding: 2rem;"><navigation-grid :nav-items="navItemList" /></div>',
+    '<div style="padding: 2rem; background-color: #f3f3f3"><navigation-grid :nav-items="navItemList" /></div>',
 });

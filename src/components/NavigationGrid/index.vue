@@ -1,8 +1,14 @@
 <template>
   <div class="nav-container">
     <div v-for="(navItem, index) of navItems" :key="index" class="nav-card">
-      <div class="inner">
-        <span class="name">{{ navItem.name }}</span>
+      <component
+        :is="navItem.href ? 'router-link' : 'div'"
+        :to="navItem.href || undefined"
+        :class="['inner', { link: navItem.href }]"
+      >
+        <div class="top">
+          <span class="name">{{ navItem.name }}</span>
+        </div>
         <div class="content">
           <div v-if="Boolean(navItem.total)" class="total-block">
             <spinner
@@ -32,7 +38,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </component>
     </div>
   </div>
 </template>
@@ -66,26 +72,43 @@ export default Vue.extend({
 }
 
 .inner {
+  display: block;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.87);
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    background-color 100ms linear;
   background-color: #fff;
   border-radius: 4px;
   height: 100%;
+
+  &.link {
+    &:hover {
+      background-color: rgba(0, 123, 255, 0.1);
+
+      .top {
+        border-color: #ccc;
+      }
+    }
+  }
 }
 
 .content {
   padding: 1rem;
 }
 
-.name {
+.top {
+  position: relative;
   display: block;
   font-size: 1.7rem;
   font-weight: 500;
   text-align: center;
   border-bottom: 1px solid #eee;
   padding: 0.5rem;
+  transition: border-color 100ms linear;
+}
+
+.name {
 }
 
 .total-block {

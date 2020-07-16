@@ -18,6 +18,7 @@ import NorthIcon from '../../assets/svg/north.svg';
 import SouthIcon from '../../assets/svg/south.svg';
 import EmailIcon from '../../assets/svg/email.svg';
 import ContentCopyIcon from '../../assets/svg/content_copy.svg';
+import OpenInNewIcon from '../../assets/svg/open_in_new.svg';
 
 /** File icons */
 import FileAviIcon from '../../assets/svg/file_avi.svg';
@@ -59,6 +60,7 @@ export const ICON_MAP = {
   south: SouthIcon,
   email: EmailIcon,
   contentCopy: ContentCopyIcon,
+  openInNew: OpenInNewIcon,
 
   fileAvi: FileAviIcon,
   fileCss: FileCssIcon,
