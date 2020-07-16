@@ -28,6 +28,7 @@ export type IconName =
   | 'email'
   | 'contentCopy'
   | 'openInNew'
+  | 'addCircle'
   | 'fileAvi'
   | 'fileCss'
   | 'fileCsv'
