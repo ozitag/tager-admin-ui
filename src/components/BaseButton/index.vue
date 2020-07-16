@@ -3,7 +3,7 @@
     :is="isLink ? 'a' : 'button'"
     :class="['button', variant, { loading: loading }]"
     :type="isLink ? undefined : type"
-    :disabled="disabled || loading"
+    :disabled="isDisabled"
     :href="isLink ? href : undefined"
     v-on="buttonListeners"
   >
@@ -47,12 +47,20 @@ export default Vue.extend({
     isLink() {
       return Boolean(this.href);
     },
+    isDisabled() {
+      return this.disabled || this.loading;
+    },
     buttonListeners() {
       const vm = this;
 
       return {
         ...vm.$listeners,
         click: (event) => {
+          if (this.isDisabled) {
+            event.preventDefault();
+            return;
+          }
+
           if (vm.href && !isAbsoluteUrl(vm.href)) {
             event.preventDefault();
 
