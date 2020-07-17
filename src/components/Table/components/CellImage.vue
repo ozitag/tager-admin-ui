@@ -5,7 +5,7 @@
         :src="value"
         alt="Photo"
         image-style="object-fit: cover"
-        style="width: 100px; height: 100px; min-width: 100px;"
+        style="height: 100px; min-width: 100px;"
       />
     </div>
   </td>
@@ -48,8 +48,6 @@ td.image-cell {
   padding: 0;
 
   .cell-inner {
-    display: flex;
-    justify-content: center;
     padding: 5px;
   }
 }
