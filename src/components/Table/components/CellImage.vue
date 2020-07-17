@@ -4,8 +4,7 @@
       <loadable-image
         :src="value"
         alt="Photo"
-        image-style="object-fit: cover"
-        style="height: 100px; min-width: 100px;"
+        style="height: 100px;"
       />
     </div>
   </td>
