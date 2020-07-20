@@ -6,10 +6,10 @@
         :to="navItem.href || undefined"
         :class="['inner', { link: navItem.href }]"
       >
-        <div class="top">
+        <div :class="['top', { 'full-height': hasNameOnly(navItem) }]">
           <span class="name">{{ navItem.name }}</span>
         </div>
-        <div class="content">
+        <div v-if="!hasNameOnly(navItem)" class="content">
           <div v-if="Boolean(navItem.total)" class="total-block">
             <spinner
               v-if="navItem.total.status === 'LOADING'"
@@ -54,6 +54,13 @@ export default Vue.extend({
     navItems: {
       type: Array,
       default: () => []
+    }
+  },
+  methods: {
+    hasNameOnly(navItem) {
+      const hasLinkList = Array.isArray(navItem.linkList) && navItem.linkList.length > 0;
+
+      return navItem.name && !navItem.total && !hasLinkList
     }
   }
 });
@@ -106,6 +113,14 @@ export default Vue.extend({
   border-bottom: 1px solid #eee;
   padding: 0.5rem;
   transition: border-color 100ms linear;
+
+  &.full-height {
+    border: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .name {
