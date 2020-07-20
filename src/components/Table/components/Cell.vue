@@ -5,6 +5,7 @@ import CellDate from './CellDate.vue';
 import CellString from './CellString.vue';
 import CellImage from './CellImage.vue';
 import CellLink from './CellLink.vue';
+import CellHtml from './CellHtml';
 
 export default Vue.extend({
   props: {
@@ -45,6 +46,8 @@ export default Vue.extend({
           return CellImage;
         case 'link':
           return CellLink;
+        case 'html':
+          return CellHtml;
 
         default:
           return CellString;

@@ -51,7 +51,14 @@ export type OptionType<V = string> = {
   label: string;
 };
 
-export type ColumnType = 'string' | 'date' | 'datetime' | 'image' | 'link';
+export type ColumnType =
+  | 'string'
+  | 'date'
+  | 'datetime'
+  | 'image'
+  | 'link'
+  | 'html';
+
 export type ColumnParamsArg<RowData> = {
   row: RowData;
   column: ColumnDefinition<RowData>;
