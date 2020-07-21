@@ -5,6 +5,7 @@
         :src="value"
         alt="Photo"
         style="height: 100px;"
+        loading-container-style="width: 100px"
       />
     </div>
   </td>

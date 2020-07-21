@@ -1,18 +1,13 @@
 <template>
-  <img
-    v-if="status === 'SUCCESS'"
-    :style="imageStyle"
-    loading="lazy"
-    v-bind="$attrs"
-  />
+  <img v-if="status === 'SUCCESS'" loading="lazy" v-bind="$attrs" />
 
-  <div v-else class="image-container">
+  <div v-else class="image-container" :style="loadingContainerStyle">
     <spinner-container v-if="status === 'LOADING'">
       <spinner size="40" />
     </spinner-container>
 
     <img
-      :style="[imageStyle, { opacity: 0 }]"
+      :style="[{ opacity: 0 }]"
       loading="lazy"
       v-bind="$attrs"
       @load="setStatus('SUCCESS')"
@@ -33,7 +28,7 @@ export default Vue.extend({
   components: { Spinner, SpinnerContainer },
   inheritAttrs: false,
   props: {
-    imageStyle: {
+    loadingContainerStyle: {
       type: [Object, String, Array],
       default: null,
     }
