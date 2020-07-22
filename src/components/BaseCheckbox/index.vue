@@ -1,5 +1,5 @@
 <template>
-  <input type="checkbox" v-on="inputListeners" />
+  <input ref="checkbox" type="checkbox" v-on="inputListeners" />
 </template>
 
 <script>
@@ -11,6 +11,9 @@ export default Vue.extend({
     prop: 'checked',
     event: 'change',
   },
+  props: {
+    checked: Boolean,
+  },
   computed: {
     inputListeners() {
       const vm = this;
@@ -20,6 +23,12 @@ export default Vue.extend({
         change: (event) => vm.$emit('change', event.target.checked),
       };
     },
+  },
+  updated() {
+    /** Issue: https://github.com/vuejs/vue/issues/3523 */
+    if (this.$refs.checkbox) {
+      this.$refs.checkbox.checked = Boolean(this.checked);
+    }
   },
 });
 </script>

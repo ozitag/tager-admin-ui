@@ -1,16 +1,14 @@
 <template>
-  <select :value="value" :multiple="multiple" v-on="inputListeners">
-    <option disabled value="">
-      {{
-        placeholder || multiple ? 'Please select multiple' : 'Please select one'
-      }}
+  <select class="form-select" :multiple="multiple" v-on="selectListeners">
+    <option value="" :selected="selectedOptions.length === 0" data-placeholder>
+      {{ placeholderOptionLabel }}
     </option>
 
     <option
       v-for="option of options"
       :key="option.value"
       :value="option.value"
-      :selected="option.value === value"
+      :selected="isOptionSelected(option)"
     >
       {{ option.label }}
     </option>
@@ -19,96 +17,82 @@
 
 <script lang="js">
 import Vue from 'vue';
+import { notEmpty } from "@tager/admin-services";
+
+import { isValidSelectOption } from "../../utils/common";
 
 export default Vue.extend({
   name: 'BaseSelect',
   props: {
-    value: [Object, Array],
+    value: {
+      type: [Object, Array],
+      default: () => []
+    },
     multiple: {
       type: Boolean,
       default: false,
     },
-    placeholder: String,
+    placeholder: {
+      type: String,
+      default: null
+    },
     options: {
       type: Array,
       default: () => [],
       validator(options) {
         return (
           Array.isArray(options) &&
-          options.every((option) => {
-            return (
-              typeof option === 'object' &&
-              'value' in option &&
-              'label' in option
-            );
-          })
+          options.every(isValidSelectOption)
         );
-      },
-    },
-    type: {
-      type: String,
-      default: 'text',
-      validator(value) {
-        return ['text', 'number', 'email', 'password', 'date'].includes(value);
       },
     },
   },
   computed: {
-    inputListeners() {
+    selectedOptions() {
+      return Array.isArray(this.value) ? this.value : [this.value].filter(notEmpty);
+    },
+    selectListeners() {
       const vm = this;
+
+      function handleChange(eventName) {
+        return event => {
+          const element = event.target;
+          const selectedOptions = [...element.selectedOptions]
+            .filter(optionElement => !Object.keys(optionElement.dataset).includes('placeholder'))
+            .map(
+              (optionElement) => ({
+                value: optionElement.value,
+                label: optionElement.text,
+              })
+            );
+          const value = element.multiple ? selectedOptions : selectedOptions[0];
+          vm.$emit(eventName, value);
+        }
+      }
 
       return {
         ...vm.$listeners,
-        input: (event) =>
-          vm.$emit('input', event.target.value),
-        change: (event) => {
-          // debugger;
-          const element = event.target;
-          const selectedOptions = [...element.selectedOptions].map(
-            (optionElement) => ({
-              value: optionElement.value,
-              label: optionElement.text,
-            })
-          );
-          const value = element.multiple ? selectedOptions : selectedOptions[0];
-          vm.$emit('change', value);
-        },
+        input: handleChange('input'),
+        change: handleChange('change'),
       };
     },
+    placeholderOptionLabel() {
+      return this.placeholder ||
+              (this.multiple ? 'Please select multiple' : 'Please select one');
+    }
   },
   methods: {
-    isOptionSelected(optionValue) {
-      if (this.multiple && Array.isArray(this.value)) {
-        return this.value.some(
-          (option) => String(option.value) === String(optionValue)
+    isOptionSelected(option) {
+        return this.selectedOptions.some(
+          (selectedOption) => String(selectedOption.value) === String(option.value)
         );
-      }
-
-      return false;
-      // return this.value
-      //   ? String(this.value?.value) === String(optionValue)
-      //   : false;
     },
-    // emitWithLog(eventName: string, event: string) {
-    //   console.log('Event: ', eventName, event);
-    //   this.$emit(eventName, event);
-    // }
-    //   handleInput(event: Event) {
-    //     const newValue = (event.target as HTMLInputElement).value;
-    //
-    //     const isValid =
-    //       this.type !== 'number' ||
-    //       (this.type === 'number' && !Number.isNaN(Number(newValue)));
-    //
-    //     console.log('isValid', [isValid, newValue, this.value]);
-    //     this.$emit('input', isValid ? newValue : this.value);
-    //   }
   },
 });
 </script>
-
 <style scoped lang="scss">
-select {
+/** Reference: https://github.com/twbs/bootstrap/blob/v5.0.0-alpha1/scss/forms/_form-select.scss */
+.form-select {
   display: block;
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
@@ -118,44 +102,52 @@ select {
   line-height: 1.5;
   color: var(--input-color);
   vertical-align: middle;
-  background: #fff
-    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
-    no-repeat right 0.75rem center/8px 10px;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
   border: 1px solid var(--input-border-color);
   border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
 
-  // Placeholder
-  &::placeholder {
-    color: var(--input-placeholder-color);
-    // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
-    opacity: 1;
+  &:focus {
+    border-color: var(--input-focus-border-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--input-focus-box-shadow);
+
+    &::-ms-value {
+      // For visual consistency with other platforms/browsers,
+      // suppress the default white text on blue background highlight given to
+      // the selected option text when the (still closed) <select> receives focus
+      // in Edge.
+      // See https://github.com/twbs/bootstrap/issues/19398.
+      color: var(--input-color);
+      background-color: white;
+    }
   }
 
-  &[multiple] {
+  &[multiple],
+  &[size]:not([size='1']) {
     height: auto;
     padding-right: 0.75rem;
     background-image: none;
   }
 
-  // Disabled and read-only inputs
-  //
-  // HTML5 says that controls under a fieldset > legend:first-child won't be
-  // disabled if the fieldset is disabled. Due to implementation difficulty, we
-  // don't honor that edge case; we style them as disabled anyway.
-  &:disabled,
-  &[readonly] {
+  &:disabled {
+    color: var(--input-disabled-color);
     background-color: var(--input-disabled-bg);
-    // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
-    opacity: 1;
   }
 
-  &:focus {
-    color: var(--input-color);
-    background-color: #fff;
-    border-color: var(--input-focus-border-color);
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem var(--input-focus-box-shadow);
+  // Remove outline from select box in FF
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 var(--input-color);
+  }
+
+  option[data-placeholder] {
+    color: var(--input-disabled-color);
+    font-weight: bold;
   }
 }
 </style>

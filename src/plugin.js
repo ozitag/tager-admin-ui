@@ -23,11 +23,15 @@ import { ToastProvider } from './components/Toast';
 import NavigationGrid from './components/NavigationGrid';
 import LoadableImage from './components/LoadableImage';
 import DropdownMenu from './components/DropdownMenu';
+import BaseSelect from './components/BaseSelect';
+import FormFieldSelect from './components/FormFieldSelect';
+import FormFieldSingleSelect from './components/FormFieldSingleSelect';
 
 export function AdminUiPlugin(Vue) {
   Vue.component('base-button', BaseButton);
   Vue.component('base-checkbox', BaseCheckbox);
   Vue.component('base-input', BaseInput);
+  Vue.component('base-select', BaseSelect);
   Vue.component('base-table', Table);
   Vue.component('base-table-cell', TableCell);
   Vue.component('base-textarea', BaseTextArea);
@@ -37,10 +41,12 @@ export function AdminUiPlugin(Vue) {
   Vue.component('form-group', FormGroup);
   Vue.component('form-field', FormField);
   Vue.component('form-field-checkbox', FormFieldCheckbox);
+  Vue.component('form-field-select', FormFieldSelect);
   Vue.component('form-field-error', FormFieldError);
   Vue.component('form-field-rich-text-input', FormFieldRichTextInput);
   Vue.component('form-field-file-input', FormFieldFileInput);
   Vue.component('form-field-multi-select', FormFieldMultiSelect);
+  Vue.component('form-field-single-select', FormFieldSingleSelect);
   Vue.component('form-field-url-alias-input', FormFieldUrlAliasInput);
 
   Vue.component('multi-select', MultiSelect);

@@ -37,13 +37,8 @@
 
   import BaseCheckbox from '../BaseCheckbox';
 
-  function isValidOption(option) {
-      return (
-        typeof option === 'object' &&
-        'value' in option &&
-        'label' in option
-      )
-  }
+  import { isValidSelectOption } from "../../utils/common";
+
 
 export default Vue.extend({
   name: 'MultiCheckboxSelect',
@@ -57,14 +52,14 @@ export default Vue.extend({
       type: Array,
       default: () => [],
       validator(options) {
-        return options.every(isValidOption)
+        return options.every(isValidSelectOption)
       }
     },
     selectedOptions: {
       type: Array,
       default: () => [],
       validator(options) {
-        return options.every(isValidOption)
+        return options.every(isValidSelectOption)
       }
     },
     name: {

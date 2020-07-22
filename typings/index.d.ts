@@ -127,14 +127,17 @@ export declare const BaseCheckbox: VueConstructor<Vue>;
 export declare const BaseInput: VueConstructor<Vue>;
 export declare const BaseTextArea: VueConstructor<Vue>;
 export declare const BaseRichTextInput: VueConstructor<Vue>;
+export declare const BaseSelect: VueConstructor<Vue>;
 
 export declare const FormFieldCheckbox: VueConstructor<Vue>;
 export declare const FormField: VueConstructor<Vue>;
+export declare const FormFieldSelect: VueConstructor<Vue>;
 export declare const FormGroup: VueConstructor<Vue>;
 export declare const FormFieldError: VueConstructor<Vue>;
 export declare const FormFieldRichTextInput: VueConstructor<Vue>;
 export declare const FormFieldFileInput: VueConstructor<Vue>;
 export declare const FormFieldMultiSelect: VueConstructor<Vue>;
+export declare const FormFieldSingleSelect: VueConstructor<Vue>;
 export declare const FormFieldUrlAliasInput: VueConstructor<Vue>;
 
 export declare const MultiSelect: VueConstructor<Vue>;

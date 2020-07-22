@@ -1,14 +1,14 @@
 <template>
   <form-group>
     <input-label v-if="Boolean(label)" :for="name">
-      {{ fieldLabel }}
+      {{ label }}
     </input-label>
     <multi-select
       :name="name"
       :options="options"
-      :selected-options="selectedOptions"
+      :selected-options="computedSelectedOptions"
       v-bind="$attrs"
-      v-on="$listeners"
+      @change="handleChange"
     />
     <form-field-error v-if="Boolean(error)">{{ error }}</form-field-error>
   </form-group>
@@ -16,29 +16,23 @@
 
 <script lang="js">
 import Vue from 'vue';
+import { notEmpty } from "@tager/admin-services";
 
 import FormGroup from '../FormGroup';
 import FormFieldError from '../FormFieldError';
 import InputLabel from '../InputLabel';
 import MultiSelect from '../MultiSelect';
-
-function isValidSelectOption(option) {
-  return (
-          typeof option === 'object' &&
-          'value' in option &&
-          'label' in option
-  )
-}
+import { isValidSelectOption } from "../../utils/common";
 
 export default Vue.extend({
-  name: 'FormFieldMultiSelect',
+  name: 'FormFieldSingleSelect',
   components: {
     FormGroup, FormFieldError, InputLabel, MultiSelect
   },
   inheritAttrs: false,
   model: {
     event: 'change',
-    prop: 'selectedOptions'
+    prop: 'value'
   },
   props: {
     name: {
@@ -54,21 +48,28 @@ export default Vue.extend({
         return options.every(isValidSelectOption)
       }
     },
-    selectedOptions: {
-      type: Array,
-      default: () => [],
-      validator(options) {
-        return options.every(isValidSelectOption)
+    value: {
+      type: Object,
+      default: null,
+      validator(value) {
+        return !value || isValidSelectOption(value)
       }
     },
   },
   computed: {
-    fieldLabel() {
-      const countLabel = this.options.length > 0
-        ? `(${this.selectedOptions.length} of ${this.options.length})`
-        : '';
+    computedSelectedOptions() {
+      return [this.value].filter(notEmpty)
+    }
+  },
+  methods: {
+    handleChange(selectedOptions) {
+      console.log('selectedOptions: ', selectedOptions);
+      const newValue = selectedOptions.length > 1
+        ? selectedOptions[1]
+        : selectedOptions.length === 1
+          ? selectedOptions[0] : null;
 
-      return [this.label, countLabel].join(' ');
+      this.$emit('change', newValue);
     }
   }
 });

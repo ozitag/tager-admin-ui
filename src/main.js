@@ -24,6 +24,9 @@ export { default as FormFieldUrlAliasInput } from './components/FormFieldUrlAlia
 export { default as NavigationGrid } from './components/NavigationGrid';
 export { default as LoadableImage } from './components/LoadableImage';
 export { default as DropdownMenu } from './components/DropdownMenu';
+export { default as BaseSelect } from './components/BaseSelect';
+export { default as FormFieldSelect } from './components/FormFieldSelect';
+export { default as FormFieldSingleSelect } from './components/FormFieldSingleSelect';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

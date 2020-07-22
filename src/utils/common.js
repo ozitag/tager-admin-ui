@@ -29,3 +29,7 @@ export function formatTime(date) {
 export function formatBoolean(value) {
   return value ? 'Yes' : 'No';
 }
+
+export function isValidSelectOption(option) {
+  return typeof option === 'object' && 'value' in option && 'label' in option;
+}

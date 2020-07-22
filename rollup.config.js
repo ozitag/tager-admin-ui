@@ -1,6 +1,3 @@
-import path from 'path';
-
-import alias from '@rollup/plugin-alias';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
@@ -9,7 +6,7 @@ import vue from 'rollup-plugin-vue';
 import styles from 'rollup-plugin-styles';
 
 export default {
-  input: 'src/index.js',
+  input: 'src/main.js',
   output: [
     {
       file: 'dist/index.esm.js',
