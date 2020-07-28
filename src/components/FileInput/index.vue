@@ -73,7 +73,7 @@
     >
       <div class="upload-message-container">
         <svg-icon name="upload" />
-        <p>Drag and drop a file here or click</p>
+        <p>{{ computedPlaceholderMessage }}</p>
       </div>
 
       <label class="file-input-label">
@@ -121,6 +121,10 @@ export default Vue.extend({
     multiple: Boolean,
     withCaptions: Boolean,
     accept: {
+      type: String,
+      default: null,
+    },
+    placeholderMessage: {
       type: String,
       default: null,
     },
@@ -176,6 +180,15 @@ export default Vue.extend({
       }
 
       return undefined;
+    },
+    computedPlaceholderMessage() {
+      if (this.placeholderMessage) return this.placeholderMessage;
+
+      switch (this.fileType) {
+        case 'image': return 'Drag and drop an image here or click';
+        case 'archive': return 'Drag and drop an archive here or click';
+        default: return 'Drag and drop a file here or click';
+      }
     }
   },
   watch: {
