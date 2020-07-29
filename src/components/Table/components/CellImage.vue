@@ -4,7 +4,7 @@
       <loadable-image
         :src="value"
         alt="Photo"
-        style="height: 100px;"
+        style="height: 100px; min-width: 100px; object-fit: contain;"
         loading-container-style="width: 100px"
       />
     </div>
