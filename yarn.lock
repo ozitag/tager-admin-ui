@@ -1361,12 +1361,12 @@
     ts-dedent "^1.1.0"
     webpack "^4.33.0"
 
-"@tager/admin-services@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.1.5.tgz#1b489c0028ac9bb1d60cc141404dcdd15a9374fb"
-  integrity sha512-7tPiRFZ2IvcrrWlC9NmWn2J0fT7THQnCR32r/7fZrM+lSJhmi8QdMJvdPkP5JauSKaKtMIIApDQFrM5u5GY5tw==
+"@tager/admin-services@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.2.tgz#33a02bd80f25aee4e828b960dea58988a4fed4c5"
+  integrity sha512-St8f9U4YrBP0dpysGGuJxz08BAabUTNmzQl8qWBYOLJSwCsnZ9aQIXp6UDswqz5TLSfe8wr3caWMdGZVy+ZByg==
   dependencies:
-    i18next "^19.5.4"
+    i18next "^19.6.3"
 
 "@tager/admin-wysiwyg@^0.1.0":
   version "0.1.0"
@@ -5377,10 +5377,10 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
 
-i18next@^19.5.4:
-  version "19.5.4"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-19.5.4.tgz#86e4b44993621f39ab53f95a24afa69caea0a452"
-  integrity sha512-fty+v8v0Unn8KufOajoZ6OR5aKme/lP+BdbT5rirTXE8wdj6LbsbG9DwtI9VtMeru1PEf+L530Cq3IRmovMJGQ==
+i18next@^19.6.3:
+  version "19.6.3"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-19.6.3.tgz#ce2346161b35c4c5ab691b0674119c7b349c0817"
+  integrity sha512-eYr98kw/C5z6kY21ti745p4IvbOJwY8F2T9tf/Lvy5lFnYRqE45+bppSgMPmcZZqYNT+xO0N0x6rexVR2wtZZQ==
   dependencies:
     "@babel/runtime" "^7.10.1"
 

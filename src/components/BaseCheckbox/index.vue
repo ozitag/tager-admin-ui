@@ -24,11 +24,19 @@ export default Vue.extend({
       };
     },
   },
+  mounted() {
+    this.updateCheckedInDOM();
+  },
   updated() {
-    /** Issue: https://github.com/vuejs/vue/issues/3523 */
-    if (this.$refs.checkbox) {
-      this.$refs.checkbox.checked = Boolean(this.checked);
-    }
+    this.updateCheckedInDOM();
+  },
+  methods: {
+    updateCheckedInDOM() {
+      /** Issue: https://github.com/vuejs/vue/issues/3523 */
+      if (this.$refs.checkbox) {
+        this.$refs.checkbox.checked = Boolean(this.checked);
+      }
+    },
   },
 });
 </script>

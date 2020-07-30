@@ -19,7 +19,7 @@ export const Default = () => ({
   components: { MultiSelect },
   data() {
     return {
-      selectedOptions: [],
+      selectedOptions: [OPTIONS[2], OPTIONS[5]],
       options: OPTIONS,
     };
   },
