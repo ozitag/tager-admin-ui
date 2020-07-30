@@ -1,6 +1,6 @@
 {
   "name": "@tager/admin-ui",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "license": "MIT",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@ckeditor/ckeditor5-build-classic": "^19.0.2",
     "@ckeditor/ckeditor5-vue": "^1.0.1",
+    "@tager/admin-wysiwyg": "^0.1.0",
     "lodash.get": "^4.4.2",
     "lodash.kebabcase": "^4.1.1"
   },
