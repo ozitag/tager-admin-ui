@@ -86,6 +86,19 @@ export interface ColumnDefinitionCommon<RowData = RowDataDefaultType> {
   options?: Record<string, any>;
 }
 
+export interface ColumnDefinitionDynamic<RowData = RowDataDefaultType> {
+  id: number;
+  name: string;
+  field: string;
+  type: (params: ColumnParamsArg<RowData>) => string;
+  format?: (params: ColumnParamsArg<RowData>) => any;
+  class?: any;
+  style?: string | object[] | object;
+  headStyle?: string | object[] | object;
+  useCustomDataCell?: boolean;
+  options?: Record<string, any>;
+}
+
 export interface ColumnDefinitionString<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
   type?: 'string';
@@ -127,6 +140,7 @@ export interface ColumnDefinitionDateTime<RowData = RowDataDefaultType>
 }
 
 export type ColumnDefinition<RowData = RowDataDefaultType> =
+  | ColumnDefinitionDynamic<RowData>
   | ColumnDefinitionString<RowData>
   | ColumnDefinitionDate<RowData>
   | ColumnDefinitionDateTime<RowData>
