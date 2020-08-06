@@ -1,10 +1,6 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
 import { FetchStatus } from '@tager/admin-services';
 
-export type DateCellValue = Date | null;
-export type StringCellValue = string | null;
-export type ImageCellValue = string | null;
-export type LinkCellValue = { href: string; label: string } | string | null;
 export type IconName =
   | 'home'
   | 'group'
@@ -51,6 +47,11 @@ export type OptionType<V = string> = {
   label: string;
 };
 
+export type DateCellValue = Date | null;
+export type StringCellValue = string | null;
+export type ImageCellValue = string | null;
+export type LinkCellValue = { href: string; label: string } | string | null;
+
 export type ColumnType =
   | 'string'
   | 'date'
@@ -59,27 +60,74 @@ export type ColumnType =
   | 'link'
   | 'html';
 
+type RowDataDefaultType = { [key: string]: any };
+
 export type ColumnParamsArg<RowData> = {
   row: RowData;
   column: ColumnDefinition<RowData>;
   rowIndex: number;
 };
 
-export type ColumnDefinition<RowData = { [key: string]: any }> = {
+export interface ColumnDefinitionCommon<RowData = RowDataDefaultType> {
   id: number;
   name: string;
   field: string;
-  type?: ColumnType | ((params: ColumnParamsArg<RowData>) => ColumnType);
+  type?: string | ((params: ColumnParamsArg<RowData>) => string);
   format?: (params: ColumnParamsArg<RowData>) => any;
   class?: any;
   style?: string | object[] | object;
   headStyle?: string | object[] | object;
   useCustomDataCell?: boolean;
+  options?: Record<string, any>;
+}
 
-  /** Link cell */
-  shouldOpenNewTab?: boolean;
-  shouldUseRouter?: boolean;
-};
+export interface ColumnDefinitionString<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type?: 'string';
+  format?: (params: ColumnParamsArg<RowData>) => StringCellValue;
+}
+
+export interface ColumnDefinitionLink<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'link';
+  format?: (params: ColumnParamsArg<RowData>) => LinkCellValue;
+  options?: {
+    shouldOpenNewTab?: boolean;
+    shouldUseRouter?: boolean;
+  };
+}
+
+export interface ColumnDefinitionHtml<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'html';
+  format?: (params: ColumnParamsArg<RowData>) => StringCellValue;
+}
+
+export interface ColumnDefinitionImage<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'image';
+  format?: (params: ColumnParamsArg<RowData>) => ImageCellValue;
+}
+
+export interface ColumnDefinitionDate<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'date';
+  format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
+}
+
+export interface ColumnDefinitionDateTime<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'datetime';
+  format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
+}
+
+export type ColumnDefinition<RowData = RowDataDefaultType> =
+  | ColumnDefinitionString<RowData>
+  | ColumnDefinitionDate<RowData>
+  | ColumnDefinitionDateTime<RowData>
+  | ColumnDefinitionImage<RowData>
+  | ColumnDefinitionLink<RowData>
+  | ColumnDefinitionHtml<RowData>;
 
 export type NavigationGridItem = {
   name: string;

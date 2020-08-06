@@ -55,10 +55,10 @@ export default Vue.extend({
       return this.link ? isAbsoluteUrl(this.link.href) : false;
     },
     shouldUseRouter() {
-      return this.column.shouldUseRouter ?? !this.isAbsoluteLink;
+      return this.column.options?.shouldUseRouter ?? !this.isAbsoluteLink;
     },
     linkAttrs() {
-      const shouldOpenNewTab = this.column.shouldOpenNewTab ?? !this.shouldUseRouter;
+      const shouldOpenNewTab = this.column.options?.shouldOpenNewTab ?? !this.shouldUseRouter;
 
       return {
         target: shouldOpenNewTab ? '_blank' : undefined
