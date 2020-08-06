@@ -22,19 +22,13 @@ export default Vue.extend({
     }
   },
   render(createElement, context) {
-    const { type, label, href, onClick } = context.props.item;
+    const { type, text, url, onClick } = context.props.item;
 
     const componentType = getComponentTag(type);
 
     return createElement(componentType, {
-      props: {
-        href: href
-      },
       attrs: {
-        href: href
-      },
-      domProps: {
-        href: href
+        href: url
       },
       on: {
         ...context.listeners,
@@ -44,11 +38,11 @@ export default Vue.extend({
             onClick(event);
           }
 
-          if (href && !isAbsoluteUrl(href)) {
+          if (url && !isAbsoluteUrl(url)) {
             event.preventDefault();
 
             if (context.parent.$router) {
-              context.parent.$router.push(href);
+              context.parent.$router.push(url);
             } else {
               console.error(`Vue router is [${String(context.parent.$router)}]. Cannot make page transition`)
             }
@@ -69,7 +63,7 @@ export default Vue.extend({
       },
       style: context.data.style,
       class: type === 'divider' ? 'dropdown-divider' : 'dropdown-item'
-    }, label)
+    }, text)
   },
 });
 </script>

@@ -1,6 +1,11 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
 import { FetchStatus } from '@tager/admin-services';
 
+export type LinkType = {
+  url: string;
+  text: string;
+};
+
 export type IconName =
   | 'home'
   | 'group'
@@ -50,7 +55,7 @@ export type OptionType<V = string> = {
 export type DateCellValue = Date | null;
 export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
-export type LinkCellValue = { href: string; label: string } | string | null;
+export type LinkCellValue = LinkType | string | null;
 
 export type ColumnType =
   | 'string'
@@ -131,9 +136,9 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
 
 export type NavigationGridItem = {
   name: string;
-  href?: string;
-  total?: { status: FetchStatus; value: number; href?: string };
-  linkList?: Array<{ href: string; label: string }>;
+  url?: string;
+  total?: { status: FetchStatus; value: number; url?: string };
+  linkList?: Array<LinkType>;
 };
 
 /** Toast */
@@ -202,8 +207,8 @@ export declare const DropdownMenu: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
-  label?: string;
-  href?: string;
+  text?: string;
+  url?: string;
   onClick?: (event: Event) => void;
   style?: any;
   class?: any;

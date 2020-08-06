@@ -48,12 +48,14 @@ const defaultColumnDefs = [
     name: 'Link cell (10%)',
     field: 'link',
     type: 'link',
-    // shouldOpenNewTab: false,
-    // shouldUseRouter: false,
+    options: {
+      // shouldOpenNewTab: false,
+      // shouldUseRouter: false,
+    },
     style: { width: '10%' },
     // format: ({ row, column }) => ({
-    //   href: row[column.field],
-    //   label: row.linkLabel,
+    //   url: row[column.field],
+    //   text: row.link,
     // }),
   },
 ];

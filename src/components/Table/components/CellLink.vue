@@ -3,11 +3,11 @@
     <component
       :is="shouldUseRouter ? 'router-link' : 'a'"
       v-if="Boolean(link)"
-      :href="shouldUseRouter ? undefined : link.href"
-      :to="shouldUseRouter ? link.href : undefined"
+      :href="shouldUseRouter ? undefined : link.url"
+      :to="shouldUseRouter ? link.url : undefined"
       v-bind="linkAttrs"
     >
-      {{ link.label }}
+      {{ link.text }}
     </component>
   </td>
 </template>
@@ -20,8 +20,8 @@ import { isAbsoluteUrl } from '@tager/admin-services';
 function isLinkObject(value) {
   return typeof value === 'object'
     && value !== null
-    && typeof value.href === 'string'
-    && typeof value.label === 'string';
+    && typeof value.url === 'string'
+    && typeof value.text === 'string';
 }
 
 export default Vue.extend({
@@ -48,11 +48,11 @@ export default Vue.extend({
       return isLinkObject(value)
         ? value
         : typeof value === 'string' && value.trim()
-          ? { href: value, label: value }
+          ? { url: value, text: value }
           : null;
     },
     isAbsoluteLink() {
-      return this.link ? isAbsoluteUrl(this.link.href) : false;
+      return this.link ? isAbsoluteUrl(this.link.url) : false;
     },
     shouldUseRouter() {
       return this.column.options?.shouldUseRouter ?? !this.isAbsoluteLink;

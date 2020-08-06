@@ -2,9 +2,9 @@
   <div class="nav-container">
     <div v-for="(navItem, index) of navItems" :key="index" class="nav-card">
       <component
-        :is="navItem.href ? 'router-link' : 'div'"
-        :to="navItem.href || undefined"
-        :class="['inner', { link: navItem.href }]"
+        :is="navItem.url ? 'router-link' : 'div'"
+        :to="navItem.url || undefined"
+        :class="['inner', { link: navItem.url }]"
       >
         <div :class="['top', { 'full-height': hasNameOnly(navItem) }]">
           <span class="name">{{ navItem.name }}</span>
@@ -18,10 +18,10 @@
               class="spinner"
             />
             <component
-              :is="navItem.total.href ? 'router-link' : 'span'"
+              :is="navItem.total.url ? 'router-link' : 'span'"
               v-else
               class="total-value"
-              :to="navItem.total.href || undefined"
+              :to="navItem.total.url || undefined"
             >
               {{ navItem.total.value }}
             </component>
@@ -32,8 +32,8 @@
             :class="['link-list', { center: navItem.linkList.length === 1 }]"
           >
             <li v-for="(link, linkIndex) of navItem.linkList" :key="linkIndex">
-              <router-link :to="link.href">
-                {{ link.label }}
+              <router-link :to="link.url">
+                {{ link.text }}
               </router-link>
             </li>
           </ul>

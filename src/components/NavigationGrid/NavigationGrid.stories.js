@@ -17,40 +17,40 @@ export const Default = () => ({
       navItemList: [
         {
           name: 'Presets',
-          total: { status: FETCH_STATUSES.SUCCESS, value: 5, href: '/presets' },
+          total: { status: FETCH_STATUSES.SUCCESS, value: 5, url: '/presets' },
           linkList: [
-            { href: '/presets', label: 'Preset list' },
-            { href: '/presets/create', label: 'Create preset' },
+            { url: '/presets', text: 'Preset list' },
+            { url: '/presets/create', text: 'Create preset' },
           ],
         },
         {
           name: 'Presets',
           total: { status: FETCH_STATUSES.LOADING, value: 21 },
-          linkList: [{ href: '/presets', label: 'Preset list' }],
+          linkList: [{ url: '/presets', text: 'Preset list' }],
         },
         {
           name: 'Presets',
           total: { status: FETCH_STATUSES.SUCCESS, value: 37 },
-          linkList: [{ href: '/presets', label: 'Preset list' }],
+          linkList: [{ url: '/presets', text: 'Preset list' }],
         },
         {
           name: 'Presets',
           total: { status: FETCH_STATUSES.SUCCESS, value: 281 },
           linkList: [
-            { href: '/presets', label: 'Preset list' },
-            { href: '/presets/create', label: 'Create preset' },
+            { url: '/presets', text: 'Preset list' },
+            { url: '/presets/create', text: 'Create preset' },
           ],
         },
         {
           name: 'Presets',
-          href: '/presets',
+          url: '/presets',
           // total: { status: FETCH_STATUSES.SUCCESS, value: 0 },
-          // linkList: [{ href: '/presets', label: 'Preset list' }],
+          // linkList: [{ url: '/presets', text: 'Preset list' }],
         },
         {
           name: 'Presets',
           total: { status: FETCH_STATUSES.LOADING, value: 115 },
-          // linkList: [{ href: '/presets', label: 'Preset list' }],
+          // linkList: [{ url: '/presets', text: 'Preset list' }],
         },
       ],
     };

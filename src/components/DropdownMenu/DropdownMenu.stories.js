@@ -15,17 +15,17 @@ export const Default = () => ({
       options: [
         {
           type: 'link',
-          label: 'Change profile',
-          href: '/self/profile/update',
+          text: 'Change profile',
+          url: '/self/profile/update',
           onClick: this.sayCow,
         },
         {
           type: 'link',
-          label: 'Change password',
-          href: '/self/password/update',
+          text: 'Change password',
+          url: '/self/password/update',
         },
         { type: 'divider' },
-        { type: 'button', label: 'Logout', onClick: this.sayCow },
+        { type: 'button', text: 'Logout', onClick: this.sayCow },
       ],
     };
   },
