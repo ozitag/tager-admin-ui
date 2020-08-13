@@ -36,6 +36,10 @@ export default Vue.extend({
       type: String,
       default: null
     },
+    noOptionsMessage: {
+      type: String,
+      default: null
+    },
     options: {
       type: Array,
       default: () => [],
@@ -77,8 +81,10 @@ export default Vue.extend({
       };
     },
     placeholderOptionLabel() {
-      return this.placeholder ||
+      const optionLabel = this.placeholder ||
               (this.multiple ? 'Please select multiple' : 'Please select one');
+
+      return this.options.length === 0 && this.noOptionsMessage ? this.noOptionsMessage : optionLabel;
     }
   },
   methods: {

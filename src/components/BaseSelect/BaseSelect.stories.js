@@ -1,6 +1,6 @@
-import FormFieldSelect from './index.vue';
+import BaseSelect from './index.vue';
 
-export default { title: 'FormFieldSelect' };
+export default { title: 'BaseSelect' };
 
 const OPTIONS = [
   { value: 'by', label: 'Belarus' },
@@ -15,8 +15,8 @@ const OPTIONS = [
 ];
 
 export const Default = () => ({
-  name: 'FormFieldSelect_Default',
-  components: { FormFieldSelect },
+  name: 'BaseSelect_Default',
+  components: { BaseSelect },
   data() {
     return {
       value: null,
@@ -26,6 +26,14 @@ export const Default = () => ({
   updated() {
     console.log('value: ', this.value);
   },
-  template:
-    '<form-field-select v-model="value" :options="options" name="countries" label="Countries" error="Please, select at least 4 countries" no-options-message="No options" />',
+  template: `
+    <base-select
+      v-model="value"
+      :options="options"
+      name="countries"
+      label="Countries"
+      error="Please, select at least 4 countries"
+      no-options-message="No options"
+    />
+  `,
 });
