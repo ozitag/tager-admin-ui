@@ -64,11 +64,16 @@ export default Vue.extend({
           const selectedOptions = [...element.selectedOptions]
             .filter(optionElement => !Object.keys(optionElement.dataset).includes('placeholder'))
             .map(
-              (optionElement) => ({
-                value: optionElement.value,
-                label: optionElement.text,
-              })
-            );
+              (optionElement) => {
+                const foundOption = vm.options.find(option => String(option.value) === String(optionElement.value));
+                const fallback = {
+                  value: optionElement.value,
+                  label: optionElement.text,
+                };
+
+                return foundOption ?? fallback;
+              });
+
           const value = element.multiple ? selectedOptions : selectedOptions[0];
           vm.$emit(eventName, value);
         }

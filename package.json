@@ -1,6 +1,6 @@
 {
   "name": "@tager/admin-ui",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "license": "MIT",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",

@@ -3,10 +3,10 @@ import BaseSelect from './index.vue';
 export default { title: 'BaseSelect' };
 
 const OPTIONS = [
-  { value: 'by', label: 'Belarus' },
-  { value: 'ru', label: 'Russia' },
-  { value: 'fr', label: 'France' },
-  { value: 'us', label: 'United States of America' },
+  { value: 1, label: 'Belarus' },
+  { value: 2, label: 'Russia' },
+  { value: 3, label: 'France' },
+  { value: 4, label: 'United States of America' },
   { value: 'uk', label: 'United Kingdom' },
   { value: 'es', label: 'Spain' },
   { value: 'au', label: 'Austria' },
