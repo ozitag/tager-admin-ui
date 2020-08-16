@@ -18,10 +18,10 @@ export default Vue.extend({
       required: true
     }
   },
-  data() {
-    return {
-      iconComponent: ICON_MAP[this.name]
-    };
+  computed: {
+    iconComponent() {
+      return ICON_MAP[this.name];
+    }
   }
 });
 </script>

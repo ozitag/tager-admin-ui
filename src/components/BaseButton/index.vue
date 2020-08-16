@@ -227,7 +227,7 @@ export default Vue.extend({
   border-radius: 50%;
   color: var(--secondary);
 
-  svg {
+  ::v-deep svg {
     display: block;
     fill: currentColor;
     transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
