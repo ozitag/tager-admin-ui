@@ -10,7 +10,7 @@ export const Default = () => ({
     };
   },
   template:
-    '<form-field-url-alias-input v-model="alias" label="URL alias" url-prefix="http://ozitag.com/posts" />',
+    '<form-field-url-alias-input v-model="alias" label="URL alias" url-template="http://ozitag.com/posts/1-{alias}-url" />',
 });
 
 export const WithError = () => ({
@@ -21,7 +21,7 @@ export const WithError = () => ({
     };
   },
   template:
-    '<form-field-url-alias-input v-model="alias" label="URL alias" error="Required field" />',
+    '<form-field-url-alias-input v-model="alias" label="URL alias" error="Required field" url-template="http://ozitag.com/posts/1-{alias}-url" />',
 });
 
 export const Disabled = () => ({
@@ -32,5 +32,5 @@ export const Disabled = () => ({
     };
   },
   template:
-    '<form-field-url-alias-input v-model="alias" label="URL alias" disabled />',
+    '<form-field-url-alias-input v-model="alias" label="URL alias" disabled url-template="http://ozitag.com/posts/1-{alias}-url" />',
 });
