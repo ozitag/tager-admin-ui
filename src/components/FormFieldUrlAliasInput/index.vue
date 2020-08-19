@@ -72,24 +72,36 @@ export default Vue.extend({
   mounted() {
     const vm = this;
 
-    function updateInputWidth(width) {
-      vm.inputStyle = { width: width + 2 + 'px' };
+    function updateInputWidth() {
+      const newWidth = vm.$refs.measureText.offsetWidth;
+      vm.inputStyle = { width: newWidth + 2 + 'px' };
     }
 
-    vm.observer = new MutationObserver(() => {
+    vm.mutationObserver = new MutationObserver(() => {
       if (vm.$refs.measureText) {
         updateInputWidth(vm.$refs.measureText.offsetWidth);
       }
     })
 
+    vm.intersectionObserver = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.intersectionRatio === 1) {
+        updateInputWidth();
+      }
+    })
+
     if (vm.$refs.measureText) {
-      vm.observer.observe(vm.$refs.measureText, {subtree: true,  characterData: true});
-      updateInputWidth(vm.$refs.measureText.offsetWidth)
+      vm.mutationObserver.observe(vm.$refs.measureText, { subtree: true,  characterData: true });
+      vm.intersectionObserver.observe(vm.$refs.measureText);
+      updateInputWidth();
     }
   },
   beforeDestroy() {
-    if (this.observer) {
-      this.observer.disconnect();
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+    }
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
     }
   }
 });
