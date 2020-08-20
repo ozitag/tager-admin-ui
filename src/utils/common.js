@@ -33,3 +33,15 @@ export function formatBoolean(value) {
 export function isValidSelectOption(option) {
   return typeof option === 'object' && 'value' in option && 'label' in option;
 }
+
+function hasIntersections(stringArray1, stringArray2) {
+  return stringArray1.some((string) => stringArray2.includes(string));
+}
+
+export function createTabErrorFinder(errors) {
+  const errorKeys = Object.keys(errors);
+
+  return function hasErrors(fieldList) {
+    return hasIntersections(errorKeys, fieldList);
+  };
+}

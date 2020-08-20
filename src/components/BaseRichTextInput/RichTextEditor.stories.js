@@ -6,6 +6,11 @@ export default {
 
 export const Default = () => ({
   components: { BaseRichTextInput },
+  methods: {
+    getUploadAdapterPluginOptions() {
+      return { uploadScenario: 'custom' };
+    },
+  },
   template: `
-      <base-rich-text-input/>`,
+      <base-rich-text-input :get-upload-adapter-options="getUploadAdapterPluginOptions"/>`,
 });

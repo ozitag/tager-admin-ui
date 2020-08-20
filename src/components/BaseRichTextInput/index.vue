@@ -13,17 +13,26 @@
 import Vue from 'vue';
 import { component as CKEditor } from '@ckeditor/ckeditor5-vue';
 import CustomCKEditor from '@tager/admin-wysiwyg';
-import { MyCustomUploadAdapterPlugin } from './RichTextEditor.helpers';
+
+import { CustomUploadAdapterPluginFactory } from './RichTextEditor.helpers';
 
 export default Vue.extend({
   name: 'BaseRichTextInput',
   components: { ckeditor: CKEditor },
+  props: {
+    getUploadAdapterOptions: {
+      type: Function,
+      default: null,
+    },
+  },
   data() {
     return {
       editor: CustomCKEditor,
       editorData: '',
       editorConfig: {
-        extraPlugins: [MyCustomUploadAdapterPlugin],
+        extraPlugins: [
+          CustomUploadAdapterPluginFactory(this.getUploadAdapterOptions),
+        ],
       },
     };
   },

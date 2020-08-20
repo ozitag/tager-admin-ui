@@ -10,11 +10,17 @@ export const Default = () => ({
       content: '<h1>Hello</h1>',
     };
   },
+  methods: {
+    getUploadAdapterPluginOptions() {
+      return { uploadScenario: 'custom' };
+    },
+  },
+
   updated() {
     console.log('Content: ', this.content);
   },
   template:
-    '<form-field-rich-text-input v-model="content" name="content" label="Content" />',
+    '<form-field-rich-text-input v-model="content" name="content" label="Content" :get-upload-adapter-options="getUploadAdapterPluginOptions" />',
 });
 
 export const WithError = () => ({

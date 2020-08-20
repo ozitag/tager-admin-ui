@@ -35,7 +35,12 @@ export default {
       assetFileNames: '[name][extname]',
     },
   ],
-  external: ['vue', '@tager/admin-services', '@babel/runtime'],
+  external: [
+    'vue',
+    '@vue/composition-api',
+    '@tager/admin-services',
+    '@babel/runtime',
+  ],
   plugins: [
     resolve({ extensions: ['.js', '.css', '.svg', '.vue'] }),
     commonjs(),

@@ -26,6 +26,7 @@ import DropdownMenu from './components/DropdownMenu';
 import BaseSelect from './components/BaseSelect';
 import FormFieldSelect from './components/FormFieldSelect';
 import FormFieldSingleSelect from './components/FormFieldSingleSelect';
+import TabList from './components/TabList';
 
 export function AdminUiPlugin(Vue) {
   Vue.component('base-button', BaseButton);
@@ -58,4 +59,5 @@ export function AdminUiPlugin(Vue) {
   Vue.component('navigation-grid', NavigationGrid);
   Vue.component('loadable-image', LoadableImage);
   Vue.component('dropdown-menu', DropdownMenu);
+  Vue.component('tab-list', TabList);
 }

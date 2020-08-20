@@ -218,6 +218,7 @@ export declare const FileInput: VueConstructor<Vue>;
 export declare const NavigationGrid: VueConstructor<Vue>;
 export declare const LoadableImage: VueConstructor<Vue>;
 export declare const DropdownMenu: VueConstructor<Vue>;
+export declare const TabList: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
@@ -234,3 +235,12 @@ export declare function formatDate(date: Date): string;
 export declare function formatDateTime(date: Date): string;
 export declare function formatTime(date: Date): string;
 export declare function formatBoolean(value: any): string;
+export declare function createTabErrorFinder(
+  errors: Record<string, string>
+): (fieldList: Array<string>) => boolean;
+
+export type TabType = {
+  id: string;
+  label: string;
+  hasErrors?: boolean;
+};
