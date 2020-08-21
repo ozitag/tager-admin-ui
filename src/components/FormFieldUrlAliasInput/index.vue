@@ -1,10 +1,10 @@
 <template>
-  <form-group>
-    <input-label :for="id">{{ label }}</input-label>
+  <FormGroup>
+    <InputLabel :for="id">{{ label }}</InputLabel>
     <div class="field-inner">
       <span ref="measureText" class="measure">{{ value }}</span>
       <small>{{ urlParts[0] }}</small>
-      <base-input
+      <BaseInput
         :id="id"
         :style="inputStyle"
         :value="value"
@@ -14,10 +14,10 @@
       />
       <small>{{ urlParts[1] }}</small>
     </div>
-    <form-field-error v-if="Boolean(error)">
+    <FormFieldError v-if="Boolean(error)">
       {{ error }}
-    </form-field-error>
-  </form-group>
+    </FormFieldError>
+  </FormGroup>
 </template>
 
 <script lang="js">
@@ -125,5 +125,6 @@ export default Vue.extend({
 
 .alias-input {
   width: auto;
+  min-width: 6rem;
 }
 </style>
