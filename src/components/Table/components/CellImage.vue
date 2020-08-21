@@ -1,12 +1,13 @@
 <template>
   <td class="image-cell">
     <div v-if="Boolean(value)" class="cell-inner">
-      <loadable-image
-        :src="value"
-        alt="Photo"
-        style="height: 100px; min-width: 100px; object-fit: contain;"
-        loading-container-style="width: 100px"
-      />
+      <div class="image-wrapper">
+        <loadable-image
+          :src="value"
+          alt="Photo"
+          style="height: 100px; min-width: 100px; object-fit: contain;"
+        />
+      </div>
     </div>
   </td>
 </template>
@@ -45,10 +46,20 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 td.image-cell {
-  padding: 0;
+  padding: 5px;
 
   .cell-inner {
-    padding: 5px;
+    position: relative;
+    min-width: 100px;
+    height: 100px;
+  }
+
+  .image-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 }
 </style>
