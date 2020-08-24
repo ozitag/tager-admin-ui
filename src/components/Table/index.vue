@@ -10,6 +10,7 @@
             v-for="column of enhancedColumnDefs"
             :key="column.id"
             :style="column.headStyle"
+            :data-table-head-cell="column.field"
           >
             {{ column.name }}
           </th>

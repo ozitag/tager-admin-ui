@@ -30,8 +30,12 @@ export default Vue.extend({
     const cellProps = {
       column: this.column,
       row: this.row,
-      rowIndex: this.rowIndex
+      rowIndex: this.rowIndex,
     };
+
+    const cellAttrs = {
+      'data-table-body-cell': this.column.field
+    }
 
     const cellType = typeof this.column.type === 'function'
       ? this.column.type(cellProps)
@@ -71,6 +75,7 @@ export default Vue.extend({
         ? customCellElement
         : createElement(appropriateCellComponent(), {
             props: cellProps,
+            attrs: cellAttrs,
             style: this.column.style,
             class: this.column.class,
           })
