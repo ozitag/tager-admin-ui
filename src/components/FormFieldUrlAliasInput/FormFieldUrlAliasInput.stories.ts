@@ -1,4 +1,4 @@
-import FormFieldUrlAliasInput from './index.vue';
+import FormFieldUrlAliasInput from './FormFieldUrlAliasInput.vue';
 
 export default { title: 'FormFieldUrlAliasInput' };
 

@@ -1,4 +1,4 @@
-import Vue, { PluginFunction, VueConstructor } from 'vue';
+import { PluginFunction } from 'vue';
 
 import BaseButton from './components/BaseButton/index.vue';
 import BaseCheckbox from './components/BaseCheckbox/index.vue';
@@ -20,7 +20,7 @@ import FormFieldRichTextInput from './components/FormFieldRichTextInput/index.vu
 import BaseRichTextInput from './components/BaseRichTextInput/index.vue';
 import MultiSelect from './components/MultiSelect/index.vue';
 import FormFieldMultiSelect from './components/FormFieldMultiSelect/index.vue';
-import FormFieldUrlAliasInput from './components/FormFieldUrlAliasInput/index.vue';
+import FormFieldUrlAliasInput from './components/FormFieldUrlAliasInput';
 import { ToastProvider } from './components/Toast';
 import NavigationGrid from './components/NavigationGrid/index.vue';
 import LoadableImage from './components/LoadableImage/index.vue';
@@ -56,10 +56,10 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('input-label', InputLabel);
   Vue.component('page-title', PageTitle);
   Vue.component('spinner', Spinner);
-  Vue.component('svg-icon', SvgIcon as VueConstructor);
+  Vue.component('svg-icon', SvgIcon);
   Vue.component('toast-provider', ToastProvider);
   Vue.component('navigation-grid', NavigationGrid);
   Vue.component('loadable-image', LoadableImage);
   Vue.component('dropdown-menu', DropdownMenu);
-  Vue.component('tab-list', TabList as VueConstructor);
+  Vue.component('tab-list', TabList);
 };

@@ -20,7 +20,7 @@ export { default as FileInput } from './components/FileInput/index.vue';
 export { default as FormFieldFileInput } from './components/FormFieldFileInput/index.vue';
 export { default as MultiSelect } from './components/MultiSelect/index.vue';
 export { default as FormFieldMultiSelect } from './components/FormFieldMultiSelect/index.vue';
-export { default as FormFieldUrlAliasInput } from './components/FormFieldUrlAliasInput/index.vue';
+export { default as FormFieldUrlAliasInput } from './components/FormFieldUrlAliasInput';
 export { default as NavigationGrid } from './components/NavigationGrid/index.vue';
 export { default as LoadableImage } from './components/LoadableImage/index.vue';
 export { default as DropdownMenu } from './components/DropdownMenu/index.vue';
