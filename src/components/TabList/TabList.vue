@@ -15,10 +15,21 @@
   </ul>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+export type TabType = {
+  id: string;
+  label: string;
+  hasErrors?: boolean;
+};
+
+type Props = Readonly<{
+  tabList: Array<TabType>;
+  selectedTabId: string;
+}>;
+
+export default defineComponent<Props>({
   name: 'TabList',
   props: {
     tabList: {
@@ -31,7 +42,7 @@ export default Vue.extend({
     },
   },
   setup(props, context) {
-    function handleTabClick(tabId) {
+    function handleTabClick(tabId: string): void {
       if (props.selectedTabId === tabId) return;
 
       context.emit('tab:update', { tabId });

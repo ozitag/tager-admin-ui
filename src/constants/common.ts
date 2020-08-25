@@ -1,4 +1,4 @@
-export const ARCHIVE_ACCEPT = [
+export const ARCHIVE_ACCEPT: string = [
   '.zip',
   'application/zip',
   '.rar',

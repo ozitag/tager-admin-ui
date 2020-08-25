@@ -2,15 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  stories: ['../src/**/*.stories.[tj]s'],
+  addons: ['@storybook/preset-scss'],
+  stories: ['../src/**/*.stories.@(ts|js)'],
   webpackFinal: (config) => {
-    // allow SCSS
-    config.module.rules.push({
-      test: /\.scss$/,
-      loaders: ['style-loader', 'css-loader', 'sass-loader'],
-      include: path.resolve(__dirname, '../'),
-    });
-
     config.module.rules.find((rule) => {
       if (rule.test && String(rule.test).includes('svg')) {
         rule.test = /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/;
@@ -29,12 +23,6 @@ module.exports = {
       ],
       include: path.resolve(__dirname, '../src/assets/svg'),
     });
-
-    // setup URL Alias
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(__dirname, '../src'),
-    };
 
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof webpack.DefinePlugin)

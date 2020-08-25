@@ -80,4 +80,4 @@ export const ICON_MAP = {
   fileXls: FileXlsIcon,
   fileXml: FileXmlIcon,
   fileZip: FileZipIcon,
-};
+} as const;
