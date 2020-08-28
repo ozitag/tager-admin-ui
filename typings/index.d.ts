@@ -7,6 +7,7 @@ export type LinkType = {
 };
 
 export type IconName =
+  | 'article'
   | 'home'
   | 'group'
   | 'viewList'
@@ -27,6 +28,7 @@ export type IconName =
   | 'north'
   | 'south'
   | 'email'
+  | 'sms'
   | 'contentCopy'
   | 'openInNew'
   | 'addCircle'

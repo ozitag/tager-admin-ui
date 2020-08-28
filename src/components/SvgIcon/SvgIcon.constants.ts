@@ -1,3 +1,4 @@
+import ArticleIcon from '../../assets/svg/article.svg';
 import HomeIcon from '../../assets/svg/home.svg';
 import GroupIcon from '../../assets/svg/group.svg';
 import ViewListIcon from '../../assets/svg/view_list.svg';
@@ -17,6 +18,7 @@ import ArrowUpwardIcon from '../../assets/svg/arrow_upward.svg';
 import NorthIcon from '../../assets/svg/north.svg';
 import SouthIcon from '../../assets/svg/south.svg';
 import EmailIcon from '../../assets/svg/email.svg';
+import SmsIcon from '../../assets/svg/sms.svg';
 import ContentCopyIcon from '../../assets/svg/content_copy.svg';
 import OpenInNewIcon from '../../assets/svg/open_in_new.svg';
 import AddCircleIcon from '../../assets/svg/add_circle.svg';
@@ -40,29 +42,31 @@ import FileXmlIcon from '../../assets/svg/file_xml.svg';
 import FileZipIcon from '../../assets/svg/file_zip.svg';
 
 export const ICON_MAP = {
-  home: HomeIcon,
-  group: GroupIcon,
-  viewList: ViewListIcon,
-  expandLess: ExpandLessIcon,
-  expandMore: ExpandMoreIcon,
-  edit: EditIcon,
-  delete: DeleteIcon,
-  upload: CloudUploadIcon,
-  clear: CloseIcon,
-  close: CloseIcon,
-  menu: MenuIcon,
-  settings: SettingsIcon,
-  assignment: AssignmentIcon,
-  chevronRight: ChevronRightIcon,
-  description: DescriptionIcon,
+  addCircle: AddCircleIcon,
   arrowDownward: ArrowDownwardIcon,
   arrowUpward: ArrowUpwardIcon,
-  north: NorthIcon,
-  south: SouthIcon,
-  email: EmailIcon,
+  article: ArticleIcon,
+  assignment: AssignmentIcon,
+  chevronRight: ChevronRightIcon,
+  clear: CloseIcon,
+  close: CloseIcon,
   contentCopy: ContentCopyIcon,
+  delete: DeleteIcon,
+  description: DescriptionIcon,
+  edit: EditIcon,
+  email: EmailIcon,
+  expandLess: ExpandLessIcon,
+  expandMore: ExpandMoreIcon,
+  group: GroupIcon,
+  home: HomeIcon,
+  menu: MenuIcon,
+  north: NorthIcon,
   openInNew: OpenInNewIcon,
-  addCircle: AddCircleIcon,
+  settings: SettingsIcon,
+  sms: SmsIcon,
+  south: SouthIcon,
+  upload: CloudUploadIcon,
+  viewList: ViewListIcon,
 
   fileAvi: FileAviIcon,
   fileCss: FileCssIcon,
