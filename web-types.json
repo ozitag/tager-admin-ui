@@ -1,0 +1,1222 @@
+{
+  "framework": "vue",
+  "name": "@tager/admin-ui",
+  "version": "0.6.13-rc.2",
+  "contributions": {
+    "html": {
+      "description-markup": "markdown",
+      "types-syntax": "typescript",
+      "tags": [
+        {
+          "name": "BaseButton",
+          "description": "",
+          "attributes": [
+            {
+              "name": "variant",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'primary'"
+            },
+            {
+              "name": "type",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'button'"
+            },
+            {
+              "name": "disabled",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "loading",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "href",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\BaseButton\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "BaseCheckbox",
+          "description": "",
+          "attributes": [
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\BaseCheckbox\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "BaseInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "type",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"text\""
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\BaseInput\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "BaseRichTextInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "getUploadAdapterOptions",
+              "value": {
+                "kind": "expression",
+                "type": "func"
+              },
+              "default": "null"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\BaseRichTextInput\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "BaseSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "object|array"
+              },
+              "default": "() => []"
+            },
+            {
+              "name": "multiple",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "placeholder",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "noOptionsMessage",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\BaseSelect\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "BaseTable",
+          "description": "Table component.",
+          "attributes": [
+            {
+              "name": "columnDefs",
+              "required": true,
+              "description": "Table column definitions",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              }
+            },
+            {
+              "name": "rowData",
+              "required": true,
+              "description": "Table row data",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              }
+            },
+            {
+              "name": "enumerable",
+              "description": "Should display first column with row number?",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Should display spinner?",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "indexColumnDef",
+              "description": "Definition overrides for row number column.",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "null"
+            },
+            {
+              "name": "notFoundMessage",
+              "description": "Message which is displayed if table doesn't have any rows",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Items not found'"
+            },
+            {
+              "name": "errorMessage",
+              "description": "Error message, which is displayed if table data request was failed.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "BaseTextArea",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\BaseTextArea\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Cell",
+          "description": "",
+          "attributes": [
+            {
+              "name": "column",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "row",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "rowIndex",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "scopedSlot",
+              "value": {
+                "kind": "expression",
+                "type": "func"
+              },
+              "default": "null"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\components\\Cell.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "CellDate",
+          "description": "",
+          "attributes": [
+            {
+              "name": "column",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "row",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "rowIndex",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\components\\CellDate.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "CellHtml",
+          "description": "",
+          "attributes": [
+            {
+              "name": "column",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "row",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "rowIndex",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\components\\CellHtml.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "CellImage",
+          "description": "",
+          "attributes": [
+            {
+              "name": "column",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "row",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "rowIndex",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\components\\CellImage.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "CellLink",
+          "description": "",
+          "attributes": [
+            {
+              "name": "column",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "row",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "rowIndex",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\components\\CellLink.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "CellString",
+          "description": "",
+          "attributes": [
+            {
+              "name": "column",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "row",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "rowIndex",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\components\\CellString.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DropdownItem",
+          "description": "",
+          "attributes": [
+            {
+              "name": "item",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\DropdownMenu\\components\\DropdownItem.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DropdownMenu",
+          "description": "",
+          "attributes": [
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            }
+          ],
+          "events": [
+            {
+              "name": "dropdown-item:click"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\DropdownMenu\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FileInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "v-model",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "multiple",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "withCaptions",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "accept",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "placeholderMessage",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "maxFileCount",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "null"
+            },
+            {
+              "name": "fileType",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "scenario",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            }
+          ],
+          "events": [
+            {
+              "name": "change"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FileInput\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormField",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "type",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'text'"
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormField\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldCheckbox",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldCheckbox\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldError",
+          "description": "",
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldError\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldFileInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "array|object"
+              }
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldFileInput\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldMultiSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldMultiSelect\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldRichTextInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldRichTextInput\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldSelect\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldSingleSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "null"
+            }
+          ],
+          "events": [
+            {
+              "name": "change"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldSingleSelect\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldUrlAliasInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "label",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "id",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "urlTemplate",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldUrlAliasInput\\FormFieldUrlAliasInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormGroup",
+          "description": "",
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormGroup.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "InputLabel",
+          "description": "",
+          "attributes": [
+            {
+              "name": "forCheckbox",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\InputLabel\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "LoadableImage",
+          "description": "",
+          "attributes": [
+            {
+              "name": "loadingContainerStyle",
+              "value": {
+                "kind": "expression",
+                "type": "object|string|array"
+              },
+              "default": "null"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\LoadableImage\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "MultiCheckboxSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\MultiSelect\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "NavigationGrid",
+          "description": "",
+          "attributes": [
+            {
+              "name": "navItems",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\NavigationGrid\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "PageTitle",
+          "description": "",
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\PageTitle\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "ProgressBar",
+          "description": "",
+          "attributes": [
+            {
+              "name": "percent",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "color",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\ProgressBar\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Spinner",
+          "description": "",
+          "attributes": [
+            {
+              "name": "size",
+              "value": {
+                "kind": "expression",
+                "type": "number|string"
+              },
+              "default": "25"
+            },
+            {
+              "name": "strokeWidth",
+              "value": {
+                "kind": "expression",
+                "type": "number|string"
+              },
+              "default": "5"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Spinner\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "SpinnerContainer",
+          "description": "",
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\SpinnerContainer.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "SvgIcon",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\SvgIcon\\SvgIcon.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "TabList",
+          "description": "",
+          "attributes": [
+            {
+              "name": "tabList",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              }
+            },
+            {
+              "name": "selectedTabId",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\TabList\\TabList.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Toast",
+          "description": "",
+          "attributes": [
+            {
+              "name": "toast",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "hide"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Toast\\Toast.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Toasts",
+          "description": "",
+          "source": {
+            "module": "./src\\components\\Toast\\Toaster.vue",
+            "symbol": "default"
+          }
+        }
+      ]
+    }
+  }
+}

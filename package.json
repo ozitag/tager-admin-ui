@@ -1,20 +1,21 @@
 {
   "name": "@tager/admin-ui",
-  "version": "0.6.12",
+  "version": "0.6.13",
   "license": "MIT",
-  "main": "dist/index.umd.js",
+  "main": "dist/index.esm.js",
   "module": "dist/index.esm.js",
-  "unpkg": "dist/index.min.js",
   "types": "typings/index.d.ts",
   "files": [
     "dist",
     "typings",
-    "src"
+    "src",
+    "web-types.json"
   ],
+  "web-types": "./web-types.json",
   "scripts": {
     "build": "rimraf ./dist && rollup --config",
     "storybook": "start-storybook",
-    "prepare": "yarn build",
+    "prepare": "yarn build && vue-docgen-web-types",
     "tager:update": "yarn upgrade --latest @tager/admin-services",
     "yalc:clean": "yalc remove --all"
   },
@@ -60,6 +61,7 @@
     "style-loader": "^1.2.1",
     "typescript": "^4.0.2",
     "vue": "2.6.11",
+    "vue-docgen-web-types": "^0.1.5",
     "vue-loader": "^15.9.3",
     "vue-router": "^3.4.3",
     "vue-svg-loader": "^0.16.0",

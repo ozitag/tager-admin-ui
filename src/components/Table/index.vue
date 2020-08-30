@@ -68,28 +68,53 @@ import SpinnerContainer from '../SpinnerContainer';
 
 import BaseTableCell from './components/Cell';
 
+/**
+ * Table component.
+ * @displayName BaseTable
+ */
 export default Vue.extend({
   name: 'BaseTable',
   components: { BaseTableCell, Spinner, SpinnerContainer },
   props: {
+    /**
+     * Table column definitions
+     */
     columnDefs: {
       type: Array,
       required: true,
     },
+    /**
+     * Table row data
+     */
     rowData: {
       type: Array,
       required: true,
     },
+    /**
+     * Should display first column with row number?
+     */
     enumerable: Boolean,
+    /**
+     * Should display spinner?
+     */
     loading: Boolean,
+    /**
+     * Definition overrides for row number column.
+     */
     indexColumnDef: {
       type: Object,
       default: null
     },
+    /**
+     * Message which is displayed if table doesn't have any rows
+     */
     notFoundMessage: {
       type: String,
       default: 'Items not found'
     },
+    /**
+     * Error message, which is displayed if table data request was failed.
+     */
     errorMessage: {
       type: String,
       default: null,
