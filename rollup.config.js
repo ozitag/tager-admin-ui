@@ -1,27 +1,20 @@
+import path from 'path';
+import { DEFAULT_EXTENSIONS } from '@babel/core';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import babel from '@rollup/plugin-babel';
 import svg from 'rollup-plugin-vue-inline-svg';
 import vue from 'rollup-plugin-vue';
-import styles from 'rollup-plugin-styles';
-import babel from '@rollup/plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
-import { DEFAULT_EXTENSIONS } from '@babel/core';
+import postcss from 'rollup-plugin-postcss';
+import postcssImport from 'postcss-import';
 
 export default {
   input: 'src/main.ts',
-  output: [
-    {
-      file: 'dist/index.esm.js',
-      format: 'es',
-      assetFileNames: '[name][extname]',
-    },
-    {
-      file: 'dist/index.umd.js',
-      format: 'umd',
-      name: 'TagerAdminUi',
-      assetFileNames: '[name][extname]',
-    },
-  ],
+  output: {
+    file: 'dist/index.esm.js',
+    format: 'esm',
+  },
   external: [
     /@babel\/runtime/,
     'vue',
@@ -35,22 +28,26 @@ export default {
      * https://github.com/ezolenko/rollup-plugin-typescript2#rollup-plugin-node-resolve
      */
     resolve({ extensions: ['.ts', '.tsx', '.js', '.css', '.svg', '.vue'] }),
-    typescript(),
-    vue(),
     commonjs(),
+    typescript(),
     svg({ svgoConfig: { plugins: [{ removeViewBox: false }] } }),
+    vue({ css: false }),
     babel({
-      /** Reference: https://github.com/ezolenko/rollup-plugin-typescript2#rollup-plugin-babel */
+      /**
+       * Reference:
+       * https://github.com/ezolenko/rollup-plugin-typescript2#rollup-plugin-babel
+       * https://github.com/rollup/plugins/tree/master/packages/babel#extensions
+       */
       extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-
-      presets: ['@vue/cli-plugin-babel/preset'],
-      plugins: ['@babel/plugin-transform-runtime'],
-      /** Reference: https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers */
+      /**
+       * Reference:
+       * https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers
+       */
       babelHelpers: 'runtime',
     }),
-
-    styles({
-      mode: ['extract', './admin-ui.css'],
+    postcss({
+      extract: path.resolve('dist/admin-ui.css'),
+      plugins: [postcssImport],
     }),
   ],
 };
