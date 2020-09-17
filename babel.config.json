@@ -1,4 +1,5 @@
 {
-  "presets": ["@vue/babel-preset-app"],
-  "plugins": ["@babel/plugin-transform-runtime"]
+  "presets": [["@vue/babel-preset-app", {
+    "absoluteRuntime": false
+  }]]
 }

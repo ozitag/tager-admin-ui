@@ -44,6 +44,7 @@ export default {
        * https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers
        */
       babelHelpers: 'runtime',
+      plugins: ['@babel/plugin-transform-runtime'],
     }),
     postcss({
       extract: path.resolve('dist/admin-ui.css'),
