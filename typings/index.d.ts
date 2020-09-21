@@ -1,5 +1,5 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
-import { FetchStatus } from '@tager/admin-services';
+import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
 
 export type LinkType = {
   url: string;
@@ -262,3 +262,9 @@ export declare function integerParser(
   currentValue: string,
   previousValue: string
 ): string;
+
+export type SingleFileInputValueType = {
+  id: string;
+  file: FileType;
+  caption?: Nullable<string>;
+};
