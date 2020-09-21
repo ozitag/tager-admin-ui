@@ -194,6 +194,7 @@ export declare const ToastProvider: VueConstructor<Vue>;
 export declare const BaseButton: VueConstructor<Vue>;
 export declare const BaseCheckbox: VueConstructor<Vue>;
 export declare const BaseInput: VueConstructor<Vue>;
+export declare const NumberInput: VueConstructor<Vue>;
 export declare const BaseTextArea: VueConstructor<Vue>;
 export declare const BaseRichTextInput: VueConstructor<Vue>;
 export declare const BaseSelect: VueConstructor<Vue>;
@@ -205,6 +206,7 @@ export declare const FormGroup: VueConstructor<Vue>;
 export declare const FormFieldError: VueConstructor<Vue>;
 export declare const FormFieldRichTextInput: VueConstructor<Vue>;
 export declare const FormFieldFileInput: VueConstructor<Vue>;
+export declare const FormFieldNumberInput: VueConstructor<Vue>;
 export declare const FormFieldMultiSelect: VueConstructor<Vue>;
 export declare const FormFieldSingleSelect: VueConstructor<Vue>;
 export declare const FormFieldUrlAliasInput: VueConstructor<Vue>;
@@ -246,3 +248,17 @@ export type TabType = {
   label: string;
   hasErrors?: boolean;
 };
+
+export declare const FINAL_NUMBER_REGEXP: string;
+export declare const INTERMEDIATE_NUMBER_REGEXP: string;
+export declare const INTERMEDIATE_INTEGER_REGEXP: string;
+export declare const DOT_REGEXP: string;
+
+export declare function floatParser(
+  currentValue: string,
+  previousValue: string
+): string;
+export declare function integerParser(
+  currentValue: string,
+  previousValue: string
+): string;
