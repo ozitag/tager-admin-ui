@@ -16,6 +16,8 @@ import TableCell from './components/Table/components/Cell.vue';
 import FormGroup from './components/FormGroup.vue';
 import FileInput from './components/FileInput/index.vue';
 import FormFieldFileInput from './components/FormFieldFileInput/index.vue';
+import NumberInput from './components/NumberInput/index.vue';
+import FormFieldNumberInput from './components/FormFieldNumberInput/index.vue';
 import FormFieldRichTextInput from './components/FormFieldRichTextInput/index.vue';
 import BaseRichTextInput from './components/BaseRichTextInput/index.vue';
 import MultiSelect from './components/MultiSelect/index.vue';
@@ -40,6 +42,7 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-textarea', BaseTextArea);
   Vue.component('base-rich-text-input', BaseRichTextInput);
   Vue.component('base-file-input', FileInput);
+  Vue.component('base-number-input', NumberInput);
 
   Vue.component('form-group', FormGroup);
   Vue.component('form-field', FormField);
@@ -48,6 +51,7 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('form-field-error', FormFieldError);
   Vue.component('form-field-rich-text-input', FormFieldRichTextInput);
   Vue.component('form-field-file-input', FormFieldFileInput);
+  Vue.component('form-field-number-input', FormFieldNumberInput);
   Vue.component('form-field-multi-select', FormFieldMultiSelect);
   Vue.component('form-field-single-select', FormFieldSingleSelect);
   Vue.component('form-field-url-alias-input', FormFieldUrlAliasInput);

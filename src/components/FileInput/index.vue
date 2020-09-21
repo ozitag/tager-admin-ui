@@ -2,51 +2,59 @@
   <div :class="['file-input-container', { 'with-captions': withCaptions }]">
     <div v-if="fileList.length > 0" class="file-grid">
       <div
-        v-for="file of fileList"
-        :key="file.id"
+        v-for="entry of fileList"
+        :key="entry.id"
         :class="[
           'file-wrapper',
           { single: !multiple },
-          { uploading: file.status === 'UPLOADING' },
-          { error: file.status === 'ERROR' },
+          { uploading: entry.status === 'UPLOADING' },
+          { error: entry.status === 'ERROR' },
         ]"
-        :title="getFileHtmlTitle(file)"
+        :title="getFileHtmlTitle(entry.file)"
       >
         <div class="file-container">
           <base-button
             class="clear-button"
             variant="icon"
             title="Clear"
-            @click="clearFile(file)"
+            @click="clearFile(entry)"
           >
             <svg-icon name="clear" />
           </base-button>
 
           <progress-bar
-            v-if="file.status === 'UPLOADING'"
-            :percent="file.progress"
+            v-if="entry.status === 'UPLOADING'"
+            :percent="entry.progress"
             class="upload-progress"
           />
-          <div v-else-if="file.status === 'ERROR'" class="error-message">
-            {{ file.error }}
+          <div v-else-if="entry.status === 'ERROR'" class="error-message">
+            {{ entry.error }}
             <div class="file-caption">
-              <span class="file-name">{{ file.name }}</span>
-              <small class="file-size">({{ getFileSize(file.size) }})</small>
+              <span class="file-name">{{ entry.file.name }}</span>
+              <small class="file-size"
+                >({{ getFileSize(entry.file.size) }})</small
+              >
             </div>
           </div>
           <div v-else class="file-inner">
-            <a :href="file.url" class="file-link" target="_blank">
+            <a :href="entry.file.url" class="file-link" target="_blank">
               <loadable-image
-                v-if="isImage(file)"
-                :src="file.url"
-                :alt="file.name"
+                v-if="isImage(entry.file)"
+                :src="entry.file.url"
+                :alt="entry.file.name"
               />
-              <svg-icon v-else class="file-icon" :name="getFileIcon(file)" />
+              <svg-icon
+                v-else
+                class="file-icon"
+                :name="getFileIcon(entry.file)"
+              />
             </a>
 
-            <div v-if="!isImage(file)" class="file-caption">
-              <span class="file-name">{{ file.name }}</span>
-              <small class="file-size">({{ getFileSize(file.size) }})</small>
+            <div v-if="!isImage(entry.file)" class="file-caption">
+              <span class="file-name">{{ entry.file.name }}</span>
+              <small class="file-size"
+                >({{ getFileSize(entry.file.size) }})</small
+              >
             </div>
 
             <base-text-area
@@ -54,8 +62,8 @@
               class="caption-text-area"
               rows="2"
               placeholder="Caption"
-              :value="file.caption || ''"
-              @input="handleCaptionChange(file, $event)"
+              :value="entry.caption || ''"
+              @input="handleCaptionChange(entry, $event)"
             />
           </div>
         </div>
@@ -90,34 +98,68 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import Vue from 'vue';
-import { getMessageFromError, RequestError, upload } from '@tager/admin-services';
+import { PropValidator } from 'vue/types/options';
+import {
+  createId,
+  FileObjectSchema,
+  FileType,
+  getMessageFromError,
+  notEmpty,
+  Nullable,
+  RequestError,
+  upload,
+  z,
+} from '@tager/admin-services';
 
 import { ARCHIVE_ACCEPT } from '../../constants/common';
 
 import SvgIcon from '../SvgIcon';
-import BaseButton from '../BaseButton';
-import BaseTextArea from '../BaseTextArea';
-import ProgressBar from '../ProgressBar';
-import LoadableImage from '../LoadableImage';
+import BaseButton from '../BaseButton/index.vue';
+import BaseTextArea from '../BaseTextArea/index.vue';
+import ProgressBar from '../ProgressBar/index.vue';
+import LoadableImage from '../LoadableImage/index.vue';
 
-import { getFileIconName, logPropsValidationErrors, validateValue } from './FileInput.helpers';
+import { getFileIconName } from './FileInput.helpers';
+
+const SingleFileInputValueSchema = z.object({
+  id: z.string(),
+  file: FileObjectSchema,
+  caption: z.string().nullable().optional(),
+});
+
+type SingleFileInputValueType = z.infer<typeof SingleFileInputValueSchema>;
+
+const FileInputValueSchema = z.union([
+  SingleFileInputValueSchema,
+  z.array(SingleFileInputValueSchema),
+]);
+
+type FileInputValueType = z.infer<typeof FileInputValueSchema>;
+
+type UploadingSingleFileInputValueType = SingleFileInputValueType & {
+  nativeFile: File;
+  xhr: XMLHttpRequest;
+  status: 'UPLOADING' | 'ERROR';
+  progress: number;
+  error: Nullable<string>;
+};
 
 export default Vue.extend({
   name: 'FileInput',
   components: { SvgIcon, BaseButton, ProgressBar, BaseTextArea, LoadableImage },
   model: {
     prop: 'value',
-    event: 'change'
+    event: 'change',
   },
   props: {
     value: {
       required: true,
       validator(value) {
-        return validateValue(value);
-      }
-    },
+        return !value || FileInputValueSchema.check(value);
+      },
+    } as PropValidator<FileInputValueType>,
     multiple: Boolean,
     withCaptions: Boolean,
     accept: {
@@ -142,22 +184,29 @@ export default Vue.extend({
     scenario: {
       type: String,
       default: null,
-    }
+    },
   },
-  data() {
+  data(): {
+    isDragOver: boolean;
+    uploadingFileList: Array<UploadingSingleFileInputValueType>;
+  } {
     return {
       isDragOver: false,
       uploadingFileList: [],
     };
   },
   computed: {
-    savedFileList() {
-      return this.multiple ? this.value : [this.value].filter(Boolean);
+    savedFileList(): Array<SingleFileInputValueType> {
+      return this.multiple
+        ? (this.value as Array<SingleFileInputValueType>)
+        : ([this.value].filter(Boolean) as Array<SingleFileInputValueType>);
     },
-    fileList() {
+    fileList(): Array<
+      SingleFileInputValueType | UploadingSingleFileInputValueType
+    > {
       return [...this.savedFileList, ...this.uploadingFileList];
     },
-    shouldDisplayDropbox() {
+    shouldDisplayDropbox(): boolean {
       if (this.multiple && typeof this.maxFileCount === 'number') {
         return this.fileList.length < this.maxFileCount;
       }
@@ -168,7 +217,7 @@ export default Vue.extend({
 
       return true;
     },
-    acceptableMimeTypes() {
+    acceptableMimeTypes(): string | undefined {
       if (this.accept) return this.accept;
 
       if (this.fileType === 'image') {
@@ -181,91 +230,113 @@ export default Vue.extend({
 
       return undefined;
     },
-    computedPlaceholderMessage() {
+    computedPlaceholderMessage(): string {
       if (this.placeholderMessage) return this.placeholderMessage;
 
       switch (this.fileType) {
-        case 'image': return 'Drag and drop an image here or click';
-        case 'archive': return 'Drag and drop an archive here or click';
-        default: return 'Drag and drop a file here or click';
+        case 'image':
+          return 'Drag and drop an image here or click';
+        case 'archive':
+          return 'Drag and drop an archive here or click';
+        default:
+          return 'Drag and drop a file here or click';
       }
-    }
+    },
   },
   watch: {
     $props: {
       immediate: true,
       handler() {
-        logPropsValidationErrors({ value: this.value, multiple: this.multiple  })
-      }
-    }
+        const isCorrect =
+          (Array.isArray(this.value) && this.multiple) ||
+          (!Array.isArray(this.value) && !this.multiple);
+        if (!isCorrect) {
+          console.error(
+            'Incompatible props: "value" and "multiple"',
+            this.value,
+            this.multiple
+          );
+        }
+      },
+    },
   },
   methods: {
-    handleChange(event) {
-      this.handleFiles(event.target.files);
+    handleChange(event: Event): void {
+      const inputElement = event.target as HTMLInputElement;
+      this.handleFiles(inputElement.files);
     },
-    highlightDropArea() {
+    highlightDropArea(): void {
       this.isDragOver = true;
     },
     unhighlightDropArea() {
       this.isDragOver = false;
     },
-    handleFiles(fileList) {
+    handleFiles(fileList: Nullable<FileList>): void {
       const fileArray = fileList ? [...fileList] : [];
-      console.log('Files: ', fileArray);
-
       this.uploadingFileList.push(...fileArray.map(this.createUploadingFile));
 
-      console.log('Uploading files: ', this.uploadingFileList);
-
       Promise.all(
-        this.uploadingFileList.map(uploadingFile => {
-          return upload({
-              file: uploadingFile.nativeFile,
-              params: this.scenario ? { scenario: this.scenario } : null,
-              onProgress: ({ progress }) => {
-                uploadingFile.progress = progress * 100;
-              },
-              xhr: uploadingFile.xhr,
-            })
-            .then(savedFile => {
+        this.uploadingFileList.map((uploadingValue) => {
+          return upload<FileType>({
+            file: uploadingValue.nativeFile,
+            params: this.scenario ? { scenario: this.scenario } : undefined,
+            onProgress: ({ progress }) => {
+              uploadingValue.progress = progress * 100;
+            },
+            xhr: uploadingValue.xhr,
+          })
+            .then((savedFile) => {
               console.log('Uploaded file: ', savedFile);
-              const newFiles = [...this.savedFileList, savedFile].filter(Boolean);
+              const newValue: SingleFileInputValueType = {
+                id: createId(),
+                file: savedFile,
+                caption: null,
+              };
 
-              this.emitChangeEvent(newFiles);
+              const newValues: Array<SingleFileInputValueType> = [
+                ...this.savedFileList,
+                newValue,
+              ].filter(notEmpty);
 
-              this.uploadingFileList = this.uploadingFileList.filter(file => file.id !== uploadingFile.id);
+              this.emitChangeEvent(newValues);
+
+              this.uploadingFileList = this.uploadingFileList.filter(
+                (value) => value.id !== uploadingValue.id
+              );
             })
-            .catch(error => {
-              uploadingFile.status = 'ERROR';
-              uploadingFile.error = this.getUploadErrorMessage(error);
+            .catch((error) => {
+              uploadingValue.status = 'ERROR';
+              uploadingValue.error = this.getUploadErrorMessage(error);
             });
         })
-      )
-        .finally(() => {
-          /** Clear value of file input */
-          if (this.$refs.fileInput) {
-            this.$refs.fileInput.value = '';
-          }
-        });
+      ).finally(() => {
+        /** Clear value of file input */
+        if (this.$refs.fileInput) {
+          (this.$refs.fileInput as HTMLInputElement).value = '';
+        }
+      });
     },
-    getUploadErrorMessage(error) {
+    getUploadErrorMessage(error: Error) {
       if (error instanceof RequestError) {
-        switch (error.status.code) {
-          case 413: return 'File too large';
-          case 404: return 'Upload endpoint is not found';
-          default: return getMessageFromError(error) || 'Error';
+        switch (error.status) {
+          case 413:
+            return 'File too large';
+          case 404:
+            return 'Upload endpoint is not found';
+          default:
+            return getMessageFromError(error) || 'Error';
         }
       }
 
       return getMessageFromError(error) || 'Error';
     },
-    handleDragEnter(event) {
+    handleDragEnter(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
 
       this.highlightDropArea();
     },
-    handleDragOver(event) {
+    handleDragOver(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
       if (event.dataTransfer) {
@@ -274,13 +345,13 @@ export default Vue.extend({
 
       this.highlightDropArea();
     },
-    handleDragLeave(event) {
+    handleDragLeave(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
 
       this.unhighlightDropArea();
     },
-    handleDrop(event) {
+    handleDrop(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
 
@@ -290,37 +361,36 @@ export default Vue.extend({
 
       this.handleFiles(dataTransfer?.files ?? null);
     },
-    clearFile(fileToClear) {
-      if (fileToClear.status === 'UPLOADING') {
-        fileToClear.xhr.abort();
-      } if (fileToClear.status === 'ERROR') {
-        this.uploadingFileList = this.uploadingFileList.filter(file => file.id !== fileToClear.id);
+    clearFile(valueToClear: UploadingSingleFileInputValueType) {
+      if (valueToClear.status === 'UPLOADING') {
+        valueToClear.xhr.abort();
+      }
+      if (valueToClear.status === 'ERROR') {
+        this.uploadingFileList = this.uploadingFileList.filter(
+          (value) => value.id !== valueToClear.id
+        );
       } else {
-        const newFiles = this.savedFileList.filter(file => file.id !== fileToClear.id);
+        const newFiles = this.savedFileList.filter(
+          (value) => value.id !== valueToClear.id
+        );
         this.emitChangeEvent(newFiles);
       }
     },
-    handleCaptionChange(file, newCaption) {
-      const newFiles = this.savedFileList.map(savedFile => {
-        if (savedFile.id === file.id) {
-          return {
-            ...savedFile, caption: newCaption
-          };
-        }
-
-        return savedFile;
-      });
-
-      this.emitChangeEvent(newFiles);
+    handleCaptionChange(
+      updatedValue: SingleFileInputValueType,
+      newCaption: string
+    ): void {
+      updatedValue.caption = newCaption;
+      this.emitChangeEvent(this.savedFileList);
     },
-    emitChangeEvent(newFiles) {
+    emitChangeEvent(newFiles: Array<SingleFileInputValueType>) {
       const newValue = this.multiple ? newFiles : newFiles[0];
 
       this.$emit('change', newValue);
     },
-    getFileSize(bytes) {
+    getFileSize(bytes: number): string {
       const unitList = ['bytes', 'kB', 'MB'];
-      let fileSize = bytes
+      let fileSize = bytes;
       let unitIndex = 0;
 
       while (fileSize > 1024) {
@@ -330,36 +400,43 @@ export default Vue.extend({
 
       const fractionDigitCount = fileSize < 10 ? 2 : fileSize < 100 ? 1 : 0;
 
-      return [fileSize.toFixed(fractionDigitCount), unitList[unitIndex]].join(' ') ;
+      return [fileSize.toFixed(fractionDigitCount), unitList[unitIndex]].join(
+        ' '
+      );
     },
-    getFileHtmlTitle(file) {
+    getFileHtmlTitle(file: FileType): string {
       return [
         `Name: ${file.name}`,
         `Size: ${this.getFileSize(file.size)} (${file.size} bytes)`,
-        `MIME type: ${file.mime}`
+        `MIME type: ${file.mime}`,
       ].join('\n');
     },
-    isImage(file) {
-      return file.mime.startsWith('image/')
+    isImage(file: FileType): boolean {
+      return file.mime.startsWith('image/');
     },
-    getFileIcon(file) {
+    getFileIcon(file: FileType): string {
       return getFileIconName(file);
     },
-    createUploadingFile(nativeFile) {
+    createUploadingFile(nativeFile: File): UploadingSingleFileInputValueType {
       return {
-        id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER),
-        url: '',
-        name: nativeFile.name,
-        size: nativeFile.size ?? 0,
-        mime: nativeFile.type ?? '',
+        id: createId(),
+        file: {
+          id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER),
+          url: '',
+          name: nativeFile.name,
+          size: nativeFile.size ?? 0,
+          mime: nativeFile.type ?? '',
+        },
+        caption: null,
 
         nativeFile,
         xhr: new XMLHttpRequest(),
         status: 'UPLOADING',
         progress: 1,
-      }
-    }
-  }
+        error: null,
+      };
+    },
+  },
 });
 </script>
 
@@ -506,6 +583,10 @@ export default Vue.extend({
   .caption-text-area {
     resize: none;
     margin-top: 0.5rem;
+
+    &::placeholder {
+      color: #bbb;
+    }
   }
 
   .error-message {

@@ -1,18 +1,10 @@
-/**
- * @typedef UploadedFile
- * @property {number} id
- * @property {string} url
- * @property {string} name
- * @property {number} size
- * @property {string} mime
- */
+import { FileType } from '@tager/admin-services';
 
-/**
- * @param {UploadedFile} file
- * @returns {function(mimeTypeList: Array<string>, extensionList: Array<string>): boolean}
- */
-function createTypeValidator(file) {
-  return function isValidType(mimeTypeList, extensionList) {
+function createTypeValidator(file: FileType) {
+  return function isValidType(
+    mimeTypeList: Array<string>,
+    extensionList: Array<string>
+  ) {
     return (
       mimeTypeList.some((mimeType) => file.mime.includes(mimeType)) ||
       extensionList.some((ext) => file.name.endsWith(ext))
@@ -23,11 +15,8 @@ function createTypeValidator(file) {
 /**
  * Reference:
  * https://github.com/nginx/nginx/blob/master/conf/mime.types
- *
- * @param {UploadedFile} file
- * @returns {string} icon name
  */
-export function getFileIconName(file) {
+export function getFileIconName(file: FileType) {
   const isValidType = createTypeValidator(file);
 
   if (isValidType(['video/x-msvideo'], ['.avi'])) {
@@ -101,51 +90,4 @@ export function getFileIconName(file) {
   }
 
   return 'fileUnknown';
-}
-
-export function isFileObject(image) {
-  return (
-    typeof image === 'object' &&
-    typeof image?.id === 'number' &&
-    typeof image?.url === 'string' &&
-    typeof image?.name === 'string' &&
-    typeof image?.size === 'number' &&
-    typeof image?.mime === 'string'
-  );
-}
-
-export function logPropsValidationErrors({ value, multiple }) {
-  if (multiple) {
-    if (!Array.isArray(value) || !value.every(isFileObject)) {
-      const message = JSON.stringify(
-        {
-          message: 'ImageInput: value should be Array<ImageType>',
-          value,
-          multiple,
-        },
-        null,
-        4
-      );
-      console.error(message);
-    }
-  } else {
-    if (!isFileObject(value) && value !== null) {
-      const message = JSON.stringify(
-        {
-          message: 'ImageInput: value should be ImageType or null',
-          value,
-          multiple,
-        },
-        null,
-        4
-      );
-      console.error(message);
-    }
-  }
-}
-
-export function validateValue(value) {
-  return Array.isArray(value)
-    ? value.every(isFileObject)
-    : isFileObject(value) || value === null;
 }

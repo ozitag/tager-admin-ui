@@ -29,8 +29,8 @@ module.exports = {
     );
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.VUE_APP_API_ORIGIN': JSON.stringify(
-          process.env.VUE_APP_API_ORIGIN
+        'process.env.VUE_APP_API_URL': JSON.stringify(
+          process.env.VUE_APP_API_URL
         ),
         'process.env.VUE_APP_ACCESS_TOKEN': JSON.stringify(
           process.env.VUE_APP_ACCESS_TOKEN

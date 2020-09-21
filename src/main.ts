@@ -18,6 +18,8 @@ export { default as TableCell } from './components/Table/components/Cell.vue';
 export { default as FormGroup } from './components/FormGroup.vue';
 export { default as FileInput } from './components/FileInput/index.vue';
 export { default as FormFieldFileInput } from './components/FormFieldFileInput/index.vue';
+export { default as NumberInput } from './components/NumberInput/index.vue';
+export { default as FormFieldNumberInput } from './components/FormFieldNumberInput/index.vue';
 export { default as MultiSelect } from './components/MultiSelect/index.vue';
 export { default as FormFieldMultiSelect } from './components/FormFieldMultiSelect/index.vue';
 export { default as FormFieldUrlAliasInput } from './components/FormFieldUrlAliasInput';

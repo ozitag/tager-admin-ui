@@ -8,14 +8,23 @@ import Vue from "vue";
 export default Vue.extend({
   name: "BaseInput",
   props: {
-    value: String,
+    value: {
+      type: String,
+      default: '',
+    },
     type: {
       type: String,
       default: "text",
       validator(value) {
-        return ["text", "number", "email", "password", "date"].includes(value);
+        return ["text", "email", "password", "date"].includes(value);
       }
     }
+  },
+  data() {
+    const initialValue = this.value;
+    return {
+      inputValue: initialValue
+    };
   },
   computed: {
     inputListeners() {
@@ -24,26 +33,13 @@ export default Vue.extend({
       return {
         ...vm.$listeners,
         input: event => vm.$emit("input", event.target.value),
-        change: event => vm.$emit("change", event.target.value)
+        change: event => vm.$emit("change", event.target.value),
       };
     }
   },
-  methods: {
-    // emitWithLog(eventName: string, event: string) {
-    //   console.log('Event: ', eventName, event);
-    //   this.$emit(eventName, event);
-    // }
-    //   handleInput(event: Event) {
-    //     const newValue = (event.target as HTMLInputElement).value;
-    //
-    //     const isValid =
-    //       this.type !== 'number' ||
-    //       (this.type === 'number' && !Number.isNaN(Number(newValue)));
-    //
-    //     console.log('isValid', [isValid, newValue, this.value]);
-    //     this.$emit('input', isValid ? newValue : this.value);
-    //   }
-  }
+  updated() {
+    this.inputValue = this.value;
+  },
 });
 </script>
 
