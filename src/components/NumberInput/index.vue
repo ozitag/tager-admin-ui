@@ -54,7 +54,7 @@ export default defineComponent<Props>({
           props.value.includes(dotChar)
         );
 
-        if (props.type === 'float' && !isValueContainsDot) {
+        if (props.type !== 'integer' && !isValueContainsDot) {
           ALLOWED_KEYS.push('.', ',');
         }
 
