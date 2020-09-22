@@ -55,6 +55,7 @@ export type OptionType<V = string> = {
 };
 
 export type DateCellValue = Date | null;
+export type ColorCellValue = string | null;
 export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
 export type LinkCellValue = LinkType | string | null;
@@ -65,7 +66,8 @@ export type ColumnType =
   | 'datetime'
   | 'image'
   | 'link'
-  | 'html';
+  | 'html'
+  | 'color';
 
 type RowDataDefaultType = { [key: string]: any };
 
@@ -141,6 +143,12 @@ export interface ColumnDefinitionDateTime<RowData = RowDataDefaultType>
   format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
 }
 
+export interface ColumnDefinitionColor<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'color';
+  format?: (params: ColumnParamsArg<RowData>) => ColorCellValue;
+}
+
 export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionDynamic<RowData>
   | ColumnDefinitionString<RowData>
@@ -148,7 +156,8 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionDateTime<RowData>
   | ColumnDefinitionImage<RowData>
   | ColumnDefinitionLink<RowData>
-  | ColumnDefinitionHtml<RowData>;
+  | ColumnDefinitionHtml<RowData>
+  | ColumnDefinitionColor<RowData>;
 
 export type NavigationGridItem = {
   name: string;

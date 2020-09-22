@@ -8,10 +8,16 @@ const defaultColumnDefs = [
   { id: 1, name: 'ID (10%)', field: 'id', style: { width: '10%' } },
   {
     id: 2,
-    name: 'String cell (30%)',
-    field: 'name',
-    type: 'string',
+    name: 'String Color (30%)',
+    field: 'color',
+    type: 'color',
   },
+  // {
+  //   id: 2,
+  //   name: 'String cell (30%)',
+  //   field: 'name',
+  //   type: 'string',
+  // },
   {
     id: 2.5,
     name: 'Image cell',
@@ -63,6 +69,7 @@ const defaultRowData = [
   {
     id: 1,
     name: 'Ivan',
+    color: '#374635',
     content: '<p>simple header <h3>Title</h3></p>',
     image: {
       url:
@@ -75,6 +82,7 @@ const defaultRowData = [
   },
   {
     id: 2,
+    color: 'rgba(222,111,123,0.8)',
     name: 'Ivan',
     content: '<p>simple header <em>Title</em></p>',
     image: {

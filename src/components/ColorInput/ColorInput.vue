@@ -44,6 +44,8 @@ export default defineComponent({
       const rgbaColor = `rgba(${[rgba.r, rgba.g, rgba.b, rgba.a].join(',')})`;
       const colorString = newColor.a === 1 ? hex : rgbaColor;
 
+      console.log('Change event: ', colorString);
+
       context.emit('change', colorString);
     }
 

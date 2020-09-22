@@ -7,7 +7,7 @@ export const Default = () =>
   defineComponent({
     components: { ColorInput },
     setup() {
-      const value = ref('rgba(60,50,24,0.5)');
+      const value = ref('');
       return { value };
     },
     template: '<ColorInput v-model="value"></ColorInput>',
