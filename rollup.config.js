@@ -20,6 +20,11 @@ export default {
     'vue',
     '@vue/composition-api',
     '@tager/admin-services',
+    '@ckeditor/ckeditor5-vue',
+    '@tager/admin-wysiwyg',
+    'lodash.get',
+    'lodash.kebabcase',
+    'vue-color',
   ],
   plugins: [
     /**

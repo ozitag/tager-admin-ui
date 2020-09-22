@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.7.2",
+  "version": "0.7.4",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -472,6 +472,23 @@
           }
         },
         {
+          "name": "ColorInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\ColorInput\\ColorInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "DropdownItem",
           "description": "",
           "attributes": [
@@ -679,6 +696,48 @@
           ],
           "source": {
             "module": "./src\\components\\FormFieldCheckbox\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldColorInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "name",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldColorInput\\index.vue",
             "symbol": "default"
           }
         },
@@ -1003,6 +1062,45 @@
           ],
           "source": {
             "module": "./src\\components\\FormFieldUrlAliasInput\\FormFieldUrlAliasInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldWrapper",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldWrapper.vue",
             "symbol": "default"
           }
         },
