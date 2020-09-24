@@ -1,4 +1,5 @@
 import { ref } from '@vue/composition-api';
+import { Nullable } from '@tager/admin-services';
 
 import DateTimeInput from './DateTimeInput.vue';
 
@@ -8,7 +9,7 @@ export const Default = () => ({
   name: 'DateTimeInput_Default',
   components: { DateTimeInput },
   setup() {
-    const value = ref<string>('');
+    const value = ref<Nullable<string>>('');
 
     return { value };
   },

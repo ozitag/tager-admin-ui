@@ -39,7 +39,7 @@
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api';
 import kebabCase from 'lodash.kebabcase';
-import { isNotFalsy } from '@tager/admin-services';
+import { isNotFalsy, Nullable } from '@tager/admin-services';
 
 import SvgIcon from '../SvgIcon';
 import FormField from '../FormField/index.vue';
@@ -51,7 +51,7 @@ type InnerDateTimeValue = {
 };
 
 type Props = {
-  value: string;
+  value: Nullable<string>;
   label: string;
 };
 
@@ -74,6 +74,8 @@ export default defineComponent<Props>({
     },
   },
   setup(props, context) {
+    const currentValue = computed<string>(() => props.value ?? '');
+
     function addLeadingZero(number: number): string {
       return number < 10 ? '0' + number : String(number);
     }
@@ -98,11 +100,11 @@ export default defineComponent<Props>({
     }
 
     const parsedDateTime = computed<InnerDateTimeValue>(() => {
-      const dateObject = new Date(props.value);
+      const dateObject = new Date(currentValue.value);
 
       const isValid = !Number.isNaN(dateObject.valueOf());
 
-      const [date, time] = props.value.split('T');
+      const [date, time] = currentValue.value.split('T');
       return { date: isValid ? date : '', time: isValid ? time : '' };
     });
 
@@ -132,7 +134,7 @@ export default defineComponent<Props>({
     }
 
     const formattedResult = computed<string>(() =>
-      props.value.split('T').filter(isNotFalsy).join(', ')
+      currentValue.value.split('T').filter(isNotFalsy).join(', ')
     );
 
     return {
