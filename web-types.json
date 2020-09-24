@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -256,6 +256,32 @@
           ],
           "source": {
             "module": "./src\\components\\BaseTextArea\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "ButtonField",
+          "description": "",
+          "attributes": [
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "null"
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\ButtonField\\ButtonField.vue",
             "symbol": "default"
           }
         },

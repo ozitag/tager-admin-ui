@@ -28,6 +28,7 @@ export type IconName =
   | 'north'
   | 'south'
   | 'email'
+  | 'removeCircle'
   | 'sms'
   | 'contentCopy'
   | 'openInNew'
@@ -234,6 +235,7 @@ export declare const NavigationGrid: VueConstructor<Vue>;
 export declare const LoadableImage: VueConstructor<Vue>;
 export declare const DropdownMenu: VueConstructor<Vue>;
 export declare const TabList: VueConstructor<Vue>;
+export declare const ButtonField: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';

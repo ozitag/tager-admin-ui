@@ -33,6 +33,7 @@ import FormFieldSelect from './components/FormFieldSelect/index.vue';
 import FormFieldSingleSelect from './components/FormFieldSingleSelect/index.vue';
 import TabList from './components/TabList';
 import ColorInput from './components/ColorInput';
+import ButtonField from './components/ButtonField';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -70,4 +71,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('loadable-image', LoadableImage);
   Vue.component('dropdown-menu', DropdownMenu);
   Vue.component('tab-list', TabList);
+  Vue.component('button-field', ButtonField);
 };
