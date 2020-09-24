@@ -33,6 +33,7 @@ export { default as FormFieldSelect } from './components/FormFieldSelect/index.v
 export { default as FormFieldSingleSelect } from './components/FormFieldSingleSelect/index.vue';
 export { default as TabList } from './components/TabList';
 export { default as ButtonField } from './components/ButtonField';
+export { default as DateTimeInput } from './components/DateTimeInput';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

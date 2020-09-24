@@ -54,6 +54,7 @@ export default Vue.extend({
           'email',
           'password',
           'date',
+          'time',
           'textarea'
         ].includes(value);
       }

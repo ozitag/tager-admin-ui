@@ -236,6 +236,7 @@ export declare const LoadableImage: VueConstructor<Vue>;
 export declare const DropdownMenu: VueConstructor<Vue>;
 export declare const TabList: VueConstructor<Vue>;
 export declare const ButtonField: VueConstructor<Vue>;
+export declare const DateTimeInput: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
