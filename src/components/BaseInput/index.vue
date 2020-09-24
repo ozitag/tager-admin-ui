@@ -16,7 +16,7 @@ export default Vue.extend({
       type: String,
       default: "text",
       validator(value) {
-        return ["text", "email", "password", "date"].includes(value);
+        return ["text", "email", "password", "date", 'time', 'datetime-local'].includes(value);
       }
     }
   },

@@ -18,19 +18,19 @@
 
     <div v-if="value" class="fields">
       <FormField
-        label="Button: Label"
+        label="Label"
         :name="addPrefix('label')"
         :value="value.label"
         @input="handleChange('label', $event)"
       />
       <FormField
-        label="Button: Link"
+        label="Link"
         :name="addPrefix('link')"
         :value="value.link"
         @input="handleChange('link', $event)"
       />
       <FormFieldCheckbox
-        label="Button: Is new tab?"
+        label="Is new tab?"
         :name="addPrefix('isNewTab')"
         :checked="value.isNewTab"
         @change="handleChange('isNewTab', $event)"
