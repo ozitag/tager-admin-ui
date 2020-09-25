@@ -1605,14 +1605,14 @@
     vue-docgen-loader "^1.5.0"
     webpack "^4.43.0"
 
-"@tager/admin-services@^0.2.11":
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.11.tgz#d19a1729d5e83f6341722afe17c410cb2942b5ce"
-  integrity sha512-mtXt2bAL4O74okO0QxBIOmx0rHlrcPdfXSvcFTT3YlFgYxaAPZhqlkdKxVCFcj+6bd4FZbGeDRbxWesTXOHVyQ==
+"@tager/admin-services@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.12.tgz#b173de72f299bba8edeafc1ee3469ea9cfdd4da4"
+  integrity sha512-A7kBoPPqKmRUFhAMfnU8oJjkH9hqWlp8yZAJVOGc9XMohVfCgttYaxrNFNu4Fasd1uKrBP8aFK3Oxadh+F+9UQ==
   dependencies:
     i18next "^19.7.0"
     nanoid "^3.1.12"
-    zod "^1.11.8"
+    zod "^1.11.9"
 
 "@tager/admin-wysiwyg@^0.1.0":
   version "0.1.0"
@@ -1661,6 +1661,11 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
+"@types/geojson@*":
+  version "7946.0.7"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"
+  integrity sha512-wE2v81i4C4Ol09RtsWFAqg3BUitWbHSpSlIo+bNdsCJijO9sjme+zm+73ZMCa/qMC8UEERxzGbvmr1cffo2SiQ==
+
 "@types/glob-base@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@types/glob-base/-/glob-base-0.3.0.tgz#a581d688347e10e50dd7c17d6f2880a10354319d"
@@ -1693,6 +1698,13 @@
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
   integrity sha512-3c+yGKvVP5Y9TYBEibGNR+kLtijnj7mYrXRg+WpFb2X9xm04g/DXYkfg4hmzJQosc9snFNUPkbYIhu+KAm6jJw==
+
+"@types/leaflet@^1.5.17":
+  version "1.5.17"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.5.17.tgz#b2153dc12c344e6896a93ffc6b61ac79da251e5b"
+  integrity sha512-2XYq9k6kNjhNI7PaTz8Rdxcc8Vzwu97OaS9CtcrTxnTSxFUGwjlGjTDvhTLJU+JRSfZ4lBwGcl0SjZHALdVr6g==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/lodash.kebabcase@^4.1.6":
   version "4.1.6"
@@ -6939,6 +6951,11 @@ lazy-universal-dotenv@^3.0.1:
     dotenv "^8.0.0"
     dotenv-expand "^5.1.0"
 
+leaflet@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
+
 less@^3.9.0:
   version "3.12.2"
   resolved "https://registry.yarnpkg.com/less/-/less-3.12.2.tgz#157e6dd32a68869df8859314ad38e70211af3ab4"
@@ -11393,7 +11410,7 @@ yorkie@^2.0.0:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-zod@^1.11.8:
-  version "1.11.8"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-1.11.8.tgz#5e6b2eb3114c73d5043889fa9dfbab0b60a93ff6"
-  integrity sha512-iusmIB00ll0Fxzyhrp8EJPaJDTSyQMKMCwk2hH2XrtgY/QcygPJTX13fSof/r7b4hL5cBeN5aeVl6WN1xpr90g==
+zod@^1.11.9:
+  version "1.11.9"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-1.11.9.tgz#c6c503804d394f8ef009d44ce464bbf8aa3c1bd6"
+  integrity sha512-qZjs9DkvPYHOiOUdAtNcxOC0u5cv7tx9DCmlNZN0MxWeFvgqyr3XkXFqUlaSpmTiZ4A4YVkB2s1Zw2ENJ9/fSg==

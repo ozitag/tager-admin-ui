@@ -12,6 +12,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 small {
+  position: absolute;
   font-size: 80%;
   font-weight: 400;
   display: block;

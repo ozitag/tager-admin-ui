@@ -35,6 +35,7 @@ import TabList from './components/TabList';
 import ColorInput from './components/ColorInput';
 import ButtonField from './components/ButtonField';
 import DateTimeInput from './components/DateTimeInput';
+import MapField from './components/MapField';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -73,5 +74,6 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('dropdown-menu', DropdownMenu);
   Vue.component('tab-list', TabList);
   Vue.component('button-field', ButtonField);
+  Vue.component('map-field', MapField);
   Vue.component('date-time-input', DateTimeInput);
 };

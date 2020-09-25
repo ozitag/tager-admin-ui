@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.7.9",
+  "version": "0.7.10",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -545,6 +545,31 @@
           ],
           "source": {
             "module": "./src\\components\\ColorInput\\ColorInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "CoordinatesForm",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "isEditing",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\MapField\\components\\CoordinatesForm.vue",
             "symbol": "default"
           }
         },
@@ -1248,6 +1273,57 @@
           ],
           "source": {
             "module": "./src\\components\\LoadableImage\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Map",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "isEditing",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\MapField\\components\\Map.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "MapField",
+          "description": "",
+          "attributes": [
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "null"
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\MapField\\MapField.vue",
             "symbol": "default"
           }
         },

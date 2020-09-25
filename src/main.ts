@@ -34,6 +34,7 @@ export { default as FormFieldSingleSelect } from './components/FormFieldSingleSe
 export { default as TabList } from './components/TabList';
 export { default as ButtonField } from './components/ButtonField';
 export { default as DateTimeInput } from './components/DateTimeInput';
+export { default as MapField } from './components/MapField';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

@@ -53,7 +53,17 @@ export default {
     }),
     postcss({
       extract: path.resolve('dist/admin-ui.css'),
-      plugins: [postcssImport],
+      plugins: [
+        /** Reference: https://github.com/vansosnin/postcss-omit-import-tilde */
+        function (css) {
+          css.walkAtRules('import', function (rule) {
+            if (rule.params.indexOf('~') === 1) {
+              rule.params = rule.params.replace(/[~]+/, '');
+            }
+          });
+        },
+        postcssImport,
+      ],
     }),
   ],
 };

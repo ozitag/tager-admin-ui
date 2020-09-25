@@ -14,6 +14,6 @@ export default Vue.extend({
 .form-group {
   position: relative;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 </style>
