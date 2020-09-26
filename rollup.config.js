@@ -8,6 +8,7 @@ import vue from 'rollup-plugin-vue';
 import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
 import postcssImport from 'postcss-import';
+import postcssUrl from 'postcss-url';
 
 export default {
   input: 'src/main.ts',
@@ -25,6 +26,7 @@ export default {
     'lodash.get',
     'lodash.kebabcase',
     'vue-color',
+    'leaflet',
   ],
   plugins: [
     /**
@@ -52,6 +54,7 @@ export default {
       plugins: ['@babel/plugin-transform-runtime'],
     }),
     postcss({
+      to: path.resolve('dist/admin-ui.css'),
       extract: path.resolve('dist/admin-ui.css'),
       plugins: [
         /** Reference: https://github.com/vansosnin/postcss-omit-import-tilde */
@@ -63,6 +66,14 @@ export default {
           });
         },
         postcssImport,
+        postcssUrl([
+          {
+            url: 'copy',
+            basePath: path.resolve('node_modules/leaflet/dist'),
+            assetsPath: 'assets',
+            useHash: true,
+          },
+        ]),
       ],
     }),
   ],
