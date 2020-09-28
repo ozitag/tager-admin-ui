@@ -9,6 +9,16 @@ const TEST_FILES = [
   {
     id: createId(),
     file: {
+      id: 47,
+      mime: 'image/png',
+      name: '2.png',
+      size: 29280,
+      url: 'https://tager.dev.ozitag.com/uploads/tmp/5x/fp/5xFpgWRkl8.png',
+    },
+  },
+  {
+    id: createId(),
+    file: {
       id: 174,
       mime: 'image/jpeg',
       name: 'e0cbc508796c2af24357b5f056aa2bdb0000033333.jpg',
@@ -41,7 +51,7 @@ const TEST_FILES = [
 export const Default = () => ({
   components: { FileInput },
   data() {
-    return { image: TEST_FILES[1] };
+    return { image: TEST_FILES[2] };
   },
   template: `
       <file-input :value="null" v-model="image"/>`,

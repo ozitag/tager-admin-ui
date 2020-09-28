@@ -31,9 +31,9 @@
             {{ entry.error }}
             <div class="file-caption">
               <span class="file-name">{{ entry.file.name }}</span>
-              <small class="file-size"
-                >({{ getFileSize(entry.file.size) }})</small
-              >
+              <small class="file-size">
+                ({{ getFileSize(entry.file.size) }})
+              </small>
             </div>
           </div>
           <div v-else class="file-inner">
@@ -42,6 +42,7 @@
                 v-if="isImage(entry.file)"
                 :src="entry.file.url"
                 :alt="entry.file.name"
+                class="file-image"
               />
               <svg-icon
                 v-else
@@ -52,9 +53,9 @@
 
             <div v-if="!isImage(entry.file)" class="file-caption">
               <span class="file-name">{{ entry.file.name }}</span>
-              <small class="file-size"
-                >({{ getFileSize(entry.file.size) }})</small
-              >
+              <small class="file-size">
+                ({{ getFileSize(entry.file.size) }})
+              </small>
             </div>
 
             <base-text-area
@@ -629,5 +630,9 @@ export default Vue.extend({
     margin-top: 0.2rem;
     color: #999;
   }
+}
+
+.file-image {
+  object-fit: contain;
 }
 </style>
