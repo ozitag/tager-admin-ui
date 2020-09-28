@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
+import VueCompositionApi from 'vue';
 
 import TabList from './TabList.vue';
 

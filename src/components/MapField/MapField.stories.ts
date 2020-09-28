@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api';
+import { ref } from 'vue';
 
 import MapField from './MapField.vue';
 import { MapFieldValueType } from './MapField.helpers';

@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { VueConstructor } from 'vue';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent } from 'vue';
 
 import { ICON_MAP } from './SvgIcon.constants';
 

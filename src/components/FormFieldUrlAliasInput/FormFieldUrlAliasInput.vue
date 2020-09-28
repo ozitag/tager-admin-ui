@@ -27,7 +27,7 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
-} from '@vue/composition-api';
+} from 'vue';
 import { Nullable } from '@tager/admin-services';
 
 import FormGroup from '../FormGroup.vue';

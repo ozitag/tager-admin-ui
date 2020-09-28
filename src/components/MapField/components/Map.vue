@@ -8,7 +8,7 @@
 import * as L from 'leaflet';
 import { LeafletMouseEventHandlerFn, Map, Marker } from 'leaflet';
 import { createId, Nullable } from '@tager/admin-services';
-import { defineComponent, onMounted, ref, watch } from '@vue/composition-api';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 
 import { ValuePropSchema, ValueType } from '../MapField.helpers';
 

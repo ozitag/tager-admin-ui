@@ -1,4 +1,4 @@
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from 'vue';
 
 import FormFieldColorInput from './index.vue';
 

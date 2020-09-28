@@ -1,5 +1,5 @@
 import NumberInput from './index.vue';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from 'vue';
 
 export default { title: 'NumberInput' };
 

@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import { Nullable } from '@tager/admin-services';
 
 import FormGroup from './FormGroup.vue';
@@ -22,7 +21,7 @@ type Props = {
   error: Nullable<string>;
 };
 
-export default defineComponent<Props>({
+export default {
   name: 'FormFieldWrapper',
   components: { FormGroup, FormFieldError, InputLabel },
   props: {
@@ -30,7 +29,7 @@ export default defineComponent<Props>({
     label: { type: String, default: '' },
     error: { type: String, default: null },
   },
-});
+};
 </script>
 
 <style scoped></style>

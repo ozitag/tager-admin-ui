@@ -3,12 +3,12 @@ import { DEFAULT_EXTENSIONS } from '@babel/core';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
-import svg from 'rollup-plugin-vue-inline-svg';
 import vue from 'rollup-plugin-vue';
 import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
 import postcssImport from 'postcss-import';
 import postcssUrl from 'postcss-url';
+import svg from './plugins/rollup-plugin-vue-inline-svg';
 
 export default {
   input: 'src/main.ts',
