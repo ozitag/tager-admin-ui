@@ -4,7 +4,7 @@
     :class="['button', variant, { loading: loading }]"
     :type="isLink ? undefined : type"
     :disabled="isDisabled"
-    :href="isLink ? href : undefined"
+    :href="isLink ? resolvedHref : undefined"
     v-on="buttonListeners"
   >
     <span v-if="loading" class="spinner-wrapper">
@@ -49,6 +49,13 @@ export default Vue.extend({
     },
     isDisabled() {
       return this.disabled || this.loading;
+    },
+    resolvedHref() {
+      if (this.isLink && this.$router && !isAbsoluteUrl(this.href)) {
+        return this.$router.resolve(this.href).href;
+      }
+
+      return this.href;
     },
     buttonListeners() {
       const vm = this;
