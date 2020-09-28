@@ -1,9 +1,15 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
 import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
+import { ShortCodeParamType } from '../src/typings/common';
 
 export type LinkType = {
   url: string;
   text: string;
+};
+
+export type ShortCodeItemType = {
+  readonly name: string;
+  readonly params: Array<ShortCodeParamType>;
 };
 
 export type IconName =
@@ -238,6 +244,7 @@ export declare const TabList: VueConstructor<Vue>;
 export declare const ButtonField: VueConstructor<Vue>;
 export declare const MapField: VueConstructor<Vue>;
 export declare const DateTimeInput: VueConstructor<Vue>;
+export declare const ShortCodeConstructor: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';

@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.7.12",
+  "version": "0.7.13",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -1443,6 +1443,32 @@
           ],
           "source": {
             "module": "./src\\components\\ProgressBar\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "ShortCodeConstructor",
+          "description": "",
+          "attributes": [
+            {
+              "name": "shortCodeConfigList",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Shortcode'"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\ShortCodeConstructor\\ShortCodeConstructor.vue",
             "symbol": "default"
           }
         },
