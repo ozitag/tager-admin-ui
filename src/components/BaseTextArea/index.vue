@@ -42,22 +42,25 @@ textarea {
   overflow: auto;
   resize: vertical;
 
-  // Placeholder
+  /* Placeholder */
   &::placeholder {
     color: var(--input-placeholder-color);
-    // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
+    /* Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526. */
     opacity: 1;
   }
 
-  // Disabled and read-only inputs
-  //
-  // HTML5 says that controls under a fieldset > legend:first-child won't be
-  // disabled if the fieldset is disabled. Due to implementation difficulty, we
-  // don't honor that edge case; we style them as disabled anyway.
+  /*
+  Disabled and read-only inputs
+
+  HTML5 says that controls under a fieldset > legend:first-child won't be
+
+  disabled if the fieldset is disabled. Due to implementation difficulty, we
+  don't honor that edge case; we style them as disabled anyway.
+   */
   &:disabled,
   &[readonly] {
     background-color: var(--input-disabled-bg);
-    // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
+    /* iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655. */
     opacity: 1;
   }
 

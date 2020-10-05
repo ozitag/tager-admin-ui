@@ -100,8 +100,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { PropValidator } from 'vue/types/options';
+import { defineComponent, Prop } from 'vue';
 import {
   createId,
   FileObjectSchema,
@@ -147,7 +146,7 @@ type UploadingSingleFileInputValueType = SingleFileInputValueType & {
   error: Nullable<string>;
 };
 
-export default Vue.extend({
+export default defineComponent({
   name: 'FileInput',
   components: { SvgIcon, BaseButton, ProgressBar, BaseTextArea, LoadableImage },
   model: {
@@ -156,11 +155,12 @@ export default Vue.extend({
   },
   props: {
     value: {
+      type: Object,
       required: true,
-      validator(value) {
+      validator(value: unknown) {
         return !value || FileInputValueSchema.check(value);
       },
-    } as PropValidator<FileInputValueType>,
+    } as Prop<FileInputValueType>,
     multiple: Boolean,
     withCaptions: Boolean,
     accept: {
