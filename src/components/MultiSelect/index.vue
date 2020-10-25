@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul v-if="options.length > 0" class="option-list">
+    <ul v-if="options.length > 0" class="option-list" data-multi-select-list>
       <li
         v-for="(option, index) of options"
         :key="option.value"
