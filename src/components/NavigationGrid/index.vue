@@ -117,6 +117,7 @@ export default Vue.extend({
   &.full-height {
     border: 0;
     height: 100%;
+    min-height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
