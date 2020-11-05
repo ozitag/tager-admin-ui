@@ -76,6 +76,7 @@ export default Vue.extend({
 .nav-card {
   width: 33.33%;
   padding: 0.5rem;
+  min-height: 150px;
 }
 
 .inner {
