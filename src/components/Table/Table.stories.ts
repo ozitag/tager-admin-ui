@@ -1,6 +1,7 @@
-import BaseTable from './index.vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
+import BaseTable from './Table.vue';
 
 export default { title: 'Table' };
 
@@ -108,7 +109,7 @@ export const Default = () => ({
     };
   },
   template: `
-      <base-table :column-defs="columnDefs" :row-data="rowData" enumerable>
+      <base-table :column-defs="columnDefs" :row-data="rowData" enumerable :loading="true">
           <template v-slot:cell(description)="{ row, column }">
               <td :style="column.style">
                   <h4>{{ row[column.field] }}</h4>

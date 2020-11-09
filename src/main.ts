@@ -13,7 +13,7 @@ export { default as InputLabel } from './components/InputLabel/index.vue';
 export { default as PageTitle } from './components/PageTitle/index.vue';
 export { default as Spinner } from './components/Spinner/index.vue';
 export { default as SvgIcon } from './components/SvgIcon';
-export { default as Table } from './components/Table/index.vue';
+export { default as Table } from './components/Table';
 export { default as TableCell } from './components/Table/components/Cell.vue';
 export { default as FormGroup } from './components/FormGroup.vue';
 export { default as FileInput } from './components/FileInput/index.vue';

@@ -11,7 +11,7 @@ import InputLabel from './components/InputLabel/index.vue';
 import PageTitle from './components/PageTitle/index.vue';
 import Spinner from './components/Spinner/index.vue';
 import SvgIcon from './components/SvgIcon';
-import Table from './components/Table/index.vue';
+import Table from './components/Table';
 import TableCell from './components/Table/components/Cell.vue';
 import FormGroup from './components/FormGroup.vue';
 import FileInput from './components/FileInput/index.vue';

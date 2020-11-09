@@ -1,5 +1,11 @@
 <template>
-  <svg class="spinner" viewBox="0 0 50 50" :style="style" data-spinner>
+  <svg
+    class="spinner"
+    viewBox="0 0 50 50"
+    :width="size"
+    :height="size"
+    data-spinner
+  >
     <circle
       class="path"
       cx="25"
@@ -11,29 +17,26 @@
   </svg>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+type Props = {
+  size: number | string;
+  strokeWidth: number | string;
+};
+
+export default defineComponent<Props>({
   name: 'Spinner',
   props: {
     size: {
       type: [Number, String],
-      default: 25
+      default: 25,
     },
     strokeWidth: {
       type: [Number, String],
-      default: 5
-    }
+      default: 5,
+    },
   },
-  computed: {
-    style() {
-      return {
-        width: this.size,
-        height: this.size
-      };
-    }
-  }
 });
 </script>
 
