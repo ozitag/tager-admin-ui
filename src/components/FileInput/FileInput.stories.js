@@ -1,4 +1,6 @@
 import FileInput from './index';
+import FormGroup from '../FormGroup';
+import InputLabel from '../InputLabel';
 import { createId } from '@tager/admin-services';
 
 export default {
@@ -54,7 +56,21 @@ export const Default = () => ({
     return { image: TEST_FILES[2] };
   },
   template: `
-      <file-input :value="null" v-model="image"/>`,
+    <file-input :value="null" v-model="image" />
+  `,
+});
+
+export const WithUploadByUrl = () => ({
+  components: { FileInput, FormGroup, InputLabel },
+  data() {
+    return { image: TEST_FILES[2] };
+  },
+  template: `
+    <form-group>
+      <input-label>Label</input-label>
+      <file-input :value="null" v-model="image" upload-from-url/>
+    </form-group>
+  `,
 });
 
 export const Multiple = () => ({
@@ -63,5 +79,6 @@ export const Multiple = () => ({
     return { images: [] };
   },
   template: `
-      <file-input :value="null" v-model="images" multiple with-captions />`,
+    <file-input :value="null" v-model="images" multiple with-captions />
+  `,
 });

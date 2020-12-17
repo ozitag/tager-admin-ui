@@ -74,27 +74,46 @@
     <div
       v-if="shouldDisplayDropbox"
       ref="dropbox"
-      :class="['drop-zone', isDragOver ? 'highlight' : null]"
+      :class="[
+        'drop-zone',
+        isDragOver ? 'highlight' : null,
+        { 'no-hover': selectedTabId === 'url' },
+      ]"
       @dragenter="handleDragEnter"
       @dragover="handleDragOver"
       @drop="handleDrop"
       @dragleave="handleDragLeave"
     >
-      <div class="upload-message-container">
-        <svg-icon name="upload" />
-        <p>{{ computedPlaceholderMessage }}</p>
-      </div>
+      <TabList
+        v-if="uploadFromUrl"
+        class="file-tab-list"
+        :tab-list="tabList"
+        :selected-tab-id="selectedTabId"
+        @tab:update="handleTabUpdate"
+      />
 
-      <label class="file-input-label">
-        <input
-          ref="fileInput"
-          type="file"
-          class="visually-hidden"
-          :accept="acceptableMimeTypes"
-          :multiple="multiple"
-          @change="handleChange"
-        />
-      </label>
+      <UploadFileFromUrlForm
+        v-if="selectedTabId === 'url'"
+        @change="handleUploadFromUrlChange"
+      />
+
+      <div v-else-if="selectedTabId === 'file'">
+        <div class="upload-message-container">
+          <svg-icon name="upload" />
+          <p>{{ computedPlaceholderMessage }}</p>
+        </div>
+
+        <label class="file-input-label">
+          <input
+            ref="fileInput"
+            type="file"
+            class="visually-hidden"
+            :accept="acceptableMimeTypes"
+            :multiple="multiple"
+            @change="handleChange"
+          />
+        </label>
+      </div>
     </div>
   </div>
 </template>
@@ -121,6 +140,8 @@ import BaseButton from '../BaseButton/index.vue';
 import BaseTextArea from '../BaseTextArea/index.vue';
 import ProgressBar from '../ProgressBar/index.vue';
 import LoadableImage from '../LoadableImage/index.vue';
+import TabList from '../TabList/TabList.vue';
+import UploadFileFromUrlForm from '../UploadFileFromUrlForm';
 
 import { getFileIconName } from './FileInput.helpers';
 
@@ -147,9 +168,22 @@ type UploadingSingleFileInputValueType = SingleFileInputValueType & {
   error: Nullable<string>;
 };
 
+type TabListType = {
+  id: string;
+  label: string;
+};
+
 export default Vue.extend({
   name: 'FileInput',
-  components: { SvgIcon, BaseButton, ProgressBar, BaseTextArea, LoadableImage },
+  components: {
+    SvgIcon,
+    BaseButton,
+    ProgressBar,
+    BaseTextArea,
+    LoadableImage,
+    TabList,
+    UploadFileFromUrlForm,
+  },
   model: {
     prop: 'value',
     event: 'change',
@@ -186,14 +220,31 @@ export default Vue.extend({
       type: String,
       default: null,
     },
+    uploadFromUrl: {
+      type: Boolean,
+      default: false,
+    },
   },
   data(): {
     isDragOver: boolean;
     uploadingFileList: Array<UploadingSingleFileInputValueType>;
+    tabList: Array<TabListType>;
+    selectedTabId: string;
   } {
     return {
       isDragOver: false,
       uploadingFileList: [],
+      selectedTabId: 'file',
+      tabList: [
+        {
+          id: 'url',
+          label: 'Upload file by URL',
+        },
+        {
+          id: 'file',
+          label: 'Upload file',
+        },
+      ],
     };
   },
   computed: {
@@ -262,6 +313,23 @@ export default Vue.extend({
     },
   },
   methods: {
+    handleUploadFromUrlChange(savedFile: FileType) {
+      const newValue: SingleFileInputValueType = {
+        id: createId(),
+        file: savedFile,
+        caption: null,
+      };
+
+      const newValues: Array<SingleFileInputValueType> = [
+        ...this.savedFileList,
+        newValue,
+      ].filter(notEmpty);
+
+      this.emitChangeEvent(newValues);
+    },
+    handleTabUpdate({ tabId }: { tabId: string }): void {
+      this.selectedTabId = tabId;
+    },
     handleChange(event: Event): void {
       const inputElement = event.target as HTMLInputElement;
       this.handleFiles(inputElement.files);
@@ -324,8 +392,6 @@ export default Vue.extend({
             return 'File too large';
           case 404:
             return 'Upload endpoint is not found';
-          default:
-            return getMessageFromError(error) || 'Error';
         }
       }
 
@@ -443,6 +509,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .file-input-container {
+  position: relative;
   &.with-captions {
     .drop-zone,
     .file-container {
@@ -457,18 +524,26 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   padding: 5px 10px;
   border-radius: 3px;
+  background-color: #fff;
   transition: background-color 0.15s linear, box-shadow 0.15s linear;
   border: 1px solid rgba(0, 0, 0, 0.16);
 
   &:hover {
     background-color: rgba(62, 69, 81, 0.05);
+
+    ::v-deep &:not(.no-hover) [data-ui-tab][data-active] [data-ui-tab-button] {
+      background-color: rgba(62, 69, 81, 0.05);
+    }
   }
 
   &.highlight {
     background-color: rgba(62, 69, 81, 0.05);
+  }
+
+  &.no-hover:hover {
+    background-color: transparent;
   }
 
   &:not(:first-child) {
@@ -519,7 +594,6 @@ export default Vue.extend({
 .file-wrapper {
   flex: 0 0 25%;
   padding: 1rem;
-  overflow: hidden;
 
   &.single {
     flex-basis: 100%;
@@ -534,7 +608,7 @@ export default Vue.extend({
       background-color: rgba(220, 53, 69, 0.2);
       color: var(--danger);
       border-color: rgba(220, 53, 69, 0.4);
-      box-shadow: 0px 3px 2px -1px rgba(220, 53, 69, 0.2),
+      box-shadow: 0 3px 2px -1px rgba(220, 53, 69, 0.2),
         0px 1px 5px 0px rgba(220, 53, 69, 0.14),
         0px 1px 5px 0px rgba(220, 53, 69, 0.12);
     }
@@ -567,7 +641,7 @@ export default Vue.extend({
 
     &:hover {
       transform: scale(1.1);
-      box-shadow: 0px 3px 2px -1px rgba(0, 0, 0, 0.2),
+      box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.2),
         0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
     }
   }
@@ -634,5 +708,39 @@ export default Vue.extend({
 
 .file-image {
   object-fit: contain;
+}
+
+.file-tab-list {
+  position: absolute;
+  top: 0;
+  right: -1px;
+  transform: translate(0, -100%);
+
+  margin: 0;
+  border-bottom: none;
+
+  ::v-deep [data-ui-tab] {
+    border-top: none;
+
+    [data-ui-tab-button] {
+      padding: 7px;
+      border: 1px solid transparent;
+      border-bottom: none;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
+      transition: background-color 0.15s linear;
+    }
+
+    &[data-active] {
+      background-color: #fff;
+      border-top: none;
+
+      [data-ui-tab-button] {
+        border: 1px solid #ccc;
+        border-bottom: none;
+        padding: 7px;
+      }
+    }
+  }
 }
 </style>
