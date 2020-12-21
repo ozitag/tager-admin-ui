@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.7.17",
+  "version": "0.7.19",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -735,14 +735,6 @@
                 "type": "string"
               },
               "default": "null"
-            },
-            {
-              "name": "uploadFromUrl",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "default": "false"
             }
           ],
           "events": [
