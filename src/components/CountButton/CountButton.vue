@@ -1,7 +1,7 @@
 <template>
   <BaseButton v-bind="$attrs">
     <slot>Submit</slot>
-    <span v-if="count" class="count">{{ count }}</span>
+    <span class="count">{{ count }}</span>
   </BaseButton>
 </template>
 
