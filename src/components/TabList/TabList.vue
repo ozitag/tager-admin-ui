@@ -1,5 +1,5 @@
 <template>
-  <ul class="tab-list">
+  <ul class="tab-list" data-ui-tab-list>
     <li
       v-for="tab of tabList"
       :key="tab.id"
@@ -7,8 +7,15 @@
         'tab',
         { active: selectedTabId === tab.id, invalid: tab.hasErrors },
       ]"
+      data-ui-tab
+      :data-active="selectedTabId === tab.id ? true : undefined"
     >
-      <button class="tab-button" type="button" @click="handleTabClick(tab.id)">
+      <button
+        class="tab-button"
+        type="button"
+        data-ui-tab-button
+        @click="handleTabClick(tab.id)"
+      >
         {{ tab.label }} <span v-if="tab.hasErrors">*</span>
       </button>
     </li>

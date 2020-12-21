@@ -574,6 +574,28 @@
           }
         },
         {
+          "name": "CountButton",
+          "description": "",
+          "attributes": [
+            {
+              "name": "count",
+              "value": {
+                "kind": "expression",
+                "type": "number|string"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\CountButton\\CountButton.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "DateTimeInput",
           "description": "",
           "attributes": [
@@ -713,6 +735,14 @@
                 "type": "string"
               },
               "default": "null"
+            },
+            {
+              "name": "uploadFromUrl",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
             }
           ],
           "events": [
@@ -1583,6 +1613,14 @@
           "description": "",
           "source": {
             "module": "./src\\components\\Toast\\Toaster.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "UploadFileFromUrlForm",
+          "description": "",
+          "source": {
+            "module": "./src\\components\\UploadFileFromUrlForm\\UploadFileFromUrlForm.vue",
             "symbol": "default"
           }
         }
