@@ -85,7 +85,6 @@
       @dragleave="handleDragLeave"
     >
       <TabList
-        v-if="uploadFromUrl"
         class="file-tab-list"
         :tab-list="tabList"
         :selected-tab-id="selectedTabId"
@@ -219,10 +218,6 @@ export default Vue.extend({
     scenario: {
       type: String,
       default: null,
-    },
-    uploadFromUrl: {
-      type: Boolean,
-      default: false,
     },
   },
   data(): {

@@ -68,7 +68,7 @@ export const WithUploadByUrl = () => ({
   template: `
     <form-group>
       <input-label>Label</input-label>
-      <file-input :value="null" v-model="image" upload-from-url/>
+      <file-input :value="null" v-model="image"/>
     </form-group>
   `,
 });
@@ -79,6 +79,6 @@ export const Multiple = () => ({
     return { images: [] };
   },
   template: `
-    <file-input :value="null" v-model="images" multiple with-captions />
+    <file-input :value="null" v-model="images" multiple with-captions/>
   `,
 });
