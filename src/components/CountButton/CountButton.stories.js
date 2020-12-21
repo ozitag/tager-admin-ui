@@ -12,7 +12,7 @@ export const Primary = () => ({
 export const PrimaryOutline = () => ({
   components: { CountButton },
   template: `<div>
-      <count-button variant="outline-primary" count="30">
+      <count-button variant="outline-primary" :count="0">
         <span>Subcategories</span>
       </count-button>
   </div>`,
