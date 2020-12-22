@@ -1,12 +1,40 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 import BaseTable from './Table.vue';
 
 export default { title: 'Table' };
 
+interface LinkType {
+  url: string;
+  text: string;
+}
+interface RowDataType {
+  [key: string]: any;
+}
+
 const defaultColumnDefs = [
-  { id: 1, name: 'ID (10%)', field: 'id', style: { width: '10%' } },
+  {
+    id: 100,
+    name: 'Name',
+    type: 'name',
+    field: 'name',
+    style: { width: '15%' },
+    format: ({ row }: RowDataType) => {
+      return {
+        name: {
+          url: row.url,
+          text: row.name,
+        } as LinkType,
+        webURL: 'http://localhost:8080/admin/products/40',
+      };
+    },
+  },
+  {
+    id: 1,
+    name: 'ID (10%)',
+    field: 'id',
+    style: { width: '10%' },
+  },
   {
     id: 2,
     name: 'String Color (30%)',
@@ -69,7 +97,8 @@ const defaultColumnDefs = [
 const defaultRowData = [
   {
     id: 1,
-    name: 'Ivan',
+    name: 'Makeup Purple',
+    url: '/beautification/eyes-hazel',
     color: '#374635',
     content: '<p>simple header <h3>Title</h3></p>',
     image: {
@@ -84,7 +113,8 @@ const defaultRowData = [
   {
     id: 2,
     color: 'rgba(222,111,123,0.8)',
-    name: 'Ivan',
+    name: 'Something',
+    url: '/interactive-background/golden-confetti',
     content: '<p>simple header <em>Title</em></p>',
     image: {
       url:

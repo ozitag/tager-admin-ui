@@ -498,6 +498,40 @@
           }
         },
         {
+          "name": "CellName",
+          "description": "",
+          "attributes": [
+            {
+              "name": "column",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "row",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "rowIndex",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Table\\components\\CellName.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "CellString",
           "description": "",
           "attributes": [
@@ -735,14 +769,6 @@
                 "type": "string"
               },
               "default": "null"
-            },
-            {
-              "name": "uploadFromUrl",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "default": "false"
             }
           ],
           "events": [
