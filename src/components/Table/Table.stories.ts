@@ -1,13 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BaseTable from './Table.vue';
+import { RowDataDefaultType } from '../../../typings';
 
 export default { title: 'Table' };
 
-interface LinkType {
-  url: string;
-  text: string;
-}
 interface RowDataType {
   [key: string]: any;
 }
@@ -18,14 +15,18 @@ const defaultColumnDefs = [
     name: 'Name',
     type: 'name',
     field: 'name',
-    style: { width: '15%' },
-    format: ({ row }: RowDataType) => {
+    style: { width: '20%' },
+    format: ({ row }: RowDataDefaultType) => {
       return {
-        name: {
-          url: row.url,
+        adminLink: {
+          url: 'http://localhost:8080/admin/products/40',
           text: row.name,
-        } as LinkType,
-        webURL: 'http://localhost:8080/admin/products/40',
+        },
+        websiteUrl: {
+          url:
+            process.env.VUE_APP_WEBSITE_URL || window.location.origin + row.url,
+          text: row.url,
+        },
       };
     },
   },
@@ -113,7 +114,7 @@ const defaultRowData = [
   {
     id: 2,
     color: 'rgba(222,111,123,0.8)',
-    name: 'Something',
+    name: 'Ivan',
     url: '/interactive-background/golden-confetti',
     content: '<p>simple header <em>Title</em></p>',
     image: {

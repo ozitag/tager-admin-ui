@@ -66,6 +66,10 @@ export type ColorCellValue = string | null;
 export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
 export type LinkCellValue = LinkType | string | null;
+export type NameCellValue = {
+  adminLink: LinkType | string | null;
+  websiteUrl: LinkType | string | null;
+} | null;
 
 export type ColumnType =
   | 'string'
@@ -156,6 +160,12 @@ export interface ColumnDefinitionColor<RowData = RowDataDefaultType>
   format?: (params: ColumnParamsArg<RowData>) => ColorCellValue;
 }
 
+export interface ColumnDefinitionName<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'name';
+  format?: (params: ColumnParamsArg<RowData>) => NameCellValue;
+}
+
 export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionDynamic<RowData>
   | ColumnDefinitionString<RowData>
@@ -164,7 +174,8 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionImage<RowData>
   | ColumnDefinitionLink<RowData>
   | ColumnDefinitionHtml<RowData>
-  | ColumnDefinitionColor<RowData>;
+  | ColumnDefinitionColor<RowData>
+  | ColumnDefinitionName<RowData>;
 
 export type NavigationGridItem = {
   name: string;

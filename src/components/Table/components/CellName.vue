@@ -1,45 +1,62 @@
 <template>
   <td class="name-cell">
     <div class="name-wrap">
-      <div v-if="Boolean(state.name)" class="name-block">
+      <div class="name-block">
         <component
           :is="shouldUseRouter ? 'router-link' : 'a'"
           class="name"
-          :href="shouldUseRouter ? undefined : state.name.url"
-          :to="shouldUseRouter ? state.name.text : undefined"
+          :href="shouldUseRouter ? undefined : state.adminLink.url"
+          :to="shouldUseRouter ? state.adminLink.text : undefined"
           v-bind="linkAttrs"
         >
-          {{ state.name.text }}
+          {{ state.adminLink.text }}
         </component>
       </div>
 
-      <div v-if="Boolean(state.webURL)" class="url-block">
+      <div v-if="Boolean(state.websiteUrl)" class="url-block">
         <span class="label">Web URL:</span>
-        <a class="url" :href="state.webURL" target="_blank">
-          {{ state.webURL }}
+        <a class="url" :href="state.websiteUrl.url" target="_blank">
+          {{ state.websiteUrl.text }}
         </a>
       </div>
     </div>
   </td>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api';
 import get from 'lodash.get';
-import { isAbsoluteUrl } from '@tager/admin-services';
+import { isAbsoluteUrl, isString, z } from '@tager/admin-services';
+import { ColumnDefinitionName } from '../../../typings/common';
+import { RowDataDefaultType } from '../../../../typings';
 
-function isNameObject(value) {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    typeof value.name === 'object' &&
-    typeof value.name.url === 'string' &&
-    typeof value.name.text === 'string' &&
-    typeof value.webURL === 'string'
-  );
+const LinkSchema = z.object({ url: z.string(), text: z.string() });
+
+const NameCelValueObjectSchema = z.object({
+  adminLink: LinkSchema.nullable(),
+  websiteUrl: LinkSchema.nullable(),
+});
+
+const NameCelValueSchema = z.union([
+  NameCelValueObjectSchema,
+  z.string(),
+  z.null(),
+]);
+
+type NameCellValueType = z.infer<typeof NameCelValueSchema>;
+type NameCellValueObjectType = z.infer<typeof NameCelValueObjectSchema>;
+
+function isValidNameCellValue(value: unknown): value is NameCellValueType {
+  return NameCelValueSchema.check(value);
 }
 
-export default defineComponent({
+interface Props {
+  column: ColumnDefinitionName;
+  row: RowDataDefaultType;
+  rowIndex: number;
+}
+
+export default defineComponent<Props>({
   name: 'CellName',
   props: {
     column: {
@@ -56,7 +73,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const state = computed(() => {
+    const state = computed<NameCellValueObjectType | null>(() => {
       const value = props.column.format
         ? props.column.format({
             row: props.row,
@@ -65,22 +82,27 @@ export default defineComponent({
           })
         : get(props.row, props.column.field, null);
 
-      return isNameObject(value)
-        ? value
-        : typeof value === 'string' && value.trim()
-        ? { name: { text: value, url: value }, webURL: null }
-        : null;
+      if (!isValidNameCellValue(value) || !value) return null;
+
+      if (isString(value)) {
+        return { adminLink: { text: value, url: '' }, websiteUrl: null };
+      } else {
+        return {
+          adminLink: value.adminLink,
+          websiteUrl: value.websiteUrl,
+        };
+      }
     });
 
-    const isAbsoluteLink = computed(() => {
-      return state ? isAbsoluteUrl(state.name.url) : false;
-    });
+    const shouldUseRouter = computed<boolean>(() => {
+      const isAbsoluteLink = state
+        ? isAbsoluteUrl(state.value?.adminLink?.url ?? '')
+        : false;
 
-    const shouldUseRouter = computed(() => {
       return props.column.options?.shouldUseRouter ?? !isAbsoluteLink;
     });
 
-    const linkAttrs = computed(() => {
+    const linkAttrs = computed<{ target: string | undefined }>(() => {
       const shouldOpenNewTab =
         props.column.options?.shouldOpenNewTab ?? !shouldUseRouter;
 
