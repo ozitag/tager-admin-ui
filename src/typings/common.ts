@@ -69,10 +69,13 @@ export type ColorCellValue = string | null;
 export type StringCellValue = string | null;
 export type ImageCellValue = string | null;
 export type LinkCellValue = LinkType | string | null;
-export type NameCellValue = {
-  adminLink: LinkType | string | null;
-  websiteUrl: LinkType | string | null;
-} | null;
+export type NameCellValue =
+  | {
+      adminLink: LinkType;
+      websiteLink: LinkType | null;
+    }
+  | string
+  | null;
 
 export type ColumnType =
   | 'string'
@@ -171,6 +174,10 @@ export interface ColumnDefinitionName<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
   type: 'name';
   format?: (params: ColumnParamsArg<RowData>) => NameCellValue;
+  options?: {
+    shouldOpenNewTab?: boolean;
+    shouldUseRouter?: boolean;
+  };
 }
 
 export type ColumnDefinition<RowData = RowDataDefaultType> =

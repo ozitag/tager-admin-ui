@@ -2,14 +2,12 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BaseTable from './Table.vue';
 import { RowDataDefaultType } from '../../../typings';
+import { ColumnDefinition } from '../../typings/common';
+import { getWebsiteOrigin } from '../../utils/common';
 
 export default { title: 'Table' };
 
-interface RowDataType {
-  [key: string]: any;
-}
-
-const defaultColumnDefs = [
+const defaultColumnDefs: Array<ColumnDefinition> = [
   {
     id: 100,
     name: 'Name',
@@ -19,12 +17,11 @@ const defaultColumnDefs = [
     format: ({ row }: RowDataDefaultType) => {
       return {
         adminLink: {
-          url: 'http://localhost:8080/admin/products/40',
+          url: '/admin/products/40',
           text: row.name,
         },
-        websiteUrl: {
-          url:
-            process.env.VUE_APP_WEBSITE_URL || window.location.origin + row.url,
+        websiteLink: {
+          url: getWebsiteOrigin() + row.url,
           text: row.url,
         },
       };
@@ -95,7 +92,20 @@ const defaultColumnDefs = [
     // }),
   },
 ];
-const defaultRowData = [
+
+interface TestEntity {
+  id: number;
+  name: string;
+  url: string;
+  color: string;
+  content: string;
+  image: { url: string };
+  date: string;
+  link: string;
+  description: string;
+}
+
+const defaultRowData: Array<TestEntity> = [
   {
     id: 1,
     name: 'Makeup Purple',

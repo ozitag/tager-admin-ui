@@ -16,12 +16,10 @@
 import Vue from 'vue';
 import get from 'lodash.get';
 import { isAbsoluteUrl } from '@tager/admin-services';
+import { LinkSchema } from '../../../constants/schema';
 
 function isLinkObject(value) {
-  return typeof value === 'object'
-    && value !== null
-    && typeof value.url === 'string'
-    && typeof value.text === 'string';
+  return LinkSchema.check(value);
 }
 
 export default Vue.extend({

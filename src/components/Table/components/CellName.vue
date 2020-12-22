@@ -1,10 +1,14 @@
 <template>
   <td class="name-cell">
-    <div class="name-wrap">
+    <div v-if="state" class="name-wrap">
       <div class="name-block">
+        <span v-if="!state.adminLink.url" class="name">
+          {{ state.adminLink.text }}
+        </span>
         <component
           :is="shouldUseRouter ? 'router-link' : 'a'"
-          class="name"
+          v-else
+          class="name-link"
           :href="shouldUseRouter ? undefined : state.adminLink.url"
           :to="shouldUseRouter ? state.adminLink.text : undefined"
           v-bind="linkAttrs"
@@ -13,10 +17,10 @@
         </component>
       </div>
 
-      <div v-if="Boolean(state.websiteUrl)" class="url-block">
+      <div v-if="state.websiteLink" class="url-block">
         <span class="label">Web URL:</span>
-        <a class="url" :href="state.websiteUrl.url" target="_blank">
-          {{ state.websiteUrl.text }}
+        <a class="url" :href="state.websiteLink.url" target="_blank">
+          {{ state.websiteLink.text }}
         </a>
       </div>
     </div>
@@ -29,22 +33,23 @@ import get from 'lodash.get';
 import { isAbsoluteUrl, isString, z } from '@tager/admin-services';
 import { ColumnDefinitionName } from '../../../typings/common';
 import { RowDataDefaultType } from '../../../../typings';
+import { LinkSchema } from '../../../constants/schema';
 
-const LinkSchema = z.object({ url: z.string(), text: z.string() });
-
-const NameCelValueObjectSchema = z.object({
-  adminLink: LinkSchema.nullable(),
-  websiteUrl: LinkSchema.nullable(),
+const NameCellValueObjectSchema = z.object({
+  adminLink: LinkSchema,
+  websiteLink: LinkSchema.nullable(),
 });
 
 const NameCelValueSchema = z.union([
-  NameCelValueObjectSchema,
+  /** from `format(...)` */
+  NameCellValueObjectSchema,
+  /** from `field` */
   z.string(),
   z.null(),
 ]);
 
 type NameCellValueType = z.infer<typeof NameCelValueSchema>;
-type NameCellValueObjectType = z.infer<typeof NameCelValueObjectSchema>;
+type NameCellValueObjectType = z.infer<typeof NameCellValueObjectSchema>;
 
 function isValidNameCellValue(value: unknown): value is NameCellValueType {
   return NameCelValueSchema.check(value);
@@ -84,19 +89,17 @@ export default defineComponent<Props>({
 
       if (!isValidNameCellValue(value) || !value) return null;
 
+      /** from `field` */
       if (isString(value)) {
-        return { adminLink: { text: value, url: '' }, websiteUrl: null };
-      } else {
-        return {
-          adminLink: value.adminLink,
-          websiteUrl: value.websiteUrl,
-        };
+        return { adminLink: { text: value, url: '' }, websiteLink: null };
       }
+
+      return value;
     });
 
     const shouldUseRouter = computed<boolean>(() => {
       const isAbsoluteLink = state
-        ? isAbsoluteUrl(state.value?.adminLink?.url ?? '')
+        ? isAbsoluteUrl(state.value?.adminLink.url ?? '')
         : false;
 
       return props.column.options?.shouldUseRouter ?? !isAbsoluteLink;
@@ -119,6 +122,7 @@ export default defineComponent<Props>({
 <style scoped lang="scss">
 .name-cell {
   height: 1px;
+  padding: 0;
 }
 
 .name-wrap {
@@ -128,12 +132,16 @@ export default defineComponent<Props>({
 }
 
 .name-block {
-  flex: 1 1 1px;
+  flex: 1 0 auto;
   display: flex;
   align-items: center;
-  margin-top: -0.75rem;
+  padding: 0.75rem;
+  font-weight: bold;
 
   .name {
+  }
+
+  .name-link {
     font-weight: bold;
     color: #007bff;
 
@@ -146,9 +154,7 @@ export default defineComponent<Props>({
 
 .url-block {
   font-size: 13px;
-  margin-top: auto;
   border-top: 1px solid #eee;
-  margin: auto -0.75rem -0.75rem;
   padding: 0.5rem 0.75rem;
 
   .label {
