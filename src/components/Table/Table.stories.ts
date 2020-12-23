@@ -1,12 +1,38 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 import BaseTable from './Table.vue';
+import { RowDataDefaultType } from '../../../typings';
+import { ColumnDefinition } from '../../typings/common';
+import { getWebsiteOrigin } from '../../utils/common';
 
 export default { title: 'Table' };
 
-const defaultColumnDefs = [
-  { id: 1, name: 'ID (10%)', field: 'id', style: { width: '10%' } },
+const defaultColumnDefs: Array<ColumnDefinition> = [
+  {
+    id: 100,
+    name: 'Name',
+    type: 'name',
+    field: 'name',
+    style: { width: '20%' },
+    format: ({ row }: RowDataDefaultType) => {
+      return {
+        adminLink: {
+          url: '/admin/products/40',
+          text: row.name,
+        },
+        websiteLink: {
+          url: getWebsiteOrigin() + row.url,
+          text: row.url,
+        },
+      };
+    },
+  },
+  {
+    id: 1,
+    name: 'ID (10%)',
+    field: 'id',
+    style: { width: '10%' },
+  },
   {
     id: 2,
     name: 'String Color (30%)',
@@ -66,10 +92,24 @@ const defaultColumnDefs = [
     // }),
   },
 ];
-const defaultRowData = [
+
+interface TestEntity {
+  id: number;
+  name: string;
+  url: string;
+  color: string;
+  content: string;
+  image: { url: string };
+  date: string;
+  link: string;
+  description: string;
+}
+
+const defaultRowData: Array<TestEntity> = [
   {
     id: 1,
-    name: 'Ivan',
+    name: 'Makeup Purple',
+    url: '/beautification/eyes-hazel',
     color: '#374635',
     content: '<p>simple header <h3>Title</h3></p>',
     image: {
@@ -85,6 +125,7 @@ const defaultRowData = [
     id: 2,
     color: 'rgba(222,111,123,0.8)',
     name: 'Ivan',
+    url: '/interactive-background/golden-confetti',
     content: '<p>simple header <em>Title</em></p>',
     image: {
       url:

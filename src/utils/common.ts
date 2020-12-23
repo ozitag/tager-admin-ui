@@ -89,3 +89,7 @@ export function integerParser(
     ? currentValue
     : previousValue;
 }
+
+export function getWebsiteOrigin(): string {
+  return process.env.VUE_APP_WEBSITE_URL || window.location.origin;
+}
