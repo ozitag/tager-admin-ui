@@ -10,7 +10,7 @@
           v-else
           class="name-link"
           :href="shouldUseRouter ? undefined : state.adminLink.url"
-          :to="shouldUseRouter ? state.adminLink.text : undefined"
+          :to="shouldUseRouter ? state.adminLink.url : undefined"
           v-bind="linkAttrs"
         >
           {{ state.adminLink.text }}
