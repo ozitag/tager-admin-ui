@@ -5,8 +5,8 @@ import BaseCheckbox from './components/BaseCheckbox/index.vue';
 import FormFieldCheckbox from './components/FormFieldCheckbox/index.vue';
 import FormField from './components/FormField/index.vue';
 import FormFieldError from './components/FormFieldError/index.vue';
-import BaseInput from './components/BaseInput/index.vue';
-import BaseTextArea from './components/BaseTextArea/index.vue';
+import BaseInput from './components/BaseInput';
+import BaseTextArea from './components/BaseTextArea';
 import InputLabel from './components/InputLabel/index.vue';
 import PageTitle from './components/PageTitle/index.vue';
 import Spinner from './components/Spinner/index.vue';
@@ -38,6 +38,7 @@ import DateTimeInput from './components/DateTimeInput';
 import MapField from './components/MapField';
 import ShortCodeConstructor from './components/ShortCodeConstructor';
 import CountButton from './components/CountButton';
+import FormFieldRecommendedLengthInput from './components/FormFieldRecommendedLengthInput';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -64,6 +65,10 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('form-field-multi-select', FormFieldMultiSelect);
   Vue.component('form-field-single-select', FormFieldSingleSelect);
   Vue.component('form-field-url-alias-input', FormFieldUrlAliasInput);
+  Vue.component(
+    'form-field-recommended-length-input',
+    FormFieldRecommendedLengthInput
+  );
 
   Vue.component('multi-select', MultiSelect);
   Vue.component('input-label', InputLabel);

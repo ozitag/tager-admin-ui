@@ -9,7 +9,7 @@ import { Nullable, Nullish } from '@tager/admin-services';
 
 import { DOT_REGEXP } from '../../utils/common';
 
-import BaseInput from '../BaseInput/index.vue';
+import BaseInput from '../BaseInput';
 
 type Props = {
   value: string;

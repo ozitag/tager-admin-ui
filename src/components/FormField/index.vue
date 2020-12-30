@@ -23,31 +23,44 @@
   </form-group>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
-import FormGroup from '../FormGroup';
-import FormFieldError from '../FormFieldError';
-import InputLabel from '../InputLabel';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+
+import FormGroup from '../FormGroup.vue';
+import FormFieldError from '../FormFieldError/index.vue';
+import InputLabel from '../InputLabel/index.vue';
 import BaseInput from '../BaseInput';
 import BaseTextArea from '../BaseTextArea';
 
-export default Vue.extend({
+interface Props {
+  name: string;
+  label: string;
+  value: string;
+  type: string;
+  error: string;
+}
+
+export default defineComponent<Props>({
   name: 'FormField',
   components: {
-    FormGroup, FormFieldError, InputLabel, BaseInput, BaseTextArea
+    FormGroup,
+    FormFieldError,
+    InputLabel,
+    BaseInput,
+    BaseTextArea,
   },
   inheritAttrs: false,
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     label: String,
     value: String,
     type: {
       type: String,
       default: 'text',
-      validator(value) {
+      validator(value: string) {
         return [
           'text',
           'number',
@@ -55,11 +68,11 @@ export default Vue.extend({
           'password',
           'date',
           'time',
-          'textarea'
+          'textarea',
         ].includes(value);
-      }
+      },
     },
-    error: String
+    error: String,
   },
 });
 </script>

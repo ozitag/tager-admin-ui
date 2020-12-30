@@ -2,11 +2,11 @@
   <small><slot></slot></small>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
-  name: 'FormFieldError'
+export default defineComponent({
+  name: 'FormFieldError',
 });
 </script>
 

@@ -27,6 +27,7 @@ export default {
     'lodash.kebabcase',
     'vue-color',
     'leaflet',
+    'autosize',
   ],
   plugins: [
     /**

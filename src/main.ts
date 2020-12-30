@@ -6,8 +6,8 @@ export { default as FormFieldCheckbox } from './components/FormFieldCheckbox/ind
 export { default as FormField } from './components/FormField/index.vue';
 export { default as FormFieldError } from './components/FormFieldError/index.vue';
 export { default as FormFieldRichTextInput } from './components/FormFieldRichTextInput/index.vue';
-export { default as BaseInput } from './components/BaseInput/index.vue';
-export { default as BaseTextArea } from './components/BaseTextArea/index.vue';
+export { default as BaseInput } from './components/BaseInput';
+export { default as BaseTextArea } from './components/BaseTextArea';
 export { default as BaseRichTextInput } from './components/BaseRichTextInput/index.vue';
 export { default as InputLabel } from './components/InputLabel/index.vue';
 export { default as PageTitle } from './components/PageTitle/index.vue';
@@ -37,6 +37,7 @@ export { default as DateTimeInput } from './components/DateTimeInput';
 export { default as MapField } from './components/MapField';
 export { default as ShortCodeConstructor } from './components/ShortCodeConstructor';
 export { default as CountButton } from './components/CountButton';
+export { default as FormFieldRecommendedLengthInput } from './components/FormFieldRecommendedLengthInput';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 
