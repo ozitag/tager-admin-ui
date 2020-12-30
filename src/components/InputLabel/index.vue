@@ -2,10 +2,14 @@
   <label :class="mainClass"><slot></slot></label>
 </template>
 
-<script>
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+interface Props {
+  forCheckbox: boolean;
+}
+
+export default defineComponent<Props>({
   name: 'InputLabel',
   props: {
     forCheckbox: {

@@ -33,7 +33,7 @@ import { Nullable } from '@tager/admin-services';
 import FormGroup from '../FormGroup.vue';
 import FormFieldError from '../FormFieldError/index.vue';
 import InputLabel from '../InputLabel/index.vue';
-import BaseInput from '../BaseInput/index.vue';
+import BaseInput from '../BaseInput';
 
 type Props = Readonly<{
   label: string;

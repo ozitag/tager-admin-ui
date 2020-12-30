@@ -1,34 +1,62 @@
 <template>
-  <textarea :value="value" v-on="inputListeners" />
+  <input
+    :value="value"
+    :type="type"
+    :autocomplete="autocomplete"
+    v-on="inputListeners"
+  />
 </template>
 
-<script>
-import Vue from 'vue';
+<script lang="ts">
+import { computed, defineComponent, SetupContext } from '@vue/composition-api';
 
-export default Vue.extend({
-  name: 'BaseTextArea',
+interface Props {
+  value: string;
+  type: string;
+  autocomplete: string;
+}
+
+export default defineComponent<Props>({
+  name: 'BaseInput',
   props: {
-    value: String,
-  },
-  computed: {
-    inputListeners() {
-      const vm = this;
-
-      return {
-        ...vm.$listeners,
-        input: (event) => vm.$emit('input', event.target.value),
-        change: (event) => vm.$emit('change', event.target.value),
-      };
+    value: {
+      type: String,
+      default: '',
     },
+    type: {
+      type: String,
+      default: 'text',
+      validator(value: string) {
+        return ['text', 'email', 'password', 'date', 'time'].includes(value);
+      },
+    },
+    autocomplete: {
+      type: String,
+      default: 'off',
+      validator(value: string) {
+        return ['on', 'off'].includes(value);
+      },
+    },
+  },
+  setup(props: Props, context: SetupContext) {
+    const inputListeners = computed(() => ({
+      ...context.listeners,
+      input: (event: Event) =>
+        context.emit('input', (event.target as HTMLInputElement).value),
+      change: (event: Event) =>
+        context.emit('change', (event.target as HTMLInputElement).value),
+    }));
+
+    return { inputListeners };
   },
 });
 </script>
 
 <style scoped lang="scss">
-textarea {
+input {
   display: block;
   width: 100%;
-  height: auto;
+  height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
@@ -39,8 +67,6 @@ textarea {
   border: 1px solid var(--input-border-color);
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  overflow: auto;
-  resize: vertical;
 
   // Placeholder
   &::placeholder {

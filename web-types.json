@@ -95,11 +95,19 @@
                 "kind": "expression",
                 "type": "string"
               },
-              "default": "\"text\""
+              "default": "'text'"
+            },
+            {
+              "name": "autocomplete",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'off'"
             }
           ],
           "source": {
-            "module": "./src\\components\\BaseInput\\index.vue",
+            "module": "./src\\components\\BaseInput\\BaseInput.vue",
             "symbol": "default"
           }
         },
@@ -251,11 +259,36 @@
               "value": {
                 "kind": "expression",
                 "type": "string"
-              }
+              },
+              "default": "''"
+            },
+            {
+              "name": "autosize",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "rows",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "3"
+            },
+            {
+              "name": "autocomplete",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'off'"
             }
           ],
           "source": {
-            "module": "./src\\components\\BaseTextArea\\index.vue",
+            "module": "./src\\components\\BaseTextArea\\BaseTextArea.vue",
             "symbol": "default"
           }
         },
@@ -1067,6 +1100,68 @@
           }
         },
         {
+          "name": "FormFieldRecommendedLengthInput",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "type",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'text'"
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "lowerLimit",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "upperLimit",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldRecommendedLengthInput\\FormFieldRecommendedLengthInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "FormFieldRichTextInput",
           "description": "",
           "attributes": [
@@ -1475,6 +1570,30 @@
           ],
           "source": {
             "module": "./src\\components\\PageTitle\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Progress",
+          "description": "",
+          "attributes": [
+            {
+              "name": "percent",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "color",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldRecommendedLengthInput\\components\\Progress\\Progress.vue",
             "symbol": "default"
           }
         },
