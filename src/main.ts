@@ -1,7 +1,7 @@
 import './assets/css/index.css';
 
 export { default as BaseButton } from './components/BaseButton/index.vue';
-export { default as BaseCheckbox } from './components/BaseCheckbox/index.vue';
+export { default as BaseCheckbox } from './components/BaseCheckbox';
 export { default as FormFieldCheckbox } from './components/FormFieldCheckbox/index.vue';
 export { default as FormField } from './components/FormField/index.vue';
 export { default as FormFieldError } from './components/FormFieldError/index.vue';
