@@ -49,7 +49,7 @@ import {
   ShortCodeParamType,
 } from '../../typings/common';
 
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import FormField from '../FormField/index.vue';
 import FormFieldSelect from '../FormFieldSelect/index.vue';
 import SvgIcon from '../SvgIcon';

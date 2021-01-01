@@ -1,6 +1,6 @@
 import './assets/css/index.css';
 
-export { default as BaseButton } from './components/BaseButton/index.vue';
+export { default as BaseButton } from './components/BaseButton';
 export { default as BaseCheckbox } from './components/BaseCheckbox/index.vue';
 export { default as FormFieldCheckbox } from './components/FormFieldCheckbox/index.vue';
 export { default as FormField } from './components/FormField/index.vue';

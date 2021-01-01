@@ -40,7 +40,7 @@ import { isNotNullish, isString, z } from '@tager/admin-services';
 
 import FormFieldNumberInput from '../../FormFieldNumberInput/index.vue';
 import SvgIcon from '../../SvgIcon';
-import BaseButton from '../../BaseButton/index.vue';
+import BaseButton from '../../BaseButton';
 import { ValuePropSchema, ValueType } from '../MapField.helpers';
 
 const validators = {

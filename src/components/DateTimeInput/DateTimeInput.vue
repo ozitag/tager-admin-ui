@@ -43,7 +43,7 @@ import { isNotFalsy, Nullable } from '@tager/admin-services';
 
 import SvgIcon from '../SvgIcon';
 import FormField from '../FormField/index.vue';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 
 type InnerDateTimeValue = {
   date: string;

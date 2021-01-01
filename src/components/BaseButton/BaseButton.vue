@@ -15,81 +15,100 @@
   </button>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { computed, defineComponent } from '@vue/composition-api';
 import { isAbsoluteUrl } from '@tager/admin-services';
+import Spinner from '../Spinner/index.vue';
+import { RawLocation } from 'vue-router';
 
-import Spinner from '../Spinner';
+interface Props {
+  variant: string;
+  type: string;
+  disabled: boolean;
+  loading: boolean;
+  href: string;
+}
 
-export default Vue.extend({
+export default defineComponent<Props>({
   name: 'BaseButton',
   components: { Spinner },
   props: {
     variant: {
       type: String,
-      validator(value) {
-        return ['primary', 'outline-primary', 'secondary', 'outline-secondary', 'icon'].includes(value);
+      validator(value: string) {
+        return [
+          'primary',
+          'outline-primary',
+          'secondary',
+          'outline-secondary',
+          'icon',
+        ].includes(value);
       },
-      default: 'primary'
+      default: 'primary',
     },
     type: {
       type: String,
-      default: 'button'
+      default: 'button',
     },
     disabled: Boolean,
     loading: Boolean,
     href: {
       type: String,
-      default: null
+      default: null,
     },
   },
-  computed: {
-    isLink() {
-      return Boolean(this.href);
-    },
-    isDisabled() {
-      return this.disabled || this.loading;
-    },
-    resolvedHref() {
-      if (this.isLink && this.$router && !isAbsoluteUrl(this.href)) {
-        return this.$router.resolve(this.href).href;
+  setup(props, context) {
+    const isLink = computed(() => Boolean(props.href));
+
+    const isDisabled = computed(() => props.disabled || props.loading);
+
+    const resolvedHref = computed(() => {
+      if (isLink.value && context.root.$router && !isAbsoluteUrl(props.href)) {
+        return context.root.$router.resolve(props.href as RawLocation).href;
       }
+      return props.href;
+    });
 
-      return this.href;
-    },
-    buttonListeners() {
-      const vm = this;
+    const buttonListeners = computed(() => ({
+      ...context.listeners,
+      click: (event: Event) => {
+        if (isDisabled.value) {
+          event.preventDefault();
+          return;
+        }
 
-      return {
-        ...vm.$listeners,
-        click: (event) => {
-          if (this.isDisabled) {
-            event.preventDefault();
-            return;
-          }
+        if (props.href && !isAbsoluteUrl(props.href)) {
+          event.preventDefault();
 
-          if (vm.href && !isAbsoluteUrl(vm.href)) {
-            event.preventDefault();
-
-            if (vm.$router) {
-              vm.$router.push(vm.href);
-            } else {
-              console.error(`Vue router is [${String(vm.$router)}]. Cannot make page transition`)
-            }
-          }
-
-          if (vm.$listeners.click) {
-            if (Array.isArray(vm.$listeners.click)) {
-              vm.$listeners.click.forEach(callback => {
-                callback(event);
-              })
-            } else {
-              vm.$listeners.click(event);
-            }
+          if (context.root.$router) {
+            context.root.$router.push(props.href as RawLocation);
+          } else {
+            console.error(
+              `Vue router is [${String(
+                context.root.$router
+              )}]. Cannot make page transition`
+            );
           }
         }
-      };
-    },
+
+        if (context.listeners.click) {
+          if (Array.isArray(context.listeners.click)) {
+            context.listeners.click.forEach((callback) => {
+              callback(event);
+            });
+          } else {
+            context.listeners.click(event);
+          }
+        }
+      },
+    }));
+
+    return {
+      isLink,
+      isDisabled,
+      resolvedHref,
+      buttonListeners,
+    };
   },
 });
 </script>

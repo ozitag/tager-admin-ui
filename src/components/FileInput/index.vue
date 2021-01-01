@@ -135,7 +135,7 @@ import {
 import { ARCHIVE_ACCEPT } from '../../constants/common';
 
 import SvgIcon from '../SvgIcon';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import BaseTextArea from '../BaseTextArea';
 import ProgressBar from '../ProgressBar/index.vue';
 import LoadableImage from '../LoadableImage/index.vue';

@@ -37,7 +37,7 @@ import { computed, defineComponent, ref } from '@vue/composition-api';
 import type { LatLngLiteral } from 'leaflet';
 
 import SvgIcon from '../SvgIcon';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import FormField from '../FormField/index.vue';
 import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
 

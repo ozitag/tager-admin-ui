@@ -1,4 +1,4 @@
-import BaseButton from './index.vue';
+import BaseButton from './BaseButton.vue';
 import SvgIcon from '../SvgIcon';
 
 export default { title: 'BaseButton' };
@@ -6,62 +6,62 @@ export default { title: 'BaseButton' };
 export const Primary = () => ({
   components: { BaseButton },
   template: `<div>
-      <base-button variant="primary"/>
+      <BaseButton variant="primary"/>
   </div>`,
 });
 
 export const PrimaryOutline = () => ({
   components: { BaseButton },
   template: `<div>
-      <base-button variant="outline-primary"/>
+      <BaseButton variant="outline-primary"/>
   </div>`,
 });
 
 export const Secondary = () => ({
   components: { BaseButton },
   template: `<div>
-      <base-button variant="secondary"/>
+      <BaseButton variant="secondary"/>
   </div>`,
 });
 
 export const SecondaryOutline = () => ({
   components: { BaseButton },
   template: `<div>
-      <base-button variant="outline-secondary"/>
+      <BaseButton variant="outline-secondary"/>
   </div>`,
 });
 
 export const PrimaryLoading = () => ({
   components: { BaseButton },
   template: `<div>
-      <base-button variant="primary" loading></base-button>
+      <BaseButton variant="primary" loading></BaseButton>
   </div>`,
 });
 
 export const PrimaryOutlineLoading = () => ({
   components: { BaseButton },
   template: `<div>
-      <base-button variant="outline-primary" loading></base-button>
+      <BaseButton variant="outline-primary" loading></BaseButton>
   </div>`,
 });
 
 export const Icon = () => ({
   components: { BaseButton, SvgIcon },
   template: `<div>
-      <base-button variant="icon">
-          <svg-icon name="edit"/>
-      </base-button>
-      <base-button variant="icon" disabled>
-          <svg-icon name="edit"/>
-      </base-button>
+      <BaseButton variant="icon">
+          <SvgIcon name="edit"/>
+      </BaseButton>
+      <BaseButton variant="icon" disabled>
+          <SvgIcon name="edit"/>
+      </BaseButton>
   </div>`,
 });
 
 export const Link = () => ({
   components: { BaseButton },
   template: `<div>
-      <base-button variant="primary" href="https://ozitag.com">
+      <BaseButton variant="primary" href="https://ozitag.com">
           Link to OZiTAG
-      </base-button>
+      </BaseButton>
   </div>`,
 });

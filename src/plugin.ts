@@ -1,6 +1,6 @@
 import { PluginFunction } from 'vue';
 
-import BaseButton from './components/BaseButton/index.vue';
+import BaseButton from './components/BaseButton';
 import BaseCheckbox from './components/BaseCheckbox/index.vue';
 import FormFieldCheckbox from './components/FormFieldCheckbox/index.vue';
 import FormField from './components/FormField/index.vue';

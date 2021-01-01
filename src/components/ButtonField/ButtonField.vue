@@ -44,7 +44,7 @@ import { defineComponent } from '@vue/composition-api';
 import kebabCase from 'lodash.kebabcase';
 
 import SvgIcon from '../SvgIcon';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import FormField from '../FormField/index.vue';
 import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
 import {

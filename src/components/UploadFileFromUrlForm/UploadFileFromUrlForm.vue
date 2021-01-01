@@ -38,7 +38,7 @@ import {
 import FormGroup from '../FormGroup.vue';
 import BaseInput from '../BaseInput';
 import FormFieldError from '../FormFieldError/index.vue';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 
 function isUrlValid(url: string) {
   try {
