@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.7.22",
+  "version": "0.7.23",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -1142,14 +1142,14 @@
               }
             },
             {
-              "name": "lowerLimit",
+              "name": "min",
               "value": {
                 "kind": "expression",
                 "type": "number"
               }
             },
             {
-              "name": "upperLimit",
+              "name": "max",
               "value": {
                 "kind": "expression",
                 "type": "number"

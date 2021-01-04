@@ -10,7 +10,7 @@ export const InputMinLength = () => ({
     };
   },
   template:
-    '<FormFieldRecommendedLengthInput v-model="value" name="email" label="label" type="text" :lower-limit="50" />',
+    '<FormFieldRecommendedLengthInput v-model="value" name="email" label="label" type="text" :min="50" />',
 });
 
 export const InputMaxLength = () => ({
@@ -21,7 +21,7 @@ export const InputMaxLength = () => ({
     };
   },
   template:
-    '<FormFieldRecommendedLengthInput v-model="value" name="text" label="label" type="text" :upper-limit="100" />',
+    '<FormFieldRecommendedLengthInput v-model="value" name="text" label="label" type="text" :max="100" />',
 });
 
 export const InputMinMaxLength = () => ({
@@ -32,7 +32,7 @@ export const InputMinMaxLength = () => ({
     };
   },
   template:
-    '<FormFieldRecommendedLengthInput v-model="value" name="name" label="label" type="text" :lower-limit="50" :upper-limit="100" />',
+    '<FormFieldRecommendedLengthInput v-model="value" name="name" label="label" type="text" :min="50" :max="100" />',
 });
 
 export const TextAreaMinMaxLength = () => ({
@@ -43,5 +43,5 @@ export const TextAreaMinMaxLength = () => ({
     };
   },
   template:
-    '<FormFieldRecommendedLengthInput v-model="value" name="description" label="label" type="textarea" :lower-limit="65" :upper-limit="434" />',
+    '<FormFieldRecommendedLengthInput v-model="value" name="description" label="label" type="textarea" :min="65" :max="434" />',
 });

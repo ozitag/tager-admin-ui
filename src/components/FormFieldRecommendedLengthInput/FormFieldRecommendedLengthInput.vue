@@ -27,15 +27,11 @@
     <div class="count">
       <span class="count-zero">0</span>
 
-      <span
-        v-if="lowerLimit"
-        class="count-lower-limit"
-        :style="lowerLimitStyles"
-      >
-        {{ lowerLimit }}
+      <span v-if="min" class="count-lower-limit" :style="lowerLimitStyles">
+        {{ min }}
       </span>
 
-      <span v-if="upperLimit" class="count-upper-limit">{{ upperLimit }}</span>
+      <span v-if="max" class="count-upper-limit">{{ max }}</span>
     </div>
 
     <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
@@ -58,8 +54,8 @@ interface Props {
   value: string;
   type: string;
   error: string;
-  upperLimit: number;
-  lowerLimit: number;
+  max: number;
+  min: number;
 }
 
 export default defineComponent<Props>({
@@ -99,23 +95,21 @@ export default defineComponent<Props>({
       },
     },
     error: String,
-    lowerLimit: Number,
-    upperLimit: Number,
+    min: Number,
+    max: Number,
   },
   setup(props: Props) {
     const isLowerThanMinLength = computed<boolean>(() => {
-      return props.value.length < props.lowerLimit;
+      return props.value.length < props.min;
     });
 
     const isHigherThanMaxLength = computed<boolean>(() => {
-      return props.value.length > props.upperLimit;
+      return props.value.length > props.max;
     });
 
     const percent = computed<number>(() => {
       const currentLength: number = props.value.length;
-      const recommendedLength: number = props.upperLimit
-        ? props.upperLimit
-        : props.lowerLimit;
+      const recommendedLength: number = props.max ? props.max : props.min;
       return (currentLength / recommendedLength) * 100;
     });
 
@@ -130,9 +124,9 @@ export default defineComponent<Props>({
     });
 
     const lowerLimitStyles = computed(() => {
-      if (props.upperLimit) {
+      if (props.max) {
         return {
-          left: `${(props.lowerLimit / props.upperLimit) * 100}%`,
+          left: `${(props.min / props.max) * 100}%`,
           transform: 'translateX(-50%)',
         };
       }
