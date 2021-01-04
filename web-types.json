@@ -246,7 +246,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\Table.vue",
+            "module": "./src\\components\\BaseTable\\BaseTable.vue",
             "symbol": "default"
           }
         },
@@ -356,7 +356,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\Cell.vue",
+            "module": "./src\\components\\BaseTable\\components\\Cell.vue",
             "symbol": "default"
           }
         },
@@ -390,7 +390,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\CellColor.vue",
+            "module": "./src\\components\\BaseTable\\components\\CellColor.vue",
             "symbol": "default"
           }
         },
@@ -424,7 +424,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\CellDate.vue",
+            "module": "./src\\components\\BaseTable\\components\\CellDate.vue",
             "symbol": "default"
           }
         },
@@ -458,7 +458,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\CellHtml.vue",
+            "module": "./src\\components\\BaseTable\\components\\CellHtml.vue",
             "symbol": "default"
           }
         },
@@ -492,7 +492,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\CellImage.vue",
+            "module": "./src\\components\\BaseTable\\components\\CellImage.vue",
             "symbol": "default"
           }
         },
@@ -526,7 +526,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\CellLink.vue",
+            "module": "./src\\components\\BaseTable\\components\\CellLink.vue",
             "symbol": "default"
           }
         },
@@ -560,7 +560,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\CellName.vue",
+            "module": "./src\\components\\BaseTable\\components\\CellName.vue",
             "symbol": "default"
           }
         },
@@ -594,7 +594,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Table\\components\\CellString.vue",
+            "module": "./src\\components\\BaseTable\\components\\CellString.vue",
             "symbol": "default"
           }
         },
@@ -659,6 +659,84 @@
           ],
           "source": {
             "module": "./src\\components\\CountButton\\CountButton.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "DataTable",
+          "description": "",
+          "attributes": [
+            {
+              "name": "columnDefs",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              }
+            },
+            {
+              "name": "rowData",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              }
+            },
+            {
+              "name": "loading",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "errorMessage",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "searchQuery",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "pagination",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "{}"
+            },
+            {
+              "name": "filters",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "{}"
+            },
+            {
+              "name": "useSearch",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\DataTable\\DataTable.vue",
             "symbol": "default"
           }
         },
@@ -1618,6 +1696,56 @@
           ],
           "source": {
             "module": "./src\\components\\ProgressBar\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Search",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "autocomplete",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'off'"
+            },
+            {
+              "name": "placeholder",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Search...'"
+            },
+            {
+              "name": "disabled",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "loading",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Search\\Search.vue",
             "symbol": "default"
           }
         },

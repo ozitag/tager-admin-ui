@@ -93,3 +93,11 @@ export function integerParser(
 export function getWebsiteOrigin(): string {
   return process.env.VUE_APP_WEBSITE_URL || window.location.origin;
 }
+
+export function getSearchParams(): URLSearchParams {
+  return new URLSearchParams(window.location.search);
+}
+
+export function getSearchParamByKey(key: string): string | null {
+  return getSearchParams().get(key);
+}

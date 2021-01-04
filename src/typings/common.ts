@@ -1,4 +1,4 @@
-import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
+import { FetchStatus } from '@tager/admin-services';
 
 export type ShortCodeParamType = {
   readonly name: string;
@@ -86,7 +86,7 @@ export type ColumnType =
   | 'html'
   | 'color';
 
-type RowDataDefaultType = { [key: string]: any };
+export type RowDataDefaultType = { [key: string]: any };
 
 export type ColumnParamsArg<RowData> = {
   row: RowData;

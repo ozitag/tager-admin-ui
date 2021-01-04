@@ -11,8 +11,8 @@ import InputLabel from './components/InputLabel/index.vue';
 import PageTitle from './components/PageTitle/index.vue';
 import Spinner from './components/Spinner/index.vue';
 import SvgIcon from './components/SvgIcon';
-import Table from './components/Table';
-import TableCell from './components/Table/components/Cell.vue';
+import Table from './components/BaseTable';
+import TableCell from './components/BaseTable/components/Cell.vue';
 import FormGroup from './components/FormGroup.vue';
 import FileInput from './components/FileInput/index.vue';
 import FormFieldFileInput from './components/FormFieldFileInput/index.vue';
@@ -39,6 +39,8 @@ import MapField from './components/MapField';
 import ShortCodeConstructor from './components/ShortCodeConstructor';
 import CountButton from './components/CountButton';
 import FormFieldRecommendedLengthInput from './components/FormFieldRecommendedLengthInput';
+import DataTable from './components/DataTable';
+import Search from './components/Search';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -85,4 +87,6 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('date-time-input', DateTimeInput);
   Vue.component('short-code-constructor', ShortCodeConstructor);
   Vue.component('count-button', CountButton);
+  Vue.component('data-table', DataTable);
+  Vue.component('search', Search);
 };

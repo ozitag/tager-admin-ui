@@ -25,6 +25,7 @@ export type IconName =
   | 'clear'
   | 'close'
   | 'menu'
+  | 'search'
   | 'settings'
   | 'assignment'
   | 'chevronRight'
