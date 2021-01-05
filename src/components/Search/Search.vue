@@ -1,6 +1,8 @@
 <template>
   <div class="search">
     <div class="search-field">
+      <SvgIcon class="icon-search" name="search" />
+
       <BaseInput
         v-model="searchQuery"
         class="search-control"
@@ -9,12 +11,6 @@
         :disabled="disabled"
         :autocomplete="autocomplete"
         :placeholder="placeholder"
-      />
-
-      <SvgIcon
-        v-if="!searchQuery && !loading"
-        class="icon-search"
-        name="search"
       />
 
       <span v-if="loading" class="spinner-wrapper">
@@ -79,12 +75,12 @@ export default defineComponent<Props>({
   setup(props, context) {
     const searchQuery = ref<string>(props.value);
 
-    const debounced = debounce(() => {
+    const emitDebouncedChangeEvent = debounce(() => {
       context.emit('change', searchQuery.value);
     }, 300);
 
     watch(searchQuery, () => {
-      debounced();
+      emitDebouncedChangeEvent();
     });
 
     function handleClear(): void {
@@ -110,10 +106,10 @@ export default defineComponent<Props>({
 }
 
 .search-control {
+  padding-left: 2.75rem;
   padding-right: 2.75rem;
 }
 
-.icon-search,
 .button-clear,
 .spinner-wrapper {
   position: absolute;
@@ -123,6 +119,10 @@ export default defineComponent<Props>({
 }
 
 .icon-search {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translate(0, -50%);
   pointer-events: none;
   fill: rgba(0, 0, 0, 0.45);
 }

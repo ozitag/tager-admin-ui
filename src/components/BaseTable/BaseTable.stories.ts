@@ -5,7 +5,7 @@ import { RowDataDefaultType } from '../../../typings';
 import { ColumnDefinition } from '../../typings/common';
 import { getWebsiteOrigin } from '../../utils/common';
 
-export default { title: 'Table' };
+export default { title: 'BaseTable' };
 
 const defaultColumnDefs: Array<ColumnDefinition> = [
   {

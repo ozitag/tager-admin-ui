@@ -21,7 +21,7 @@ interface TableState<T> {
   searchQuery: Ref<string>;
   setSearchQuery: (newSearchQuery: string) => void;
   handleChange: (event: TableChangeEvent) => void;
-  fetchEntityList: () => void;
+  fetchEntityList: () => Promise<void>;
 }
 
 export function useDataTable<T>(params: {
