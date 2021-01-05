@@ -7,7 +7,7 @@ import {
   watch,
 } from '@vue/composition-api';
 import { Nullable, useResource } from '@tager/admin-services';
-import { useSearch } from '../Search/Search.hooks';
+import { useSearch } from '../SearchInput/SearchInput.hooks';
 import { TableChangeEvent } from './DataTable.types';
 
 interface TableDataRequestParams {

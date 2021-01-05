@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Search
+    <SearchInput
       v-if="useSearch"
       :value="searchQuery"
       @change="handleSearchChange"
@@ -22,7 +22,7 @@
 import { defineComponent } from '@vue/composition-api';
 
 import BaseTable from '../BaseTable';
-import Search from '../Search';
+import SearchInput from '../SearchInput';
 import { ColumnDefinition, RowDataDefaultType } from '../../typings/common';
 import { TableChangeEvent } from './DataTable.types';
 
@@ -37,7 +37,7 @@ interface Props {
 
 export default defineComponent<Props>({
   name: 'DataTable',
-  components: { BaseTable, Search },
+  components: { BaseTable, SearchInput },
   props: {
     columnDefs: {
       type: Array,

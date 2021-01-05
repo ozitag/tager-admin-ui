@@ -38,8 +38,8 @@ export { default as MapField } from './components/MapField';
 export { default as ShortCodeConstructor } from './components/ShortCodeConstructor';
 export { default as CountButton } from './components/CountButton';
 export { default as FormFieldRecommendedLengthInput } from './components/FormFieldRecommendedLengthInput';
-export { default as DataTable } from './components/DataTable';
-export { default as Search } from './components/Search';
+export { default as DataTable, useDataTable } from './components/DataTable';
+export { default as SearchInput, useSearch } from './components/SearchInput';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

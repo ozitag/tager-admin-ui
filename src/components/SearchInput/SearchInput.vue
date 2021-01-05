@@ -46,7 +46,7 @@ interface Props {
 }
 
 export default defineComponent<Props>({
-  name: 'Search',
+  name: 'SearchInput',
   components: { SvgIcon, Spinner, BaseInput },
   inheritAttrs: false,
   props: {
