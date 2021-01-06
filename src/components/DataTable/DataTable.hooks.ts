@@ -7,7 +7,7 @@ import {
   watch,
 } from '@vue/composition-api';
 import { Nullable, useResource } from '@tager/admin-services';
-import { useSearch } from '../SearchInput/SearchInput.hooks';
+import { useSearch } from '../SearchInput';
 import { TableChangeEvent } from './DataTable.types';
 
 interface TableDataRequestParams {
@@ -26,7 +26,7 @@ interface TableState<T> {
 
 export function useDataTable<T>(params: {
   fetchEntityList: (
-    requestParams?: TableDataRequestParams
+    requestParams: TableDataRequestParams
   ) => Promise<ResponseBody<Array<T>>>;
   initialValue?: Array<T>;
   resourceName?: string;

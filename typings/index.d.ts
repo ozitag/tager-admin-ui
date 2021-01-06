@@ -338,7 +338,7 @@ interface TableDataRequestParams {
 
 export declare function useDataTable<T>(params: {
   fetchEntityList: (
-    requestParams?: TableDataRequestParams
+    requestParams: TableDataRequestParams
   ) => Promise<ResponseBody<Array<T>>>;
   initialValue?: Array<T>;
   resourceName?: string;

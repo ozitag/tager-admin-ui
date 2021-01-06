@@ -1,3 +1,9 @@
+## 0.8.1 (2021-01-06)
+
+#### Fixes
+
+* Fix type of `useDataTable` hook
+
 ## 0.8.0 (2021-01-06)
 
 #### Features
