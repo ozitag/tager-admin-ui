@@ -37,7 +37,7 @@
             :row-index="index"
             :column="column"
             :scoped-slot="getCellSlot(column.field)"
-          ></base-table-cell>
+          />
         </tr>
       </tbody>
     </table>

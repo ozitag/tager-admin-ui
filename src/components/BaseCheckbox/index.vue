@@ -44,7 +44,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 input {
   position: absolute;
-  margin-top: 0.3rem;
+  margin-top: 0.25rem;
   -webkit-appearance: checkbox;
 }
 </style>

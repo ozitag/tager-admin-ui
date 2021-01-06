@@ -23,6 +23,7 @@ import ContentCopyIcon from '../../assets/svg/content_copy.svg';
 import OpenInNewIcon from '../../assets/svg/open_in_new.svg';
 import AddCircleIcon from '../../assets/svg/add_circle.svg';
 import RemoveCircleIcon from '../../assets/svg/remove_circle.svg';
+import SearchIcon from '../../assets/svg/search.svg';
 
 /** File icons */
 import FileAviIcon from '../../assets/svg/file_avi.svg';
@@ -69,6 +70,7 @@ export const ICON_MAP = {
   south: SouthIcon,
   upload: CloudUploadIcon,
   viewList: ViewListIcon,
+  search: SearchIcon,
 
   fileAvi: FileAviIcon,
   fileCss: FileCssIcon,

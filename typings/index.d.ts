@@ -1,6 +1,8 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
 import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
 import { ShortCodeParamType } from '../src/typings/common';
+import { ComputedRef, Ref, SetupContext } from '@vue/composition-api';
+import { ResponseBody } from '@tager/admin-services/src/common.types';
 
 export type LinkType = {
   url: string;
@@ -25,6 +27,7 @@ export type IconName =
   | 'clear'
   | 'close'
   | 'menu'
+  | 'search'
   | 'settings'
   | 'assignment'
   | 'chevronRight'
@@ -252,7 +255,7 @@ export declare const InputLabel: VueConstructor<Vue>;
 export declare const PageTitle: VueConstructor<Vue>;
 export declare const Spinner: VueConstructor<Vue>;
 export declare const SvgIcon: VueConstructor<Vue>;
-export declare const Table: VueConstructor<Vue>;
+export declare const BaseTable: VueConstructor<Vue>;
 export declare const TableCell: VueConstructor<Vue>;
 export declare const FileInput: VueConstructor<Vue>;
 export declare const NavigationGrid: VueConstructor<Vue>;
@@ -263,6 +266,10 @@ export declare const ButtonField: VueConstructor<Vue>;
 export declare const MapField: VueConstructor<Vue>;
 export declare const DateTimeInput: VueConstructor<Vue>;
 export declare const ShortCodeConstructor: VueConstructor<Vue>;
+export declare const CountButton: VueConstructor<Vue>;
+export declare const FormFieldRecommendedLengthInput: VueConstructor<Vue>;
+export declare const DataTable: VueConstructor<Vue>;
+export declare const SearchInput: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
@@ -308,3 +315,32 @@ export type SingleFileInputValueType = {
   file: FileType;
   caption?: Nullable<string>;
 };
+
+export declare function useSearch(
+  context: SetupContext
+): [Ref<string>, (newQuery: string) => void];
+
+type TableChangeEvent = { type: 'SEARCH_UPDATE'; payload: string };
+
+interface TableState<T> {
+  isLoading: ComputedRef<boolean>;
+  rowData: Ref<Array<T>>;
+  errorMessage: Ref<Nullable<string>>;
+  searchQuery: Ref<string>;
+  setSearchQuery: (newSearchQuery: string) => void;
+  handleChange: (event: TableChangeEvent) => void;
+  fetchEntityList: () => Promise<void>;
+}
+
+interface TableDataRequestParams {
+  searchQuery?: string;
+}
+
+export declare function useDataTable<T>(params: {
+  fetchEntityList: (
+    requestParams?: TableDataRequestParams
+  ) => Promise<ResponseBody<Array<T>>>;
+  initialValue?: Array<T>;
+  resourceName?: string;
+  context: SetupContext;
+}): TableState<T>;

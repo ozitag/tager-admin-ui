@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import BaseTable from './Table.vue';
+import BaseTable from './BaseTable.vue';
 import { RowDataDefaultType } from '../../../typings';
 import { ColumnDefinition } from '../../typings/common';
 import { getWebsiteOrigin } from '../../utils/common';
 
-export default { title: 'Table' };
+export default { title: 'BaseTable' };
 
 const defaultColumnDefs: Array<ColumnDefinition> = [
   {

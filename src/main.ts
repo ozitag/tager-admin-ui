@@ -13,8 +13,8 @@ export { default as InputLabel } from './components/InputLabel/index.vue';
 export { default as PageTitle } from './components/PageTitle/index.vue';
 export { default as Spinner } from './components/Spinner/index.vue';
 export { default as SvgIcon } from './components/SvgIcon';
-export { default as Table } from './components/Table';
-export { default as TableCell } from './components/Table/components/Cell.vue';
+export { default as BaseTable } from './components/BaseTable';
+export { default as TableCell } from './components/BaseTable/components/Cell.vue';
 export { default as FormGroup } from './components/FormGroup.vue';
 export { default as FileInput } from './components/FileInput/index.vue';
 export { default as FormFieldFileInput } from './components/FormFieldFileInput/index.vue';
@@ -38,6 +38,8 @@ export { default as MapField } from './components/MapField';
 export { default as ShortCodeConstructor } from './components/ShortCodeConstructor';
 export { default as CountButton } from './components/CountButton';
 export { default as FormFieldRecommendedLengthInput } from './components/FormFieldRecommendedLengthInput';
+export { default as DataTable, useDataTable } from './components/DataTable';
+export { default as SearchInput, useSearch } from './components/SearchInput';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

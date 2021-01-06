@@ -5,8 +5,8 @@
       :name="name"
       :value="value"
       :checked="checked"
-      v-on="$listeners"
       v-bind="$attrs"
+      v-on="$listeners"
     />
     <input-label v-if="Boolean(label)" for-checkbox :for="name">
       {{ label }}
@@ -24,13 +24,13 @@ import FormFieldError from '../FormFieldError';
 
 export default Vue.extend({
   name: 'FormFieldCheckbox',
-  inheritAttrs: false,
   components: {
     BaseCheckbox,
     FormGroup,
     FormFieldError,
     InputLabel,
   },
+  inheritAttrs: false,
   model: {
     prop: 'checked',
     event: 'change'
@@ -50,12 +50,12 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 label {
+  border-radius: 3px;
   transition: box-shadow 0.15s ease-in-out;
 }
 
 input:not(:disabled):focus + label,
 input:not(:disabled):active + label {
-  border-radius: 3px;
   box-shadow: 0 0 0 0.2rem var(--input-focus-box-shadow);
 }
 </style>
