@@ -9,7 +9,6 @@
 <script lang="js">
 import Vue from 'vue';
 import DropdownItem from './components/DropdownItem';
-
 export default Vue.extend({
   name: 'DropdownMenu',
   components: { DropdownItem },
@@ -22,7 +21,6 @@ export default Vue.extend({
   methods: {
     handleItemClick(option) {
       if (option.type === 'divider') return;
-
       this.$emit('dropdown-item:click');
     }
   },

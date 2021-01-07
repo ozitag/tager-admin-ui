@@ -40,6 +40,7 @@ export { default as CountButton } from './components/CountButton';
 export { default as FormFieldRecommendedLengthInput } from './components/FormFieldRecommendedLengthInput';
 export { default as DataTable, useDataTable } from './components/DataTable';
 export { default as SearchInput, useSearch } from './components/SearchInput';
+export { default as Pagination, usePagination } from './components/Pagination';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

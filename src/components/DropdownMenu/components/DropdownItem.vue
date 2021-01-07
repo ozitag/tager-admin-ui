@@ -1,17 +1,14 @@
 <script lang="js">
 import Vue from 'vue';
 import { isAbsoluteUrl } from '@tager/admin-services';
-
 function getComponentTag(type) {
   switch (type) {
     case 'divider': return 'hr';
     case 'link': return 'a';
     case 'button': return 'button';
-
     default: return 'button';
   }
 }
-
 export default Vue.extend({
   name: 'DropdownItem',
   functional: true,
@@ -23,9 +20,7 @@ export default Vue.extend({
   },
   render(createElement, context) {
     const { type, text, url, onClick } = context.props.item;
-
     const componentType = getComponentTag(type);
-
     return createElement(componentType, {
       attrs: {
         href: url
@@ -37,18 +32,14 @@ export default Vue.extend({
           if (onClick) {
             onClick(event);
           }
-
           if (url && !isAbsoluteUrl(url)) {
             event.preventDefault();
-
             if (context.parent.$router) {
               context.parent.$router.push(url);
             } else {
               console.error(`Vue router is [${String(context.parent.$router)}]. Cannot make page transition`)
             }
           }
-
-
           /** Handle parent's onClick */
           if (context.listeners.click) {
             if (Array.isArray(context.listeners.click)) {
@@ -82,20 +73,17 @@ export default Vue.extend({
   background-color: transparent;
   border: 0;
   transition: none;
-
   &:focus,
   &:hover {
     color: #16181b;
     background-color: #f8f9fa;
   }
 }
-
 .dropdown-divider {
   color: inherit;
   background-color: currentColor;
   border: 0;
   opacity: 0.25;
-
   margin: 0.5rem 0;
   overflow: hidden;
   border-top: 1px solid #e9ecef;

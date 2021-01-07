@@ -41,6 +41,7 @@ import CountButton from './components/CountButton';
 import FormFieldRecommendedLengthInput from './components/FormFieldRecommendedLengthInput';
 import DataTable from './components/DataTable';
 import SearchInput from './components/SearchInput';
+import Pagination from './components/Pagination';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -89,4 +90,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('count-button', CountButton);
   Vue.component('data-table', DataTable);
   Vue.component('search-input', SearchInput);
+  Vue.component('pagination', Pagination);
 };

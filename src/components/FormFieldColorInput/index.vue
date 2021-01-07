@@ -4,15 +4,23 @@
   </FormFieldWrapper>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
-import FormFieldWrapper from "../FormFieldWrapper.vue";
-import ColorInput from "../ColorInput";
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+import FormFieldWrapper from '../FormFieldWrapper.vue';
+import ColorInput from '../ColorInput';
 
-export default Vue.extend({
+interface Props {
+  value: string;
+  name: { [key: string]: string };
+  label: { [key: string]: string };
+  error: { [key: string]: unknown };
+}
+
+export default defineComponent<Props>({
   name: 'FormFieldColorInput',
   components: {
-    FormFieldWrapper, ColorInput
+    FormFieldWrapper,
+    ColorInput,
   },
   inheritAttrs: false,
   props: {
