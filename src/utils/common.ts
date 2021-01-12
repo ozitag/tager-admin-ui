@@ -1,10 +1,10 @@
+import VueRouter, { Route } from 'vue-router';
+import { isNumber } from '@tager/admin-services';
+
 /**
  * @param {Date} date
  * @returns {string}
  */
-import VueRouter, { Route } from 'vue-router';
-import { isNumber } from '@tager/admin-services';
-
 export function formatDate(date: Date): string {
   return date.toLocaleDateString();
 }

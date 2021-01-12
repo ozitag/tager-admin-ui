@@ -1,3 +1,11 @@
+## 0.8.2 (2021-01-12)
+
+#### Features
+
+* Add `Pagination` component and `usePagination` hook
+* Support pagination in `DataTable` component
+* Add icon `chevronLeft`
+
 ## 0.8.1 (2021-01-06)
 
 #### Fixes
