@@ -15,14 +15,22 @@
   </form-group>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
-import BaseCheckbox from '../BaseCheckbox'
-import FormGroup from '../FormGroup';
-import InputLabel from '../InputLabel';
-import FormFieldError from '../FormFieldError';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+import BaseCheckbox from '../BaseCheckbox/index.vue';
+import FormGroup from '../FormGroup.vue';
+import InputLabel from '../InputLabel/index.vue';
+import FormFieldError from '../FormFieldError/index.vue';
 
-export default Vue.extend({
+interface Props {
+  name: string;
+  label: string;
+  checked: boolean;
+  value: boolean;
+  error: string;
+}
+
+export default defineComponent<Props>({
   name: 'FormFieldCheckbox',
   components: {
     BaseCheckbox,
@@ -33,18 +41,18 @@ export default Vue.extend({
   inheritAttrs: false,
   model: {
     prop: 'checked',
-    event: 'change'
+    event: 'change',
   },
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     label: String,
     checked: Boolean,
     value: Boolean,
-    error: String
-  }
+    error: String,
+  },
 });
 </script>
 

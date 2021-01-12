@@ -11,6 +11,7 @@ import CloseIcon from '../../assets/svg/close.svg';
 import MenuIcon from '../../assets/svg/menu.svg';
 import SettingsIcon from '../../assets/svg/settings.svg';
 import AssignmentIcon from '../../assets/svg/assignment.svg';
+import ChevronLeftIcon from '../../assets/svg/chevron_left.svg';
 import ChevronRightIcon from '../../assets/svg/chevron_right.svg';
 import DescriptionIcon from '../../assets/svg/description.svg';
 import ArrowDownwardIcon from '../../assets/svg/arrow_downward.svg';
@@ -49,6 +50,7 @@ export const ICON_MAP = {
   arrowUpward: ArrowUpwardIcon,
   article: ArticleIcon,
   assignment: AssignmentIcon,
+  chevronLeft: ChevronLeftIcon,
   chevronRight: ChevronRightIcon,
   clear: CloseIcon,
   close: CloseIcon,

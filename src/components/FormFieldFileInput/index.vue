@@ -18,7 +18,6 @@ import FormGroup from '../FormGroup';
 import FormFieldError from '../FormFieldError';
 import InputLabel from '../InputLabel';
 import FileInput from '../FileInput';
-
 export default Vue.extend({
   name: 'FormFieldFileInput',
   components: {

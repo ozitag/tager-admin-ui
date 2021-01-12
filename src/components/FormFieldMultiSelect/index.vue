@@ -24,12 +24,11 @@ import MultiSelect from '../MultiSelect';
 
 function isValidSelectOption(option) {
   return (
-          typeof option === 'object' &&
-          'value' in option &&
-          'label' in option
+    typeof option === 'object' &&
+    'value' in option &&
+    'label' in option
   )
 }
-
 export default Vue.extend({
   name: 'FormFieldMultiSelect',
   components: {
@@ -67,7 +66,6 @@ export default Vue.extend({
       const countLabel = this.options.length > 0
         ? `(${this.selectedOptions.length} of ${this.options.length})`
         : '';
-
       return [this.label, countLabel].join(' ');
     }
   }

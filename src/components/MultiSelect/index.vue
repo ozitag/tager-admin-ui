@@ -35,7 +35,7 @@
 <script lang="js">
   import Vue from 'vue';
 
-  import BaseCheckbox from '../BaseCheckbox';
+  import BaseCheckbox from '../BaseCheckbox/index.vue';
 
   import { isValidSelectOption } from "../../utils/common";
 

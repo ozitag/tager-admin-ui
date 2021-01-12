@@ -30,6 +30,7 @@ export type IconName =
   | 'search'
   | 'settings'
   | 'assignment'
+  | 'chevronLeft'
   | 'chevronRight'
   | 'description'
   | 'arrowDownward'
@@ -270,6 +271,7 @@ export declare const CountButton: VueConstructor<Vue>;
 export declare const FormFieldRecommendedLengthInput: VueConstructor<Vue>;
 export declare const DataTable: VueConstructor<Vue>;
 export declare const SearchInput: VueConstructor<Vue>;
+export declare const Pagination: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
@@ -327,13 +329,17 @@ interface TableState<T> {
   rowData: Ref<Array<T>>;
   errorMessage: Ref<Nullable<string>>;
   searchQuery: Ref<string>;
-  setSearchQuery: (newSearchQuery: string) => void;
+  pageNumber: Ref<number>;
+  pageSize: Ref<number>;
+  pageCount: ComputedRef<number>;
   handleChange: (event: TableChangeEvent) => void;
   fetchEntityList: () => Promise<void>;
 }
 
 interface TableDataRequestParams {
   searchQuery?: string;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export declare function useDataTable<T>(params: {
@@ -343,4 +349,10 @@ export declare function useDataTable<T>(params: {
   initialValue?: Array<T>;
   resourceName?: string;
   context: SetupContext;
+  pageSize?: number;
 }): TableState<T>;
+
+export declare function usePagination(params: {
+  context: SetupContext;
+  pageSize?: number;
+}): { pageNumber: Ref<number>; pageSize: Ref<number> };

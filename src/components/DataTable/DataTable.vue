@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="data-table">
     <SearchInput
-      v-if="useSearch"
+      v-show="useSearch"
       :value="searchQuery"
       @change="handleSearchChange"
     />
+
     <BaseTable
       :column-defs="columnDefs"
       :row-data="rowData"
@@ -15,6 +16,19 @@
         <slot :name="name" v-bind="data"></slot>
       </template>
     </BaseTable>
+
+    <div ref="tableFooterElement" class="data-table-footer">
+      <div
+        v-if="usePagination && pagination.pageCount > 1"
+        class="pagination-container"
+      >
+        <Pagination
+          v-bind="pagination"
+          @change:page-number="handlePageNumberChange"
+          @change:page-size="handlePageSizeChange"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,8 +37,15 @@ import { defineComponent } from '@vue/composition-api';
 
 import BaseTable from '../BaseTable';
 import SearchInput from '../SearchInput';
+import Pagination from '../Pagination';
 import { ColumnDefinition, RowDataDefaultType } from '../../typings/common';
 import { TableChangeEvent } from './DataTable.types';
+
+interface PaginationProps {
+  pageNumber: number;
+  pageSize: number;
+  pageCount: number;
+}
 
 interface Props {
   columnDefs: Array<ColumnDefinition>;
@@ -33,11 +54,12 @@ interface Props {
   errorMessage: string | null;
   searchQuery: string;
   useSearch: boolean;
+  pagination: PaginationProps;
 }
 
 export default defineComponent<Props>({
   name: 'DataTable',
-  components: { BaseTable, SearchInput },
+  components: { BaseTable, SearchInput, Pagination },
   props: {
     columnDefs: {
       type: Array,
@@ -68,6 +90,10 @@ export default defineComponent<Props>({
       type: Boolean,
       default: true,
     },
+    usePagination: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props, context) {
     function dispatchChangeEvent(event: TableChangeEvent): void {
@@ -79,11 +105,58 @@ export default defineComponent<Props>({
       dispatchChangeEvent({ type: 'SEARCH_UPDATE', payload: searchQuery });
     }
 
+    function handlePageNumberChange(pageNumber: number): void {
+      context.emit('change:page-number', pageNumber);
+      dispatchChangeEvent({ type: 'PAGE_NUMBER_UPDATE', payload: pageNumber });
+    }
+
+    function handlePageSizeChange(pageSize: number): void {
+      context.emit('change:page-size', pageSize);
+      dispatchChangeEvent({ type: 'PAGE_SIZE_UPDATE', payload: pageSize });
+    }
+
     return {
       handleSearchChange,
+      handlePageNumberChange,
+      handlePageSizeChange,
     };
   },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.data-table {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.table-container {
+  height: 100%;
+  margin-bottom: 0;
+  flex: 1;
+
+  ::v-deep table tr:last-child td {
+    border-bottom: 0;
+  }
+}
+
+.data-table-footer {
+  position: sticky;
+  bottom: -1rem;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-top: 1px solid #eee;
+  background: #fff;
+  font-size: 14px;
+
+  .pagination-container {
+    display: flex;
+    align-items: center;
+    min-height: 55px;
+  }
+}
+</style>

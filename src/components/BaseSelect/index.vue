@@ -16,17 +16,17 @@
 </template>
 
 <script lang="js">
-import Vue from 'vue';
-import { notEmpty } from "@tager/admin-services";
+import { defineComponent } from '@vue/composition-api';
+import { notEmpty } from '@tager/admin-services';
 
-import { isValidSelectOption } from "../../utils/common";
+import { isValidSelectOption } from '../../utils/common';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'BaseSelect',
   props: {
     value: {
       type: [Object, Array],
-      default: () => []
+      default: () => [],
     },
     multiple: {
       type: Boolean,
@@ -34,49 +34,52 @@ export default Vue.extend({
     },
     placeholder: {
       type: String,
-      default: null
+      default: null,
     },
     noOptionsMessage: {
       type: String,
-      default: null
+      default: null,
     },
     options: {
       type: Array,
       default: () => [],
       validator(options) {
-        return (
-          Array.isArray(options) &&
-          options.every(isValidSelectOption)
-        );
+        return Array.isArray(options) && options.every(isValidSelectOption);
       },
     },
   },
   computed: {
     selectedOptions() {
-      return Array.isArray(this.value) ? this.value : [this.value].filter(notEmpty);
+      return Array.isArray(this.value)
+        ? this.value
+        : [this.value].filter(notEmpty);
     },
     selectListeners() {
       const vm = this;
 
       function handleChange(eventName) {
-        return event => {
+        return (event) => {
           const element = event.target;
           const selectedOptions = [...element.selectedOptions]
-            .filter(optionElement => !Object.keys(optionElement.dataset).includes('placeholder'))
-            .map(
-              (optionElement) => {
-                const foundOption = vm.options.find(option => String(option.value) === String(optionElement.value));
-                const fallback = {
-                  value: optionElement.value,
-                  label: optionElement.text,
-                };
+            .filter(
+              (optionElement) =>
+                !Object.keys(optionElement.dataset).includes('placeholder')
+            )
+            .map((optionElement) => {
+              const foundOption = vm.options.find(
+                (option) => String(option.value) === String(optionElement.value)
+              );
+              const fallback = {
+                value: optionElement.value,
+                label: optionElement.text,
+              };
 
-                return foundOption ?? fallback;
-              });
+              return foundOption ?? fallback;
+            });
 
           const value = element.multiple ? selectedOptions : selectedOptions[0];
           vm.$emit(eventName, value);
-        }
+        };
       }
 
       return {
@@ -86,17 +89,21 @@ export default Vue.extend({
       };
     },
     placeholderOptionLabel() {
-      const optionLabel = this.placeholder ||
-              (this.multiple ? 'Please select multiple' : 'Please select one');
+      const optionLabel =
+        this.placeholder ||
+        (this.multiple ? 'Please select multiple' : 'Please select one');
 
-      return this.options.length === 0 && this.noOptionsMessage ? this.noOptionsMessage : optionLabel;
-    }
+      return this.options.length === 0 && this.noOptionsMessage
+        ? this.noOptionsMessage
+        : optionLabel;
+    },
   },
   methods: {
     isOptionSelected(option) {
-        return this.selectedOptions.some(
-          (selectedOption) => String(selectedOption.value) === String(option.value)
-        );
+      return this.selectedOptions.some(
+        (selectedOption) =>
+          String(selectedOption.value) === String(option.value)
+      );
     },
   },
 });

@@ -4,6 +4,7 @@ import { defineComponent } from '@vue/composition-api';
 import VueRouter from 'vue-router';
 import { ColumnDefinition } from '../../typings/common';
 import { useDataTable } from './DataTable.hooks';
+import { request, ResponseBody } from '@tager/admin-services';
 
 Vue.use(VueRouter);
 const router = new VueRouter({ mode: 'history' });
@@ -65,6 +66,14 @@ const COLUMN_DEFS: Array<ColumnDefinition> = [
   },
 ];
 
+function getProductList(params?: {
+  query?: string;
+  pageNumber?: number;
+  pageSize?: number;
+}): Promise<ResponseBody<Array<{ [key: string]: unknown }>>> {
+  return request.get({ path: '/admin/products', params });
+}
+
 export const Default = () =>
   defineComponent({
     router,
@@ -77,9 +86,18 @@ export const Default = () =>
         errorMessage,
         searchQuery,
         handleChange,
+        pageSize,
+        pageNumber,
+        pageCount,
       } = useDataTable({
-        fetchEntityList: () =>
-          Promise.resolve({ data: [], message: '', errors: {} }),
+        // fetchEntityList: () =>
+        //   Promise.resolve({ data: [], message: '', errors: {} }),
+        fetchEntityList: (params) =>
+          getProductList({
+            query: params.searchQuery,
+            pageNumber: params.pageNumber,
+            pageSize: params.pageSize,
+          }),
         initialValue: [],
         context,
         resourceName: 'Product list',
@@ -92,6 +110,9 @@ export const Default = () =>
         columnDefs: COLUMN_DEFS,
         searchQuery,
         handleChange,
+        pageSize,
+        pageNumber,
+        pageCount,
       };
     },
     template: `
@@ -101,6 +122,7 @@ export const Default = () =>
         :loading="isLoading"
         :error-message="errorMessage"
         :search-query="searchQuery"
+        :pagination="{ pageSize, pageNumber, pageCount, disabled: isLoading }"
         @change="handleChange"
       >
         <template v-slot:cell(platforms)="{ row }">

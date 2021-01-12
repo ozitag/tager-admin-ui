@@ -2,6 +2,9 @@
  * @param {Date} date
  * @returns {string}
  */
+import VueRouter, { Route } from 'vue-router';
+import { isNumber } from '@tager/admin-services';
+
 export function formatDate(date: Date): string {
   return date.toLocaleDateString();
 }
@@ -100,4 +103,16 @@ export function getSearchParams(): URLSearchParams {
 
 export function getSearchParamByKey(key: string): string | null {
   return getSearchParams().get(key);
+}
+
+export function updateSearchParam(
+  router: VueRouter,
+  paramName: string,
+  paramValue: string | number | null | undefined
+): Promise<Route> {
+  const convertedValue = isNumber(paramValue) ? String(paramValue) : paramValue;
+
+  const query = { ...router.currentRoute.query, [paramName]: convertedValue };
+
+  return router.replace({ query });
 }
