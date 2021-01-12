@@ -1,3 +1,17 @@
+## 0.8.4 (2021-01-12)
+
+#### Features
+
+* Add prop `hidePlaceholderOption` in `BaseSelect` component
+
+#### Fixes
+
+* Fix footer position in `DataTable` component
+
+## 0.8.3 (2021-01-12)
+
+(miss-click release)
+
 ## 0.8.2 (2021-01-12)
 
 #### Features
