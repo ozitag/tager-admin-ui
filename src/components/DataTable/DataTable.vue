@@ -57,6 +57,7 @@ interface Props {
   searchQuery: string;
   useSearch: boolean;
   pagination: PaginationProps;
+  usePagination: boolean;
 }
 
 export default defineComponent<Props>({
@@ -109,11 +110,19 @@ export default defineComponent<Props>({
         footerInnerRef.value.style.position = 'fixed';
         footerInnerRef.value.style.bottom = '0';
         footerInnerRef.value.style.left = `${rect.x}px`;
+
+        footerRef.value.style.height = `${
+          footerInnerRef.value.getBoundingClientRect().height
+        }px`;
       }
     }
 
     onMounted(() => {
       fixFooterPosition();
+
+      window.addEventListener('resize', () => {
+        fixFooterPosition();
+      });
     });
 
     /** After data loading window inner width can be changed because of scrollbar */

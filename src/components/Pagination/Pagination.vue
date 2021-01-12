@@ -1,6 +1,6 @@
 <template>
   <div v-if="pageCount > 1" class="pagination">
-    <div class="size-select-container">
+    <div v-if="pageSizes.length" class="size-select-container">
       <BaseSelect
         :value="selectedPageSizeOption"
         name="size"
@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, SetupContext } from '@vue/composition-api';
 
 import BaseSelect from '../BaseSelect/index.vue';
 import SvgIcon from '../SvgIcon';
@@ -103,7 +103,7 @@ export default defineComponent<Props>({
     },
     pageSizes: {
       type: Array,
-      default: () => [10, 20, 50, 100],
+      default: () => [],
     },
     disabled: {
       type: Boolean,
@@ -114,7 +114,7 @@ export default defineComponent<Props>({
       default: 9,
     },
   },
-  setup(props, context) {
+  setup(props: Props, context: SetupContext) {
     const isPreviousButtonDisabled = computed(() => props.pageNumber === 1);
     const isNextButtonDisabled = computed(
       () => props.pageNumber === props.pageCount
@@ -132,7 +132,7 @@ export default defineComponent<Props>({
         (option) => Number(option.value) === props.pageSize
       );
 
-      if (!foundOption) {
+      if (props.pageSizes.length && !foundOption) {
         throw new Error(
           'Page size option is not found. Please specify correct page size prop'
         );
@@ -237,24 +237,35 @@ export default defineComponent<Props>({
       return pages;
     });
 
+    function scrollToTop(): void {
+      scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+
     function goToPreviousPage(): void {
       const pageNumber: number = props.pageNumber - 1;
       context.emit('change:page-number', pageNumber);
+      scrollToTop();
     }
 
     function goToNextPage(): void {
       const pageNumber: number = props.pageNumber + 1;
       context.emit('change:page-number', pageNumber);
+      scrollToTop();
     }
 
     function goToCommonPage(page: Page): void {
       if (page.selected) return;
       context.emit('change:page-number', page.number);
+      scrollToTop();
     }
 
     function goToCommonPageSizeChange(selectedOption: OptionType) {
       const newPageSize = Number(selectedOption.value);
       context.emit('change:page-size', newPageSize);
+      scrollToTop();
     }
 
     return {
