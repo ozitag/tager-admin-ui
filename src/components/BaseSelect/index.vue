@@ -1,6 +1,11 @@
 <template>
   <select class="form-select" :multiple="multiple" v-on="selectListeners">
-    <option value="" :selected="selectedOptions.length === 0" data-placeholder>
+    <option
+      v-if="!hidePlaceholderOption"
+      value=""
+      :selected="selectedOptions.length === 0"
+      data-placeholder
+    >
       {{ placeholderOptionLabel }}
     </option>
 
@@ -39,6 +44,10 @@ export default defineComponent({
     noOptionsMessage: {
       type: String,
       default: null,
+    },
+    hidePlaceholderOption: {
+      type: Boolean,
+      default: false,
     },
     options: {
       type: Array,
@@ -114,7 +123,7 @@ export default defineComponent({
   display: block;
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
-  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  padding: 0.375rem 2.375rem 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;

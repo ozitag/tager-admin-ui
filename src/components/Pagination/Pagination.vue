@@ -7,6 +7,7 @@
         class="size-select"
         :options="pageSizeOptions"
         :disabled="disabled"
+        hide-placeholder-option
         @change="goToCommonPageSizeChange"
       />
     </div>

@@ -17,23 +17,25 @@
       </template>
     </BaseTable>
 
-    <div ref="tableFooterElement" class="data-table-footer">
-      <div
-        v-if="usePagination && pagination.pageCount > 1"
-        class="pagination-container"
-      >
-        <Pagination
-          v-bind="pagination"
-          @change:page-number="handlePageNumberChange"
-          @change:page-size="handlePageSizeChange"
-        />
+    <div ref="footerRef" class="data-table-footer">
+      <div ref="footerInnerRef" class="footer-inner">
+        <div
+          v-if="usePagination && pagination.pageCount > 1"
+          class="pagination-container"
+        >
+          <Pagination
+            v-bind="pagination"
+            @change:page-number="handlePageNumberChange"
+            @change:page-size="handlePageSizeChange"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, onMounted, ref, watch } from '@vue/composition-api';
 
 import BaseTable from '../BaseTable';
 import SearchInput from '../SearchInput';
@@ -96,6 +98,27 @@ export default defineComponent<Props>({
     },
   },
   setup(props, context) {
+    const footerRef = ref<HTMLElement | null>(null);
+    const footerInnerRef = ref<HTMLElement | null>(null);
+
+    function fixFooterPosition() {
+      if (footerRef.value && footerInnerRef.value) {
+        const rect = footerRef.value.getBoundingClientRect();
+
+        footerInnerRef.value.style.width = `${rect.width}px`;
+        footerInnerRef.value.style.position = 'fixed';
+        footerInnerRef.value.style.bottom = '0';
+        footerInnerRef.value.style.left = `${rect.x}px`;
+      }
+    }
+
+    onMounted(() => {
+      fixFooterPosition();
+    });
+
+    /** After data loading window inner width can be changed because of scrollbar */
+    watch(() => props.rowData, fixFooterPosition);
+
     function dispatchChangeEvent(event: TableChangeEvent): void {
       context.emit('change', event);
     }
@@ -119,6 +142,8 @@ export default defineComponent<Props>({
       handleSearchChange,
       handlePageNumberChange,
       handlePageSizeChange,
+      footerRef,
+      footerInnerRef,
     };
   },
 });
@@ -129,29 +154,17 @@ export default defineComponent<Props>({
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-}
-
-.table-container {
-  height: 100%;
-  margin-bottom: 0;
-  flex: 1;
-
-  ::v-deep table tr:last-child td {
-    border-bottom: 0;
-  }
 }
 
 .data-table-footer {
-  position: sticky;
-  bottom: -1rem;
-
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  border-top: 1px solid #eee;
-  background: #fff;
-  font-size: 14px;
+  .footer-inner {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid #eee;
+    background: #fff;
+    font-size: 14px;
+  }
 
   .pagination-container {
     display: flex;
