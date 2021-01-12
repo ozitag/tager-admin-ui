@@ -42,6 +42,7 @@ import FormFieldRecommendedLengthInput from './components/FormFieldRecommendedLe
 import DataTable from './components/DataTable';
 import SearchInput from './components/SearchInput';
 import Pagination from './components/Pagination';
+import ComboBox from './components/ComboBox';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -91,4 +92,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('data-table', DataTable);
   Vue.component('search-input', SearchInput);
   Vue.component('pagination', Pagination);
+  Vue.component('combobox', ComboBox);
 };

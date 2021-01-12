@@ -624,6 +624,80 @@
           }
         },
         {
+          "name": "ComboBox",
+          "description": "",
+          "attributes": [
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              },
+              "default": "() => null"
+            },
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "placeholder",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Filter traits...'"
+            },
+            {
+              "name": "autocomplete",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'off'"
+            },
+            {
+              "name": "disabled",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "loading",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "clearable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "noMatchText",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'No options'"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\ComboBox\\ComboBox.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "CoordinatesForm",
           "description": "",
           "attributes": [
