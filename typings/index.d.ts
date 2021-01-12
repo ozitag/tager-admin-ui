@@ -35,8 +35,6 @@ export type IconName =
   | 'description'
   | 'arrowDownward'
   | 'arrowUpward'
-  | 'arrowLeft'
-  | 'arrowRight'
   | 'north'
   | 'south'
   | 'email'

@@ -12,41 +12,30 @@
   </form-group>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import FormGroup from '../FormGroup.vue';
-import FormFieldError from '../FormFieldError/index.vue';
-import InputLabel from '../InputLabel/index.vue';
-import FileInput from '../FileInput/index.vue';
-
-interface Props {
-  name: string;
-  label: string;
-  value: [] | { [key: string]: unknown };
-  error: string;
-}
-
-export default defineComponent<Props>({
+<script lang="js">
+import Vue from 'vue';
+import FormGroup from '../FormGroup';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
+import FileInput from '../FileInput';
+export default Vue.extend({
   name: 'FormFieldFileInput',
   components: {
-    FormGroup,
-    FormFieldError,
-    InputLabel,
-    FileInput,
+    FormGroup, FormFieldError, InputLabel, FileInput
   },
   inheritAttrs: false,
   model: {
-    event: 'change',
+    event: 'change'
   },
   props: {
     name: {
       type: String,
-      required: true,
+      required: true
     },
     label: String,
     value: [Array, Object],
-    error: String,
-  },
+    error: String
+  }
 });
 </script>
 

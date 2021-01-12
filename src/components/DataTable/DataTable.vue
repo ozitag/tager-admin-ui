@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 import BaseTable from '../BaseTable';
 import SearchInput from '../SearchInput';
@@ -123,12 +123,6 @@ export default defineComponent<Props>({
   },
 });
 </script>
-
-<style>
-.sb-show-main {
-  padding: 20px !important;
-}
-</style>
 
 <style scoped lang="scss">
 .data-table {
