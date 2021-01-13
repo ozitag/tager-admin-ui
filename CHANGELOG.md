@@ -1,3 +1,13 @@
+## 0.8.5 (2021-01-13)
+
+#### Features
+
+* Add scrolling to top on page number change in `DataTable` component
+
+#### Fixes
+
+* Fix footer in `DataTable` component, resize it sidebar is opening/closing
+
 ## 0.8.4 (2021-01-12)
 
 #### Features
