@@ -1614,10 +1614,10 @@
     vue-docgen-loader "^1.5.0"
     webpack "^4.43.0"
 
-"@tager/admin-services@^0.2.15":
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.15.tgz#642114d673beccd1ff846da100e9bd2861fc6756"
-  integrity sha512-lToGjRGz4hFOVmTLGJDvNdnO5JvHsvgh0w9XMpl6mjPjLeL9NF5bPcjrFgyBBBeYfcvQdKEjAlQItcUVLfI4zA==
+"@tager/admin-services@^0.2.16":
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.16.tgz#a0d7ce3c4a1f3aac526f47e321fdc1d825dd7551"
+  integrity sha512-pcZSRiMfO0UNuVHCMKDlr/BRDmXTZ7sjl6NLFglE9m/LMkQT7yPmjyNhUMptkMTsoxy9qqY0GHuhIRTfhsrTBw==
   dependencies:
     i18next "^19.7.0"
     nanoid "^3.1.12"
@@ -1860,6 +1860,11 @@
   dependencies:
     "@types/react" "*"
 
+"@types/resize-observer-browser@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@types/resize-observer-browser/-/resize-observer-browser-0.1.5.tgz#36d897708172ac2380cd486da7a3daf1161c1e23"
+  integrity sha512-8k/67Z95Goa6Lznuykxkfhq9YU3l1Qe6LNZmwde1u7802a3x8v44oq0j91DICclxatTr0rNnhXx7+VTIetSrSQ==
+
 "@types/resolve@1.17.1":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.17.1.tgz#3afd6ad8967c77e4376c598a82ddd58f46ec45d6"
@@ -1871,6 +1876,11 @@
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
+
+"@types/smoothscroll-polyfill@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@types/smoothscroll-polyfill/-/smoothscroll-polyfill-0.3.1.tgz#77fb3a6e116bdab4a5959122e3b8e201224dcd49"
+  integrity sha512-+KkHw4y+EyeCtVXET7woHUhIbfWFCflc0E0mZnSV+ZdjPQeHt/9KPEuT7gSW/kFQ8O3EG30PLO++YhChDt8+Ag==
 
 "@types/source-list-map@*":
   version "0.1.2"
@@ -10019,6 +10029,11 @@ slice-ansi@^2.1.0:
     ansi-styles "^3.2.0"
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
+
+smoothscroll-polyfill@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz#3a259131dc6930e6ca80003e1cb03b603b69abf8"
+  integrity sha512-TK5ZA9U5RqCwMpfoMq/l1mrH0JAR7y7KRvOBx0n2869aLxch+gT9GhN3yUfjiw+d/DiF1mKo14+hd62JyMmoBg==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"

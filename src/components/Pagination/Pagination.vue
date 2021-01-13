@@ -1,6 +1,6 @@
 <template>
   <div v-if="pageCount > 1" class="pagination">
-    <div class="size-select-container">
+    <div v-if="usePageSize" class="size-select-container">
       <BaseSelect
         :value="selectedPageSizeOption"
         name="size"
@@ -78,10 +78,13 @@ interface Props {
   pageNumber: number;
   pageCount: number;
   pageSize: number;
+  usePageSize: boolean;
   pageItemCount: number;
   disabled: boolean;
   pageSizes: Array<number>;
 }
+
+const DEFAULT_PAGE_SIZE_LIST = [10, 20, 50, 100];
 
 export default defineComponent<Props>({
   name: 'Pagination',
@@ -99,11 +102,15 @@ export default defineComponent<Props>({
     },
     pageSize: {
       type: Number,
-      default: 10,
+      default: DEFAULT_PAGE_SIZE_LIST[0],
     },
     pageSizes: {
       type: Array,
-      default: () => [10, 20, 50, 100],
+      default: () => DEFAULT_PAGE_SIZE_LIST,
+    },
+    usePageSize: {
+      type: Boolean,
+      default: true,
     },
     disabled: {
       type: Boolean,
@@ -127,12 +134,13 @@ export default defineComponent<Props>({
       }));
     });
 
-    const selectedPageSizeOption = computed<OptionType>(() => {
-      const foundOption = pageSizeOptions.value.find(
-        (option) => Number(option.value) === props.pageSize
-      );
+    const selectedPageSizeOption = computed<OptionType | null>(() => {
+      const foundOption =
+        pageSizeOptions.value.find(
+          (option) => Number(option.value) === props.pageSize
+        ) ?? null;
 
-      if (!foundOption) {
+      if (props.pageSizes.length > 0 && !foundOption) {
         throw new Error(
           'Page size option is not found. Please specify correct page size prop'
         );
