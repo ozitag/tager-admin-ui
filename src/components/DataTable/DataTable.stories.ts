@@ -101,7 +101,7 @@ export const Default = () =>
         initialValue: [],
         context,
         resourceName: 'Product list',
-        pageSize: 10,
+        pageSize: 20,
       });
 
       return {
