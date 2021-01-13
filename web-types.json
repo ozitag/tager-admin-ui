@@ -1692,7 +1692,7 @@
                 "kind": "expression",
                 "type": "number"
               },
-              "default": "10"
+              "default": "DEFAULT_PAGE_SIZE_LIST[0]"
             },
             {
               "name": "pageSizes",
@@ -1700,7 +1700,15 @@
                 "kind": "expression",
                 "type": "array"
               },
-              "default": "[10, 20, 50, 100]"
+              "default": "() => DEFAULT_PAGE_SIZE_LIST"
+            },
+            {
+              "name": "usePageSize",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
             },
             {
               "name": "disabled",

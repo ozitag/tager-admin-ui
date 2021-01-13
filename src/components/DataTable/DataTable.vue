@@ -20,11 +20,11 @@
     <div ref="footerRef" class="data-table-footer">
       <div ref="footerInnerRef" class="footer-inner">
         <div
-          v-if="usePagination && pagination.pageCount > 1"
+          v-if="usePagination && computedPagination.pageCount > 1"
           class="pagination-container"
         >
           <Pagination
-            v-bind="pagination"
+            v-bind="computedPagination"
             @change:page-number="handlePageNumberChange"
             @change:page-size="handlePageSizeChange"
           />
@@ -35,7 +35,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from '@vue/composition-api';
 
 import BaseTable from '../BaseTable';
 import SearchInput from '../SearchInput';
@@ -47,6 +54,7 @@ interface PaginationProps {
   pageNumber: number;
   pageSize: number;
   pageCount: number;
+  usePageSize?: boolean;
 }
 
 interface Props {
@@ -57,6 +65,7 @@ interface Props {
   searchQuery: string;
   useSearch: boolean;
   pagination: PaginationProps;
+  usePagination: boolean;
 }
 
 export default defineComponent<Props>({
@@ -102,22 +111,72 @@ export default defineComponent<Props>({
     const footerInnerRef = ref<HTMLElement | null>(null);
 
     function fixFooterPosition() {
-      if (footerRef.value && footerInnerRef.value) {
-        const rect = footerRef.value.getBoundingClientRect();
+      requestAnimationFrame(() => {
+        if (footerRef.value && footerInnerRef.value) {
+          const footerRect = footerRef.value.getBoundingClientRect();
 
-        footerInnerRef.value.style.width = `${rect.width}px`;
-        footerInnerRef.value.style.position = 'fixed';
-        footerInnerRef.value.style.bottom = '0';
-        footerInnerRef.value.style.left = `${rect.x}px`;
-      }
+          footerInnerRef.value.style.width = `${footerRect.width}px`;
+          footerInnerRef.value.style.position = 'fixed';
+          footerInnerRef.value.style.bottom = '0';
+          footerInnerRef.value.style.left = `${footerRect.left}px`;
+
+          const footerInnerRect = footerInnerRef.value.getBoundingClientRect();
+
+          footerRef.value.style.height = `${footerInnerRect.height}px`;
+        }
+      });
     }
 
+    let resizeObserver: ResizeObserver | null = null;
+
     onMounted(() => {
+      if (!footerRef.value) return;
+      if (!footerInnerRef.value) return;
+
       fixFooterPosition();
+
+      if ('ResizeObserver' in window) {
+        resizeObserver = new ResizeObserver(() => {
+          fixFooterPosition();
+        });
+
+        resizeObserver.observe(footerRef.value);
+      }
+    });
+
+    onUnmounted(() => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     });
 
     /** After data loading window inner width can be changed because of scrollbar */
     watch(() => props.rowData, fixFooterPosition);
+
+    const computedPagination = computed<PaginationProps>(() => {
+      const defaultPaginationProps: PaginationProps = {
+        usePageSize: false,
+        pageNumber: 1,
+        pageSize: 100,
+        pageCount: 0,
+      };
+
+      return { ...defaultPaginationProps, ...props.pagination };
+    });
+
+    function scrollToTop(): void {
+      scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+
+    watch(
+      () => computedPagination.value.pageNumber,
+      () => {
+        scrollToTop();
+      }
+    );
 
     function dispatchChangeEvent(event: TableChangeEvent): void {
       context.emit('change', event);
@@ -144,6 +203,7 @@ export default defineComponent<Props>({
       handlePageSizeChange,
       footerRef,
       footerInnerRef,
+      computedPagination,
     };
   },
 });
@@ -157,6 +217,8 @@ export default defineComponent<Props>({
 }
 
 .data-table-footer {
+  overflow: hidden;
+
   .footer-inner {
     display: flex;
     justify-content: flex-end;

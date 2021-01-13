@@ -1,5 +1,8 @@
 import './assets/css/index.css';
 
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
+
 export { default as BaseButton } from './components/BaseButton/index.vue';
 export { default as BaseCheckbox } from './components/BaseCheckbox/index.vue';
 export { default as FormFieldCheckbox } from './components/FormFieldCheckbox/index.vue';

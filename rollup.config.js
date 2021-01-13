@@ -28,6 +28,7 @@ export default {
     'vue-color',
     'leaflet',
     'autosize',
+    'smoothscroll-polyfill',
   ],
   plugins: [
     /**
