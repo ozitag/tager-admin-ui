@@ -29,6 +29,7 @@ export default {
     'leaflet',
     'autosize',
     'smoothscroll-polyfill',
+    '@popperjs/core',
   ],
   plugins: [
     /**
