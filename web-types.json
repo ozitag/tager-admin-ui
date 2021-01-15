@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -649,7 +649,7 @@
                 "kind": "expression",
                 "type": "string"
               },
-              "default": "'Filter traits...'"
+              "default": "'Select...'"
             },
             {
               "name": "autocomplete",
@@ -668,14 +668,6 @@
               "default": "false"
             },
             {
-              "name": "loading",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "default": "false"
-            },
-            {
               "name": "clearable",
               "value": {
                 "kind": "expression",
@@ -684,12 +676,20 @@
               "default": "false"
             },
             {
-              "name": "noMatchText",
+              "name": "noOptionsMessage",
               "value": {
                 "kind": "expression",
                 "type": "string"
               },
               "default": "'No options'"
+            },
+            {
+              "name": "notFoundMessage",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Not Found'"
             }
           ],
           "source": {
@@ -1114,6 +1114,38 @@
           ],
           "source": {
             "module": "./src\\components\\FormFieldColorInput\\index.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "FormFieldComboBox",
+          "description": "",
+          "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "error",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFieldComboBox\\FormFieldComboBox.vue",
             "symbol": "default"
           }
         },
