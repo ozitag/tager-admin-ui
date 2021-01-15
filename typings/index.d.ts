@@ -253,6 +253,7 @@ export declare const FormFieldNumberInput: VueConstructor<Vue>;
 export declare const FormFieldMultiSelect: VueConstructor<Vue>;
 export declare const FormFieldSingleSelect: VueConstructor<Vue>;
 export declare const FormFieldUrlAliasInput: VueConstructor<Vue>;
+export declare const FormFieldComboBox: VueConstructor<Vue>;
 
 export declare const MultiSelect: VueConstructor<Vue>;
 export declare const InputLabel: VueConstructor<Vue>;

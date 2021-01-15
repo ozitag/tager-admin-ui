@@ -3,6 +3,7 @@
     <div ref="inputContainerRef" class="select-control-wrapper">
       <BaseInput
         v-model="query"
+        v-bind="$attrs"
         class="select-control"
         :placeholder="computedPlaceholder"
         :disabled="disabled"
@@ -50,11 +51,11 @@
     </div>
 
     <ul ref="popperRef" class="select-menu" :class="[{ show: menuIsOpen }]">
-      <li v-if="loading">
-        <p class="loading">Loading</p>
-      </li>
-      <li v-if="query && isResultsNotFound">
+      <li v-if="options.length === 0">
         <p class="empty">{{ noOptionsMessage }}</p>
+      </li>
+      <li v-else-if="query && isResultsNotFound">
+        <p class="not-found">{{ notFoundMessage }}</p>
       </li>
       <li
         v-for="(option, index) in filteredOptions"
@@ -96,14 +97,15 @@ export interface Props {
   options: Array<OptionType>;
   autocomplete: string;
   placeholder: string;
-  loading: boolean;
   disabled: boolean;
   clearable: boolean;
   noOptionsMessage: string;
+  notFoundMessage: string;
 }
 
 export default defineComponent<Props>({
   name: 'ComboBox',
+  inheritAttrs: false,
   components: { BaseInput, SvgIcon },
   props: {
     value: {
@@ -127,10 +129,6 @@ export default defineComponent<Props>({
       type: Boolean,
       default: false,
     },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
     clearable: {
       type: Boolean,
       default: false,
@@ -138,6 +136,10 @@ export default defineComponent<Props>({
     noOptionsMessage: {
       type: String,
       default: 'No options',
+    },
+    notFoundMessage: {
+      type: String,
+      default: 'Not Found',
     },
   },
   setup(props: Props, context) {
@@ -151,16 +153,6 @@ export default defineComponent<Props>({
     onMounted(() => {
       if (props.value) {
         highlightedIndex.value = props.options.indexOf(props.value);
-      }
-    });
-
-    watch(menuIsOpen, (currentMenuIsOpen) => {
-      if (currentMenuIsOpen) {
-        showMenu();
-      } else {
-        query.value = '';
-        blurInput();
-        hideMenu();
       }
     });
 
@@ -179,6 +171,30 @@ export default defineComponent<Props>({
         );
       }
       return props.options;
+    });
+
+    watch(menuIsOpen, (currentMenuIsOpen) => {
+      if (currentMenuIsOpen) {
+        showMenu();
+
+        /** Scroll to selected option */
+        if (popperRef.value) {
+          const selectedOptionIndex = filteredOptions.value.findIndex(
+            (filteredOption) => filteredOption.value === props.value?.value
+          );
+          const selectedOptionElement = popperRef.value.querySelector<
+            HTMLElement
+          >(`li:nth-child(${selectedOptionIndex + 1})`);
+
+          if (selectedOptionElement) {
+            selectedOptionElement.scrollIntoView({ block: 'center' });
+          }
+        }
+      } else {
+        query.value = '';
+        blurInput();
+        hideMenu();
+      }
     });
 
     const isResultsNotFound = computed(() => {
@@ -263,7 +279,7 @@ export default defineComponent<Props>({
     }
 
     function highlight(index: number) {
-      if (filteredOptions.value.length === 0 || props.loading) {
+      if (filteredOptions.value.length === 0) {
         return;
       }
 
@@ -392,6 +408,7 @@ export default defineComponent<Props>({
   border-radius: 0.25rem;
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
     0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  z-index: 1;
 
   &.show {
     display: block;
@@ -433,11 +450,13 @@ export default defineComponent<Props>({
   }
 }
 
+.not-found,
 .empty {
   padding: 10px 0;
   margin: 0;
   text-align: center;
   color: #999;
   font-size: 14px;
+  user-select: none;
 }
 </style>

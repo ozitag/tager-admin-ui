@@ -1,10 +1,10 @@
-import ComboBox from './ComboBox.vue';
+import FormFieldComboBox from './FormFieldComboBox.vue';
 import { ref, watch } from '@vue/composition-api';
 import { OptionType } from '../../typings/common';
 
-export default { title: 'ComboBox' };
+export default { title: 'FormFieldComboBox' };
 
-const OPTIONS: Array<OptionType> = [
+const OPTIONS2: Array<OptionType> = [
   { value: 'Afghanistan', label: 'Afghanistan' },
   { value: 'Algeria', label: 'Algeria' },
   { value: 'chocolate34', label: 'Chocolate' },
@@ -52,11 +52,11 @@ const OPTIONS: Array<OptionType> = [
 ];
 
 export const Default = () => ({
-  name: 'DefaultComboBox',
-  components: { ComboBox },
+  name: 'DefaultFormFieldComboBox',
+  components: { FormFieldComboBox },
   setup() {
-    const options = ref<Array<OptionType>>(OPTIONS);
-    const selected = ref<OptionType | null>(OPTIONS[2]);
+    const options = ref<Array<OptionType>>(OPTIONS2);
+    const selected = ref<OptionType | null>(OPTIONS2[2]);
 
     watch(selected, () => {
       console.log('selected', { ...selected.value });
@@ -67,5 +67,5 @@ export const Default = () => ({
       selected,
     };
   },
-  template: `<ComboBox v-model="selected" :options="options" :clearable="true" :disabled="false" />`,
+  template: `<FormFieldComboBox v-model="selected" :options="options" :clearable="true" :disabled="false" name="DefaultFormFieldComboBox" label="Is valid?" error="Required field" />`,
 });
