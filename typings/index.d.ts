@@ -3,6 +3,7 @@ import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
 import { ShortCodeParamType } from '../src/typings/common';
 import { ComputedRef, Ref, SetupContext } from '@vue/composition-api';
 import { ResponseBody } from '@tager/admin-services/src/common.types';
+import { Modifier, OptionsGeneric } from '@popperjs/core';
 
 export type LinkType = {
   url: string;
@@ -58,7 +59,9 @@ export type IconName =
   | 'fileUnknown'
   | 'fileXls'
   | 'fileXml'
-  | 'fileZip';
+  | 'fileZip'
+  | 'web'
+  | 'openInBrowser';
 
 export type OptionType<V = string> = {
   value: V;
@@ -250,6 +253,7 @@ export declare const FormFieldNumberInput: VueConstructor<Vue>;
 export declare const FormFieldMultiSelect: VueConstructor<Vue>;
 export declare const FormFieldSingleSelect: VueConstructor<Vue>;
 export declare const FormFieldUrlAliasInput: VueConstructor<Vue>;
+export declare const FormFieldComboBox: VueConstructor<Vue>;
 
 export declare const MultiSelect: VueConstructor<Vue>;
 export declare const InputLabel: VueConstructor<Vue>;
@@ -272,6 +276,7 @@ export declare const FormFieldRecommendedLengthInput: VueConstructor<Vue>;
 export declare const DataTable: VueConstructor<Vue>;
 export declare const SearchInput: VueConstructor<Vue>;
 export declare const Pagination: VueConstructor<Vue>;
+export declare const ComboBox: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
@@ -356,3 +361,21 @@ export declare function usePagination(params: {
   context: SetupContext;
   pageSize?: number;
 }): { pageNumber: Ref<number>; pageSize: Ref<number> };
+
+export declare function useOnClickOutside(
+  ref: Ref<HTMLElement | null>,
+  handler: (event: Event) => void
+): void;
+
+type PopperHookOptions = Partial<
+  OptionsGeneric<Partial<Modifier<string, { offset: number[] }>>>
+>;
+
+export declare function usePopper(
+  referenceRef: Ref<Element | null>,
+  popperRef: Ref<HTMLElement | null>,
+  options?: PopperHookOptions
+): {
+  show: () => void;
+  hide: () => void;
+};
