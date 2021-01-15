@@ -5,42 +5,58 @@
         <loadable-image
           :src="value"
           alt="Photo"
-          style="height: 100px; min-width: 100px; object-fit: contain;"
+          style="height: 100px; min-width: 100px; object-fit: contain"
         />
       </div>
     </div>
   </td>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { computed, defineComponent } from '@vue/composition-api';
 import get from 'lodash.get';
 
-import LoadableImage from '../../LoadableImage';
+import LoadableImage from '../../LoadableImage/index.vue';
+import { ColumnDefinition, RowDataDefaultType } from '../../../typings/common';
 
-export default Vue.extend({
+interface Props {
+  column: ColumnDefinition;
+  row: RowDataDefaultType;
+  rowIndex: number;
+}
+
+export default defineComponent<Props>({
+  name: 'CellImage',
   components: { LoadableImage },
   props: {
     column: {
       type: Object,
-      required: true
+      required: true,
     },
     row: {
       type: Object,
-      required: true
+      required: true,
     },
     rowIndex: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
-  computed: {
-    value() {
-      return this.column.format
-        ? this.column.format({ row: this.row, column: this.column, rowIndex: this.rowIndex })
-        : get(this.row, this.column.field, null);
-    }
-  }
+  setup(props) {
+    const value = computed(() => {
+      return props.column.format
+        ? props.column.format({
+            row: props.row,
+            column: props.column,
+            rowIndex: props.rowIndex,
+          })
+        : get(props.row, props.column.field, null);
+    });
+
+    return {
+      value,
+    };
+  },
 });
 </script>
 
@@ -60,6 +76,9 @@ td.image-cell {
     right: 0;
     bottom: 0;
     left: 0;
+
+    display: flex;
+    justify-content: center;
   }
 }
 </style>
