@@ -164,7 +164,7 @@ export default Vue.extend({
 
 table {
   width: 100%;
-  /*max-width: 100%;*/
+  height: 100%;
   border: 1px solid #e9ecef;
   border-collapse: collapse;
   background-color: transparent;

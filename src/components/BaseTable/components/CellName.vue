@@ -17,10 +17,10 @@
         </component>
       </div>
 
-      <div v-if="state.websiteLink" class="url-block">
+      <div v-if="state.websiteLink && state.websiteLink.text" class="url-block">
         <span class="label">Web URL:</span>
         <a class="url" :href="state.websiteLink.url" target="_blank">
-          {{ state.websiteLink.text }}
+          {{ websiteLabel }}
         </a>
       </div>
     </div>
@@ -34,6 +34,7 @@ import { isAbsoluteUrl, isString, z } from '@tager/admin-services';
 import { ColumnDefinitionName } from '../../../typings/common';
 import { RowDataDefaultType } from '../../../../typings';
 import { LinkSchema } from '../../../constants/schema';
+import { isValidURL } from '../../../utils/common';
 
 const NameCellValueObjectSchema = z.object({
   adminLink: LinkSchema,
@@ -114,14 +115,26 @@ export default defineComponent<Props>({
       };
     });
 
-    return { linkAttrs, shouldUseRouter, state };
+    const websiteLabel = computed<string>(() => {
+      const url = state.value?.websiteLink?.url;
+      if (url) {
+        if (isValidURL(url)) {
+          const urlObj = new URL(url);
+          return urlObj.pathname;
+        }
+        return url;
+      }
+      return '';
+    });
+
+    return { linkAttrs, shouldUseRouter, state, websiteLabel };
   },
 });
 </script>
 
 <style scoped lang="scss">
 .name-cell {
-  height: 1px;
+  height: 100%;
   padding: 0;
 }
 

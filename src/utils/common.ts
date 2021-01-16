@@ -116,3 +116,12 @@ export function updateSearchParam(
 
   return router.replace({ query });
 }
+
+export function isValidURL(url: string): boolean {
+  try {
+    const urlObj = new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

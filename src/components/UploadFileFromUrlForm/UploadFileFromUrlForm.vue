@@ -40,14 +40,7 @@ import BaseInput from '../BaseInput';
 import FormFieldError from '../FormFieldError/index.vue';
 import BaseButton from '../BaseButton/index.vue';
 
-function isUrlValid(url: string) {
-  try {
-    const validUrl = new URL(url);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
+import { isValidURL } from '../../utils/common';
 
 export default defineComponent({
   name: 'UploadFileFromUrlForm',
@@ -89,7 +82,7 @@ export default defineComponent({
     function onSubmit() {
       error.value = '';
 
-      if (!isUrlValid(url.value)) {
+      if (!isValidURL(url.value)) {
         error.value = 'Invalid URL';
         return;
       }
