@@ -1,13 +1,13 @@
 <template>
   <div v-if="pageCount > 1" class="pagination">
     <div v-if="usePageSize" class="size-select-container">
-      <BaseSelect
-        :value="selectedPageSizeOption"
+      <ComboBox
         name="size"
         class="size-select"
+        :value="selectedPageSizeOption"
         :options="pageSizeOptions"
+        :searchable="false"
         :disabled="disabled"
-        hide-placeholder-option
         @change="goToCommonPageSizeChange"
       />
     </div>
@@ -63,7 +63,7 @@
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api';
 
-import BaseSelect from '../BaseSelect/index.vue';
+import ComboBox from '../ComboBox';
 import SvgIcon from '../SvgIcon';
 import { OptionType } from '../../typings/common';
 
@@ -89,8 +89,8 @@ const DEFAULT_PAGE_SIZE_LIST = [10, 20, 50, 100];
 export default defineComponent<Props>({
   name: 'Pagination',
   components: {
-    BaseSelect,
     SvgIcon,
+    ComboBox,
   },
   props: {
     pageNumber: {
@@ -387,25 +387,25 @@ export default defineComponent<Props>({
 }
 
 .size-select {
-  height: 32px;
-  padding-top: 0;
-  padding-bottom: 0;
+  ::v-deep [data-ui-base-button] {
+    height: 32px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 2px;
 
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
+    &:hover {
+      border-color: var(--primary);
+    }
 
-  &:hover {
-    border-color: var(--primary);
-  }
+    &:focus {
+      box-shadow: none;
+    }
 
-  &:focus {
-    box-shadow: none;
-  }
-
-  &:disabled {
-    color: rgba(0, 0, 0, 0.26);
-    border-color: #d9d9d9;
-    background-color: #d9d9d9;
+    &:disabled {
+      color: rgba(0, 0, 0, 0.26);
+      border-color: #d9d9d9;
+      background-color: #d9d9d9;
+    }
   }
 }
 </style>

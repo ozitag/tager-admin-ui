@@ -66,6 +66,7 @@ export type IconName =
 export type OptionType<V = string> = {
   value: V;
   label: string;
+  disabled?: boolean;
 };
 
 export type DateCellValue = Date | null;
@@ -381,3 +382,37 @@ export declare function usePopper(
 };
 
 export declare function cutUrlOrigin(url: string): string;
+
+export declare function useSelectOptions<
+  EntityType,
+  Option extends OptionType<string | number>
+>(params: {
+  entityList: Ref<Array<EntityType>>;
+  fetchEntityList: (params: { query: string }) => Promise<void>;
+  convertEntityToOption: (entity: EntityType) => Option;
+  minQueryLength?: number;
+}): {
+  options: ComputedRef<Array<Option>>;
+  noOptionsMessage: ComputedRef<string>;
+  handleSearchQueryChange: (query: string) => void;
+};
+
+export declare function useSelectOptionsResource<
+  EntityType,
+  Option extends OptionType<string | number>
+>(params: {
+  fetchEntityList: (params: {
+    query: string;
+  }) => Promise<ResponseBody<Array<EntityType>>>;
+  resourceName?: string;
+  context: SetupContext;
+  convertEntityToOption: (entity: EntityType) => Option;
+  minQueryLength?: number;
+}): {
+  loading: ComputedRef<boolean>;
+  options: ComputedRef<Array<Option>>;
+  error: Ref<Nullable<string>>;
+  noOptionsMessage: ComputedRef<string>;
+  handleSearchQueryChange: (query: string) => void;
+  fetchEntityList: (params: { query: string }) => Promise<void>;
+};

@@ -62,6 +62,7 @@ export type IconName =
 export type OptionType<V = string> = {
   value: V;
   label: string;
+  disabled?: boolean;
 };
 
 export type DateCellValue = Date | null;

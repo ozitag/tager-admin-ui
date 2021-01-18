@@ -5,6 +5,7 @@
     :type="isLink ? undefined : type"
     :disabled="isDisabled"
     :href="isLink ? resolvedHref : undefined"
+    data-ui-base-button
     v-on="buttonListeners"
   >
     <span v-if="loading" class="spinner-wrapper">
