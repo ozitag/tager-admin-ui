@@ -1,5 +1,5 @@
 import VueRouter, { Route } from 'vue-router';
-import { isNumber } from '@tager/admin-services';
+import { isAbsoluteUrl, isNumber } from '@tager/admin-services';
 
 /**
  * @param {Date} date
@@ -115,4 +115,16 @@ export function updateSearchParam(
   const query = { ...router.currentRoute.query, [paramName]: convertedValue };
 
   return router.replace({ query });
+}
+
+/**
+ * Example:
+ * input: "https://ozitag.com/search?query=some_text"
+ * output: "/search?query=some_text"
+ */
+export function cutUrlOrigin(url: string): string {
+  if (!isAbsoluteUrl(url)) return url;
+
+  const urlObject = new URL(url);
+  return urlObject.href.slice(urlObject.origin.length);
 }

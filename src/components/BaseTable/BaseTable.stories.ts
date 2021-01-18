@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import BaseTable from './BaseTable.vue';
 import { RowDataDefaultType } from '../../../typings';
 import { ColumnDefinition } from '../../typings/common';
-import { getWebsiteOrigin } from '../../utils/common';
 
 export default { title: 'BaseTable' };
 
@@ -21,7 +20,7 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
           text: row.name,
         },
         websiteLink: {
-          url: getWebsiteOrigin() + row.url,
+          url: row.url,
           text: row.url,
         },
       };
@@ -109,7 +108,7 @@ const defaultRowData: Array<TestEntity> = [
   {
     id: 1,
     name: 'Makeup Purple',
-    url: '/beautification/eyes-hazel',
+    url: 'https://banuba-catalog.dev.ozitag.com/beautification/eyes-hazel',
     color: '#374635',
     content: '<p>simple header <h3>Title</h3></p>',
     image: {
@@ -125,7 +124,8 @@ const defaultRowData: Array<TestEntity> = [
     id: 2,
     color: 'rgba(222,111,123,0.8)',
     name: 'Ivan',
-    url: '/interactive-background/golden-confetti',
+    url:
+      'https://banuba-catalog.dev.ozitag.com/interactive-background/golden-confetti',
     content: '<p>simple header <em>Title</em></p>',
     image: {
       url:

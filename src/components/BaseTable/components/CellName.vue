@@ -34,6 +34,7 @@ import { isAbsoluteUrl, isString, z } from '@tager/admin-services';
 import { ColumnDefinitionName } from '../../../typings/common';
 import { RowDataDefaultType } from '../../../../typings';
 import { LinkSchema } from '../../../constants/schema';
+import { cutUrlOrigin } from '../../../utils/common';
 
 const NameCellValueObjectSchema = z.object({
   adminLink: LinkSchema,
@@ -97,6 +98,18 @@ export default defineComponent<Props>({
       return value;
     });
 
+    const modifiedState = computed<NameCellValueObjectType | null>(() => {
+      if (!state.value || !state.value.websiteLink) return state.value;
+
+      return {
+        ...state.value,
+        websiteLink: {
+          ...state.value.websiteLink,
+          text: cutUrlOrigin(state.value.websiteLink.text),
+        },
+      };
+    });
+
     const shouldUseRouter = computed<boolean>(() => {
       const isAbsoluteLink = state
         ? isAbsoluteUrl(state.value?.adminLink.url ?? '')
@@ -114,14 +127,14 @@ export default defineComponent<Props>({
       };
     });
 
-    return { linkAttrs, shouldUseRouter, state };
+    return { linkAttrs, shouldUseRouter, state: modifiedState };
   },
 });
 </script>
 
 <style scoped lang="scss">
 .name-cell {
-  height: 1px;
+  height: 100%;
   padding: 0;
 }
 
