@@ -379,3 +379,5 @@ export declare function usePopper(
   show: () => void;
   hide: () => void;
 };
+
+export declare function cutUrlOrigin(url: string): string;

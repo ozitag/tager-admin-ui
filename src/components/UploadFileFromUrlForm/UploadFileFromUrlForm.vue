@@ -31,6 +31,7 @@ import { ref, computed, defineComponent } from '@vue/composition-api';
 import {
   FileType,
   getMessageFromError,
+  isAbsoluteUrl,
   request,
   RequestError,
 } from '@tager/admin-services';
@@ -39,8 +40,6 @@ import FormGroup from '../FormGroup.vue';
 import BaseInput from '../BaseInput';
 import FormFieldError from '../FormFieldError/index.vue';
 import BaseButton from '../BaseButton/index.vue';
-
-import { isValidURL } from '../../utils/common';
 
 export default defineComponent({
   name: 'UploadFileFromUrlForm',
@@ -82,7 +81,7 @@ export default defineComponent({
     function onSubmit() {
       error.value = '';
 
-      if (!isValidURL(url.value)) {
+      if (!isAbsoluteUrl(url.value)) {
         error.value = 'Invalid URL';
         return;
       }

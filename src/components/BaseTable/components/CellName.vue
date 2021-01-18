@@ -17,10 +17,10 @@
         </component>
       </div>
 
-      <div v-if="state.websiteLink && state.websiteLink.text" class="url-block">
+      <div v-if="state.websiteLink" class="url-block">
         <span class="label">Web URL:</span>
         <a class="url" :href="state.websiteLink.url" target="_blank">
-          {{ websiteLabel }}
+          {{ state.websiteLink.text }}
         </a>
       </div>
     </div>
@@ -34,7 +34,7 @@ import { isAbsoluteUrl, isString, z } from '@tager/admin-services';
 import { ColumnDefinitionName } from '../../../typings/common';
 import { RowDataDefaultType } from '../../../../typings';
 import { LinkSchema } from '../../../constants/schema';
-import { isValidURL } from '../../../utils/common';
+import { cutUrlOrigin } from '../../../utils/common';
 
 const NameCellValueObjectSchema = z.object({
   adminLink: LinkSchema,
@@ -98,6 +98,18 @@ export default defineComponent<Props>({
       return value;
     });
 
+    const modifiedState = computed<NameCellValueObjectType | null>(() => {
+      if (!state.value || !state.value.websiteLink) return state.value;
+
+      return {
+        ...state.value,
+        websiteLink: {
+          ...state.value.websiteLink,
+          text: cutUrlOrigin(state.value.websiteLink.text),
+        },
+      };
+    });
+
     const shouldUseRouter = computed<boolean>(() => {
       const isAbsoluteLink = state
         ? isAbsoluteUrl(state.value?.adminLink.url ?? '')
@@ -115,19 +127,7 @@ export default defineComponent<Props>({
       };
     });
 
-    const websiteLabel = computed<string>(() => {
-      const url = state.value?.websiteLink?.url;
-      if (url) {
-        if (isValidURL(url)) {
-          const urlObj = new URL(url);
-          return urlObj.pathname;
-        }
-        return url;
-      }
-      return '';
-    });
-
-    return { linkAttrs, shouldUseRouter, state, websiteLabel };
+    return { linkAttrs, shouldUseRouter, state: modifiedState };
   },
 });
 </script>
