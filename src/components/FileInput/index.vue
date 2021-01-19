@@ -590,6 +590,10 @@ export default Vue.extend({
   flex: 0 0 25%;
   padding: 1rem;
 
+  @media (max-width: 1600px) {
+    flex: 0 0 33.3333333333%;
+  }
+
   &.single {
     flex-basis: 100%;
   }
