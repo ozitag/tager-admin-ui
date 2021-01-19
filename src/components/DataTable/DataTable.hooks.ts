@@ -74,6 +74,7 @@ export function useDataTable<T>(params: {
     switch (event.type) {
       case 'SEARCH_UPDATE':
         searchQuery.value = event.payload;
+        pageNumber.value = 1;
         break;
       case 'PAGE_NUMBER_UPDATE':
         pageNumber.value = event.payload;
