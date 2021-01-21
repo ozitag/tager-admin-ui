@@ -676,6 +676,22 @@
               "default": "false"
             },
             {
+              "name": "searchable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "filterable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
               "name": "noOptionsMessage",
               "value": {
                 "kind": "expression",
@@ -689,7 +705,15 @@
                 "kind": "expression",
                 "type": "string"
               },
-              "default": "'Not Found'"
+              "default": "'No results found'"
+            },
+            {
+              "name": "loading",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
             }
           ],
           "source": {

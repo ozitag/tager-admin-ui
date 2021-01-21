@@ -1619,10 +1619,10 @@
     vue-docgen-loader "^1.5.0"
     webpack "^4.43.0"
 
-"@tager/admin-services@^0.2.17":
-  version "0.2.17"
-  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.17.tgz#0b7ce1579d90c335e874c6dd8d5cb51ac3366fc1"
-  integrity sha512-2BrnQvSdPhZH1r9zTCeDogTfo7SBxF/CHpj4x4I7MfAfiMrZNlaOhPfagKzh3EOrve7Av51aIGMd75Afiv/Cmw==
+"@tager/admin-services@^0.2.18":
+  version "0.2.18"
+  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.18.tgz#f5e9baac71f4fb7cdcc22ed88aef317cdbaf0b44"
+  integrity sha512-Cxqai8fxeL/rhQXROsEGJwhall6RVKXf0MX0lKGHxzmQYM3hRI8GJvv9iQ3bgoZwAkNG7hcKLavwt2MDhWK9Ww==
   dependencies:
     i18next "^19.7.0"
     nanoid "^3.1.12"

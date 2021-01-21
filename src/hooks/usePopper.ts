@@ -22,6 +22,8 @@ function usePopper(
 
   function create() {
     if (referenceRef.value && popperRef.value) {
+      document.body.appendChild(popperRef.value);
+
       popperInstance = createPopper(
         referenceRef.value,
         popperRef.value,
@@ -31,8 +33,9 @@ function usePopper(
   }
 
   function destroy() {
-    if (popperInstance) {
+    if (popperInstance && popperRef.value) {
       popperInstance.destroy();
+      document.body.removeChild(popperRef.value);
       popperInstance = null;
     }
   }

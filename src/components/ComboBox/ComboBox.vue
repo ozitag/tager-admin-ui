@@ -2,6 +2,7 @@
   <div ref="selectRef" class="select">
     <div ref="inputContainerRef" class="select-control-wrapper">
       <BaseInput
+        v-if="searchable"
         v-model="query"
         v-bind="$attrs"
         class="select-control"
@@ -18,8 +19,24 @@
         @keydown.tab="handleMenuClose"
       />
 
+      <BaseButton
+        v-else
+        v-bind="$attrs"
+        class="select-trigger"
+        :disabled="disabled"
+        :class="{ 'is-focus': menuIsOpen }"
+        @focus="handleInputFocus"
+        @keydown.up.prevent="highlight(highlightedIndex - 1)"
+        @keydown.down.prevent="highlight(highlightedIndex + 1)"
+        @keydown.enter.prevent="handleKeyEnter"
+        @keydown.esc.stop.prevent="handleMenuClose"
+        @keydown.tab="handleMenuClose"
+      >
+        {{ computedPlaceholder }}
+      </BaseButton>
+
       <SvgIcon
-        v-if="menuIsOpen"
+        v-if="searchable && menuIsOpen && !loading"
         name="search"
         class="icon-search"
         focusable="false"
@@ -27,10 +44,9 @@
       />
 
       <button
-        v-else-if="clearable && value"
+        v-else-if="clearable && value && !loading && !disabled"
         class="btn-clear"
         type="button"
-        :disabled="disabled"
         @click="handleClearClick"
       >
         <SvgIcon
@@ -40,6 +56,10 @@
           aria-hidden="true"
         />
       </button>
+
+      <span v-else-if="loading" class="icon-expand-more">
+        <Spinner size="20" />
+      </span>
 
       <SvgIcon
         v-else
@@ -51,12 +71,18 @@
     </div>
 
     <ul ref="popperRef" class="select-menu" :class="[{ show: menuIsOpen }]">
-      <li v-if="options.length === 0">
+      <li v-if="loading">
+        <p class="empty">Loading...</p>
+      </li>
+
+      <li v-else-if="options.length === 0">
         <p class="empty">{{ noOptionsMessage }}</p>
       </li>
+
       <li v-else-if="query && isResultsNotFound">
         <p class="not-found">{{ notFoundMessage }}</p>
       </li>
+
       <li
         v-for="(option, index) in filteredOptions"
         v-else
@@ -65,6 +91,7 @@
           'select-item',
           {
             selected: isOptionSelected(option),
+            disabled: option.disabled,
             highlighted: highlightedIndex === index,
           },
         ]"
@@ -82,14 +109,21 @@ import {
   computed,
   defineComponent,
   onMounted,
+  onUnmounted,
   ref,
+  SetupContext,
   watch,
 } from '@vue/composition-api';
 
 import BaseInput from '../BaseInput';
+import BaseButton from '../BaseButton/index.vue';
+import Spinner from '../Spinner/index.vue';
 import SvgIcon from '../SvgIcon';
 import usePopper from '../../hooks/usePopper';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
+import { scrollOptionIntoView } from './ComboBox.helpers';
+
+import debounce from 'lodash/debounce';
 import { OptionType } from '../../typings/common';
 
 export interface Props {
@@ -101,12 +135,15 @@ export interface Props {
   clearable: boolean;
   noOptionsMessage: string;
   notFoundMessage: string;
+  searchable: boolean;
+  filterable: boolean;
+  loading: boolean;
 }
 
 export default defineComponent<Props>({
   name: 'ComboBox',
   inheritAttrs: false,
-  components: { BaseInput, SvgIcon },
+  components: { BaseInput, BaseButton, SvgIcon, Spinner },
   props: {
     value: {
       type: Object,
@@ -133,19 +170,31 @@ export default defineComponent<Props>({
       type: Boolean,
       default: false,
     },
+    searchable: {
+      type: Boolean,
+      default: true,
+    },
+    filterable: {
+      type: Boolean,
+      default: true,
+    },
     noOptionsMessage: {
       type: String,
       default: 'No options',
     },
     notFoundMessage: {
       type: String,
-      default: 'Not Found',
+      default: 'No results found',
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
-  setup(props: Props, context) {
+  setup(props: Props, context: SetupContext) {
     const query = ref<string>('');
     const menuIsOpen = ref<boolean>(false);
-    const inputContainerRef = ref<Element | null>(null);
+    const inputContainerRef = ref<HTMLElement | null>(null);
     const popperRef = ref<HTMLElement | null>(null);
     const selectRef = ref<HTMLElement | null>(null);
     const highlightedIndex = ref<number>(-1);
@@ -156,8 +205,12 @@ export default defineComponent<Props>({
       }
     });
 
-    watch(query, (newQuery) => {
-      context.emit('change:query', newQuery);
+    const emitDebouncedChangeEvent = debounce(() => {
+      context.emit('change:query', query.value);
+    }, 300);
+
+    watch(query, () => {
+      emitDebouncedChangeEvent();
     });
 
     const computedPlaceholder = computed(() => {
@@ -165,34 +218,53 @@ export default defineComponent<Props>({
     });
 
     const filteredOptions = computed<Array<OptionType>>(() => {
+      if (!props.filterable) {
+        return props.options;
+      }
+
       if (query.value) {
         return props.options.filter((option: OptionType) =>
           option.label.toLowerCase().includes(query.value.toLowerCase())
         );
       }
+
       return props.options;
     });
+
+    function getOptionElementByIndex(index: number): HTMLElement | null {
+      if (!popperRef.value) return null;
+
+      return popperRef.value.querySelector<HTMLElement>(
+        `li:nth-child(${index + 1})`
+      );
+    }
 
     watch(menuIsOpen, (currentMenuIsOpen) => {
       if (currentMenuIsOpen) {
         showMenu();
+
+        if (popperRef.value && inputContainerRef.value) {
+          popperRef.value.style.width =
+            inputContainerRef.value.offsetWidth + 'px';
+        }
 
         /** Scroll to selected option */
         if (popperRef.value) {
           const selectedOptionIndex = filteredOptions.value.findIndex(
             (filteredOption) => filteredOption.value === props.value?.value
           );
-          const selectedOptionElement = popperRef.value.querySelector<
-            HTMLElement
-          >(`li:nth-child(${selectedOptionIndex + 1})`);
+          const selectedOptionElement = getOptionElementByIndex(
+            selectedOptionIndex
+          );
 
           if (selectedOptionElement) {
-            selectedOptionElement.scrollIntoView({ block: 'center' });
+            /** Scroll option into view **/
+            scrollOptionIntoView(selectedOptionElement);
           }
         }
       } else {
         query.value = '';
-        blurInput();
+        blurSelect();
         hideMenu();
       }
     });
@@ -216,12 +288,26 @@ export default defineComponent<Props>({
       }
     );
 
-    function focusInput() {
-      inputContainerRef.value?.querySelector('input')?.focus();
+    onUnmounted(() => {
+      hideMenu();
+    });
+
+    function getSelectControlElement(): HTMLElement | null {
+      if (!inputContainerRef.value) return null;
+
+      if (props.searchable) {
+        return inputContainerRef.value.querySelector('input');
+      } else {
+        return inputContainerRef.value.querySelector('button');
+      }
     }
 
-    function blurInput() {
-      inputContainerRef.value?.querySelector('input')?.blur();
+    function focusSelect() {
+      getSelectControlElement()?.focus();
+    }
+
+    function blurSelect() {
+      getSelectControlElement()?.blur();
     }
 
     function handleChange(newValue: OptionType | null): void {
@@ -248,19 +334,40 @@ export default defineComponent<Props>({
     function handleClearClick() {
       handleChange(null);
       highlightedIndex.value = -1;
-      focusInput();
+      focusSelect();
     }
 
     function handleOptionSelect(option: OptionType, index: number) {
+      if (option.disabled) {
+        return;
+      }
+
       query.value = '';
       highlightedIndex.value = index;
       handleMenuClose();
       handleChange(option);
     }
 
-    useOnClickOutside(selectRef, () => {
-      handleMenuClose();
-    });
+    useOnClickOutside(
+      selectRef,
+      (event: Event) => {
+        if (!selectRef.value || !popperRef.value) return;
+
+        const clickedNode = event.target as Node;
+        const isSameElement =
+          selectRef.value === clickedNode && popperRef.value === clickedNode;
+
+        const isClickedOutside =
+          !isSameElement &&
+          !selectRef.value.contains(clickedNode) &&
+          !popperRef.value.contains(clickedNode);
+
+        if (isClickedOutside) {
+          handleMenuClose();
+        }
+      },
+      'custom'
+    );
 
     function handleMouseEnter(index: number) {
       highlightedIndex.value = index;
@@ -291,26 +398,13 @@ export default defineComponent<Props>({
         highlightedIndex.value = index;
       }
 
-      if (popperRef.value) {
-        const highlightedOptionElement = popperRef.value.querySelector<
-          HTMLElement
-        >(`li:nth-child(${highlightedIndex.value + 1})`);
+      const highlightedOptionElement = getOptionElementByIndex(
+        highlightedIndex.value
+      );
 
-        if (!highlightedOptionElement) return;
-
-        const scrollTop = popperRef.value.scrollTop;
-        const offsetTop = highlightedOptionElement.offsetTop;
-
-        if (
-          offsetTop + highlightedOptionElement.scrollHeight >
-          scrollTop + popperRef.value?.clientHeight
-        ) {
-          highlightedOptionElement.scrollIntoView(false);
-        }
-
-        if (offsetTop < scrollTop) {
-          highlightedOptionElement.scrollIntoView(true);
-        }
+      if (highlightedOptionElement && popperRef.value) {
+        /** Scroll option into view **/
+        scrollOptionIntoView(highlightedOptionElement);
       }
     }
 
@@ -363,6 +457,35 @@ export default defineComponent<Props>({
   }
 }
 
+.select-trigger {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 2.5rem 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--input-color);
+  text-align: left;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid var(--input-border-color);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:hover {
+    background-color: #fff !important;
+  }
+
+  &:focus {
+    color: var(--input-color);
+    background-color: #fff;
+    border-color: var(--input-focus-border-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--input-focus-box-shadow);
+  }
+}
+
 .btn-clear,
 .icon-search,
 .icon-expand-more {
@@ -379,7 +502,7 @@ export default defineComponent<Props>({
   pointer-events: none;
   width: 20px;
   height: 20px;
-  fill: rgba(0, 0, 0, 0.25);
+  fill: var(--input-color);
   transition: fill 0.3s;
 }
 
@@ -391,7 +514,8 @@ export default defineComponent<Props>({
   }
 
   &:disabled {
-    cursor: default;
+    cursor: not-allowed;
+
     .icon-clear {
       fill: rgba(0, 0, 0, 0.25);
     }
@@ -402,12 +526,12 @@ export default defineComponent<Props>({
   position: absolute;
   width: 100%;
   max-height: 300px;
+  margin-top: 10px;
   display: none;
   overflow-y: auto;
   background-color: #fff;
-  border-radius: 0.25rem;
-  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
-    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
   z-index: 1;
 
   &.show {
@@ -433,20 +557,20 @@ export default defineComponent<Props>({
   &.selected {
     color: rgba(0, 0, 0, 0.85);
     font-weight: 600;
-    background-color: #e6f7ff;
-
-    &:hover {
-      background-color: #f5f5f5;
-    }
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
-  &.highlighted,
-  &:hover {
+  &.highlighted {
     background: #f5f5f5;
   }
 
   &.selected.highlighted {
-    background-color: #e6f7ff;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &.disabled {
+    color: #c0c4cc;
+    cursor: not-allowed;
   }
 }
 
@@ -458,5 +582,10 @@ export default defineComponent<Props>({
   color: #999;
   font-size: 14px;
   user-select: none;
+}
+
+.blur {
+  filter: blur(2px);
+  pointer-events: none;
 }
 </style>
