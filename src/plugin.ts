@@ -25,7 +25,7 @@ import MultiSelect from './components/MultiSelect/index.vue';
 import FormFieldMultiSelect from './components/FormFieldMultiSelect/index.vue';
 import FormFieldUrlAliasInput from './components/FormFieldUrlAliasInput';
 import { ToastProvider } from './components/Toast';
-import NavigationGrid from './components/NavigationGrid/index.vue';
+import NavigationGrid from './components/NavigationGrid';
 import LoadableImage from './components/LoadableImage/index.vue';
 import DropdownMenu from './components/DropdownMenu/index.vue';
 import BaseSelect from './components/BaseSelect/index.vue';
@@ -44,6 +44,7 @@ import SearchInput from './components/SearchInput';
 import Pagination from './components/Pagination';
 import ComboBox from './components/ComboBox';
 import FormFieldComboBox from './components/FormFieldComboBox';
+import FieldValue from './components/FieldValue';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -95,4 +96,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('search-input', SearchInput);
   Vue.component('pagination', Pagination);
   Vue.component('combobox', ComboBox);
+  Vue.component('field-value', FieldValue);
 };

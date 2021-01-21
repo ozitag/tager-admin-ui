@@ -1,4 +1,4 @@
-import LoadableImage from './index.vue';
+import LoadableImage from './LoadableImage.vue';
 
 export default { title: 'LoadableImage' };
 

@@ -28,7 +28,7 @@ export { default as FormFieldColorInput } from './components/FormFieldColorInput
 export { default as MultiSelect } from './components/MultiSelect/index.vue';
 export { default as FormFieldMultiSelect } from './components/FormFieldMultiSelect/index.vue';
 export { default as FormFieldUrlAliasInput } from './components/FormFieldUrlAliasInput';
-export { default as NavigationGrid } from './components/NavigationGrid/index.vue';
+export { default as NavigationGrid } from './components/NavigationGrid';
 export { default as LoadableImage } from './components/LoadableImage/index.vue';
 export { default as DropdownMenu } from './components/DropdownMenu/index.vue';
 export { default as BaseSelect } from './components/BaseSelect/index.vue';
@@ -46,6 +46,7 @@ export { default as SearchInput, useSearch } from './components/SearchInput';
 export { default as Pagination, usePagination } from './components/Pagination';
 export { default as ComboBox } from './components/ComboBox';
 export { default as FormFieldComboBox } from './components/FormFieldComboBox';
+export { default as FieldValue } from './components/FieldValue';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 
