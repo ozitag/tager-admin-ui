@@ -44,7 +44,11 @@ export { default as FormFieldRecommendedLengthInput } from './components/FormFie
 export { default as DataTable, useDataTable } from './components/DataTable';
 export { default as SearchInput, useSearch } from './components/SearchInput';
 export { default as Pagination, usePagination } from './components/Pagination';
-export { default as ComboBox } from './components/ComboBox';
+export {
+  default as ComboBox,
+  useSelectOptions,
+  useSelectOptionsResource,
+} from './components/ComboBox';
 export { default as FormFieldComboBox } from './components/FormFieldComboBox';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
