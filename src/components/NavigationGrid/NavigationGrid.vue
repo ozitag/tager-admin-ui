@@ -23,7 +23,7 @@
               class="total-value"
               :to="navItem.total.url || undefined"
             >
-              {{ navItem.total.value }}
+              {{ formatNumber(navItem.total.value) }}
             </component>
           </div>
 
@@ -43,26 +43,43 @@
   </div>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
-import Spinner from '../Spinner';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+import Spinner from '../Spinner/index.vue';
+import { NavigationGridItem } from '../../typings/common';
 
-export default Vue.extend({
+interface Props {
+  navItems: Array<NavigationGridItem>;
+}
+
+export default defineComponent<Props>({
   name: 'NavigationGrid',
   components: { Spinner },
   props: {
     navItems: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
-  methods: {
-    hasNameOnly(navItem) {
-      const hasLinkList = Array.isArray(navItem.linkList) && navItem.linkList.length > 0;
+  setup() {
+    function hasNameOnly(navItem: NavigationGridItem): boolean {
+      const hasLinkList =
+        Array.isArray(navItem.linkList) && navItem.linkList.length > 0;
 
-      return navItem.name && !navItem.total && !hasLinkList
+      return navItem.name && !navItem.total && !hasLinkList;
     }
-  }
+
+    function formatNumber(number: number) {
+      const parts = String(number).split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      return parts.join('.');
+    }
+
+    return {
+      hasNameOnly,
+      formatNumber,
+    };
+  },
 });
 </script>
 
