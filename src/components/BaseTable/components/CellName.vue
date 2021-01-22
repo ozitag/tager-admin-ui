@@ -15,6 +15,12 @@
         >
           {{ state.adminLink.text }}
         </component>
+
+        <ul v-if="state.paramList" class="info-list">
+          <li v-for="(param, index) in state.paramList" :key="index">
+            {{ param.name }}: <b>{{ param.value }}</b>
+          </li>
+        </ul>
       </div>
 
       <div v-if="state.websiteLink" class="url-block">
@@ -36,9 +42,12 @@ import { RowDataDefaultType } from '../../../../typings';
 import { LinkSchema } from '../../../constants/schema';
 import { cutUrlOrigin } from '../../../utils/common';
 
+export const ParamSchema = z.object({ name: z.string(), value: z.string() });
+
 const NameCellValueObjectSchema = z.object({
   adminLink: LinkSchema,
   websiteLink: LinkSchema.nullable(),
+  paramList: z.array(ParamSchema).nullable().optional(),
 });
 
 const NameCelValueSchema = z.union([
@@ -92,7 +101,11 @@ export default defineComponent<Props>({
 
       /** from `field` */
       if (isString(value)) {
-        return { adminLink: { text: value, url: '' }, websiteLink: null };
+        return {
+          adminLink: { text: value, url: '' },
+          websiteLink: null,
+          paramList: null,
+        };
       }
 
       return value;
@@ -147,7 +160,8 @@ export default defineComponent<Props>({
 .name-block {
   flex: 1 0 auto;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   padding: 0.75rem;
   font-weight: bold;
 
@@ -157,6 +171,7 @@ export default defineComponent<Props>({
   .name-link {
     font-weight: bold;
     color: #007bff;
+    align-self: flex-start;
 
     &:hover {
       color: #0056b3;
@@ -181,6 +196,16 @@ export default defineComponent<Props>({
       color: #0056b3;
       text-decoration: underline;
     }
+  }
+}
+
+.info-list {
+  display: block;
+  font-weight: 400;
+  font-size: 11px;
+
+  li {
+    margin-top: 0.313rem;
   }
 }
 </style>
