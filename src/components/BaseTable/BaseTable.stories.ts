@@ -12,7 +12,7 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
     name: 'Name',
     type: 'name',
     field: 'name',
-    style: { width: '20%' },
+    style: { width: '40%' },
     format: ({ row }: RowDataDefaultType) => {
       return {
         adminLink: {
@@ -23,6 +23,10 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
           url: row.url,
           text: row.url,
         },
+        paramList: [
+          { name: 'Код товара', value: '691.725' },
+          { name: 'Штрих-код', value: '728360599674' },
+        ],
       };
     },
   },
