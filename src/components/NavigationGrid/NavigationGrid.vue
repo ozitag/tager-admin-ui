@@ -66,7 +66,7 @@ export default defineComponent<Props>({
       const hasLinkList =
         Array.isArray(navItem.linkList) && navItem.linkList.length > 0;
 
-      return navItem.name && !navItem.total && !hasLinkList;
+      return Boolean(navItem.name) && !navItem.total && !hasLinkList;
     }
 
     function formatNumber(number: number) {
