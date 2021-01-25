@@ -63,6 +63,7 @@ export const FINAL_NUMBER_REGEXP = /^[+-]?(?:\d*\.?\d+|\d+\.?\d*)(?:[Ee][+-]?\d{
 export const INTERMEDIATE_NUMBER_REGEXP = /^[+-]?(?:\d*(?:\.?(?:\d+(?:(?:(?:[Ee]\+)|(?:[Ee]-)|(?:[Ee]))?(?:\d{1,2})?)?)?)?)?$/;
 export const INTERMEDIATE_INTEGER_REGEXP = /^[+-]?(?:\d+)?$/;
 export const DOT_REGEXP = /[,/\u0431\u044E]/;
+export const SPACE_REGEXP = /\s+/g;
 
 export function floatParser(
   currentValue: string,

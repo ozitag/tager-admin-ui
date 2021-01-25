@@ -1,4 +1,4 @@
-import FormFieldNumberInput from './index.vue';
+import FormFieldNumberInput from './FormFieldNumberInput.vue';
 
 export default { title: 'FormFieldNumberInput' };
 

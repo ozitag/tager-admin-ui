@@ -1,14 +1,11 @@
 <template>
-  <BaseInput :value="value" v-on="inputListeners" />
+  <BaseInput :value="formattedNumber" v-on="inputListeners" />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api';
-
 import { Nullable, Nullish } from '@tager/admin-services';
-
-import { DOT_REGEXP } from '../../utils/common';
-
+import { DOT_REGEXP, SPACE_REGEXP } from '../../utils/common';
 import BaseInput from '../BaseInput';
 
 type Props = {
@@ -32,20 +29,33 @@ export default defineComponent<Props>({
     },
   },
   setup(props, context) {
+    const formattedNumber = computed<string>(() => {
+      const containsDot = props.value.includes('.');
+      const [integer, fraction] = props.value.split('.');
+
+      /** Reference: https://stackoverflow.com/a/16637170 */
+      const regexp = /\B(?=(\d{3})+(?!\d))/g;
+
+      /** e.g. "12345678" => "12 345 678" */
+      const formattedInteger = integer ? integer.replace(regexp, ' ') : '';
+
+      return [formattedInteger, containsDot ? '.' : '', fraction]
+        .filter(Boolean)
+        .join('');
+    });
+
     function normalizeDots(value: string): string {
       return value.replace(DOT_REGEXP, '.');
     }
 
+    function normalizeNumber(formattedNumber: string): string {
+      return normalizeDots(formattedNumber).replace(SPACE_REGEXP, '');
+    }
+
     const inputListeners = computed(() => ({
       ...context.listeners,
-      input: (value: string) => {
-        const normalizedValue = normalizeDots(value);
-        context.emit('input', normalizedValue);
-      },
-      change: (value: string) => {
-        const normalizedValue = normalizeDots(value);
-        context.emit('change', normalizedValue);
-      },
+      input: (value: string) => context.emit('input', normalizeNumber(value)),
+      change: (value: string) => context.emit('change', normalizeNumber(value)),
       keydown: (event: KeyboardEvent) => {
         const ALLOWED_KEYS = ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace'];
         const DOTS = [',', '.'];
@@ -55,13 +65,17 @@ export default defineComponent<Props>({
         );
 
         if (props.type !== 'integer' && !isValueContainsDot) {
-          ALLOWED_KEYS.push('.', ',');
+          ALLOWED_KEYS.push(...DOTS);
         }
 
         function isKeyAllowed(key: string) {
           if (key >= '0' && key <= '9') return true;
 
           return ALLOWED_KEYS.includes(key);
+        }
+
+        if (event.ctrlKey || event.metaKey) {
+          return true;
         }
 
         if (!isKeyAllowed(event.key)) {
@@ -72,6 +86,7 @@ export default defineComponent<Props>({
 
     return {
       inputListeners,
+      formattedNumber,
     };
   },
 });

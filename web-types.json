@@ -1319,7 +1319,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\FormFieldNumberInput\\index.vue",
+            "module": "./src\\components\\FormFieldNumberInput\\FormFieldNumberInput.vue",
             "symbol": "default"
           }
         },
@@ -1780,7 +1780,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\NumberInput\\index.vue",
+            "module": "./src\\components\\NumberInput\\NumberInput.vue",
             "symbol": "default"
           }
         },
