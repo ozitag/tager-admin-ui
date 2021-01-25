@@ -528,7 +528,6 @@ export default defineComponent<Props>({
   max-height: 300px;
   margin-top: 10px;
   display: none;
-  overflow-y: auto;
   background-color: #fff;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
@@ -536,6 +535,35 @@ export default defineComponent<Props>({
 
   &.show {
     display: block;
+  }
+
+  /** Custom Scrollbars **/
+  overflow: hidden;
+
+  &:hover {
+    overflow-y: auto;
+  }
+
+  /* Works on Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(144, 147, 153, 0.3) #fff;
+
+  /* Works on Chrome, Edge, and Safari */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 56px;
+    background-color: rgba(144, 147, 153, 0.3);
+
+    &:hover {
+      background-color: rgba(144, 147, 153, 0.5);
+    }
   }
 }
 
