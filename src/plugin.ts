@@ -26,7 +26,7 @@ import FormFieldMultiSelect from './components/FormFieldMultiSelect/index.vue';
 import FormFieldUrlAliasInput from './components/FormFieldUrlAliasInput';
 import { ToastProvider } from './components/Toast';
 import NavigationGrid from './components/NavigationGrid';
-import LoadableImage from './components/LoadableImage/index.vue';
+import LoadableImage from './components/LoadableImage';
 import DropdownMenu from './components/DropdownMenu/index.vue';
 import BaseSelect from './components/BaseSelect/index.vue';
 import FormFieldSelect from './components/FormFieldSelect/index.vue';

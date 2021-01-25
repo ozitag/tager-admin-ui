@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.13",
+  "version": "0.8.14",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -930,6 +930,94 @@
           }
         },
         {
+          "name": "FieldValue",
+          "description": "",
+          "attributes": [
+            {
+              "name": "label",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "type",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'text'"
+            },
+            {
+              "name": "text",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "shouldUseRouter",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "items",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "src",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "null"
+            },
+            {
+              "name": "alt",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "maxWidth",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "200"
+            },
+            {
+              "name": "maxHeight",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "200"
+            },
+            {
+              "name": "videoId",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FieldValue\\FieldValue.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "FileInput",
           "description": "",
           "attributes": [
@@ -1647,7 +1735,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\LoadableImage\\index.vue",
+            "module": "./src\\components\\LoadableImage\\LoadableImage.vue",
             "symbol": "default"
           }
         },
