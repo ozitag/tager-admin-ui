@@ -21,8 +21,8 @@ export { default as TableCell } from './components/BaseTable/components/Cell.vue
 export { default as FormGroup } from './components/FormGroup.vue';
 export { default as FileInput } from './components/FileInput/index.vue';
 export { default as FormFieldFileInput } from './components/FormFieldFileInput/index.vue';
-export { default as NumberInput } from './components/NumberInput/index.vue';
-export { default as FormFieldNumberInput } from './components/FormFieldNumberInput/index.vue';
+export { default as NumberInput } from './components/NumberInput';
+export { default as FormFieldNumberInput } from './components/FormFieldNumberInput';
 export { default as ColorInput } from './components/ColorInput';
 export { default as FormFieldColorInput } from './components/FormFieldColorInput/index.vue';
 export { default as MultiSelect } from './components/MultiSelect/index.vue';

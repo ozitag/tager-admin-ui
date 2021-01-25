@@ -14,13 +14,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@vue/composition-api';
+
 import FormGroup from '../FormGroup.vue';
 import FormFieldError from '../FormFieldError/index.vue';
 import InputLabel from '../InputLabel/index.vue';
-import NumberInput from '../NumberInput/index.vue';
+import NumberInput from '../NumberInput';
 
-export default Vue.extend({
+interface Props {
+  name: string;
+  label: string;
+  value: string;
+  type: string;
+  error: string;
+}
+
+export default defineComponent<Props>({
   name: 'FormFieldNumberInput',
   components: {
     FormGroup,

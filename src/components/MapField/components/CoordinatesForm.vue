@@ -38,7 +38,7 @@
 import { computed, defineComponent, ref, watch } from '@vue/composition-api';
 import { isNotNullish, isString, z } from '@tager/admin-services';
 
-import FormFieldNumberInput from '../../FormFieldNumberInput/index.vue';
+import FormFieldNumberInput from '../../FormFieldNumberInput';
 import SvgIcon from '../../SvgIcon';
 import BaseButton from '../../BaseButton/index.vue';
 import { ValuePropSchema, ValueType } from '../MapField.helpers';
