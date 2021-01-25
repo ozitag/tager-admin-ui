@@ -61,7 +61,8 @@ export type IconName =
   | 'fileXml'
   | 'fileZip'
   | 'web'
-  | 'openInBrowser';
+  | 'openInBrowser'
+  | 'done';
 
 export type OptionType<V = string> = {
   value: V;
@@ -76,8 +77,9 @@ export type ImageCellValue = string | null;
 export type LinkCellValue = LinkType | string | null;
 export type NameCellValue =
   | {
-      adminLink: LinkType;
-      websiteLink: LinkType | null;
+      adminLink: LinkType & { subtext?: string };
+      paramList?: Array<{ name: string; value: string }> | null;
+      websiteLink?: LinkType | null;
     }
   | string
   | null;
@@ -416,3 +418,7 @@ export declare function useSelectOptionsResource<
   handleSearchQueryChange: (query: string) => void;
   fetchEntityList: (params: { query: string }) => Promise<void>;
 };
+
+export declare function useCopyToClipboard(
+  timeout?: number
+): [isCopied: Ref<boolean>, handleCopy: (text: string) => Promise<void>];

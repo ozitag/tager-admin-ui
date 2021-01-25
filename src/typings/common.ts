@@ -72,8 +72,9 @@ export type ImageCellValue = string | null;
 export type LinkCellValue = LinkType | string | null;
 export type NameCellValue =
   | {
-      adminLink: LinkType;
-      websiteLink: LinkType | null;
+      adminLink: LinkType & { subtext?: string };
+      paramList?: Array<{ name: string; value: string }> | null;
+      websiteLink?: LinkType | null;
     }
   | string
   | null;

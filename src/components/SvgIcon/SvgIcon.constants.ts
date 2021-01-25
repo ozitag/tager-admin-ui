@@ -27,6 +27,7 @@ import RemoveCircleIcon from '../../assets/svg/remove_circle.svg';
 import SearchIcon from '../../assets/svg/search.svg';
 import WebIcon from '../../assets/svg/web.svg';
 import OpenInBrowserIcon from '../../assets/svg/open_in_browser.svg';
+import DoneIcon from '../../assets/svg/done.svg';
 
 /** File icons */
 import FileAviIcon from '../../assets/svg/file_avi.svg';
@@ -77,6 +78,7 @@ export const ICON_MAP = {
   search: SearchIcon,
   web: WebIcon,
   openInBrowser: OpenInBrowserIcon,
+  done: DoneIcon,
 
   fileAvi: FileAviIcon,
   fileCss: FileCssIcon,

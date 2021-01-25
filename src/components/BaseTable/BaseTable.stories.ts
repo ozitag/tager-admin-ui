@@ -18,15 +18,16 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
         adminLink: {
           url: '/admin/products/40',
           text: row.name,
-        },
-        websiteLink: {
-          url: row.url,
-          text: row.url,
+          subtext: '3mL/R.8mR/L',
         },
         paramList: [
           { name: 'Код товара', value: '691.725' },
           { name: 'Штрих-код', value: '728360599674' },
         ],
+        websiteLink: {
+          url: row.url,
+          text: row.url,
+        },
       };
     },
   },

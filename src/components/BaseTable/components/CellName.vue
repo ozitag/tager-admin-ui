@@ -2,21 +2,27 @@
   <td class="name-cell">
     <div v-if="state" class="name-wrap">
       <div class="name-block">
-        <span v-if="!state.adminLink.url" class="name">
+        <span v-if="!state.adminLink.url" class="name-text">
           {{ state.adminLink.text }}
+          <span v-if="state.adminLink.subtext" class="name-subtext">
+            - <span>{{ state.adminLink.subtext }}</span>
+          </span>
         </span>
         <component
           :is="shouldUseRouter ? 'router-link' : 'a'"
           v-else
-          class="name-link"
+          class="name-text-link"
           :href="shouldUseRouter ? undefined : state.adminLink.url"
           :to="shouldUseRouter ? state.adminLink.url : undefined"
           v-bind="linkAttrs"
         >
           {{ state.adminLink.text }}
+          <span v-if="state.adminLink.subtext" class="name-subtext">
+            - <span>{{ state.adminLink.subtext }}</span>
+          </span>
         </component>
 
-        <ul v-if="state.paramList" class="info-list">
+        <ul v-if="state.paramList" class="param-list">
           <li v-for="(param, index) in state.paramList" :key="index">
             {{ param.name }}: <b>{{ param.value }}</b>
           </li>
@@ -28,6 +34,11 @@
         <a class="url" :href="state.websiteLink.url" target="_blank">
           {{ state.websiteLink.text }}
         </a>
+
+        <BaseButton variant="icon" @click="handleCopy(state.websiteLink.url)">
+          <SvgIcon v-if="!isCopied" name="contentCopy" class="icon-copy" />
+          <SvgIcon v-else name="done" class="icon-copy" />
+        </BaseButton>
       </div>
     </div>
   </td>
@@ -41,12 +52,19 @@ import { ColumnDefinitionName } from '../../../typings/common';
 import { RowDataDefaultType } from '../../../../typings';
 import { LinkSchema } from '../../../constants/schema';
 import { cutUrlOrigin } from '../../../utils/common';
+import SvgIcon from '../../SvgIcon';
+import BaseButton from '../../BaseButton/index.vue';
+import useCopyToClipboard from '../../../hooks/useCopyToClipboard';
 
 export const ParamSchema = z.object({ name: z.string(), value: z.string() });
 
+const AdminLinkSchema = LinkSchema.merge(
+  z.object({ subtext: z.string().optional() })
+);
+
 const NameCellValueObjectSchema = z.object({
-  adminLink: LinkSchema,
-  websiteLink: LinkSchema.nullable(),
+  adminLink: AdminLinkSchema,
+  websiteLink: LinkSchema.nullable().optional(),
   paramList: z.array(ParamSchema).nullable().optional(),
 });
 
@@ -73,6 +91,7 @@ interface Props {
 
 export default defineComponent<Props>({
   name: 'CellName',
+  components: { SvgIcon, BaseButton },
   props: {
     column: {
       type: Object,
@@ -102,7 +121,7 @@ export default defineComponent<Props>({
       /** from `field` */
       if (isString(value)) {
         return {
-          adminLink: { text: value, url: '' },
+          adminLink: { text: value, subtext: '', url: '' },
           websiteLink: null,
           paramList: null,
         };
@@ -140,7 +159,15 @@ export default defineComponent<Props>({
       };
     });
 
-    return { linkAttrs, shouldUseRouter, state: modifiedState };
+    const [isCopied, handleCopy] = useCopyToClipboard(500);
+
+    return {
+      linkAttrs,
+      shouldUseRouter,
+      state: modifiedState,
+      handleCopy,
+      isCopied,
+    };
   },
 });
 </script>
@@ -165,10 +192,11 @@ export default defineComponent<Props>({
   padding: 0.75rem;
   font-weight: bold;
 
-  .name {
+  .name-subtext span {
+    font-size: 11px;
   }
 
-  .name-link {
+  .name-text-link {
     font-weight: bold;
     color: #007bff;
     align-self: flex-start;
@@ -199,7 +227,7 @@ export default defineComponent<Props>({
   }
 }
 
-.info-list {
+.param-list {
   display: block;
   font-weight: 400;
   font-size: 11px;
@@ -207,5 +235,10 @@ export default defineComponent<Props>({
   li {
     margin-top: 0.313rem;
   }
+}
+
+.icon-copy {
+  width: 14px;
+  height: 14px;
 }
 </style>
