@@ -61,7 +61,7 @@
             <base-text-area
               v-if="withCaptions"
               class="caption-text-area"
-              rows="2"
+              :rows="2"
               placeholder="Caption"
               :value="entry.caption || ''"
               @input="handleCaptionChange(entry, $event)"
@@ -77,7 +77,7 @@
       :class="[
         'drop-zone',
         isDragOver ? 'highlight' : null,
-        { 'no-hover': selectedTabId === 'url' },
+        { 'no-hover': selectedTabId === 'url', 'is-multiple': multiple },
       ]"
       @dragenter="handleDragEnter"
       @dragover="handleDragOver"
@@ -312,7 +312,7 @@ export default Vue.extend({
       const newValue: SingleFileInputValueType = {
         id: createId(),
         file: savedFile,
-        caption: null,
+        caption: savedFile.name,
       };
 
       const newValues: Array<SingleFileInputValueType> = [
@@ -350,11 +350,10 @@ export default Vue.extend({
             xhr: uploadingValue.xhr,
           })
             .then((savedFile) => {
-              console.log('Uploaded file: ', savedFile);
               const newValue: SingleFileInputValueType = {
                 id: createId(),
                 file: savedFile,
-                caption: null,
+                caption: savedFile.name,
               };
 
               const newValues: Array<SingleFileInputValueType> = [
@@ -543,6 +542,10 @@ export default Vue.extend({
 
   &:not(:first-child) {
     margin-top: 1rem;
+  }
+
+  &.is-multiple {
+    margin-top: 3.25rem;
   }
 }
 

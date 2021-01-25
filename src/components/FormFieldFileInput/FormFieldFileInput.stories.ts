@@ -1,9 +1,11 @@
 import FormFieldFileInput from './index.vue';
 import { createId } from '@tager/admin-services';
+import { SingleFileInputValueType } from '../../../typings';
+import { defineComponent, ref, watch } from '@vue/composition-api';
 
 export default { title: 'FormFieldFileInput' };
 
-const TEST_FILES = [
+const TEST_FILES: Array<SingleFileInputValueType> = [
   {
     id: createId(),
     file: {
@@ -37,89 +39,116 @@ const TEST_FILES = [
   },
 ];
 
-export const Default = () => ({
-  name: 'FormFieldFileInput_Default',
-  components: { FormFieldFileInput },
-  data() {
-    return {
-      file: TEST_FILES[0],
-    };
-  },
-  updated() {
-    console.log('File: ', this.file);
-  },
-  template:
-    '<form-field-file-input v-model="file" name="file" label="Content"   />',
-});
+export const Default = () =>
+  defineComponent({
+    name: 'FormFieldFileInput_Default',
+    components: { FormFieldFileInput },
+    setup() {
+      const file = ref(TEST_FILES[0]);
 
-export const WithCaption = () => ({
-  name: 'FormFieldFileInput_Default',
-  components: { FormFieldFileInput },
-  data() {
-    return {
-      file: TEST_FILES[0],
-    };
-  },
-  updated() {
-    console.log('File: ', this.file);
-  },
-  template:
-    '<form-field-file-input v-model="file" name="file" label="Content" with-captions />',
-});
+      watch(file, () => {
+        console.log('File: ', file);
+      });
 
-export const Multiple = () => ({
-  name: 'FormFieldFileInput_Default',
-  components: { FormFieldFileInput },
-  data() {
-    return {
-      files: TEST_FILES,
-    };
-  },
-  updated() {
-    console.log('Files: ', this.files);
-  },
-  template:
-    '<form-field-file-input v-model="files" name="files" multiple label="Content" />',
-});
+      return {
+        file,
+      };
+    },
+    template:
+      '<form-field-file-input v-model="file" name="file" label="Content"   />',
+  });
 
-export const MultipleWithCaptions = () => ({
-  name: 'FormFieldFileInput_Default',
-  components: { FormFieldFileInput },
-  data() {
-    return {
-      files: TEST_FILES,
-    };
-  },
-  updated() {
-    console.log('Files: ', this.files);
-  },
-  template:
-    '<form-field-file-input v-model="files" name="files" multiple label="Content" with-captions />',
-});
+export const WithCaption = () =>
+  defineComponent({
+    name: 'FormFieldFileInput_Default',
+    components: { FormFieldFileInput },
+    setup() {
+      const file = ref(TEST_FILES[0]);
 
-export const WithError = () => ({
-  name: 'FormFieldFileInput_WithError',
-  components: { FormFieldFileInput },
-  data() {
-    return {
-      file: TEST_FILES[0],
-    };
-  },
-  updated() {
-    console.log('Content: ', this.file);
-  },
-  template:
-    '<form-field-file-input v-model="file" name="file" label="Content"  error="Required field" />',
-});
+      watch(file, () => {
+        console.log('File: ', file);
+      });
 
-export const Disabled = () => ({
-  name: 'FormFieldFileInput_Disabled',
-  components: { FormFieldFileInput },
-  data() {
-    return {
-      file: TEST_FILES[0],
-    };
-  },
-  template:
-    '<form-field-file-input v-model="file" name="file" label="Content"  disabled />',
-});
+      return {
+        file,
+      };
+    },
+    template:
+      '<form-field-file-input v-model="file" name="file" label="Content" with-captions />',
+  });
+
+export const Multiple = () =>
+  defineComponent({
+    name: 'FormFieldFileInput_Default',
+    components: { FormFieldFileInput },
+    setup() {
+      const files = ref(TEST_FILES);
+
+      watch(files, () => {
+        console.log('Files: ', files);
+      });
+
+      return {
+        files,
+      };
+    },
+    template:
+      '<form-field-file-input v-model="files" name="files" multiple label="Content" />',
+  });
+
+export const MultipleWithCaptions = () =>
+  defineComponent({
+    name: 'FormFieldFileInput_Default',
+    components: { FormFieldFileInput },
+    setup() {
+      const files = ref(TEST_FILES);
+
+      watch(files, () => {
+        console.log('Files: ', files);
+      });
+
+      return {
+        files,
+      };
+    },
+    template:
+      '<form-field-file-input v-model="files" name="files" multiple label="Content" with-captions />',
+  });
+
+export const WithError = () =>
+  defineComponent({
+    name: 'FormFieldFileInput_WithError',
+    components: { FormFieldFileInput },
+    setup() {
+      const file = ref(TEST_FILES[0]);
+
+      watch(file, () => {
+        console.log('File: ', file);
+      });
+
+      return {
+        file,
+      };
+    },
+    template:
+      '<form-field-file-input v-model="file" name="file" label="Content"  error="Required field" />',
+  });
+
+export const Disabled = () =>
+  defineComponent({
+    name: 'FormFieldFileInput_Disabled',
+    components: { FormFieldFileInput },
+    setup() {
+      const file = ref(TEST_FILES[0]);
+
+      watch(file, () => {
+        console.log('File: ', file);
+      });
+
+      return {
+        file,
+      };
+    },
+    template:
+      '<form-field-file-input v-model="file" name="file" label="Content"  disabled />',
+  });
