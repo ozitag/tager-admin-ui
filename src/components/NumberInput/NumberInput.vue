@@ -1,5 +1,5 @@
 <template>
-  <BaseInput :value="formatNumber(value)" v-on="inputListeners" />
+  <BaseInput :value="formattedNumber" v-on="inputListeners" />
 </template>
 
 <script lang="ts">
@@ -29,36 +29,33 @@ export default defineComponent<Props>({
     },
   },
   setup(props, context) {
-    function formatNumber(value: string): string {
-      if (props.type === 'integer') {
-        return String(value).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ');
-        // return String(Number(value).toLocaleString());
-      }
-      return value.replace(
-        new RegExp(
-          '\\B(?=(\\d{3})+' + (~value.indexOf('.') ? '\\.' : '$') + ')',
-          'g'
-        ),
-        ' '
-      );
-    }
+    const formattedNumber = computed<string>(() => {
+      const containsDot = props.value.includes('.');
+      const [integer, fraction] = props.value.split('.');
+
+      /** Reference: https://stackoverflow.com/a/16637170 */
+      const regexp = /\B(?=(\d{3})+(?!\d))/g;
+
+      /** e.g. "12345678" => "12 345 678" */
+      const formattedInteger = integer ? integer.replace(regexp, ' ') : '';
+
+      return [formattedInteger, containsDot ? '.' : '', fraction]
+        .filter(Boolean)
+        .join('');
+    });
 
     function normalizeDots(value: string): string {
       return value.replace(DOT_REGEXP, '.');
     }
 
+    function normalizeNumber(formattedNumber: string): string {
+      return normalizeDots(formattedNumber).replace(SPACE_REGEXP, '');
+    }
+
     const inputListeners = computed(() => ({
       ...context.listeners,
-      input: (value: string) => {
-        let normalizedValue = normalizeDots(value).replace(SPACE_REGEXP, '');
-
-        context.emit('input', normalizedValue);
-      },
-      change: (value: string) => {
-        const normalizedValue = normalizeDots(value).replace(SPACE_REGEXP, '');
-
-        context.emit('change', normalizedValue);
-      },
+      input: (value: string) => context.emit('input', normalizeNumber(value)),
+      change: (value: string) => context.emit('change', normalizeNumber(value)),
       keydown: (event: KeyboardEvent) => {
         const ALLOWED_KEYS = ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace'];
         const DOTS = [',', '.'];
@@ -89,7 +86,7 @@ export default defineComponent<Props>({
 
     return {
       inputListeners,
-      formatNumber,
+      formattedNumber,
     };
   },
 });
