@@ -16,7 +16,7 @@
 import { computed, defineComponent } from '@vue/composition-api';
 import get from 'lodash.get';
 
-import LoadableImage from '../../LoadableImage/index.vue';
+import LoadableImage from '../../LoadableImage';
 import { ColumnDefinition, RowDataDefaultType } from '../../../typings/common';
 
 interface Props {

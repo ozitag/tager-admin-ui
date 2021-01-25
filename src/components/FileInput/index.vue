@@ -138,7 +138,7 @@ import SvgIcon from '../SvgIcon';
 import BaseButton from '../BaseButton/index.vue';
 import BaseTextArea from '../BaseTextArea';
 import ProgressBar from '../ProgressBar/index.vue';
-import LoadableImage from '../LoadableImage/index.vue';
+import LoadableImage from '../LoadableImage';
 import TabList from '../TabList/TabList.vue';
 import UploadFileFromUrlForm from '../UploadFileFromUrlForm';
 

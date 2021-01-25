@@ -50,6 +50,7 @@ export {
   useSelectOptionsResource,
 } from './components/ComboBox';
 export { default as FormFieldComboBox } from './components/FormFieldComboBox';
+export { default as FieldValue } from './components/FieldValue';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 
