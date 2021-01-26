@@ -153,6 +153,9 @@ export interface ColumnDefinitionImage<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
   type: 'image';
   format?: (params: ColumnParamsArg<RowData>) => ImageCellValue;
+  options?: {
+    justifyContent?: string;
+  };
 }
 
 export interface ColumnDefinitionDate<RowData = RowDataDefaultType>
