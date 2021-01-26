@@ -312,7 +312,7 @@ export default Vue.extend({
       const newValue: SingleFileInputValueType = {
         id: createId(),
         file: savedFile,
-        caption: savedFile.name,
+        caption: this.removeFileExtension(savedFile.name),
       };
 
       const newValues: Array<SingleFileInputValueType> = [
@@ -353,7 +353,7 @@ export default Vue.extend({
               const newValue: SingleFileInputValueType = {
                 id: createId(),
                 file: savedFile,
-                caption: savedFile.name,
+                caption: this.removeFileExtension(savedFile.name),
               };
 
               const newValues: Array<SingleFileInputValueType> = [
@@ -496,6 +496,10 @@ export default Vue.extend({
         progress: 1,
         error: null,
       };
+    },
+    removeFileExtension(value: string): string {
+      const index = value.lastIndexOf('.');
+      return index === -1 ? value : value.slice(0, index);
     },
   },
 });
