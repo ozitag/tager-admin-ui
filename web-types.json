@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.17",
+  "version": "0.8.18",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -1317,7 +1317,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\FormFieldMultiSelect\\index.vue",
+            "module": "./src\\components\\FormFieldMultiSelect\\FormFieldMultiSelect.vue",
             "symbol": "default"
           }
         },
@@ -1759,9 +1759,17 @@
           }
         },
         {
-          "name": "MultiCheckboxSelect",
+          "name": "MultiSelect",
           "description": "",
           "attributes": [
+            {
+              "name": "name",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
             {
               "name": "options",
               "value": {
@@ -1779,21 +1787,24 @@
               "default": "[]"
             },
             {
-              "name": "name",
-              "required": true,
+              "name": "searchable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "searchPlaceholder",
               "value": {
                 "kind": "expression",
                 "type": "string"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change"
+              },
+              "default": "'Search...'"
             }
           ],
           "source": {
-            "module": "./src\\components\\MultiSelect\\index.vue",
+            "module": "./src\\components\\MultiSelect\\MultiSelect.vue",
             "symbol": "default"
           }
         },
