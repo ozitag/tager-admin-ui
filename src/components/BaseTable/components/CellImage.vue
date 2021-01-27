@@ -1,7 +1,7 @@
 <template>
   <td class="image-cell">
     <div v-if="Boolean(value)" class="cell-inner">
-      <div class="image-wrapper">
+      <div class="image-wrapper" :style="imageWrapperStyle">
         <loadable-image
           :src="value"
           alt="Photo"
@@ -17,10 +17,13 @@ import { computed, defineComponent } from '@vue/composition-api';
 import get from 'lodash.get';
 
 import LoadableImage from '../../LoadableImage';
-import { ColumnDefinition, RowDataDefaultType } from '../../../typings/common';
+import {
+  ColumnDefinitionImage,
+  RowDataDefaultType,
+} from '../../../typings/common';
 
 interface Props {
-  column: ColumnDefinition;
+  column: ColumnDefinitionImage;
   row: RowDataDefaultType;
   rowIndex: number;
 }
@@ -42,7 +45,7 @@ export default defineComponent<Props>({
       required: true,
     },
   },
-  setup(props) {
+  setup(props: Props) {
     const value = computed(() => {
       return props.column.format
         ? props.column.format({
@@ -53,8 +56,14 @@ export default defineComponent<Props>({
         : get(props.row, props.column.field, null);
     });
 
+    const imageWrapperStyle = computed(() => {
+      const justifyContent = props.column.options?.justifyContent ?? 'center';
+      return { justifyContent };
+    });
+
     return {
       value,
+      imageWrapperStyle,
     };
   },
 });

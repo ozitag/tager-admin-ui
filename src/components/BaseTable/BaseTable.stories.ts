@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BaseTable from './BaseTable.vue';
-import { RowDataDefaultType } from '../../../typings';
-import { ColumnDefinition } from '../../typings/common';
+import { ColumnDefinition, RowDataDefaultType } from '../../typings/common';
 
 export default { title: 'BaseTable' };
 
@@ -54,6 +53,10 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
     name: 'Image cell',
     field: 'image.url',
     type: 'image',
+    // style: { width: '40%' },
+    // options: {
+    //   justifyContent: 'flex-start',
+    // },
   },
   {
     id: 2.7,
