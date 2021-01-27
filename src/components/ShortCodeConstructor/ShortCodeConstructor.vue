@@ -51,7 +51,7 @@ import {
 
 import BaseButton from '../BaseButton/index.vue';
 import FormField from '../FormField/index.vue';
-import FormFieldSelect from '../FormFieldSelect/index.vue';
+import FormFieldSelect from '../FormFieldSelect';
 import SvgIcon from '../SvgIcon';
 
 function getShortCodeLabel(shortCode: string): string {

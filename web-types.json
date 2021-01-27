@@ -134,56 +134,16 @@
           "description": "",
           "attributes": [
             {
-              "name": "value",
-              "value": {
-                "kind": "expression",
-                "type": "object|array"
-              },
-              "default": "() => []"
-            },
-            {
-              "name": "multiple",
+              "name": "searchable",
               "value": {
                 "kind": "expression",
                 "type": "boolean"
               },
               "default": "false"
-            },
-            {
-              "name": "placeholder",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              },
-              "default": "null"
-            },
-            {
-              "name": "noOptionsMessage",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              },
-              "default": "null"
-            },
-            {
-              "name": "hidePlaceholderOption",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "default": "false"
-            },
-            {
-              "name": "options",
-              "value": {
-                "kind": "expression",
-                "type": "array"
-              },
-              "default": "[]"
             }
           ],
           "source": {
-            "module": "./src\\components\\BaseSelect\\index.vue",
+            "module": "./src\\components\\BaseSelect\\BaseSelect.vue",
             "symbol": "default"
           }
         },
@@ -1517,6 +1477,14 @@
           "description": "",
           "attributes": [
             {
+              "name": "searchable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
               "name": "name",
               "required": true,
               "value": {
@@ -1540,7 +1508,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\FormFieldSelect\\index.vue",
+            "module": "./src\\components\\FormFieldSelect\\FormFieldSelect.vue",
             "symbol": "default"
           }
         },
