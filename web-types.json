@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.18",
+  "version": "0.8.19",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -715,7 +715,16 @@
               "value": {
                 "kind": "expression",
                 "type": "number|string"
-              }
+              },
+              "default": "0"
+            },
+            {
+              "name": "loading",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
             }
           ],
           "slots": [
