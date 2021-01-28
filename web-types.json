@@ -584,6 +584,48 @@
           }
         },
         {
+          "name": "ColorSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "object|array"
+              },
+              "default": "null"
+            },
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "multiple",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "size",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "40"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\ColorSelect\\ColorSelect.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "ComboBox",
           "description": "",
           "attributes": [

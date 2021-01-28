@@ -65,6 +65,14 @@ export type OptionType<V = string> = {
   disabled?: boolean;
 };
 
+export interface ColorOptionType<V = number> {
+  value: V;
+  label: string;
+  color?: string;
+  imageUrl?: string;
+  disabled?: boolean;
+}
+
 export type DateCellValue = Date | null;
 export type ColorCellValue = string | null;
 export type StringCellValue = string | null;

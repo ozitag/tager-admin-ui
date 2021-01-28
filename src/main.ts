@@ -52,6 +52,9 @@ export {
 export { default as FormFieldComboBox } from './components/FormFieldComboBox';
 export { default as FieldValue } from './components/FieldValue';
 
+
+export { default as ColorSelect } from './components/ColorSelect';
+
 export { ToastPlugin, ToastProvider } from './components/Toast';
 
 export { AdminUiPlugin } from './plugin';
