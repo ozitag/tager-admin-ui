@@ -3,7 +3,33 @@
     <spinner-container v-if="loading" class="table-spinner">
       <spinner size="50" />
     </spinner-container>
-    <table>
+
+    <table
+      v-if="isSticky"
+      class="sticky"
+      :style="[
+        {
+          position: 'fixed',
+          top: 0,
+        },
+        targetStyle,
+      ]"
+    >
+      <thead>
+        <tr>
+          <th
+            v-for="column of enhancedColumnDefs"
+            :key="column.id"
+            :style="column.headStyle"
+            :data-table-head-cell="column.field"
+          >
+            {{ column.name }}
+          </th>
+        </tr>
+      </thead>
+    </table>
+
+    <table ref="tableRef">
       <thead>
         <tr>
           <th
@@ -60,19 +86,20 @@
 </template>
 
 <script lang="js">
-import Vue from 'vue';
+import { defineComponent, onMounted, watch } from "@vue/composition-api";
 import kebabCase from 'lodash.kebabcase';
 
 import Spinner from '../Spinner';
 import SpinnerContainer from '../SpinnerContainer';
 
 import BaseTableCell from './components/Cell';
+import { useStickyTableHeader } from "./BaseTable.hooks";
 
 /**
  * Table component.
  * @displayName BaseTable
  */
-export default Vue.extend({
+export default defineComponent({
   name: 'BaseTable',
   components: { BaseTableCell, Spinner, SpinnerContainer },
   props: {
@@ -144,6 +171,40 @@ export default Vue.extend({
       const slotName = `cell(${kebabCase(columnField)})`;
       return this.$scopedSlots[slotName];
     },
+  },
+  setup(props, context) {
+    const { isSticky, tableRef, targetStyle } = useStickyTableHeader();
+
+    watch(isSticky, (isSticky) => {
+      console.log('isSticky', isSticky);
+    })
+
+    const isScrollable = function (ele) {
+      const hasScrollableContent = ele.scrollHeight > ele.clientHeight;
+
+      const overflowYStyle = window.getComputedStyle(ele).overflowY;
+      const isOverflowHidden = overflowYStyle.indexOf('hidden') !== -1;
+
+      return hasScrollableContent && !isOverflowHidden;
+    };
+
+    const getScrollableParent = function (ele) {
+      return !ele || ele === document.body
+        ? document.body
+        : isScrollable(ele)
+          ? ele
+          : getScrollableParent(ele.parentNode);
+    };
+
+    onMounted(() => {
+      console.log(getScrollableParent(tableRef.value));
+    })
+
+    return {
+      isSticky,
+      tableRef,
+      targetStyle,
+    };
   },
 });
 </script>
@@ -247,5 +308,9 @@ tbody tr {
       cursor: default;
     }
   }
+}
+
+.sticky {
+  background-color: #fff;
 }
 </style>

@@ -158,11 +158,19 @@ export const Default = () => ({
     };
   },
   template: `
+    <div style="overflow: auto; height: 500px">
       <base-table :column-defs="columnDefs" :row-data="rowData" enumerable :loading="true">
-          <template v-slot:cell(description)="{ row, column }">
-              <td :style="column.style">
-                  <h4>{{ row[column.field] }}</h4>
-              </td>
-          </template>
-      </base-table>`,
+        <template v-slot:cell(description)="{ row, column }">
+          <td :style="column.style">
+            <h4>{{ row[column.field] }}</h4>
+          </td>
+        </template>
+      </base-table>
+    
+      <br />
+      <br />
+      <br />
+      <div style="height: 1000px;">1</div>
+    </div>
+  `,
 });
