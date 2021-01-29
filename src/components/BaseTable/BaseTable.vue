@@ -6,11 +6,11 @@
 
     <table ref="tableRef">
       <thead :class="{ 'is-sticky': isSticky }">
-        <tr ref="trRef">
+        <tr ref="trRef" :style="isSticky ? headRowStyle : ''">
           <th
             v-for="column of enhancedColumnDefs"
             :key="column.id"
-            :style="[column.headStyle, thStyle]"
+            :style="[column.headStyle]"
             :data-table-head-cell="column.field"
           >
             {{ column.name }}
@@ -86,6 +86,13 @@ export default defineComponent({
      */
     loading: Boolean,
     /**
+     * Should sticky header?
+     */
+    useStickyHeader: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Definition overrides for row number column.
      */
     indexColumnDef: {
@@ -132,9 +139,11 @@ export default defineComponent({
       return this.$scopedSlots[slotName];
     },
   },
-  setup() {
+  setup(props) {
+    const stickyProps = useStickyTableHeader({ isEnabled: props.useStickyHeader });
+
     return {
-      ...useStickyTableHeader(),
+      ...stickyProps,
     };
   },
 });
@@ -241,15 +250,6 @@ tbody tr {
   }
 }
 
-.sticky {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: #fff;
-}
-
 .is-sticky {
   position: relative;
   z-index: 999;
@@ -257,27 +257,8 @@ tbody tr {
   th {
     position: relative;
     background-color: #fff;
-    box-shadow: inset 0px -1.5px 0px #e9ecef;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background-color: #e9ecef;
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background-color: #fff;
-    }
+    // custom top and bottom borders
+    box-shadow: inset 0px -1.5px 0px #e9ecef, inset 0px 1px 0px #e9ecef;
   }
 }
 </style>
