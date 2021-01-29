@@ -3,92 +3,66 @@ import {
   ComputedRef,
   onMounted,
   onUnmounted,
-  reactive,
   Ref,
   ref,
 } from '@vue/composition-api';
+import { getScrollableParent } from './BaseTable.utils';
 
-export function useStickyTableHeader(
-  defaultSticky = false
-): { tableRef: Ref<HTMLTableElement | null>; isSticky: Ref<boolean> } {
-  const isSticky = ref<boolean>(defaultSticky);
+export function useStickyTableHeader(): {
+  tableRef: Ref<HTMLTableElement | null>;
+  trRef: Ref<HTMLTableRowElement | null>;
+  isSticky: Ref<boolean>;
+  thStyle: ComputedRef<{ [key: string]: string }>;
+} {
+  const scrollContainerRef = ref<HTMLElement | null>(null);
   const tableRef = ref<HTMLTableElement | null>(null);
+  const trRef = ref<HTMLTableRowElement | null>(null);
+  const isSticky = ref<boolean>(false);
+  const scrollTop = ref<number>(0);
 
-  const state = reactive({
-    height: 0,
-    width: 0,
-  });
-
-  const targetStyle = computed(() => {
-    return {
-      height: `${state.height}px`,
-      width: `${state.width}px`,
-    };
-  });
-
-  function updateState() {
-    if (tableRef.value) {
-      const tableRect = tableRef.value.getBoundingClientRect();
-
-      state.width = tableRect.width;
-      state.height = tableRect.height;
-
-      tableRef.value.style.width = tableRect.width + 'px';
-      tableRef.value.style.height = tableRect.height + 'px';
-    }
-  }
+  const thStyle = computed(() => ({
+    transform: `translate(0px, ${isSticky.value ? scrollTop.value : 0}px)`,
+  }));
 
   function handleScroll() {
-    if (tableRef.value) {
-      const { top, bottom } = tableRef.value.getBoundingClientRect();
+    if (scrollContainerRef.value && tableRef.value) {
+      const containerRect = scrollContainerRef.value.getBoundingClientRect();
+      const tableRect = tableRef.value.getBoundingClientRect();
 
-      if (top <= 0 && bottom > 2 * 68) {
-        if (!isSticky.value) {
-          isSticky.value = true;
-          updateState();
+      window.requestAnimationFrame(() => {
+        if (
+          tableRect.top <= containerRect.top &&
+          tableRect.bottom >= containerRect.top
+        ) {
+          if (!isSticky.value) {
+            isSticky.value = true;
+          }
+        } else {
+          if (isSticky.value) {
+            isSticky.value = false;
+          }
         }
-      } else {
-        if (isSticky.value) {
-          isSticky.value = false;
-        }
-      }
+      });
+
+      scrollTop.value = containerRect.top - tableRect.top;
     }
   }
 
-  const isScrollable = function (ele) {
-    const hasScrollableContent = ele.scrollHeight > ele.clientHeight;
-
-    const overflowYStyle = window.getComputedStyle(ele).overflowY;
-    const isOverflowHidden = overflowYStyle.indexOf('hidden') !== -1;
-
-    return hasScrollableContent && !isOverflowHidden;
-  };
-
-  const getScrollableParent = function (ele) {
-    return !ele || ele === document.body
-      ? document.body
-      : isScrollable(ele)
-      ? ele
-      : getScrollableParent(ele.parentNode);
-  };
-
   onMounted(() => {
-    if (tableRef.value) {
-      getScrollableParent(tableRef.value).addEventListener(
-        'scroll',
-        handleScroll
-      );
+    if (trRef.value) {
+      scrollContainerRef.value = getScrollableParent(trRef.value);
+    }
+
+    if (scrollContainerRef.value) {
+      scrollContainerRef.value.addEventListener('scroll', handleScroll);
     }
   });
 
   onUnmounted(() => {
-    if (tableRef.value) {
-      getScrollableParent(tableRef.value).removeEventListener(
-        'scroll',
-        handleScroll
-      );
+    if (scrollContainerRef.value) {
+      scrollContainerRef.value.removeEventListener('scroll', handleScroll);
     }
   });
 
-  return { tableRef, isSticky, targetStyle };
+  return { tableRef, trRef, isSticky, thStyle };
 }

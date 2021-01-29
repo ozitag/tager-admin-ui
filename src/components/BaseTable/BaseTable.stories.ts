@@ -158,7 +158,7 @@ export const Default = () => ({
     };
   },
   template: `
-    <div style="overflow: auto; height: 500px">
+    <div style="overflow: auto; height: 500px; padding: 1rem;">
       <base-table :column-defs="columnDefs" :row-data="rowData" enumerable :loading="true">
         <template v-slot:cell(description)="{ row, column }">
           <td :style="column.style">
@@ -166,11 +166,10 @@ export const Default = () => ({
           </td>
         </template>
       </base-table>
-    
       <br />
       <br />
       <br />
-      <div style="height: 1000px;">1</div>
+      <div style="height: 1000px; opacity: 0">1</div>
     </div>
   `,
 });

@@ -4,38 +4,13 @@
       <spinner size="50" />
     </spinner-container>
 
-    <table
-      v-if="isSticky"
-      class="sticky"
-      :style="[
-        {
-          position: 'fixed',
-          top: 0,
-        },
-        targetStyle,
-      ]"
-    >
-      <thead>
-        <tr>
-          <th
-            v-for="column of enhancedColumnDefs"
-            :key="column.id"
-            :style="column.headStyle"
-            :data-table-head-cell="column.field"
-          >
-            {{ column.name }}
-          </th>
-        </tr>
-      </thead>
-    </table>
-
     <table ref="tableRef">
-      <thead>
-        <tr>
+      <thead :class="{ 'is-sticky': isSticky }">
+        <tr ref="trRef">
           <th
             v-for="column of enhancedColumnDefs"
             :key="column.id"
-            :style="column.headStyle"
+            :style="[column.headStyle, thStyle]"
             :data-table-head-cell="column.field"
           >
             {{ column.name }}
@@ -67,26 +42,11 @@
         </tr>
       </tbody>
     </table>
-
-    <!--    <div class="table-bottom">-->
-    <!--      <span>Showing 1 to 10 of 57 entries</span>-->
-    <!--      <div class="pagination">-->
-    <!--        <ul>-->
-    <!--          <li><button disabled>Previous</button></li>-->
-    <!--          <li><button>1</button></li>-->
-    <!--          <li><button>2</button></li>-->
-    <!--          <li><button class="active">3</button></li>-->
-    <!--          <li><button>4</button></li>-->
-    <!--          <li><button>5</button></li>-->
-    <!--          <li><button>Next</button></li>-->
-    <!--        </ul>-->
-    <!--      </div>-->
-    <!--    </div>-->
   </div>
 </template>
 
 <script lang="js">
-import { defineComponent, onMounted, watch } from "@vue/composition-api";
+import { defineComponent } from "@vue/composition-api";
 import kebabCase from 'lodash.kebabcase';
 
 import Spinner from '../Spinner';
@@ -172,38 +132,9 @@ export default defineComponent({
       return this.$scopedSlots[slotName];
     },
   },
-  setup(props, context) {
-    const { isSticky, tableRef, targetStyle } = useStickyTableHeader();
-
-    watch(isSticky, (isSticky) => {
-      console.log('isSticky', isSticky);
-    })
-
-    const isScrollable = function (ele) {
-      const hasScrollableContent = ele.scrollHeight > ele.clientHeight;
-
-      const overflowYStyle = window.getComputedStyle(ele).overflowY;
-      const isOverflowHidden = overflowYStyle.indexOf('hidden') !== -1;
-
-      return hasScrollableContent && !isOverflowHidden;
-    };
-
-    const getScrollableParent = function (ele) {
-      return !ele || ele === document.body
-        ? document.body
-        : isScrollable(ele)
-          ? ele
-          : getScrollableParent(ele.parentNode);
-    };
-
-    onMounted(() => {
-      console.log(getScrollableParent(tableRef.value));
-    })
-
+  setup() {
     return {
-      isSticky,
-      tableRef,
-      targetStyle,
+      ...useStickyTableHeader(),
     };
   },
 });
@@ -311,6 +242,42 @@ tbody tr {
 }
 
 .sticky {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   background-color: #fff;
+}
+
+.is-sticky {
+  position: relative;
+  z-index: 999;
+
+  th {
+    position: relative;
+    background-color: #fff;
+    box-shadow: inset 0px -1.5px 0px #e9ecef;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: #e9ecef;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #fff;
+    }
+  }
 }
 </style>
