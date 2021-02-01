@@ -1,4 +1,4 @@
-import { FetchStatus } from '@tager/admin-services';
+import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
 
 export type ShortCodeParamType = {
   readonly name: string;
@@ -226,3 +226,15 @@ export type DropdownMenuItemType = {
   style?: any;
   class?: any;
 };
+
+export type SingleFileInputValueType = {
+  id: string;
+  file: FileType;
+  caption?: Nullable<string>;
+};
+
+export interface EventSearchEngineOptimization {
+  title: string;
+  description: string;
+  image: SingleFileInputValueType | null;
+}

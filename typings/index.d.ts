@@ -425,3 +425,9 @@ export declare function useSelectOptionsResource<
 export declare function useCopyToClipboard(
   timeout?: number
 ): [isCopied: Ref<boolean>, handleCopy: (text: string) => Promise<void>];
+
+export interface EventSearchEngineOptimization {
+  title: string;
+  description: string;
+  image: SingleFileInputValueType | null;
+}

@@ -447,7 +447,7 @@ export default Vue.extend({
     emitChangeEvent(newFiles: Array<SingleFileInputValueType>) {
       const newValue = this.multiple ? newFiles : newFiles[0];
 
-      this.$emit('change', newValue);
+      this.$emit('change', newValue ?? null);
     },
     getFileSize(bytes: number): string {
       const unitList = ['bytes', 'kB', 'MB'];

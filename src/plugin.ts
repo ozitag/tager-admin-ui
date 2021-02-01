@@ -45,6 +45,7 @@ import Pagination from './components/Pagination';
 import ComboBox from './components/ComboBox';
 import FormFieldComboBox from './components/FormFieldComboBox';
 import FieldValue from './components/FieldValue';
+import SearchEngineOptimization from './components/SearchEngineOptimization';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -97,4 +98,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('pagination', Pagination);
   Vue.component('combobox', ComboBox);
   Vue.component('field-value', FieldValue);
+  Vue.component('search-engine-optimization', SearchEngineOptimization);
 };
