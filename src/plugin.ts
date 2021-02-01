@@ -14,7 +14,7 @@ import SvgIcon from './components/SvgIcon';
 import Table from './components/BaseTable';
 import TableCell from './components/BaseTable/components/Cell.vue';
 import FormGroup from './components/FormGroup.vue';
-import FileInput from './components/FileInput/index.vue';
+import FileInput from './components/FileInput';
 import FormFieldFileInput from './components/FormFieldFileInput/index.vue';
 import NumberInput from './components/NumberInput';
 import FormFieldNumberInput from './components/FormFieldNumberInput';
