@@ -1102,7 +1102,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\FileInput\\index.vue",
+            "module": "./src\\components\\FileInput\\FileInput.vue",
             "symbol": "default"
           }
         },

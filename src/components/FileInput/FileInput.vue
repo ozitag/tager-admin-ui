@@ -1,75 +1,88 @@
 <template>
   <div :class="['file-input-container', { 'with-captions': withCaptions }]">
-    <div v-if="fileList.length > 0" class="file-grid">
-      <div
-        v-for="entry of fileList"
-        :key="entry.id"
-        :class="[
-          'file-wrapper',
-          { single: !multiple },
-          { uploading: entry.status === 'UPLOADING' },
-          { error: entry.status === 'ERROR' },
-        ]"
-        :title="getFileHtmlTitle(entry.file)"
+    <draggable
+      v-if="fileList.length > 0"
+      v-model="fileList"
+      group="description"
+      :animation="200"
+      @start="drag = true"
+      @end="drag = false"
+    >
+      <transition-group
+        type="transition"
+        :name="!drag ? 'flip-list' : null"
+        class="file-grid"
       >
-        <div class="file-container">
-          <base-button
-            class="clear-button"
-            variant="icon"
-            title="Clear"
-            @click="clearFile(entry)"
-          >
-            <svg-icon name="clear" />
-          </base-button>
+        <div
+          v-for="entry of fileList"
+          :key="entry.id"
+          :class="[
+            'file-wrapper',
+            { single: !multiple },
+            { uploading: entry.status === 'UPLOADING' },
+            { error: entry.status === 'ERROR' },
+          ]"
+          :title="getFileHtmlTitle(entry.file)"
+        >
+          <div class="file-container">
+            <base-button
+              class="clear-button"
+              variant="icon"
+              title="Clear"
+              @click="clearFile(entry)"
+            >
+              <svg-icon name="clear" />
+            </base-button>
 
-          <progress-bar
-            v-if="entry.status === 'UPLOADING'"
-            :percent="entry.progress"
-            class="upload-progress"
-          />
-          <div v-else-if="entry.status === 'ERROR'" class="error-message">
-            {{ entry.error }}
-            <div class="file-caption">
-              <span class="file-name">{{ entry.file.name }}</span>
-              <small class="file-size">
-                ({{ getFileSize(entry.file.size) }})
-              </small>
-            </div>
-          </div>
-          <div v-else class="file-inner">
-            <a :href="entry.file.url" class="file-link" target="_blank">
-              <loadable-image
-                v-if="isImage(entry.file)"
-                :src="entry.file.url"
-                :alt="entry.file.name"
-                class="file-image"
-              />
-              <svg-icon
-                v-else
-                class="file-icon"
-                :name="getFileIcon(entry.file)"
-              />
-            </a>
-
-            <div v-if="!isImage(entry.file)" class="file-caption">
-              <span class="file-name">{{ entry.file.name }}</span>
-              <small class="file-size">
-                ({{ getFileSize(entry.file.size) }})
-              </small>
-            </div>
-
-            <base-text-area
-              v-if="withCaptions"
-              class="caption-text-area"
-              :rows="2"
-              placeholder="Caption"
-              :value="entry.caption || ''"
-              @input="handleCaptionChange(entry, $event)"
+            <progress-bar
+              v-if="entry.status === 'UPLOADING'"
+              :percent="entry.progress"
+              class="upload-progress"
             />
+            <div v-else-if="entry.status === 'ERROR'" class="error-message">
+              {{ entry.error }}
+              <div class="file-caption">
+                <span class="file-name">{{ entry.file.name }}</span>
+                <small class="file-size">
+                  ({{ getFileSize(entry.file.size) }})
+                </small>
+              </div>
+            </div>
+            <div v-else class="file-inner">
+              <a :href="entry.file.url" class="file-link" target="_blank">
+                <loadable-image
+                  v-if="isImage(entry.file)"
+                  :src="entry.file.url"
+                  :alt="entry.file.name"
+                  class="file-image"
+                />
+                <svg-icon
+                  v-else
+                  class="file-icon"
+                  :name="getFileIcon(entry.file)"
+                />
+              </a>
+
+              <div v-if="!isImage(entry.file)" class="file-caption">
+                <span class="file-name">{{ entry.file.name }}</span>
+                <small class="file-size">
+                  ({{ getFileSize(entry.file.size) }})
+                </small>
+              </div>
+
+              <base-text-area
+                v-if="withCaptions"
+                class="caption-text-area"
+                :rows="2"
+                placeholder="Caption"
+                :value="entry.caption || ''"
+                @input="handleCaptionChange(entry, $event)"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </transition-group>
+    </draggable>
 
     <div
       v-if="shouldDisplayDropbox"
@@ -131,6 +144,7 @@ import {
   upload,
   z,
 } from '@tager/admin-services';
+import Draggable from 'vuedraggable';
 
 import { ARCHIVE_ACCEPT } from '../../constants/common';
 
@@ -182,6 +196,7 @@ export default Vue.extend({
     LoadableImage,
     TabList,
     UploadFileFromUrlForm,
+    Draggable,
   },
   model: {
     prop: 'value',
@@ -225,9 +240,12 @@ export default Vue.extend({
     uploadingFileList: Array<UploadingSingleFileInputValueType>;
     tabList: Array<TabListType>;
     selectedTabId: string;
+    dataList: Array<UploadingSingleFileInputValueType>;
+    drag: boolean;
   } {
     return {
       isDragOver: false,
+      dataList: [],
       uploadingFileList: [],
       selectedTabId: 'file',
       tabList: [
@@ -240,6 +258,7 @@ export default Vue.extend({
           label: 'Upload file',
         },
       ],
+      drag: false,
     };
   },
   computed: {
@@ -248,10 +267,15 @@ export default Vue.extend({
         ? (this.value as Array<SingleFileInputValueType>)
         : ([this.value].filter(Boolean) as Array<SingleFileInputValueType>);
     },
-    fileList(): Array<
-      SingleFileInputValueType | UploadingSingleFileInputValueType
-    > {
-      return [...this.savedFileList, ...this.uploadingFileList];
+    fileList: {
+      get: function (): Array<
+        SingleFileInputValueType | UploadingSingleFileInputValueType
+      > {
+        return [...this.savedFileList, ...this.uploadingFileList];
+      },
+      set: function (newValue: Array<SingleFileInputValueType>) {
+        this.emitChangeEvent(newValue);
+      },
     },
     shouldDisplayDropbox(): boolean {
       if (this.multiple && typeof this.maxFileCount === 'number') {
@@ -636,6 +660,7 @@ export default Vue.extend({
   text-align: center;
   min-height: 200px;
   border: 1px solid #ccc;
+  background-color: #fff;
 
   .clear-button {
     position: absolute;

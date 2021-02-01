@@ -19,7 +19,7 @@ export { default as SvgIcon } from './components/SvgIcon';
 export { default as BaseTable } from './components/BaseTable';
 export { default as TableCell } from './components/BaseTable/components/Cell.vue';
 export { default as FormGroup } from './components/FormGroup.vue';
-export { default as FileInput } from './components/FileInput/index.vue';
+export { default as FileInput } from './components/FileInput';
 export { default as FormFieldFileInput } from './components/FormFieldFileInput/index.vue';
 export { default as NumberInput } from './components/NumberInput';
 export { default as FormFieldNumberInput } from './components/FormFieldNumberInput';
