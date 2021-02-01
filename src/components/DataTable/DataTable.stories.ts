@@ -48,7 +48,7 @@ const COLUMN_DEFS: Array<ColumnDefinition> = [
     field: 'price',
     style: { minWidth: '75px' },
     headStyle: { minWidth: '75px' },
-    format: ({ row }) => `${row.price.toFixed(2)}$`,
+    format: ({ row }) => `${row.price}$`,
   },
   {
     id: 6,
@@ -117,23 +117,25 @@ export const Default = () =>
       };
     },
     template: `
-      <DataTable
-        :column-defs="columnDefs"
-        :row-data="rowData"
-        :loading="isLoading"
-        :error-message="errorMessage"
-        :search-query="searchQuery"
-        :pagination="{ pageSize, pageNumber, pageCount, disabled: isLoading }"
-        @change="handleChange"
-      >
-        <template v-slot:cell(platforms)="{ row }">
-          <ul v-if="row.platforms">
-            <li v-for="platform of row.platforms" :key="platform">
-              -&nbsp;{{ platform }}
-            </li>
-          </ul>
-          <span v-else>-</span>
-        </template>
-      </DataTable>
+      <div class="scrollContainer" style="overflow-Y: auto; height: 500px">
+        <DataTable
+          :column-defs="columnDefs"
+          :row-data="rowData"
+          :loading="isLoading"
+          :error-message="errorMessage"
+          :search-query="searchQuery"
+          :pagination="{ pageSize, pageNumber, pageCount, disabled: isLoading }"
+          @change="handleChange"
+        >
+          <template v-slot:cell(platforms)="{ row }">
+            <ul v-if="row.platforms">
+              <li v-for="platform of row.platforms" :key="platform">
+                -&nbsp;{{ platform }}
+              </li>
+            </ul>
+            <span v-else>-</span>
+          </template>
+        </DataTable>
+      </div>
   `,
   });

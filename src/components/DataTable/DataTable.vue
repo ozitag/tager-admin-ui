@@ -1,5 +1,5 @@
 <template>
-  <div class="data-table">
+  <div ref="dataTableRef" class="data-table">
     <SearchInput
       v-show="useSearch"
       :value="searchQuery"
@@ -49,6 +49,7 @@ import SearchInput from '../SearchInput';
 import Pagination from '../Pagination';
 import { ColumnDefinition, RowDataDefaultType } from '../../typings/common';
 import { TableChangeEvent } from './DataTable.types';
+import { getScrollableParent } from '../../utils/common';
 
 interface PaginationProps {
   pageNumber: number;
@@ -107,6 +108,8 @@ export default defineComponent<Props>({
     },
   },
   setup(props, context) {
+    const dataTableRef = ref<HTMLElement | null>(null);
+    const scrollContainerRef = ref<HTMLElement | null>(null);
     const footerRef = ref<HTMLElement | null>(null);
     const footerInnerRef = ref<HTMLElement | null>(null);
 
@@ -142,6 +145,8 @@ export default defineComponent<Props>({
 
         resizeObserver.observe(footerRef.value);
       }
+
+      scrollContainerRef.value = getScrollableParent(dataTableRef.value);
     });
 
     onUnmounted(() => {
@@ -165,7 +170,9 @@ export default defineComponent<Props>({
     });
 
     function scrollToTop(): void {
-      scroll({
+      if (!scrollContainerRef.value) return;
+
+      scrollContainerRef.value.scrollTo({
         top: 0,
         behavior: 'smooth',
       });
@@ -201,6 +208,7 @@ export default defineComponent<Props>({
       handleSearchChange,
       handlePageNumberChange,
       handlePageSizeChange,
+      dataTableRef,
       footerRef,
       footerInnerRef,
       computedPagination,
