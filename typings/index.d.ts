@@ -283,6 +283,7 @@ export declare const DataTable: VueConstructor<Vue>;
 export declare const SearchInput: VueConstructor<Vue>;
 export declare const Pagination: VueConstructor<Vue>;
 export declare const ComboBox: VueConstructor<Vue>;
+export declare const SeoFieldGroup: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
@@ -425,3 +426,9 @@ export declare function useSelectOptionsResource<
 export declare function useCopyToClipboard(
   timeout?: number
 ): [isCopied: Ref<boolean>, handleCopy: (text: string) => Promise<void>];
+
+export interface SeoChangeEvent {
+  title: string;
+  description: string;
+  image: SingleFileInputValueType | null;
+}
