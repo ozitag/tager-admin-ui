@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.21",
+  "version": "0.8.22",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -2042,6 +2042,88 @@
           ],
           "source": {
             "module": "./src\\components\\SearchInput\\SearchInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "SeoFieldGroup",
+          "description": "",
+          "attributes": [
+            {
+              "name": "titleLabel",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Page title'"
+            },
+            {
+              "name": "title",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "titleErrorMessage",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "descriptionLabel",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Page description'"
+            },
+            {
+              "name": "description",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "descriptionErrorMessage",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "imageLabel",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Open graph image'"
+            },
+            {
+              "name": "image",
+              "value": {
+                "kind": "expression",
+                "type": "SingleFileInputValueType"
+              },
+              "default": "null"
+            },
+            {
+              "name": "imageErrorMessage",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\SeoFieldGroup\\SeoFieldGroup.vue",
             "symbol": "default"
           }
         },
