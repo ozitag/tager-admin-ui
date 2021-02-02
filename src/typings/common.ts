@@ -233,7 +233,7 @@ export type SingleFileInputValueType = {
   caption?: Nullable<string>;
 };
 
-export interface EventSearchEngineOptimization {
+export interface SeoChangeEvent {
   title: string;
   description: string;
   image: SingleFileInputValueType | null;

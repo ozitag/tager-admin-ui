@@ -1,67 +1,65 @@
 <template>
-  <div class="search-engine-optimization">
-    <FormField
-      v-model="title"
+  <div class="seo-field-group">
+    <FormFieldRecommendedLengthInput
+      :value="title"
       :label="titleLabel"
       :error="titleErrorMessage"
+      :min="50"
+      :max="60"
       name="pageTitle"
+      @input="handleTitleChange"
     />
 
-    <FormField
-      v-model="description"
+    <FormFieldRecommendedLengthInput
+      :value="description"
       :label="descriptionLabel"
       :error="descriptionErrorMessage"
+      :min="115"
+      :max="165"
       type="textarea"
       name="pageDescription"
+      @input="handleDescriptionChange"
     />
 
     <FormFieldFileInput
-      v-model="image"
+      :value="image"
       :label="imageLabel"
       :error="imageErrorMessage"
       file-type="image"
       name="openGraphImage"
+      @change="handleImageChange"
     />
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  PropType,
-  ref,
-  SetupContext,
-  watch,
-} from '@vue/composition-api';
-import {
-  EventSearchEngineOptimization,
-  SingleFileInputValueType,
-} from '../../typings/common';
+import { defineComponent, PropType, SetupContext } from '@vue/composition-api';
+import { SeoChangeEvent, SingleFileInputValueType } from '../../typings/common';
 
-import FormField from '../FormField/index.vue';
+import FormFieldRecommendedLengthInput from '../FormFieldRecommendedLengthInput';
 import FormFieldFileInput from '../FormFieldFileInput/index.vue';
 
 interface Props {
   titleLabel: string;
-  titleValue: string;
+  title: string;
   titleErrorMessage: string;
   descriptionLabel: string;
-  descriptionValue: string;
+  description: string;
   descriptionErrorMessage: string;
   imageLabel: string;
-  imageValue: SingleFileInputValueType | null;
+  image: SingleFileInputValueType | null;
   imageErrorMessage: string;
 }
 
 export default defineComponent<Props>({
-  name: 'SearchEngineOptimization',
-  components: { FormField, FormFieldFileInput },
+  name: 'SeoFieldGroup',
+  components: { FormFieldRecommendedLengthInput, FormFieldFileInput },
   props: {
     titleLabel: {
       type: String,
       default: 'Page title',
     },
-    titleValue: {
+    title: {
       type: String,
       default: '',
     },
@@ -73,7 +71,7 @@ export default defineComponent<Props>({
       type: String,
       default: 'Page description',
     },
-    descriptionValue: {
+    description: {
       type: String,
       default: '',
     },
@@ -85,7 +83,7 @@ export default defineComponent<Props>({
       type: String,
       default: 'Open graph image',
     },
-    imageValue: {
+    image: {
       type: Object as PropType<SingleFileInputValueType>,
       default: null,
     },
@@ -95,38 +93,36 @@ export default defineComponent<Props>({
     },
   },
   setup(props: Props, context: SetupContext) {
-    const title = ref<string>(props.titleValue);
-
-    watch(title, (value) => {
+    function handleTitleChange(value: string) {
       context.emit('change:title', value);
-    });
+      emitChangeEvent({ title: value });
+    }
 
-    const description = ref<string>(props.descriptionValue);
-
-    watch(description, (value) => {
+    function handleDescriptionChange(value: string) {
       context.emit('change:description', value);
-    });
+      emitChangeEvent({ description: value });
+    }
 
-    const image = ref<SingleFileInputValueType | null>(props.imageValue);
-
-    watch(image, (value) => {
+    function handleImageChange(value: SingleFileInputValueType | null) {
       context.emit('change:image', value);
-    });
+      emitChangeEvent({ image: value });
+    }
 
-    watch([title, description, image], () => {
-      const value: EventSearchEngineOptimization = {
-        title: title.value,
-        description: description.value,
-        image: image.value,
+    function emitChangeEvent(event: Partial<SeoChangeEvent>) {
+      const value: SeoChangeEvent = {
+        title: props.title,
+        description: props.description,
+        image: props.image,
+        ...event,
       };
 
       context.emit('change', value);
-    });
+    }
 
     return {
-      title,
-      description,
-      image,
+      handleTitleChange,
+      handleDescriptionChange,
+      handleImageChange,
     };
   },
 });

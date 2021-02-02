@@ -1,12 +1,9 @@
-import SearchEngineOptimization from './SearchEngineOptimization.vue';
+import SeoFieldGroup from './SeoFieldGroup.vue';
 import { defineComponent, ref } from '@vue/composition-api';
 import { createId } from '@tager/admin-services';
-import {
-  EventSearchEngineOptimization,
-  SingleFileInputValueType,
-} from '../../typings/common';
+import { SeoChangeEvent, SingleFileInputValueType } from '../../typings/common';
 
-export default { title: 'SearchEngineOptimization' };
+export default { title: 'SeoFieldGroup' };
 
 const TEST_FILE: SingleFileInputValueType = {
   id: createId(),
@@ -28,8 +25,8 @@ interface ValuesState {
 
 export const Default = () =>
   defineComponent({
-    name: 'DefaultSearchEngineOptimization',
-    components: { SearchEngineOptimization },
+    name: 'DefaultSeoFieldGroup',
+    components: { SeoFieldGroup },
     setup() {
       const values = ref<ValuesState>({
         pageTitle: 'title',
@@ -41,7 +38,7 @@ export const Default = () =>
         title,
         description,
         image,
-      }: EventSearchEngineOptimization) {
+      }: SeoChangeEvent) {
         // values.value.pageTitle = title;
         // values.value.pageDescription = description;
         // values.value.openGraphImage = image;
@@ -70,12 +67,12 @@ export const Default = () =>
       };
     },
     template: `
-      <SearchEngineOptimization
-        :title-value="values.pageTitle"
+      <SeoFieldGroup
+        :title="values.pageTitle"
         @change:title="handleSEOTitle"
-        :description-value="values.pageDescription"
+        :description="values.pageDescription"
         @change:description="handleSEODescription"
-        :image-value="values.openGraphImage"
+        :image="values.openGraphImage"
         @change:image="handleSEOImage"
         @change="handleSearchEngineOptimization"
       />

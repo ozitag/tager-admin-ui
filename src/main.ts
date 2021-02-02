@@ -51,7 +51,7 @@ export {
 } from './components/ComboBox';
 export { default as FormFieldComboBox } from './components/FormFieldComboBox';
 export { default as FieldValue } from './components/FieldValue';
-export { default as SearchEngineOptimization } from './components/SearchEngineOptimization';
+export { default as SeoFieldGroup } from './components/SeoFieldGroup';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 
