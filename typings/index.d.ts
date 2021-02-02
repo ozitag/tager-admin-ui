@@ -425,7 +425,7 @@ export declare function useSelectOptionsResource<
 
 export declare function useCopyToClipboard(
   timeout?: number
-): [isCopied: Ref<boolean>, handleCopy: (text: string) => Promise<void>];
+): [Ref<boolean>, (text: string) => Promise<void>];
 
 export interface SeoChangeEvent {
   title: string;
