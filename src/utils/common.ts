@@ -129,3 +129,15 @@ export function cutUrlOrigin(url: string): string {
   const urlObject = new URL(url);
   return urlObject.href.slice(urlObject.origin.length);
 }
+
+export function isScrollable(element: HTMLElement): boolean {
+  return window.getComputedStyle(element).overflowY === 'auto';
+}
+
+export function getScrollableParent(element: HTMLElement | null): HTMLElement {
+  return !element || element === document.body
+    ? document.body
+    : isScrollable(element)
+    ? element
+    : getScrollableParent(element.parentElement);
+}
