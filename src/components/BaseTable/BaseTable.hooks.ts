@@ -38,12 +38,6 @@ export function useStickyTableHeader(params: {
     const containerRect = scrollContainerRef.value.getBoundingClientRect();
     const tableRect = tableRef.value.getBoundingClientRect();
 
-    const isVisible =
-      tableRect.top <= containerRect.top &&
-      tableRect.bottom >= containerRect.top;
-
-    if (!isVisible) return;
-
     scrollTop.value = containerRect.top - tableRect.top;
   }
 
