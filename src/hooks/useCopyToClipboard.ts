@@ -2,7 +2,7 @@ import { onUnmounted, ref, Ref, watch } from '@vue/composition-api';
 
 function useCopyToClipboard(
   timeout = 300
-): [isCopied: Ref<boolean>, handleCopy: (text: string) => void] {
+): [Ref<boolean>, (text: string) => void] {
   const isCopied = ref<boolean>(false);
 
   function handleCopy(text: string): void {
