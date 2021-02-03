@@ -159,7 +159,7 @@ export const Default = () => ({
   },
   template: `
     <div style="overflow: auto; height: 500px; padding: 1rem;">
-      <base-table :column-defs="columnDefs" :row-data="rowData" enumerable :loading="true">
+      <base-table :column-defs="columnDefs" :row-data="rowData" enumerable :loading="true" :use-sticky-header="true">
         <template v-slot:cell(description)="{ row, column }">
           <td :style="column.style">
             <h4>{{ row[column.field] }}</h4>
