@@ -3,13 +3,14 @@
     <spinner-container v-if="loading" class="table-spinner">
       <spinner size="50" />
     </spinner-container>
-    <table>
-      <thead>
-        <tr>
+
+    <table ref="tableRef">
+      <thead :class="{ 'is-sticky': isSticky }">
+        <tr ref="trRef" :style="isSticky ? headRowStyle : ''">
           <th
             v-for="column of enhancedColumnDefs"
             :key="column.id"
-            :style="column.headStyle"
+            :style="[column.headStyle]"
             :data-table-head-cell="column.field"
           >
             {{ column.name }}
@@ -41,38 +42,24 @@
         </tr>
       </tbody>
     </table>
-
-    <!--    <div class="table-bottom">-->
-    <!--      <span>Showing 1 to 10 of 57 entries</span>-->
-    <!--      <div class="pagination">-->
-    <!--        <ul>-->
-    <!--          <li><button disabled>Previous</button></li>-->
-    <!--          <li><button>1</button></li>-->
-    <!--          <li><button>2</button></li>-->
-    <!--          <li><button class="active">3</button></li>-->
-    <!--          <li><button>4</button></li>-->
-    <!--          <li><button>5</button></li>-->
-    <!--          <li><button>Next</button></li>-->
-    <!--        </ul>-->
-    <!--      </div>-->
-    <!--    </div>-->
   </div>
 </template>
 
 <script lang="js">
-import Vue from 'vue';
+import { defineComponent } from "@vue/composition-api";
 import kebabCase from 'lodash.kebabcase';
 
 import Spinner from '../Spinner';
 import SpinnerContainer from '../SpinnerContainer';
 
 import BaseTableCell from './components/Cell';
+import { useStickyTableHeader } from "./BaseTable.hooks";
 
 /**
  * Table component.
  * @displayName BaseTable
  */
-export default Vue.extend({
+export default defineComponent({
   name: 'BaseTable',
   components: { BaseTableCell, Spinner, SpinnerContainer },
   props: {
@@ -98,6 +85,13 @@ export default Vue.extend({
      * Should display spinner?
      */
     loading: Boolean,
+    /**
+     * Should sticky header?
+     */
+    useStickyHeader: {
+      type: Boolean,
+      default: false
+    },
     /**
      * Definition overrides for row number column.
      */
@@ -144,6 +138,13 @@ export default Vue.extend({
       const slotName = `cell(${kebabCase(columnField)})`;
       return this.$scopedSlots[slotName];
     },
+  },
+  setup(props) {
+    const stickyProps = useStickyTableHeader({ isEnabled: props.useStickyHeader });
+
+    return {
+      ...stickyProps,
+    };
   },
 });
 </script>
@@ -246,6 +247,18 @@ tbody tr {
       font-weight: 600;
       cursor: default;
     }
+  }
+}
+
+.is-sticky {
+  position: relative;
+  z-index: 999;
+
+  th {
+    position: relative;
+    background-color: #fff;
+    // custom top and bottom borders
+    box-shadow: inset 0px -1.5px 0px #e9ecef, inset 0px 1px 0px #e9ecef;
   }
 }
 </style>

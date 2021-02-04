@@ -51,6 +51,8 @@ export {
 } from './components/ComboBox';
 export { default as FormFieldComboBox } from './components/FormFieldComboBox';
 export { default as FieldValue } from './components/FieldValue';
+export { default as SeoFieldGroup } from './components/SeoFieldGroup';
+export { default as AjaxSelect } from './components/AjaxSelect';
 
 
 export { default as ColorSelect } from './components/ColorSelect';

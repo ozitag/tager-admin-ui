@@ -1,35 +1,63 @@
 <template>
   <BaseButton v-bind="$attrs">
     <slot>Submit</slot>
-    <span class="count">{{ count }}</span>
+    <span class="count">
+      <span :class="{ 'hide-number': loading }">{{ count }}</span>
+      <div v-if="loading" class="loading">
+        <Spinner />
+      </div>
+    </span>
   </BaseButton>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import BaseButton from '../BaseButton/index.vue';
+import Spinner from '../Spinner/index.vue';
 
 type Props = {
   count: number | string;
+  loading: boolean;
 };
 
 export default defineComponent<Props>({
   name: 'CountButton',
-  components: { BaseButton },
+  components: { BaseButton, Spinner },
   props: {
-    count: [Number, String],
+    count: {
+      type: [Number, String],
+      default: 0,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .count {
+  --count-padding-left: 0.75rem;
+
   position: relative;
   display: inline-block;
-  padding-left: 0.75rem;
+  padding-left: var(--count-padding-left);
   margin: -0.375rem 0 -0.375rem 0.75rem;
   border-left: 1px solid currentColor;
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
+
+  .hide-number {
+    opacity: 0;
+  }
+
+  .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(calc(-50% + (var(--count-padding-left) / 2)), -50%);
+    display: flex;
+  }
 }
 </style>

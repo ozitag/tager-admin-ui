@@ -45,6 +45,8 @@ import Pagination from './components/Pagination';
 import ComboBox from './components/ComboBox';
 import FormFieldComboBox from './components/FormFieldComboBox';
 import FieldValue from './components/FieldValue';
+import SeoFieldGroup from './components/SeoFieldGroup';
+import AjaxSelect from './components/AjaxSelect';
 import ColorSelect from './components/ColorSelect';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
@@ -98,5 +100,7 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('pagination', Pagination);
   Vue.component('combobox', ComboBox);
   Vue.component('field-value', FieldValue);
+  Vue.component('seo-field-group', SeoFieldGroup);
+  Vue.component('ajax-select', AjaxSelect);
   Vue.component('color-select', ColorSelect);
 };
