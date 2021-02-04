@@ -8,6 +8,40 @@
       "types-syntax": "typescript",
       "tags": [
         {
+          "name": "AjaxSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "url",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "keyValue",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "keyLabel",
+              "required": true,
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\AjaxSelect\\AjaxSelect.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "BaseButton",
           "description": "",
           "attributes": [

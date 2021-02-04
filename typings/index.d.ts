@@ -284,6 +284,7 @@ export declare const SearchInput: VueConstructor<Vue>;
 export declare const Pagination: VueConstructor<Vue>;
 export declare const ComboBox: VueConstructor<Vue>;
 export declare const SeoFieldGroup: VueConstructor<Vue>;
+export declare const AjaxSelect: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
