@@ -4,9 +4,24 @@
       <spinner size="50" />
     </spinner-container>
 
+    <table ref="tableCloneRef" class="clone-table">
+      <thead>
+        <tr ref="trCloneRef">
+          <th
+            v-for="column of enhancedColumnDefs"
+            :key="column.id"
+            :style="[column.headStyle]"
+            :data-table-head-cell="column.field"
+          >
+            {{ column.name }}
+          </th>
+        </tr>
+      </thead>
+    </table>
+
     <table ref="tableRef">
-      <thead :class="{ 'is-sticky': isSticky }">
-        <tr ref="trRef" :style="isSticky ? headRowStyle : ''">
+      <thead>
+        <tr ref="trRef">
           <th
             v-for="column of enhancedColumnDefs"
             :key="column.id"
@@ -46,14 +61,14 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from '@vue/composition-api';
 import kebabCase from 'lodash.kebabcase';
 
-import Spinner from '../Spinner';
-import SpinnerContainer from '../SpinnerContainer';
+import Spinner from '../Spinner/index.vue';
+import SpinnerContainer from '../SpinnerContainer.vue';
 
-import BaseTableCell from './components/Cell';
-import { useStickyTableHeader } from "./BaseTable.hooks";
+import BaseTableCell from './components/Cell.vue';
+import { useStickyTableHeader } from './BaseTable.hooks';
 
 /**
  * Table component.
@@ -90,21 +105,21 @@ export default defineComponent({
      */
     useStickyHeader: {
       type: Boolean,
-      default: false
+      default: false,
     },
     /**
      * Definition overrides for row number column.
      */
     indexColumnDef: {
       type: Object,
-      default: null
+      default: null,
     },
     /**
      * Message which is displayed if table doesn't have any rows
      */
     notFoundMessage: {
       type: String,
-      default: 'Items not found'
+      default: 'Items not found',
     },
     /**
      * Error message, which is displayed if table data request was failed.
@@ -112,7 +127,7 @@ export default defineComponent({
     errorMessage: {
       type: String,
       default: null,
-    }
+    },
   },
   computed: {
     enhancedColumnDefs() {
@@ -122,16 +137,18 @@ export default defineComponent({
         format: ({ rowIndex }) => rowIndex + 1,
         style: {
           width: '50px',
-          textAlign: 'center'
+          textAlign: 'center',
         },
         headStyle: {
           width: '50px',
-          textAlign: 'center'
+          textAlign: 'center',
         },
         ...this.indexColumnDef,
-      }
-      return this.enumerable ? [indexColumnDef, ...this.columnDefs] : this.columnDefs;
-    }
+      };
+      return this.enumerable
+        ? [indexColumnDef, ...this.columnDefs]
+        : this.columnDefs;
+    },
   },
   methods: {
     getCellSlot(columnField) {
@@ -139,11 +156,19 @@ export default defineComponent({
       return this.$scopedSlots[slotName];
     },
   },
-  setup(props) {
-    const stickyProps = useStickyTableHeader({ isEnabled: props.useStickyHeader });
+  setup() {
+    const {
+      tableRef,
+      tableCloneRef,
+      trRef,
+      trCloneRef,
+    } = useStickyTableHeader();
 
     return {
-      ...stickyProps,
+      trRef,
+      trCloneRef,
+      tableRef,
+      tableCloneRef,
     };
   },
 });
@@ -160,7 +185,10 @@ export default defineComponent({
   .table-spinner {
     top: calc(50% + 46px / 2);
   }
+
   margin-bottom: 1rem;
+
+  clip-path: inset(0);
 }
 
 table {
@@ -260,5 +288,14 @@ tbody tr {
     // custom top and bottom borders
     box-shadow: inset 0px -1.5px 0px #e9ecef, inset 0px 1px 0px #e9ecef;
   }
+}
+
+.clone-table {
+  position: absolute;
+  top: 0;
+  height: auto !important;
+  background-color: #fff;
+  z-index: 9999;
+  opacity: 0;
 }
 </style>

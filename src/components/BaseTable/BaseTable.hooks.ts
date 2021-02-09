@@ -1,64 +1,161 @@
-import {
-  computed,
-  ComputedRef,
-  onMounted,
-  onUnmounted,
-  Ref,
-  ref,
-} from '@vue/composition-api';
-import { getScrollableParent } from './BaseTable.utils';
+import { onMounted, onUnmounted, Ref, ref, watch } from '@vue/composition-api';
+import round from 'lodash.round';
+import { getScrollParentElements } from './BaseTable.utils';
 
-export function useStickyTableHeader(params: {
-  isEnabled: boolean;
-}): {
+export function useStickyTableHeader(): {
   tableRef: Ref<HTMLTableElement | null>;
+  tableCloneRef: Ref<HTMLTableElement | null>;
   trRef: Ref<HTMLTableRowElement | null>;
-  isSticky: ComputedRef<boolean>;
-  headRowStyle: ComputedRef<{ [key: string]: string }>;
+  trCloneRef: Ref<HTMLTableRowElement | null>;
 } {
-  const scrollContainerRef = ref<HTMLElement | null>(null);
+  const firstVerticalScrollParentElementRef = ref<HTMLElement | null>(null);
+  const scrollParentElementsRef = ref<Array<HTMLElement>>([]);
+
   const tableRef = ref<HTMLTableElement | null>(null);
+  const tableCloneRef = ref<HTMLTableElement | null>(null);
   const trRef = ref<HTMLTableRowElement | null>(null);
+  const trCloneRef = ref<HTMLTableRowElement | null>(null);
+
   const scrollTop = ref<number>(0);
 
-  const isSticky = computed(() =>
-    params.isEnabled ? scrollTop.value > 0 : false
-  );
+  const isAbsoluteTop = ref<boolean>(false);
+  const isFixed = ref<boolean>(false);
+  const isAbsoluteBottom = ref<boolean>(false);
 
-  const headRowStyle = computed(() => {
-    const translateY = isSticky.value ? scrollTop.value - 1 : 0;
-    return {
-      transform: `translate(0px, ${translateY}px)`,
-    };
+  watch(isAbsoluteTop, (value) => {
+    if (tableCloneRef.value && value) {
+      tableCloneRef.value.style.position = 'absolute';
+      tableCloneRef.value.style.top = '0';
+      tableCloneRef.value.style.bottom = '';
+      tableCloneRef.value.style.opacity = '0';
+    }
   });
 
-  function handleScroll() {
-    if (!scrollContainerRef.value || !tableRef.value) return;
+  watch(isFixed, (value) => {
+    if (
+      tableCloneRef.value &&
+      firstVerticalScrollParentElementRef.value &&
+      value
+    ) {
+      tableCloneRef.value.style.position = 'fixed';
+      tableCloneRef.value.style.top = `${scrollTop.value}px`;
+      tableCloneRef.value.style.bottom = '';
+      tableCloneRef.value.style.opacity = '1';
+    }
+  });
 
-    const containerRect = scrollContainerRef.value.getBoundingClientRect();
-    const tableRect = tableRef.value.getBoundingClientRect();
+  watch(isAbsoluteBottom, (value) => {
+    if (tableCloneRef.value && value) {
+      tableCloneRef.value.style.position = 'absolute';
+      tableCloneRef.value.style.top = 'auto';
+      tableCloneRef.value.style.bottom = '0';
+    }
+  });
 
-    scrollTop.value = containerRect.top - tableRect.top;
+  function update() {
+    if (trRef.value && trCloneRef.value) {
+      const widthListThElement: Array<DOMRect['width']> = [
+        ...trRef.value.querySelectorAll('th'),
+      ].map((element) => element.getBoundingClientRect().width);
+
+      [...trCloneRef.value.querySelectorAll<HTMLElement>('th')].forEach(
+        (element, index) => {
+          element.style.width = `${widthListThElement[index]}px`;
+        }
+      );
+    }
+
+    if (tableRef.value && tableCloneRef.value) {
+      const tableRect = tableRef.value.getBoundingClientRect();
+
+      const currentWidth = tableCloneRef.value.style.width;
+      const newWidth = `${round(tableRect.width, 3)}px`;
+
+      if (currentWidth !== newWidth) {
+        tableCloneRef.value.style.width = newWidth;
+      }
+
+      const currentLeft = tableCloneRef.value.style.left;
+      const newLeft = isFixed.value ? `${round(tableRect.left, 3)}px` : '';
+
+      if (newLeft !== currentLeft) {
+        tableCloneRef.value.style.left = newLeft;
+      }
+    }
   }
 
-  onMounted(() => {
-    if (!params.isEnabled) return;
+  function handleScroll() {
+    if (
+      firstVerticalScrollParentElementRef.value &&
+      tableRef.value &&
+      trCloneRef.value
+    ) {
+      const containerRect = firstVerticalScrollParentElementRef.value.getBoundingClientRect();
+      const tableRect = tableRef.value.getBoundingClientRect();
+      const trCloneRect = trCloneRef.value.getBoundingClientRect();
 
-    scrollContainerRef.value = getScrollableParent(trRef.value);
+      scrollTop.value = containerRect.top;
 
-    if (scrollContainerRef.value) {
-      handleScroll();
-      scrollContainerRef.value.addEventListener('scroll', handleScroll);
+      isAbsoluteTop.value = containerRect.top <= tableRect.top;
+
+      isFixed.value =
+        containerRect.top >= tableRect.top &&
+        containerRect.top + trCloneRect.height <= tableRect.bottom;
+
+      isAbsoluteBottom.value =
+        containerRect.top + trCloneRect.height >= tableRect.bottom;
     }
+  }
+
+  const rafIdRef = ref<number | null>(null);
+
+  onMounted(() => {
+    function updateWithRaf() {
+      rafIdRef.value = requestAnimationFrame(() => {
+        if (isFixed.value) {
+          update();
+        }
+        updateWithRaf();
+      });
+    }
+
+    updateWithRaf();
   });
 
   onUnmounted(() => {
-    if (!params.isEnabled) return;
-
-    if (scrollContainerRef.value) {
-      scrollContainerRef.value.removeEventListener('scroll', handleScroll);
+    if (rafIdRef.value) {
+      cancelAnimationFrame(rafIdRef.value);
     }
   });
 
-  return { tableRef, trRef, isSticky, headRowStyle };
+  onMounted(() => {
+    if (!trRef.value) return;
+
+    const {
+      firstVerticalScrollParentElement,
+      scrollParentElements,
+    } = getScrollParentElements(trRef.value);
+
+    firstVerticalScrollParentElementRef.value = firstVerticalScrollParentElement;
+    scrollParentElementsRef.value = scrollParentElements;
+
+    handleScroll();
+
+    scrollParentElementsRef.value.forEach((element) => {
+      element.addEventListener('scroll', handleScroll);
+    });
+  });
+
+  onUnmounted(() => {
+    scrollParentElementsRef.value.forEach((element) => {
+      element.removeEventListener('scroll', handleScroll);
+    });
+  });
+
+  return {
+    trRef,
+    trCloneRef,
+    tableRef,
+    tableCloneRef,
+  };
 }

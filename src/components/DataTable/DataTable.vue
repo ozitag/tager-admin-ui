@@ -40,7 +40,6 @@ import {
   computed,
   defineComponent,
   onMounted,
-  onUnmounted,
   ref,
   watch,
 } from '@vue/composition-api';
@@ -51,6 +50,7 @@ import Pagination from '../Pagination';
 import { ColumnDefinition, RowDataDefaultType } from '../../typings/common';
 import { TableChangeEvent } from './DataTable.types';
 import { getScrollableParent } from '../../utils/common';
+import useResizeObserver from '../../hooks/useResizeObserver';
 
 interface PaginationProps {
   pageNumber: number;
@@ -131,29 +131,13 @@ export default defineComponent<Props>({
       });
     }
 
-    let resizeObserver: ResizeObserver | null = null;
-
-    onMounted(() => {
-      if (!footerRef.value) return;
-      if (!footerInnerRef.value) return;
-
+    useResizeObserver<HTMLElement>(footerRef, () => {
       fixFooterPosition();
-
-      if ('ResizeObserver' in window) {
-        resizeObserver = new ResizeObserver(() => {
-          fixFooterPosition();
-        });
-
-        resizeObserver.observe(footerRef.value);
-      }
-
-      scrollContainerRef.value = getScrollableParent(dataTableRef.value);
     });
 
-    onUnmounted(() => {
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
+    onMounted(() => {
+      fixFooterPosition();
+      scrollContainerRef.value = getScrollableParent(dataTableRef.value);
     });
 
     /** After data loading window inner width can be changed because of scrollbar */

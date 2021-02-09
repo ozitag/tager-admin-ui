@@ -1,0 +1,25 @@
+import { onMounted, onUnmounted, Ref, ref } from '@vue/composition-api';
+import ResizeObserver from 'resize-observer-polyfill';
+
+function useResizeObserver<T extends Element>(
+  element: Ref<T | null>,
+  callback: ResizeObserverCallback
+): void {
+  const observer = ref<ResizeObserver | null>(null);
+
+  onMounted(() => {
+    observer.value = new ResizeObserver(callback);
+
+    if (element.value) {
+      observer.value.observe(element.value);
+    }
+  });
+
+  onUnmounted(() => {
+    if (observer.value && element.value) {
+      observer.value.unobserve(element.value);
+    }
+  });
+}
+
+export default useResizeObserver;

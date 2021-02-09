@@ -63,3 +63,4 @@ export * from './utils/common';
 export { default as useCopyToClipboard } from './hooks/useCopyToClipboard';
 export { default as useOnClickOutside } from './hooks/useOnClickOutside';
 export { default as usePopper } from './hooks/usePopper';
+export { default as useResizeObserver } from './hooks/useResizeObserver';

@@ -30,6 +30,8 @@ export default {
     'autosize',
     'smoothscroll-polyfill',
     '@popperjs/core',
+    'resize-observer-polyfill',
+    'lodash.round',
   ],
   plugins: [
     /**

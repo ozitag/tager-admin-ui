@@ -29,6 +29,8 @@
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.kebabcase": "^4.1.1",
+    "lodash.round": "^4.0.4",
+    "resize-observer-polyfill": "^1.5.1",
     "smoothscroll-polyfill": "^0.4.4",
     "vue-color": "^2.7.1"
   },
@@ -47,6 +49,7 @@
     "@types/lodash.debounce": "^4.0.6",
     "@types/lodash.get": "^4.4.6",
     "@types/lodash.kebabcase": "^4.1.6",
+    "@types/lodash.round": "^4.0.6",
     "@types/resize-observer-browser": "^0.1.5",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "@types/vue-color": "^2.4.2",
