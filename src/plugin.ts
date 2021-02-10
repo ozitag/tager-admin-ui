@@ -48,6 +48,7 @@ import FieldValue from './components/FieldValue';
 import SeoFieldGroup from './components/SeoFieldGroup';
 import AjaxSelect from './components/AjaxSelect';
 import ColorSelect from './components/ColorSelect';
+import FormFooter from './components/FormFooter';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('base-button', BaseButton);
@@ -103,4 +104,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('seo-field-group', SeoFieldGroup);
   Vue.component('ajax-select', AjaxSelect);
   Vue.component('color-select', ColorSelect);
+  Vue.component('form-footer', FormFooter);
 };
