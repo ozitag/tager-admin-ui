@@ -294,7 +294,8 @@ export declare const ComboBox: VueConstructor<Vue>;
 export declare const SeoFieldGroup: VueConstructor<Vue>;
 export declare const AjaxSelect: VueConstructor<Vue>;
 export declare const ColorSelect: VueConstructor<Vue>;
-                       
+export declare const FormFooter: VueConstructor<Vue>;
+
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
   text?: string;
