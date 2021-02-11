@@ -70,6 +70,14 @@ export type OptionType<V = string> = {
   disabled?: boolean;
 };
 
+export interface ColorOptionType<V = number> {
+  value: V;
+  label: string;
+  color?: string;
+  imageUrl?: string;
+  disabled?: boolean;
+}
+
 export type DateCellValue = Date | null;
 export type ColorCellValue = string | null;
 export type StringCellValue = string | null;
@@ -285,7 +293,8 @@ export declare const Pagination: VueConstructor<Vue>;
 export declare const ComboBox: VueConstructor<Vue>;
 export declare const SeoFieldGroup: VueConstructor<Vue>;
 export declare const AjaxSelect: VueConstructor<Vue>;
-
+export declare const ColorSelect: VueConstructor<Vue>;
+                       
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
   text?: string;

@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.24",
+  "version": "0.8.25",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -623,6 +623,48 @@
           ],
           "source": {
             "module": "./src\\components\\ColorInput\\ColorInput.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "ColorSelect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "v-model",
+              "value": {
+                "kind": "expression",
+                "type": "object|array"
+              },
+              "default": "null"
+            },
+            {
+              "name": "options",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "multiple",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "size",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "40"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\ColorSelect\\ColorSelect.vue",
             "symbol": "default"
           }
         },
