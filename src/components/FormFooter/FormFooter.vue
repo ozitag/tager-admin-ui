@@ -105,7 +105,6 @@ export default defineComponent<Props>({
   },
   setup(props: Props, context) {
     const { t } = useTranslate(context);
-
     const isAnotherCreationEnabled = ref<boolean>(false);
 
     function handleSaveClick() {
