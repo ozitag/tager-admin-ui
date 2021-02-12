@@ -1807,7 +1807,7 @@
               }
             },
             {
-              "name": "resetLabel",
+              "name": "addAnotherLabel",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -1823,7 +1823,7 @@
               "default": "false"
             },
             {
-              "name": "shouldCreateAnother",
+              "name": "canCreateAnother",
               "value": {
                 "kind": "expression",
                 "type": "boolean"

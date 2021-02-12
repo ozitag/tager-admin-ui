@@ -11,7 +11,7 @@
           v-model="isAnotherCreationEnabled"
           class="checkbox"
           name="reset"
-          :label="addAnotherLabel"
+          :label="addAnotherLabel || t('ui:formFooter.addMore')"
           :disabled="isSubmitting"
         />
 
@@ -45,6 +45,7 @@ import { computed, defineComponent, ref } from '@vue/composition-api';
 import { TagerFormSubmitEvent } from '../../typings/common';
 import BaseButton from '../BaseButton/index.vue';
 import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
+import useTranslate from '../../hooks/useTranslate';
 
 interface Props {
   backHref: string;
@@ -91,7 +92,7 @@ export default defineComponent<Props>({
     isSubmitButtonDisabled: Boolean,
     addAnotherLabel: {
       type: String,
-      default: 'Добавить еще',
+      default: '',
     },
     isCreation: {
       type: Boolean,
@@ -102,7 +103,9 @@ export default defineComponent<Props>({
       default: false,
     },
   },
-  setup(props: Props) {
+  setup(props: Props, context) {
+    const { t } = useTranslate(context);
+
     const isAnotherCreationEnabled = ref<boolean>(false);
 
     function handleSaveClick() {
@@ -129,13 +132,19 @@ export default defineComponent<Props>({
     const computedSubmitLabel = computed(() => {
       if (props.submitLabel) return props.submitLabel;
 
-      return props.isCreation ? 'Создать' : 'Сохранить';
+      return t(
+        props.isCreation ? 'ui:formFooter.create' : 'ui:formFooter.save'
+      );
     });
 
     const computedSubmitAndExitLabel = computed(() => {
       if (props.submitAndExitLabel) return props.submitAndExitLabel;
 
-      return props.isCreation ? 'Создать и выйти' : 'Сохранить и выйти';
+      return t(
+        props.isCreation
+          ? 'ui:formFooter.createAndExit'
+          : 'ui:formFooter.saveAndExit'
+      );
     });
 
     const isCheckboxVisible = computed(
@@ -162,6 +171,7 @@ export default defineComponent<Props>({
       isCheckboxVisible,
       shouldDisplaySaveAndExitButton,
       isSaveAndExitButtonDisabled,
+      t,
     };
   },
 });
