@@ -4,6 +4,7 @@ import { ShortCodeParamType } from '../src/typings/common';
 import { ComputedRef, Ref, SetupContext } from '@vue/composition-api';
 import { ResponseBody } from '@tager/admin-services/src/common.types';
 import { Modifier, OptionsGeneric } from '@popperjs/core';
+import { TFunction } from 'i18next';
 
 export type LinkType = {
   url: string;
@@ -445,5 +446,12 @@ export interface SeoChangeEvent {
 }
 
 export interface TagerFormSubmitEvent {
-  type: 'save' | 'save_exit' | 'create' | 'create_exit' | 'create_create-another';
+  type:
+    | 'save'
+    | 'save_exit'
+    | 'create'
+    | 'create_exit'
+    | 'create_create-another';
 }
+
+export declare function useTranslation(context: SetupContext): { t: TFunction };
