@@ -1749,6 +1749,94 @@
           }
         },
         {
+          "name": "FormFooter",
+          "description": "",
+          "attributes": [
+            {
+              "name": "backHref",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'/'"
+            },
+            {
+              "name": "backLabel",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Назад'"
+            },
+            {
+              "name": "onSubmit",
+              "value": {
+                "kind": "expression",
+                "type": "func"
+              },
+              "default": "() => {\r\n  console.error('Please, specify \"onSubmit\" prop for page footer');\r\n}"
+            },
+            {
+              "name": "submitLabel",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "submitAndExitLabel",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "isSubmitting",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "isSubmitButtonDisabled",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "resetLabel",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Добавить еще'"
+            },
+            {
+              "name": "isCreation",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "shouldCreateAnother",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\FormFooter\\FormFooter.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "FormGroup",
           "description": "",
           "slots": [
@@ -1942,94 +2030,6 @@
           ],
           "source": {
             "module": "./src\\components\\NumberInput\\NumberInput.vue",
-            "symbol": "default"
-          }
-        },
-        {
-          "name": "PageFooter",
-          "description": "",
-          "attributes": [
-            {
-              "name": "backHref",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              },
-              "default": "'/'"
-            },
-            {
-              "name": "backLabel",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              },
-              "default": "'Назад'"
-            },
-            {
-              "name": "onSubmit",
-              "value": {
-                "kind": "expression",
-                "type": "func"
-              },
-              "default": "() => {\r\n  console.error('Please, specify \"onSubmit\" prop for page footer');\r\n}"
-            },
-            {
-              "name": "submitLabel",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              },
-              "default": "''"
-            },
-            {
-              "name": "submitAndExitLabel",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              },
-              "default": "''"
-            },
-            {
-              "name": "isSubmitting",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
-            },
-            {
-              "name": "isSubmitButtonDisabled",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              }
-            },
-            {
-              "name": "resetLabel",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              },
-              "default": "'Добавить еще'"
-            },
-            {
-              "name": "isCreation",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "default": "false"
-            },
-            {
-              "name": "shouldCreateAnother",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "default": "false"
-            }
-          ],
-          "source": {
-            "module": "./src\\components\\PageFooter\\PageFooter.vue",
             "symbol": "default"
           }
         },

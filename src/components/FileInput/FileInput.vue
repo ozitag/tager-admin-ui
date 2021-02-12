@@ -2,9 +2,10 @@
   <div :class="['file-input-container', { 'with-captions': withCaptions }]">
     <draggable
       v-if="fileList.length > 0"
-      v-model="fileList"
       group="description"
       :animation="200"
+      :value="fileList"
+      @input="emitChangeEvent"
       @start="drag = true"
       @end="drag = false"
     >
@@ -267,15 +268,18 @@ export default Vue.extend({
         ? (this.value as Array<SingleFileInputValueType>)
         : ([this.value].filter(Boolean) as Array<SingleFileInputValueType>);
     },
-    fileList: {
-      get: function (): Array<
-        SingleFileInputValueType | UploadingSingleFileInputValueType
-      > {
-        return [...this.savedFileList, ...this.uploadingFileList];
-      },
-      set: function (newValue: Array<SingleFileInputValueType>) {
-        this.emitChangeEvent(newValue);
-      },
+    fileList(): Array<
+      SingleFileInputValueType | UploadingSingleFileInputValueType
+    > {
+      const filteredUploadingFileList = this.uploadingFileList.filter(
+        (uploadingFile) => {
+          const isSaved = this.savedFileList.some(
+            (savedFile) => savedFile.id === uploadingFile.id
+          );
+          return !isSaved;
+        }
+      );
+      return [...this.savedFileList, ...filteredUploadingFileList];
     },
     shouldDisplayDropbox(): boolean {
       if (this.multiple && typeof this.maxFileCount === 'number') {
