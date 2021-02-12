@@ -45,7 +45,7 @@ import { computed, defineComponent, ref } from '@vue/composition-api';
 import { TagerFormSubmitEvent } from '../../typings/common';
 import BaseButton from '../BaseButton/index.vue';
 import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
-import useTranslate from '../../hooks/useTranslate';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   backHref: string;
@@ -104,7 +104,7 @@ export default defineComponent<Props>({
     },
   },
   setup(props: Props, context) {
-    const { t } = useTranslate(context);
+    const { t } = useTranslation(context);
     const isAnotherCreationEnabled = ref<boolean>(false);
 
     function handleSaveClick() {

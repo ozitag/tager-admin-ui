@@ -1,7 +1,7 @@
 import { SetupContext } from '@vue/composition-api';
 import { TFunction } from 'i18next';
 
-function useTranslate(context: SetupContext): { t: TFunction } {
+function useTranslation(context: SetupContext): { t: TFunction } {
   function t(...args: Parameters<TFunction>): ReturnType<TFunction> {
     const tFunction = context.root.$t;
     if (typeof tFunction === 'function') {
@@ -15,4 +15,4 @@ function useTranslate(context: SetupContext): { t: TFunction } {
   return { t };
 }
 
-export default useTranslate;
+export default useTranslation;

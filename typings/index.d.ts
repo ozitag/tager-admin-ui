@@ -454,4 +454,4 @@ export interface TagerFormSubmitEvent {
     | 'create_create-another';
 }
 
-export declare function useTranslate(context: SetupContext): { t: TFunction };
+export declare function useTranslation(context: SetupContext): { t: TFunction };
