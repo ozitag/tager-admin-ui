@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.27",
+  "version": "0.8.28",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -1812,7 +1812,7 @@
                 "kind": "expression",
                 "type": "string"
               },
-              "default": "'Добавить еще'"
+              "default": "''"
             },
             {
               "name": "isCreation",
