@@ -53,6 +53,7 @@ import SeoFieldGroup from './components/SeoFieldGroup';
 import AjaxSelect from './components/AjaxSelect';
 import ColorSelect from './components/ColorSelect';
 import FormFooter from './components/FormFooter';
+import Tag from './components/Tag';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   i18n.addTranslations('en', 'ui', EN);
@@ -112,4 +113,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('ajax-select', AjaxSelect);
   Vue.component('color-select', ColorSelect);
   Vue.component('form-footer', FormFooter);
+  Vue.component('tag', Tag);
 };

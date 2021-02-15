@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.29",
+  "version": "0.8.30",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -258,6 +258,29 @@
           ],
           "source": {
             "module": "./src\\components\\BaseTable\\BaseTable.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "BaseTag",
+          "description": "",
+          "attributes": [
+            {
+              "name": "closable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Tag\\Tag.vue",
             "symbol": "default"
           }
         },
