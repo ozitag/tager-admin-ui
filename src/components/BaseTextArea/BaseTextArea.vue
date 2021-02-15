@@ -14,10 +14,10 @@ import {
   defineComponent,
   onMounted,
   onUnmounted,
+  onUpdated,
   ref,
 } from '@vue/composition-api';
 import autosize from 'autosize';
-import { Nullable } from '@tager/admin-services';
 
 interface Props {
   value: string;
@@ -50,7 +50,7 @@ export default defineComponent<Props>({
     },
   },
   setup(props, context) {
-    const textareaRef = ref<Nullable<HTMLTextAreaElement>>(null);
+    const textareaRef = ref<HTMLTextAreaElement | null>(null);
 
     const inputListeners = computed(() => ({
       ...context.listeners,
@@ -67,6 +67,17 @@ export default defineComponent<Props>({
     onMounted(() => {
       if (props.autosize && textareaRef.value) {
         autosize(textareaRef.value);
+      }
+    });
+
+    onUpdated(() => {
+      /**
+       * We should update autosize in case when textarea becomes visible
+       * When textarea is hidden, element's `scrollHeight` equals to 0 and `resize` doesn't work.
+       * We can't watch some prop, because nothing changes except style `display: none -> block`
+       */
+      if (props.autosize && textareaRef.value) {
+        autosize.update(textareaRef.value);
       }
     });
 
