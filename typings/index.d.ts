@@ -5,6 +5,7 @@ import { ComputedRef, Ref, SetupContext } from '@vue/composition-api';
 import { ResponseBody } from '@tager/admin-services/src/common.types';
 import { Modifier, OptionsGeneric } from '@popperjs/core';
 import { TFunction } from 'i18next';
+import ResizeObserver from 'resize-observer-polyfill';
 
 export type LinkType = {
   url: string;
