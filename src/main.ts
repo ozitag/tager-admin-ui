@@ -53,7 +53,7 @@ export { default as FormFieldComboBox } from './components/FormFieldComboBox';
 export { default as FieldValue } from './components/FieldValue';
 export { default as SeoFieldGroup } from './components/SeoFieldGroup';
 export { default as AjaxSelect } from './components/AjaxSelect';
-
+export { default as FormFooter } from './components/FormFooter';
 
 export { default as ColorSelect } from './components/ColorSelect';
 
@@ -67,3 +67,4 @@ export { default as useCopyToClipboard } from './hooks/useCopyToClipboard';
 export { default as useOnClickOutside } from './hooks/useOnClickOutside';
 export { default as usePopper } from './hooks/usePopper';
 export { default as useResizeObserver } from './hooks/useResizeObserver';
+export { default as useTranslation } from './hooks/useTranslation';

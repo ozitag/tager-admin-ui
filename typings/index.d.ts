@@ -4,6 +4,7 @@ import { ShortCodeParamType } from '../src/typings/common';
 import { ComputedRef, Ref, SetupContext } from '@vue/composition-api';
 import { ResponseBody } from '@tager/admin-services/src/common.types';
 import { Modifier, OptionsGeneric } from '@popperjs/core';
+import { TFunction } from 'i18next';
 
 export type LinkType = {
   url: string;
@@ -294,7 +295,8 @@ export declare const ComboBox: VueConstructor<Vue>;
 export declare const SeoFieldGroup: VueConstructor<Vue>;
 export declare const AjaxSelect: VueConstructor<Vue>;
 export declare const ColorSelect: VueConstructor<Vue>;
-                       
+export declare const FormFooter: VueConstructor<Vue>;
+
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
   text?: string;
@@ -443,6 +445,17 @@ export interface SeoChangeEvent {
   image: SingleFileInputValueType | null;
 }
 
+export interface TagerFormSubmitEvent {
+  type:
+    | 'save'
+    | 'save_exit'
+    | 'create'
+    | 'create_exit'
+    | 'create_create-another';
+}
+
+export declare function useTranslation(context: SetupContext): { t: TFunction };
+                       
 /** useResizeObserver **/
 
 interface DOMRectReadOnly {

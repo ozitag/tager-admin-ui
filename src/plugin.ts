@@ -1,4 +1,8 @@
 import { PluginFunction } from 'vue';
+import { i18n } from '@tager/admin-services';
+
+import EN from './locales/en';
+import RU from './locales/ru';
 
 import BaseButton from './components/BaseButton/index.vue';
 import BaseCheckbox from './components/BaseCheckbox/index.vue';
@@ -48,8 +52,12 @@ import FieldValue from './components/FieldValue';
 import SeoFieldGroup from './components/SeoFieldGroup';
 import AjaxSelect from './components/AjaxSelect';
 import ColorSelect from './components/ColorSelect';
+import FormFooter from './components/FormFooter';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
+  i18n.addTranslations('en', 'ui', EN);
+  i18n.addTranslations('ru', 'ui', RU);
+
   Vue.component('base-button', BaseButton);
   Vue.component('base-checkbox', BaseCheckbox);
   Vue.component('base-input', BaseInput);
@@ -103,4 +111,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('seo-field-group', SeoFieldGroup);
   Vue.component('ajax-select', AjaxSelect);
   Vue.component('color-select', ColorSelect);
+  Vue.component('form-footer', FormFooter);
 };
