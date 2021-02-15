@@ -1,34 +1,35 @@
-function isScrollable(element: HTMLElement): boolean {
-  return window.getComputedStyle(element).overflowY === 'auto';
+function getAllParents(element: HTMLElement): Array<HTMLElement> {
+  let currentElement = element;
+  const parentList: Array<HTMLElement> = [];
+
+  while (currentElement.parentElement) {
+    parentList.push(currentElement.parentElement);
+    currentElement = currentElement.parentElement;
+  }
+
+  return parentList;
 }
 
-export function getScrollableParent(element: HTMLElement | null): HTMLElement {
-  return !element || element === document.body
-    ? document.body
-    : isScrollable(element)
-    ? element
-    : getScrollableParent(element.parentElement);
+function getComputedStyleProp(element: HTMLElement, prop: string) {
+  return window.getComputedStyle(element).getPropertyValue(prop);
 }
 
-function getParents(
-  element: HTMLElement,
-  parents: Array<HTMLElement>
-): Array<HTMLElement> {
-  return element.parentElement
-    ? getParents(element.parentElement, [...parents, element])
-    : parents;
-}
+function isElementScrollable(element: HTMLElement): boolean {
+  const overflowPropValues = [
+    getComputedStyleProp(element, 'overflow'),
+    getComputedStyleProp(element, 'overflow-y'),
+    getComputedStyleProp(element, 'overflow-x'),
+  ];
 
-function style(element: HTMLElement, prop: string) {
-  return getComputedStyle(element, null).getPropertyValue(prop);
-}
-
-function overflow(element: HTMLElement) {
-  return (
-    style(element, 'overflow') +
-    style(element, 'overflow-y') +
-    style(element, 'overflow-x')
+  return overflowPropValues.some(
+    (overflowValue) => overflowValue === 'auto' || overflowValue === 'scroll'
   );
+}
+
+function isElementScrollableVertically(element: HTMLElement): boolean {
+  const overflowValue = getComputedStyleProp(element, 'overflow-y');
+
+  return overflowValue === 'auto' || overflowValue === 'scroll';
 }
 
 export function getScrollParentElements(
@@ -37,16 +38,12 @@ export function getScrollParentElements(
   firstVerticalScrollParentElement: HTMLElement;
   scrollParentElements: Array<HTMLElement>;
 } {
-  const regex = /(auto|scroll)/;
-
-  const scrollParentElements = getParents(element, []).filter((element) =>
-    regex.test(overflow(element))
+  const scrollParentElements = getAllParents(element).filter(
+    isElementScrollable
   );
 
   const firstVerticalScrollParentElement =
-    scrollParentElements.find((element) =>
-      regex.test(style(element, 'overflow-y'))
-    ) ?? document.body;
+    scrollParentElements.find(isElementScrollableVertically) ?? document.body;
 
   return {
     firstVerticalScrollParentElement,

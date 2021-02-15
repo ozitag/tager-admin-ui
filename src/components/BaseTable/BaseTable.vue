@@ -6,7 +6,7 @@
 
     <table ref="tableCloneRef" class="clone-table">
       <thead>
-        <tr ref="trCloneRef">
+        <tr>
           <th
             v-for="column of enhancedColumnDefs"
             :key="column.id"
@@ -21,7 +21,7 @@
 
     <table ref="tableRef">
       <thead>
-        <tr ref="trRef">
+        <tr>
           <th
             v-for="column of enhancedColumnDefs"
             :key="column.id"
@@ -160,13 +160,9 @@ export default defineComponent({
     const {
       tableRef,
       tableCloneRef,
-      trRef,
-      trCloneRef,
     } = useStickyTableHeader();
 
     return {
-      trRef,
-      trCloneRef,
       tableRef,
       tableCloneRef,
     };

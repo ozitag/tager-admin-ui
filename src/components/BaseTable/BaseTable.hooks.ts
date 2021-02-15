@@ -1,20 +1,33 @@
-import { onMounted, onUnmounted, Ref, ref, watch } from '@vue/composition-api';
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  Ref,
+  ref,
+  watch,
+} from '@vue/composition-api';
 import round from 'lodash.round';
 import { getScrollParentElements } from './BaseTable.utils';
 
 export function useStickyTableHeader(): {
   tableRef: Ref<HTMLTableElement | null>;
   tableCloneRef: Ref<HTMLTableElement | null>;
-  trRef: Ref<HTMLTableRowElement | null>;
-  trCloneRef: Ref<HTMLTableRowElement | null>;
 } {
   const firstVerticalScrollParentElementRef = ref<HTMLElement | null>(null);
   const scrollParentElementsRef = ref<Array<HTMLElement>>([]);
 
   const tableRef = ref<HTMLTableElement | null>(null);
   const tableCloneRef = ref<HTMLTableElement | null>(null);
-  const trRef = ref<HTMLTableRowElement | null>(null);
-  const trCloneRef = ref<HTMLTableRowElement | null>(null);
+  const trRef = computed<HTMLTableRowElement | null>(() => {
+    if (!tableRef.value) return null;
+
+    return tableRef.value.querySelector('thead tr');
+  });
+  const trCloneRef = computed<HTMLTableRowElement | null>(() => {
+    if (!tableCloneRef.value) return null;
+
+    return tableCloneRef.value.querySelector('thead tr');
+  });
 
   const scrollTop = ref<number>(0);
 
@@ -48,6 +61,7 @@ export function useStickyTableHeader(): {
     if (tableCloneRef.value && value) {
       tableCloneRef.value.style.position = 'absolute';
       tableCloneRef.value.style.top = 'auto';
+      tableCloneRef.value.style.left = '';
       tableCloneRef.value.style.bottom = '0';
     }
   });
@@ -76,7 +90,7 @@ export function useStickyTableHeader(): {
       }
 
       const currentLeft = tableCloneRef.value.style.left;
-      const newLeft = isFixed.value ? `${round(tableRect.left, 3)}px` : '';
+      const newLeft = `${round(tableRect.left, 3)}px`;
 
       if (newLeft !== currentLeft) {
         tableCloneRef.value.style.left = newLeft;
@@ -153,8 +167,6 @@ export function useStickyTableHeader(): {
   });
 
   return {
-    trRef,
-    trCloneRef,
     tableRef,
     tableCloneRef,
   };
