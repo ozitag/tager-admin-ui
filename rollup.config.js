@@ -31,6 +31,8 @@ export default {
     'smoothscroll-polyfill',
     '@popperjs/core',
     'tinycolor2',
+    'resize-observer-polyfill',
+    'lodash.round',
   ],
   plugins: [
     /**

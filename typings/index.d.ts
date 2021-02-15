@@ -455,3 +455,12 @@ export interface TagerFormSubmitEvent {
 }
 
 export declare function useTranslation(context: SetupContext): { t: TFunction };
+
+type FirstConstructorArgument<T> = T extends new (callback: infer C) => any
+  ? C
+  : never;
+
+export declare function useResizeObserver<T extends Element>(
+  element: Ref<T | null>,
+  callback: FirstConstructorArgument<typeof ResizeObserver>
+): void;

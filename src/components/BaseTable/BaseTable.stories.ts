@@ -158,7 +158,8 @@ export const Default = () => ({
     };
   },
   template: `
-    <div style="overflow: auto; height: 500px; padding: 1rem;">
+    <div style="overflow: auto; width: 500px">
+    <div style="overflow: auto; height: 500px; width: 900px; padding: 1rem;">
       <base-table :column-defs="columnDefs" :row-data="rowData" enumerable :loading="true" :use-sticky-header="true">
         <template v-slot:cell(description)="{ row, column }">
           <td :style="column.style">
@@ -170,6 +171,7 @@ export const Default = () => ({
       <br />
       <br />
       <div style="height: 1000px; opacity: 0">1</div>
+    </div>
     </div>
   `,
 });
