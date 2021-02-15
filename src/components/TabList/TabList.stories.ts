@@ -1,11 +1,6 @@
-import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
-
 import TabList from './TabList.vue';
 
 export default { title: 'TabList' };
-
-Vue.use(VueCompositionApi);
 
 export const Default = () => ({
   name: 'TabList_Default',

@@ -7,11 +7,12 @@
 
       <div class="bottom-right">
         <FormFieldCheckbox
-          v-if="isCreation && shouldCreateAnother"
-          v-model="isCheckedAddMore"
+          v-if="isCheckboxVisible"
+          v-model="isAnotherCreationEnabled"
           class="checkbox"
           name="reset"
-          :label="resetLabel"
+          :label="addAnotherLabel || t('ui:formFooter.addMore')"
+          :disabled="isSubmitting"
         />
 
         <BaseButton
@@ -21,27 +22,18 @@
           :disabled="isSubmitButtonDisabled"
           @click="handleSaveClick"
         >
-          {{ submitLabel || isCreation ? 'Создать' : 'Сохранить' }}
+          {{ computedSubmitLabel }}
         </BaseButton>
 
         <BaseButton
+          v-if="shouldDisplaySaveAndExitButton"
           class="btn-save-and-exit"
           variant="primary"
-          :loading="
-            isSubmitting &&
-            !(isCreation && shouldCreateAnother && isCheckedAddMore)
-          "
-          :disabled="
-            isSubmitButtonDisabled ||
-            (isCreation && shouldCreateAnother && isCheckedAddMore)
-          "
+          :loading="isSubmitting && !isSaveAndExitButtonDisabled"
+          :disabled="isSaveAndExitButtonDisabled"
           @click="handleSaveAndExitClick"
         >
-          {{
-            submitAndExitLabel || isCreation
-              ? 'Создать и выйти'
-              : 'Сохранить и выйти'
-          }}
+          {{ computedSubmitAndExitLabel }}
         </BaseButton>
       </div>
     </div>
@@ -49,23 +41,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
+import { TagerFormSubmitEvent } from '../../typings/common';
 import BaseButton from '../BaseButton/index.vue';
 import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   backHref: string;
   backLabel: string;
-  onSubmit: (config: {
-    shouldExit?: boolean;
-    shouldReset?: boolean;
-  }) => Promise<void>;
+  onSubmit: (event: TagerFormSubmitEvent) => Promise<void>;
   submitLabel: string;
   submitAndExitLabel: string;
   isSubmitting: boolean;
   isSubmitButtonDisabled: boolean;
   isCreation: boolean;
-  shouldCreateAnother: boolean;
+  canCreateAnother: boolean;
 }
 
 export default defineComponent<Props>({
@@ -99,37 +90,87 @@ export default defineComponent<Props>({
     },
     isSubmitting: Boolean,
     isSubmitButtonDisabled: Boolean,
-    resetLabel: {
+    addAnotherLabel: {
       type: String,
-      default: 'Добавить еще',
+      default: '',
     },
     isCreation: {
       type: Boolean,
       default: false,
     },
-    shouldCreateAnother: {
+    canCreateAnother: {
       type: Boolean,
       default: false,
     },
   },
-  setup(props: Props) {
-    const isCheckedAddMore = ref<boolean>(false);
+  setup(props: Props, context) {
+    const { t } = useTranslation(context);
+    const isAnotherCreationEnabled = ref<boolean>(false);
 
     function handleSaveClick() {
-      props.onSubmit({
-        shouldExit: false,
-        shouldReset: isCheckedAddMore.value,
-      });
+      const event: TagerFormSubmitEvent = {
+        type:
+          props.isCreation && isAnotherCreationEnabled.value
+            ? 'create_create-another'
+            : props.isCreation
+            ? 'create'
+            : 'save',
+      };
+
+      props.onSubmit(event);
     }
 
     function handleSaveAndExitClick() {
-      props.onSubmit({ shouldExit: true, shouldReset: false });
+      const event: TagerFormSubmitEvent = {
+        type: props.isCreation ? 'create_exit' : 'save_exit',
+      };
+
+      props.onSubmit(event);
     }
 
+    const computedSubmitLabel = computed(() => {
+      if (props.submitLabel) return props.submitLabel;
+
+      return t(
+        props.isCreation ? 'ui:formFooter.create' : 'ui:formFooter.save'
+      );
+    });
+
+    const computedSubmitAndExitLabel = computed(() => {
+      if (props.submitAndExitLabel) return props.submitAndExitLabel;
+
+      return t(
+        props.isCreation
+          ? 'ui:formFooter.createAndExit'
+          : 'ui:formFooter.saveAndExit'
+      );
+    });
+
+    const isCheckboxVisible = computed(
+      () => props.isCreation && props.canCreateAnother
+    );
+
+    const shouldDisplaySaveAndExitButton = computed(() => {
+      const isEditing = !props.isCreation;
+      return isEditing || (props.isCreation && props.canCreateAnother);
+    });
+
+    const isSaveAndExitButtonDisabled = computed(() => {
+      if (props.isCreation && isAnotherCreationEnabled.value) return true;
+
+      return props.isSubmitButtonDisabled;
+    });
+
     return {
-      isCheckedAddMore,
+      isAnotherCreationEnabled,
       handleSaveClick,
       handleSaveAndExitClick,
+      computedSubmitLabel,
+      computedSubmitAndExitLabel,
+      isCheckboxVisible,
+      shouldDisplaySaveAndExitButton,
+      isSaveAndExitButtonDisabled,
+      t,
     };
   },
 });

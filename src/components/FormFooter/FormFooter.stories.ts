@@ -1,5 +1,6 @@
 import FormFooter from './FormFooter.vue';
 import { defineComponent, ref } from '@vue/composition-api';
+import { TagerFormSubmitEvent } from '../../typings/common';
 
 export default { title: 'FormFooter' };
 
@@ -16,32 +17,38 @@ const PageFooterStorybook = defineComponent({
       default: false,
     },
   },
-  setup() {
+  setup(props) {
     const isSubmitting = ref<boolean>(false);
 
-    function submitForm({
-      shouldExit,
-      shouldReset,
-    }: {
-      shouldExit: boolean;
-      shouldReset: boolean;
-    }) {
-      console.log('shouldExit', shouldExit);
-      console.log('shouldReset', shouldReset);
-
+    function submitForm(event: TagerFormSubmitEvent) {
       isSubmitting.value = true;
 
       new Promise((resolve) => {
         setTimeout(() => resolve({}), 1000);
       })
         .then(() => {
-          if (shouldExit) {
-            // context.root.$router.push(something);
-            alert('context.root.$router.push(something)');
-            console.log('context.root.$router.push(something)');
+          if (event.type === 'save') {
+            // console.log('save');
           }
 
-          if (shouldReset) {
+          if (event.type === 'save_exit') {
+            alert('context.root.$router.push("save_exit")');
+            console.log('context.root.$router.push("save_exit")');
+          }
+
+          if (event.type === 'create') {
+            if (props.isCreation) {
+              alert('context.root.$router.push("edit")');
+              console.log('context.root.$router.push("edit")');
+            }
+          }
+
+          if (event.type === 'create_exit') {
+            alert('context.root.$router.push("create_exit")');
+            console.log('context.root.$router.push("create_exit")');
+          }
+
+          if (event.type === 'create_create-another') {
             // values.value = reset value
             alert('values.value = reset value');
             console.log('values.value = reset value');
@@ -75,7 +82,7 @@ const PageFooterStorybook = defineComponent({
           :on-submit="submitForm"
           :is-submitting="isSubmitting"
           :is-creation="isCreation"
-          :should-create-another="shouldCreateAnother"
+          :can-create-another="shouldCreateAnother"
         />
       </div>
     `,
