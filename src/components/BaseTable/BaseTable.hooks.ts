@@ -39,6 +39,7 @@ export function useStickyTableHeader(): {
     if (tableCloneRef.value && value) {
       tableCloneRef.value.style.position = 'absolute';
       tableCloneRef.value.style.top = '0';
+      tableCloneRef.value.style.left = '';
       tableCloneRef.value.style.bottom = '';
       tableCloneRef.value.style.opacity = '0';
     }
