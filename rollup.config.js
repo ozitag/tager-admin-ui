@@ -33,6 +33,7 @@ export default {
     'tinycolor2',
     'resize-observer-polyfill',
     'lodash.round',
+    'vuedraggable',
   ],
   plugins: [
     /**
