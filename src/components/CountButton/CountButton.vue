@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import BaseButton from '../BaseButton/index.vue';
-import Spinner from '../Spinner/index.vue';
+import Spinner from '../Spinner';
 
 type Props = {
   count: number | string;

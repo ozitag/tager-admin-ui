@@ -13,7 +13,7 @@ import BaseInput from './components/BaseInput';
 import BaseTextArea from './components/BaseTextArea';
 import InputLabel from './components/InputLabel/index.vue';
 import PageTitle from './components/PageTitle/index.vue';
-import Spinner from './components/Spinner/index.vue';
+import Spinner from './components/Spinner';
 import SvgIcon from './components/SvgIcon';
 import Table from './components/BaseTable';
 import TableCell from './components/BaseTable/components/Cell.vue';

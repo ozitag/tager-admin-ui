@@ -158,7 +158,7 @@ export const Default = () => ({
     };
   },
   template: `
-    <div style="overflow: auto; width: 500px">
+    <div style="overflow: auto;">
     <div style="overflow: auto; height: 500px; width: 900px; padding: 1rem;">
       <base-table :column-defs="columnDefs" :row-data="rowData" enumerable :loading="true" :use-sticky-header="true">
         <template v-slot:cell(description)="{ row, column }">

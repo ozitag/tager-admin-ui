@@ -1,10 +1,10 @@
 <template>
   <div class="table-container">
-    <spinner-container v-if="loading" class="table-spinner">
+    <div v-if="loading" class="table-spinner">
       <spinner size="50" />
-    </spinner-container>
+    </div>
 
-    <table ref="tableCloneRef" class="clone-table">
+    <table ref="tableCloneRef" :class="['clone-table', { 'is-blur': loading }]">
       <thead>
         <tr>
           <th
@@ -19,7 +19,7 @@
       </thead>
     </table>
 
-    <table ref="tableRef">
+    <table ref="tableRef" :class="{ 'is-blur': loading }">
       <thead>
         <tr>
           <th
@@ -64,9 +64,7 @@
 import { defineComponent } from '@vue/composition-api';
 import kebabCase from 'lodash.kebabcase';
 
-import Spinner from '../Spinner/index.vue';
-import SpinnerContainer from '../SpinnerContainer.vue';
-
+import Spinner from '../Spinner';
 import BaseTableCell from './components/Cell.vue';
 import { useStickyTableHeader } from './BaseTable.hooks';
 
@@ -76,7 +74,7 @@ import { useStickyTableHeader } from './BaseTable.hooks';
  */
 export default defineComponent({
   name: 'BaseTable',
-  components: { BaseTableCell, Spinner, SpinnerContainer },
+  components: { BaseTableCell, Spinner },
   props: {
     /**
      * Table column definitions
@@ -177,13 +175,7 @@ export default defineComponent({
   overflow-y: hidden;
   font-size: 0.9375rem;
   position: relative;
-
-  .table-spinner {
-    top: calc(50% + 46px / 2);
-  }
-
   margin-bottom: 1rem;
-
   clip-path: inset(0);
 }
 
@@ -195,6 +187,7 @@ table {
   background-color: transparent;
   text-align: left;
   color: var(--secondary);
+  transition: 0.1s filter;
 }
 
 th,
@@ -238,6 +231,7 @@ tbody tr {
 
 .pagination {
   padding: 5px 0;
+
   ul {
     display: flex;
     margin: 0 -5px;
@@ -293,5 +287,33 @@ tbody tr {
   background-color: #fff;
   z-index: 9999;
   opacity: 0;
+}
+
+.table-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 400px;
+}
+
+.is-blur {
+  position: relative;
+  filter: blur(3px);
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(243, 243, 243, 0.25);
+  }
 }
 </style>
