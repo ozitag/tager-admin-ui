@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import Spinner from '../Spinner/index.vue';
+import Spinner from '../Spinner';
 import { NavigationGridItem } from '../../typings/common';
 
 interface Props {

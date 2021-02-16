@@ -34,7 +34,7 @@ import debounce from 'lodash.debounce';
 
 import BaseInput from '../BaseInput';
 import SvgIcon from '../SvgIcon';
-import Spinner from '../Spinner/index.vue';
+import Spinner from '../Spinner';
 
 interface Props {
   value: string;

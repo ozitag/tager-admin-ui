@@ -14,7 +14,7 @@ export { default as BaseTextArea } from './components/BaseTextArea';
 export { default as BaseRichTextInput } from './components/BaseRichTextInput/index.vue';
 export { default as InputLabel } from './components/InputLabel/index.vue';
 export { default as PageTitle } from './components/PageTitle/index.vue';
-export { default as Spinner } from './components/Spinner/index.vue';
+export { default as Spinner } from './components/Spinner';
 export { default as SvgIcon } from './components/SvgIcon';
 export { default as BaseTable } from './components/BaseTable';
 export { default as TableCell } from './components/BaseTable/components/Cell.vue';

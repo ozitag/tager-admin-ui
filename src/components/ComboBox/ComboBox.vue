@@ -117,7 +117,7 @@ import {
 
 import BaseInput from '../BaseInput';
 import BaseButton from '../BaseButton/index.vue';
-import Spinner from '../Spinner/index.vue';
+import Spinner from '../Spinner';
 import SvgIcon from '../SvgIcon';
 import usePopper from '../../hooks/usePopper';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
