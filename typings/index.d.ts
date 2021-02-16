@@ -80,6 +80,10 @@ export interface ColorOptionType<V = number> {
   disabled?: boolean;
 }
 
+export interface StepType {
+  title: string;
+}
+
 export type DateCellValue = Date | null;
 export type ColorCellValue = string | null;
 export type StringCellValue = string | null;
@@ -298,6 +302,7 @@ export declare const AjaxSelect: VueConstructor<Vue>;
 export declare const ColorSelect: VueConstructor<Vue>;
 export declare const FormFooter: VueConstructor<Vue>;
 export declare const Tag: VueConstructor<Vue>;
+export declare const Steps: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';

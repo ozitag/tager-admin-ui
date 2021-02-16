@@ -73,6 +73,10 @@ export interface ColorOptionType<V = number> {
   disabled?: boolean;
 }
 
+export interface StepType {
+  title: string;
+}
+
 export type DateCellValue = Date | null;
 export type ColorCellValue = string | null;
 export type StringCellValue = string | null;
@@ -248,5 +252,10 @@ export interface SeoChangeEvent {
 }
 
 export interface TagerFormSubmitEvent {
-  type: 'save' | 'save_exit' | 'create' | 'create_exit' | 'create_create-another';
+  type:
+    | 'save'
+    | 'save_exit'
+    | 'create'
+    | 'create_exit'
+    | 'create_create-another';
 }
