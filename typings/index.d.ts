@@ -297,6 +297,7 @@ export declare const SeoFieldGroup: VueConstructor<Vue>;
 export declare const AjaxSelect: VueConstructor<Vue>;
 export declare const ColorSelect: VueConstructor<Vue>;
 export declare const FormFooter: VueConstructor<Vue>;
+export declare const Tag: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';

@@ -54,8 +54,8 @@ export { default as FieldValue } from './components/FieldValue';
 export { default as SeoFieldGroup } from './components/SeoFieldGroup';
 export { default as AjaxSelect } from './components/AjaxSelect';
 export { default as FormFooter } from './components/FormFooter';
-
 export { default as ColorSelect } from './components/ColorSelect';
+export { default as Tag } from './components/Tag';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

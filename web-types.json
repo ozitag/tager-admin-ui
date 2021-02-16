@@ -262,6 +262,29 @@
           }
         },
         {
+          "name": "BaseTag",
+          "description": "",
+          "attributes": [
+            {
+              "name": "closable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Tag\\Tag.vue",
+            "symbol": "default"
+          }
+        },
+        {
           "name": "BaseTextArea",
           "description": "",
           "attributes": [

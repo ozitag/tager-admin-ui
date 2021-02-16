@@ -21,9 +21,34 @@
       </button>
     </div>
 
+    <draggable
+      v-if="shouldDisplayTags && selectedOptions.length > 0"
+      tag="div"
+      class="tags"
+      :value="selectedOptions"
+      :animation="200"
+      @input="handleDragAndDropInput"
+    >
+      <transition-group type="transition" tag="ul" class="tag-list">
+        <li
+          v-for="option in selectedOptions"
+          :key="option.value"
+          class="tag-item"
+        >
+          <Tag
+            class="tag"
+            :closable="true"
+            @change:close="handleTagCloseClick(option)"
+          >
+            {{ option.label }}
+          </Tag>
+        </li>
+      </transition-group>
+    </draggable>
+
     <ul v-if="options.length > 0" class="option-list" data-multi-select-list>
       <li
-        v-for="(option, index) of filteredOptions"
+        v-for="(option, index) in filteredOptions"
         :key="option.value"
         :class="[
           'option',
@@ -64,8 +89,10 @@ import {
   ref,
   SetupContext,
 } from '@vue/composition-api';
+import draggable from 'vuedraggable';
 
 import BaseCheckbox from '../BaseCheckbox/index.vue';
+import Tag from '../Tag';
 
 import SvgIcon from '../SvgIcon';
 import { isValidSelectOption } from '../../utils/common';
@@ -81,7 +108,7 @@ interface Props {
 
 export default defineComponent<Props>({
   name: 'MultiSelect',
-  components: { BaseCheckbox, SvgIcon },
+  components: { BaseCheckbox, SvgIcon, Tag, draggable },
   model: {
     event: 'change',
     prop: 'selectedOptions',
@@ -112,6 +139,10 @@ export default defineComponent<Props>({
     searchPlaceholder: {
       type: String,
       default: 'Search...',
+    },
+    shouldDisplayTags: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props: Props, context: SetupContext) {
@@ -167,6 +198,20 @@ export default defineComponent<Props>({
       inputRef.value?.focus();
     }
 
+    function handleTagCloseClick(option: OptionType): void {
+      const newSelectedOptions = props.selectedOptions.filter(
+        (selectedOption) => selectedOption.value !== option.value
+      );
+
+      context.emit('change', newSelectedOptions);
+    }
+
+    function handleDragAndDropInput(
+      sortedSelectedOptions: Array<OptionType>
+    ): void {
+      context.emit('change', sortedSelectedOptions);
+    }
+
     return {
       inputRef,
       searchQuery,
@@ -179,6 +224,9 @@ export default defineComponent<Props>({
       toggleOption,
       handleOptionFocus,
       handleOptionBlur,
+
+      handleTagCloseClick,
+      handleDragAndDropInput,
     };
   },
 });
@@ -323,5 +371,55 @@ export default defineComponent<Props>({
   align-items: center;
   justify-content: center;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.tags {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--input-border-color);
+
+  /** Custom Scrollbars **/
+  overflow: hidden;
+
+  &:hover {
+    overflow-x: scroll;
+    padding-bottom: 0.125rem;
+  }
+
+  /* Works on Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(144, 147, 153, 0.3) #fff;
+
+  /* Works on Chrome, Edge, and Safari */
+  &::-webkit-scrollbar {
+    width: 0.375rem;
+    height: 0.375rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(144, 147, 153, 0.3);
+
+    &:hover {
+      background-color: rgba(144, 147, 153, 0.5);
+    }
+  }
+
+  .tag-list {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .tag-item {
+    margin-right: 0.5rem;
+
+    &:last-child {
+      margin-right: 0;
+      padding-right: 0.5rem;
+    }
+  }
 }
 </style>

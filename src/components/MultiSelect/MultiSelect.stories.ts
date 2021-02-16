@@ -32,7 +32,7 @@ export const Default = () => ({
       options,
     };
   },
-  template: `<MultiSelect v-model="selectedOptions" :options="options" name="countries" />`,
+  template: `<MultiSelect v-model="selectedOptions" :options="options" name="countries" :should-display-tags="true" />`,
 });
 
 export const WithSearch = () => ({
@@ -51,5 +51,5 @@ export const WithSearch = () => ({
       options,
     };
   },
-  template: `<MultiSelect v-model="selectedOptions" :options="options" name="countries" :searchable="true" />`,
+  template: `<MultiSelect v-model="selectedOptions" :options="options" name="countries" :searchable="true" :should-display-tags="true" />`,
 });
