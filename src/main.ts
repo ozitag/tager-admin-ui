@@ -69,3 +69,4 @@ export { default as useOnClickOutside } from './hooks/useOnClickOutside';
 export { default as usePopper } from './hooks/usePopper';
 export { default as useResizeObserver } from './hooks/useResizeObserver';
 export { default as useTranslation } from './hooks/useTranslation';
+export { default as useLocalStorage } from './hooks/useLocalStorage';

@@ -471,3 +471,8 @@ export declare function useResizeObserver<T extends Element>(
   element: Ref<T | null>,
   callback: FirstConstructorArgument<typeof ResizeObserver>
 ): void;
+
+export declare function useLocalStorage<T>(
+  key: string,
+  defaultValue: T
+): [Ref<T>, (value: T) => void];
