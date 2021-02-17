@@ -141,3 +141,31 @@ export function getScrollableParent(element: HTMLElement | null): HTMLElement {
     ? element
     : getScrollableParent(element.parentElement);
 }
+
+export class LocalStorageService<T> {
+  defaultValue: T;
+  key: string;
+
+  constructor(key: string, defaultValue: T) {
+    this.defaultValue = defaultValue;
+    this.key = key;
+  }
+
+  get(): T {
+    try {
+      const value = window.localStorage.getItem(this.key);
+      return value !== null ? (JSON.parse(value) as T) : this.defaultValue;
+    } catch (error) {
+      console.error(error);
+      return this.defaultValue;
+    }
+  }
+
+  set(value: T): void {
+    try {
+      window.localStorage.setItem(this.key, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
