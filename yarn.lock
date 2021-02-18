@@ -1619,10 +1619,10 @@
     vue-docgen-loader "^1.5.0"
     webpack "^4.43.0"
 
-"@tager/admin-services@^0.2.19":
-  version "0.2.19"
-  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.19.tgz#c0c311999eabdc1bd12044f8143bf1f660776f71"
-  integrity sha512-AcfIDyQFm7es71yz/QciTtT6xCx4ZR1NeL7jrTyhstdbMKu880Jw5T0FMGT9ypV8YTkjCLDR1KBcU1SZt6yUyw==
+"@tager/admin-services@^0.2.20":
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/@tager/admin-services/-/admin-services-0.2.20.tgz#750d461080b0c624440177c6d24cbdcdd25e113e"
+  integrity sha512-3jzMIp1rQHXcM6u93h4ul222g4HxqMTfeuP5d6AGNAbK/yMcPO+UPTpZ+d8/W43gBSL0W67HO67glD1s1RVRMQ==
   dependencies:
     i18next "^19.7.0"
     nanoid "^3.1.12"
@@ -11235,10 +11235,10 @@ vue-loader@^15.9.3:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router@^3.4.3:
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.4.3.tgz#fa93768616ee338aa174f160ac965167fa572ffa"
-  integrity sha512-BADg1mjGWX18Dpmy6bOGzGNnk7B/ZA0RxuA6qedY/YJwirMfKXIDzcccmHbQI0A6k5PzMdMloc0ElHfyOoX35A==
+vue-router@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.1.tgz#edf3cf4907952d1e0583e079237220c5ff6eb6c9"
+  integrity sha512-RRQNLT8Mzr8z7eL4p7BtKvRaTSGdCbTy2+Mm5HTJvLGYSSeG9gDzNasJPP/yOYKLy+/cLG/ftrqq5fvkFwBJEw==
 
 vue-runtime-helpers@^1.1.2:
   version "1.1.2"

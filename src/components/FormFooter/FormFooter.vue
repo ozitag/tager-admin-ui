@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="bottom">
-      <BaseButton class="btn-back" variant="secondary" :href="backHref">
+      <BaseButton class="btn-back" variant="secondary" @click="goBack">
         {{ backLabel }}
       </BaseButton>
 
@@ -41,7 +41,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  SetupContext,
+} from '@vue/composition-api';
 import { TagerFormSubmitEvent } from '../../typings/common';
 import BaseButton from '../BaseButton/index.vue';
 import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
@@ -103,7 +108,7 @@ export default defineComponent<Props>({
       default: false,
     },
   },
-  setup(props: Props, context) {
+  setup(props: Props, context: SetupContext) {
     const { t } = useTranslation(context);
     const isAnotherCreationEnabled = ref<boolean>(false);
 
@@ -161,10 +166,19 @@ export default defineComponent<Props>({
       return props.isSubmitButtonDisabled;
     });
 
+    function goBack(): void {
+      if (context.root.$previousRoute) {
+        context.root.$router.back();
+      } else {
+        context.root.$router.push(props.backHref);
+      }
+    }
+
     return {
       isAnotherCreationEnabled,
       handleSaveClick,
       handleSaveAndExitClick,
+      goBack,
       computedSubmitLabel,
       computedSubmitAndExitLabel,
       isCheckboxVisible,
