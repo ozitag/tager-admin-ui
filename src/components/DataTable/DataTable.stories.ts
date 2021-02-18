@@ -117,7 +117,7 @@ export const Default = () =>
       };
     },
     template: `
-      <div class="scrollContainer" style="overflow-Y: auto; padding: 1rem">
+      <div class="scrollContainer" style="overflow-Y: auto; height: 500px; padding: 1rem">
         <DataTable
           :column-defs="columnDefs"
           :row-data="rowData"
