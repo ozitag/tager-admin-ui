@@ -33,9 +33,6 @@ export default defineComponent<Props>({
     autocomplete: {
       type: String,
       default: 'off',
-      validator(value: string) {
-        return ['on', 'off'].includes(value);
-      },
     },
   },
   setup(props: Props, context: SetupContext) {

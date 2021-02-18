@@ -160,7 +160,6 @@ export default defineComponent<Props>({
     autocomplete: {
       type: String,
       default: 'off',
-      validator: (value: string) => ['on', 'off'].includes(value),
     },
     disabled: {
       type: Boolean,
