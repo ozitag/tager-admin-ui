@@ -9,7 +9,9 @@ import {
 import round from 'lodash.round';
 import { getScrollParentElements } from './BaseTable.utils';
 
-export function useStickyTableHeader(): {
+export function useStickyTableHeader(
+  useStickyHeader: boolean
+): {
   tableRef: Ref<HTMLTableElement | null>;
   tableCloneRef: Ref<HTMLTableElement | null>;
 } {
@@ -134,7 +136,9 @@ export function useStickyTableHeader(): {
       });
     }
 
-    updateWithRaf();
+    if (useStickyHeader) {
+      updateWithRaf();
+    }
   });
 
   onUnmounted(() => {
@@ -144,27 +148,31 @@ export function useStickyTableHeader(): {
   });
 
   onMounted(() => {
-    if (!trRef.value) return;
+    if (useStickyHeader) {
+      if (!trRef.value) return;
 
-    const {
-      firstVerticalScrollParentElement,
-      scrollParentElements,
-    } = getScrollParentElements(trRef.value);
+      const {
+        firstVerticalScrollParentElement,
+        scrollParentElements,
+      } = getScrollParentElements(trRef.value);
 
-    firstVerticalScrollParentElementRef.value = firstVerticalScrollParentElement;
-    scrollParentElementsRef.value = scrollParentElements;
+      firstVerticalScrollParentElementRef.value = firstVerticalScrollParentElement;
+      scrollParentElementsRef.value = scrollParentElements;
 
-    handleScroll();
+      handleScroll();
 
-    scrollParentElementsRef.value.forEach((element) => {
-      element.addEventListener('scroll', handleScroll);
-    });
+      scrollParentElementsRef.value.forEach((element) => {
+        element.addEventListener('scroll', handleScroll);
+      });
+    }
   });
 
   onUnmounted(() => {
-    scrollParentElementsRef.value.forEach((element) => {
-      element.removeEventListener('scroll', handleScroll);
-    });
+    if (useStickyHeader) {
+      scrollParentElementsRef.value.forEach((element) => {
+        element.removeEventListener('scroll', handleScroll);
+      });
+    }
   });
 
   return {

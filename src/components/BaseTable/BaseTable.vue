@@ -4,7 +4,11 @@
       <spinner size="50" />
     </div>
 
-    <table ref="tableCloneRef" :class="['clone-table', { 'is-blur': loading }]">
+    <table
+      v-if="useStickyHeader"
+      ref="tableCloneRef"
+      :class="['clone-table', { 'is-blur': loading }]"
+    >
       <thead>
         <tr>
           <th
@@ -154,11 +158,10 @@ export default defineComponent({
       return this.$scopedSlots[slotName];
     },
   },
-  setup() {
-    const {
-      tableRef,
-      tableCloneRef,
-    } = useStickyTableHeader();
+  setup(props) {
+    const { tableRef, tableCloneRef } = useStickyTableHeader(
+      props.useStickyHeader
+    );
 
     return {
       tableRef,
