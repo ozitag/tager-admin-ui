@@ -1,8 +1,22 @@
 <template>
-  <div :class="['file-input-container', { 'with-captions': withCaptions }]">
-    <div v-if="fileList.length > 0" class="file-grid">
+  <div
+    :class="[
+      'file-input-container',
+      {
+        'with-captions': withCaptions,
+        'is-multiple': multiple && fileList.length > 0,
+      },
+    ]"
+  >
+    <Draggable
+      v-if="savedFileList.length > 0"
+      class="file-grid is-multiple"
+      :animation="200"
+      :value="savedFileList"
+      @input="handleDragAndDropInput"
+    >
       <div
-        v-for="entry of fileList"
+        v-for="entry of savedFileList"
         :key="entry.id"
         :class="[
           'file-wrapper',
@@ -13,38 +27,24 @@
         :title="getFileHtmlTitle(entry.file)"
       >
         <div class="file-container">
-          <base-button
+          <BaseButton
             class="clear-button"
             variant="icon"
             title="Clear"
             @click="clearFile(entry)"
           >
-            <svg-icon name="clear" />
-          </base-button>
+            <SvgIcon name="clear" />
+          </BaseButton>
 
-          <progress-bar
-            v-if="entry.status === 'UPLOADING'"
-            :percent="entry.progress"
-            class="upload-progress"
-          />
-          <div v-else-if="entry.status === 'ERROR'" class="error-message">
-            {{ entry.error }}
-            <div class="file-caption">
-              <span class="file-name">{{ entry.file.name }}</span>
-              <small class="file-size">
-                ({{ getFileSize(entry.file.size) }})
-              </small>
-            </div>
-          </div>
-          <div v-else class="file-inner">
+          <div class="file-inner">
             <a :href="entry.file.url" class="file-link" target="_blank">
-              <loadable-image
+              <LoadableImage
                 v-if="isImage(entry.file)"
                 :src="entry.file.url"
                 :alt="entry.file.name"
                 class="file-image"
               />
-              <svg-icon
+              <SvgIcon
                 v-else
                 class="file-icon"
                 :name="getFileIcon(entry.file)"
@@ -58,7 +58,7 @@
               </small>
             </div>
 
-            <base-text-area
+            <BaseTextArea
               v-if="withCaptions"
               class="caption-text-area"
               :rows="2"
@@ -66,6 +66,49 @@
               :value="entry.caption || ''"
               @input="handleCaptionChange(entry, $event)"
             />
+          </div>
+        </div>
+      </div>
+    </Draggable>
+
+    <div
+      v-if="uploadingFileList.length > 0"
+      :class="['file-grid', 'is-multiple', { 'is-top-divider': multiple }]"
+    >
+      <div
+        v-for="entry of uploadingFileList"
+        :key="entry.id"
+        :class="[
+          'file-wrapper',
+          { single: !multiple },
+          { uploading: entry.status === 'UPLOADING' },
+          { error: entry.status === 'ERROR' },
+        ]"
+        :title="getFileHtmlTitle(entry.file)"
+      >
+        <div class="file-container">
+          <BaseButton
+            class="clear-button"
+            variant="icon"
+            title="Clear"
+            @click="clearFile(entry)"
+          >
+            <SvgIcon name="clear" />
+          </BaseButton>
+
+          <ProgressBar
+            v-if="entry.status === 'UPLOADING'"
+            :percent="entry.progress"
+            class="upload-progress"
+          />
+          <div v-else-if="entry.status === 'ERROR'" class="error-message">
+            {{ entry.error }}
+            <div class="file-caption">
+              <span class="file-name">{{ entry.file.name }}</span>
+              <small class="file-size">
+                ({{ getFileSize(entry.file.size) }})
+              </small>
+            </div>
           </div>
         </div>
       </div>
@@ -77,7 +120,7 @@
       :class="[
         'drop-zone',
         isDragOver ? 'highlight' : null,
-        { 'no-hover': selectedTabId === 'url', 'is-multiple': multiple },
+        { 'no-hover': selectedTabId === 'url' },
       ]"
       @dragenter="handleDragEnter"
       @dragover="handleDragOver"
@@ -104,7 +147,7 @@
 
         <label class="file-input-label">
           <input
-            ref="fileInput"
+            ref="fileInputRef"
             type="file"
             class="visually-hidden"
             :accept="acceptableMimeTypes"
@@ -118,13 +161,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { PropValidator } from 'vue/types/options';
+import Draggable from 'vuedraggable';
+
+import {
+  computed,
+  defineComponent,
+  ref,
+  SetupContext,
+} from '@vue/composition-api';
+
 import {
   createId,
   FileObjectSchema,
   FileType,
   getMessageFromError,
+  isNotNullish,
   notEmpty,
   Nullable,
   RequestError,
@@ -172,9 +223,21 @@ type TabListType = {
   label: string;
 };
 
-export default Vue.extend({
+interface Props {
+  value: FileInputValueType | null;
+  multiple: boolean;
+  withCaptions: boolean;
+  accept: string | null;
+  placeholderMessage: string | null;
+  maxFileCount: number | null;
+  fileType: 'image' | 'archive' | null;
+  scenario: string | null;
+}
+
+export default defineComponent<Props>({
   name: 'FileInput',
   components: {
+    Draggable,
     SvgIcon,
     BaseButton,
     ProgressBar,
@@ -189,13 +252,22 @@ export default Vue.extend({
   },
   props: {
     value: {
-      required: true,
-      validator(value) {
+      type: [Object, Array],
+      validator(
+        value: null | Record<string, unknown> | Array<Record<string, unknown>>
+      ) {
         return !value || FileInputValueSchema.check(value);
       },
-    } as PropValidator<FileInputValueType>,
-    multiple: Boolean,
-    withCaptions: Boolean,
+      default: null,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
+    withCaptions: {
+      type: Boolean,
+      default: false,
+    },
     accept: {
       type: String,
       default: null,
@@ -210,84 +282,12 @@ export default Vue.extend({
     },
     fileType: {
       type: String,
-      validator(value) {
-        return !value || ['image', 'archive'].includes(value);
-      },
+      validator: (value: string) => ['image', 'archive'].includes(value),
       default: null,
     },
     scenario: {
       type: String,
       default: null,
-    },
-  },
-  data(): {
-    isDragOver: boolean;
-    uploadingFileList: Array<UploadingSingleFileInputValueType>;
-    tabList: Array<TabListType>;
-    selectedTabId: string;
-  } {
-    return {
-      isDragOver: false,
-      uploadingFileList: [],
-      selectedTabId: 'file',
-      tabList: [
-        {
-          id: 'url',
-          label: 'Upload file by URL',
-        },
-        {
-          id: 'file',
-          label: 'Upload file',
-        },
-      ],
-    };
-  },
-  computed: {
-    savedFileList(): Array<SingleFileInputValueType> {
-      return this.multiple
-        ? (this.value as Array<SingleFileInputValueType>)
-        : ([this.value].filter(Boolean) as Array<SingleFileInputValueType>);
-    },
-    fileList(): Array<
-      SingleFileInputValueType | UploadingSingleFileInputValueType
-    > {
-      return [...this.savedFileList, ...this.uploadingFileList];
-    },
-    shouldDisplayDropbox(): boolean {
-      if (this.multiple && typeof this.maxFileCount === 'number') {
-        return this.fileList.length < this.maxFileCount;
-      }
-
-      if (!this.multiple) {
-        return this.fileList.length === 0;
-      }
-
-      return true;
-    },
-    acceptableMimeTypes(): string | undefined {
-      if (this.accept) return this.accept;
-
-      if (this.fileType === 'image') {
-        return 'image/*';
-      }
-
-      if (this.fileType === 'archive') {
-        return ARCHIVE_ACCEPT;
-      }
-
-      return undefined;
-    },
-    computedPlaceholderMessage(): string {
-      if (this.placeholderMessage) return this.placeholderMessage;
-
-      switch (this.fileType) {
-        case 'image':
-          return 'Drag and drop an image here or click';
-        case 'archive':
-          return 'Drag and drop an archive here or click';
-        default:
-          return 'Drag and drop a file here or click';
-      }
     },
   },
   watch: {
@@ -297,6 +297,7 @@ export default Vue.extend({
         const isCorrect =
           (Array.isArray(this.value) && this.multiple) ||
           (!Array.isArray(this.value) && !this.multiple);
+
         if (!isCorrect) {
           console.error(
             'Incompatible props: "value" and "multiple"',
@@ -307,43 +308,122 @@ export default Vue.extend({
       },
     },
   },
-  methods: {
-    handleUploadFromUrlChange(savedFile: FileType) {
-      const newValue: SingleFileInputValueType = {
+  setup(props: Props, context: SetupContext) {
+    const fileInputRef = ref<HTMLInputElement | null>(null);
+    const isDragOver = ref<boolean>(false);
+    const uploadingFileList = ref<Array<UploadingSingleFileInputValueType>>([]);
+    const selectedTabId = ref<string>('file');
+    const tabList = ref<Array<TabListType>>([
+      {
+        id: 'url',
+        label: 'Upload file by URL',
+      },
+      {
+        id: 'file',
+        label: 'Upload file',
+      },
+    ]);
+
+    const savedFileList = computed<Array<SingleFileInputValueType>>(() => {
+      return props.multiple
+        ? (props.value as Array<SingleFileInputValueType>)
+        : [props.value as SingleFileInputValueType | null].filter(isNotNullish);
+    });
+
+    const fileList = computed<
+      Array<SingleFileInputValueType | UploadingSingleFileInputValueType>
+    >(() => {
+      return [...savedFileList.value, ...uploadingFileList.value];
+    });
+
+    const shouldDisplayDropbox = computed<boolean>(() => {
+      if (props.multiple && typeof props.maxFileCount === 'number') {
+        return savedFileList.value.length < props.maxFileCount;
+      }
+      if (!props.multiple) {
+        return savedFileList.value.length === 0;
+      }
+      return true;
+    });
+
+    const acceptableMimeTypes = computed<string | undefined>(() => {
+      if (props.accept) return props.accept;
+      if (props.fileType === 'image') {
+        return 'image/*';
+      }
+      if (props.fileType === 'archive') {
+        return ARCHIVE_ACCEPT;
+      }
+      return undefined;
+    });
+
+    const computedPlaceholderMessage = computed<string>(() => {
+      if (props.placeholderMessage) {
+        props.placeholderMessage;
+      }
+
+      switch (props.fileType) {
+        case 'image':
+          return 'Drag and drop an image here or click';
+        case 'archive':
+          return 'Drag and drop an archive here or click';
+        default:
+          return 'Drag and drop a file here or click';
+      }
+    });
+
+    function emitChangeEvent(newFiles: Array<SingleFileInputValueType>) {
+      const newValue = props.multiple ? newFiles : newFiles[0];
+      context.emit('change', newValue ?? null);
+    }
+
+    function createUploadingFile(
+      nativeFile: File
+    ): UploadingSingleFileInputValueType {
+      return {
         id: createId(),
-        file: savedFile,
-        caption: this.removeFileExtension(savedFile.name),
+        file: {
+          id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER),
+          url: '',
+          name: nativeFile.name,
+          size: nativeFile.size ?? 0,
+          mime: nativeFile.type ?? '',
+        },
+        caption: null,
+        nativeFile,
+        xhr: new XMLHttpRequest(),
+        status: 'UPLOADING',
+        progress: 1,
+        error: null,
       };
+    }
 
-      const newValues: Array<SingleFileInputValueType> = [
-        ...this.savedFileList,
-        newValue,
-      ].filter(notEmpty);
+    function getUploadErrorMessage(error: Error) {
+      if (error instanceof RequestError) {
+        switch (error.status) {
+          case 413:
+            return 'File too large';
+          case 404:
+            return 'Upload endpoint is not found';
+        }
+      }
+      return getMessageFromError(error) || 'Error';
+    }
 
-      this.emitChangeEvent(newValues);
-    },
-    handleTabUpdate({ tabId }: { tabId: string }): void {
-      this.selectedTabId = tabId;
-    },
-    handleChange(event: Event): void {
-      const inputElement = event.target as HTMLInputElement;
-      this.handleFiles(inputElement.files);
-    },
-    highlightDropArea(): void {
-      this.isDragOver = true;
-    },
-    unhighlightDropArea() {
-      this.isDragOver = false;
-    },
-    handleFiles(fileList: Nullable<FileList>): void {
-      const fileArray = fileList ? [...fileList] : [];
-      this.uploadingFileList.push(...fileArray.map(this.createUploadingFile));
+    function removeFileExtension(value: string): string {
+      const index = value.lastIndexOf('.');
+      return index === -1 ? value : value.slice(0, index);
+    }
+
+    function handleFiles(pendingFileList: Nullable<FileList>): void {
+      const fileArray = pendingFileList ? [...pendingFileList] : [];
+      uploadingFileList.value.push(...fileArray.map(createUploadingFile));
 
       Promise.all(
-        this.uploadingFileList.map((uploadingValue) => {
+        uploadingFileList.value.map((uploadingValue) => {
           return upload<FileType>({
             file: uploadingValue.nativeFile,
-            params: this.scenario ? { scenario: this.scenario } : undefined,
+            params: props.scenario ? { scenario: props.scenario } : undefined,
             onProgress: ({ progress }) => {
               uploadingValue.progress = progress * 100;
             },
@@ -353,103 +433,107 @@ export default Vue.extend({
               const newValue: SingleFileInputValueType = {
                 id: createId(),
                 file: savedFile,
-                caption: this.removeFileExtension(savedFile.name),
+                caption: removeFileExtension(savedFile.name),
               };
 
               const newValues: Array<SingleFileInputValueType> = [
-                ...this.savedFileList,
+                ...savedFileList.value,
                 newValue,
               ].filter(notEmpty);
 
-              this.emitChangeEvent(newValues);
+              emitChangeEvent(newValues);
 
-              this.uploadingFileList = this.uploadingFileList.filter(
+              uploadingFileList.value = uploadingFileList.value.filter(
                 (value) => value.id !== uploadingValue.id
               );
             })
             .catch((error) => {
               uploadingValue.status = 'ERROR';
-              uploadingValue.error = this.getUploadErrorMessage(error);
+              uploadingValue.error = getUploadErrorMessage(error);
             });
         })
       ).finally(() => {
         /** Clear value of file input */
-        if (this.$refs.fileInput) {
-          (this.$refs.fileInput as HTMLInputElement).value = '';
+        if (fileInputRef.value) {
+          fileInputRef.value.value = '';
         }
       });
-    },
-    getUploadErrorMessage(error: Error) {
-      if (error instanceof RequestError) {
-        switch (error.status) {
-          case 413:
-            return 'File too large';
-          case 404:
-            return 'Upload endpoint is not found';
-        }
-      }
+    }
 
-      return getMessageFromError(error) || 'Error';
-    },
-    handleDragEnter(event: DragEvent) {
+    function handleChange(event: Event): void {
+      const inputElement = event.target as HTMLInputElement;
+      handleFiles(inputElement.files);
+    }
+
+    function handleUploadFromUrlChange(savedFile: FileType) {
+      const newValue: SingleFileInputValueType = {
+        id: createId(),
+        file: savedFile,
+        caption: removeFileExtension(savedFile.name),
+      };
+
+      const newValues: Array<SingleFileInputValueType> = [
+        ...savedFileList.value,
+        newValue,
+      ].filter(notEmpty);
+
+      emitChangeEvent(newValues);
+    }
+
+    function handleDragEnter(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
+      highlightDropArea();
+    }
 
-      this.highlightDropArea();
-    },
-    handleDragOver(event: DragEvent) {
+    function handleDragOver(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
       if (event.dataTransfer) {
         event.dataTransfer.dropEffect = 'move';
       }
+      highlightDropArea();
+    }
 
-      this.highlightDropArea();
-    },
-    handleDragLeave(event: DragEvent) {
+    function handleDragLeave(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
+      unhighlightDropArea();
+    }
 
-      this.unhighlightDropArea();
-    },
-    handleDrop(event: DragEvent) {
+    function handleDrop(event: DragEvent) {
       event.stopPropagation();
       event.preventDefault();
-
-      this.unhighlightDropArea();
-
+      unhighlightDropArea();
       const dataTransfer = event.dataTransfer;
+      handleFiles(dataTransfer?.files ?? null);
+    }
 
-      this.handleFiles(dataTransfer?.files ?? null);
-    },
-    clearFile(valueToClear: UploadingSingleFileInputValueType) {
+    function clearFile(valueToClear: UploadingSingleFileInputValueType) {
       if (valueToClear.status === 'UPLOADING') {
         valueToClear.xhr.abort();
       }
       if (valueToClear.status === 'ERROR') {
-        this.uploadingFileList = this.uploadingFileList.filter(
+        uploadingFileList.value = uploadingFileList.value.filter(
           (value) => value.id !== valueToClear.id
         );
       } else {
-        const newFiles = this.savedFileList.filter(
+        const newFiles = savedFileList.value.filter(
           (value) => value.id !== valueToClear.id
         );
-        this.emitChangeEvent(newFiles);
+        emitChangeEvent(newFiles);
       }
-    },
-    handleCaptionChange(
+    }
+
+    function handleCaptionChange(
       updatedValue: SingleFileInputValueType,
       newCaption: string
     ): void {
       updatedValue.caption = newCaption;
-      this.emitChangeEvent(this.savedFileList);
-    },
-    emitChangeEvent(newFiles: Array<SingleFileInputValueType>) {
-      const newValue = this.multiple ? newFiles : newFiles[0];
+      emitChangeEvent(savedFileList.value);
+    }
 
-      this.$emit('change', newValue ?? null);
-    },
-    getFileSize(bytes: number): string {
+    function getFileSize(bytes: number): string {
       const unitList = ['bytes', 'kB', 'MB'];
       let fileSize = bytes;
       let unitIndex = 0;
@@ -464,43 +548,71 @@ export default Vue.extend({
       return [fileSize.toFixed(fractionDigitCount), unitList[unitIndex]].join(
         ' '
       );
-    },
-    getFileHtmlTitle(file: FileType): string {
+    }
+
+    function getFileHtmlTitle(file: FileType): string {
       return [
         `Name: ${file.name}`,
-        `Size: ${this.getFileSize(file.size)} (${file.size} bytes)`,
+        `Size: ${getFileSize(file.size)} (${file.size} bytes)`,
         `MIME type: ${file.mime}`,
       ].join('\n');
-    },
-    isImage(file: FileType): boolean {
-      return file.mime.startsWith('image/');
-    },
-    getFileIcon(file: FileType): string {
-      return getFileIconName(file);
-    },
-    createUploadingFile(nativeFile: File): UploadingSingleFileInputValueType {
-      return {
-        id: createId(),
-        file: {
-          id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER),
-          url: '',
-          name: nativeFile.name,
-          size: nativeFile.size ?? 0,
-          mime: nativeFile.type ?? '',
-        },
-        caption: null,
+    }
 
-        nativeFile,
-        xhr: new XMLHttpRequest(),
-        status: 'UPLOADING',
-        progress: 1,
-        error: null,
-      };
-    },
-    removeFileExtension(value: string): string {
-      const index = value.lastIndexOf('.');
-      return index === -1 ? value : value.slice(0, index);
-    },
+    function isImage(file: FileType): boolean {
+      return file.mime.startsWith('image/');
+    }
+
+    function getFileIcon(file: FileType): string {
+      return getFileIconName(file);
+    }
+
+    function highlightDropArea(): void {
+      isDragOver.value = true;
+    }
+
+    function unhighlightDropArea() {
+      isDragOver.value = false;
+    }
+
+    function handleTabUpdate({ tabId }: { tabId: string }): void {
+      selectedTabId.value = tabId;
+    }
+
+    function handleDragAndDropInput(
+      sortedFileList: Array<SingleFileInputValueType>
+    ) {
+      emitChangeEvent(sortedFileList);
+    }
+
+    return {
+      tabList,
+      fileList,
+      isDragOver,
+      fileInputRef,
+      selectedTabId,
+      acceptableMimeTypes,
+      shouldDisplayDropbox,
+      computedPlaceholderMessage,
+      handleChange,
+      handleTabUpdate,
+      handleCaptionChange,
+      handleUploadFromUrlChange,
+      handleDragEnter,
+      handleDragOver,
+      handleDrop,
+      handleDragLeave,
+      getFileSize,
+      isImage,
+      getFileIcon,
+      getFileHtmlTitle,
+      clearFile,
+      emitChangeEvent,
+
+      handleDragAndDropInput,
+
+      savedFileList,
+      uploadingFileList,
+    };
   },
 });
 </script>
@@ -508,11 +620,17 @@ export default Vue.extend({
 <style scoped lang="scss">
 .file-input-container {
   position: relative;
+  margin-top: 2.125rem;
+
   &.with-captions {
     .drop-zone,
     .file-container {
       height: 300px;
     }
+  }
+
+  &.is-multiple {
+    margin-top: 0;
   }
 }
 .drop-zone {
@@ -546,10 +664,6 @@ export default Vue.extend({
 
   &:not(:first-child) {
     margin-top: 1rem;
-  }
-
-  &.is-multiple {
-    margin-top: 3.25rem;
   }
 }
 
@@ -591,6 +705,10 @@ export default Vue.extend({
   display: flex;
   flex-wrap: wrap;
   margin: -1rem;
+
+  &.is-multiple {
+    margin-bottom: 3.25rem;
+  }
 }
 
 .file-wrapper {
@@ -747,6 +865,20 @@ export default Vue.extend({
         padding: 7px;
       }
     }
+  }
+}
+
+.is-top-divider {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: -1.125rem;
+    left: 1rem;
+    right: 1rem;
+    height: 1px;
+    background-color: #eee;
   }
 }
 </style>

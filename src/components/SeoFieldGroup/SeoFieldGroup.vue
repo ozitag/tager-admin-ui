@@ -37,7 +37,7 @@ import { defineComponent, PropType, SetupContext } from '@vue/composition-api';
 import { SeoChangeEvent, SingleFileInputValueType } from '../../typings/common';
 
 import FormFieldRecommendedLengthInput from '../FormFieldRecommendedLengthInput';
-import FormFieldFileInput from '../FormFieldFileInput/index.vue';
+import FormFieldFileInput from '../FormFieldFileInput';
 
 interface Props {
   titleLabel: string;

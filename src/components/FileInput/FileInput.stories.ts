@@ -1,13 +1,11 @@
-import FileInput from './index';
-import FormGroup from '../FormGroup';
-import InputLabel from '../InputLabel';
+import { defineComponent, ref } from '@vue/composition-api';
+import FileInput from './FileInput.vue';
 import { createId } from '@tager/admin-services';
+import { SingleFileInputValueType } from '../../typings/common';
 
-export default {
-  title: 'FileInput',
-};
+export default { title: 'FileInput' };
 
-const TEST_FILES = [
+const TEST_FILES: Array<SingleFileInputValueType> = [
   {
     id: createId(),
     file: {
@@ -50,35 +48,32 @@ const TEST_FILES = [
   },
 ];
 
-export const Default = () => ({
-  components: { FileInput },
-  data() {
-    return { image: TEST_FILES[2] };
-  },
-  template: `
-    <file-input :value="null" v-model="image" />
-  `,
-});
+export const Default = () =>
+  defineComponent({
+    components: { FileInput },
+    setup() {
+      const image = ref<SingleFileInputValueType | null>(TEST_FILES[2]);
 
-export const WithUploadByUrl = () => ({
-  components: { FileInput, FormGroup, InputLabel },
-  data() {
-    return { image: TEST_FILES[2] };
-  },
-  template: `
-    <form-group>
-      <input-label>Label</input-label>
-      <file-input :value="null" v-model="image"/>
-    </form-group>
-  `,
-});
+      return {
+        image,
+      };
+    },
+    template: `
+      <FileInput v-model="image" />
+    `,
+  });
 
-export const Multiple = () => ({
-  components: { FileInput },
-  data() {
-    return { images: [] };
-  },
-  template: `
-    <file-input :value="null" v-model="images" multiple with-captions/>
-  `,
-});
+export const Multiple = () =>
+  defineComponent({
+    components: { FileInput },
+    setup() {
+      const images = ref<Array<SingleFileInputValueType>>(TEST_FILES);
+
+      return {
+        images,
+      };
+    },
+    template: `
+      <FileInput v-model="images" multiple with-captions />
+    `,
+  });

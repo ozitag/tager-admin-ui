@@ -1100,25 +1100,27 @@
           "attributes": [
             {
               "name": "v-model",
-              "required": true,
               "value": {
                 "kind": "expression",
-                "type": "FileInputValueType"
-              }
+                "type": "object|array"
+              },
+              "default": "null"
             },
             {
               "name": "multiple",
               "value": {
                 "kind": "expression",
                 "type": "boolean"
-              }
+              },
+              "default": "false"
             },
             {
               "name": "withCaptions",
               "value": {
                 "kind": "expression",
                 "type": "boolean"
-              }
+              },
+              "default": "false"
             },
             {
               "name": "accept",
@@ -1161,13 +1163,8 @@
               "default": "null"
             }
           ],
-          "events": [
-            {
-              "name": "change"
-            }
-          ],
           "source": {
-            "module": "./src\\components\\FileInput\\index.vue",
+            "module": "./src\\components\\FileInput\\FileInput.vue",
             "symbol": "default"
           }
         },
@@ -1368,7 +1365,8 @@
               "value": {
                 "kind": "expression",
                 "type": "string"
-              }
+              },
+              "default": "''"
             },
             {
               "name": "value",
@@ -1382,11 +1380,12 @@
               "value": {
                 "kind": "expression",
                 "type": "string"
-              }
+              },
+              "default": "''"
             }
           ],
           "source": {
-            "module": "./src\\components\\FormFieldFileInput\\index.vue",
+            "module": "./src\\components\\FormFieldFileInput\\FormFieldFileInput.vue",
             "symbol": "default"
           }
         },

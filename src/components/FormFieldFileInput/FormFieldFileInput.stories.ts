@@ -1,4 +1,4 @@
-import FormFieldFileInput from './index.vue';
+import FormFieldFileInput from './FormFieldFileInput.vue';
 import { createId } from '@tager/admin-services';
 import { SingleFileInputValueType } from '../../../typings';
 import { defineComponent, ref, watch } from '@vue/composition-api';
@@ -55,7 +55,7 @@ export const Default = () =>
       };
     },
     template:
-      '<form-field-file-input v-model="file" name="file" label="Content"   />',
+      '<FormFieldFileInput v-model="file" name="file" label="Content"   />',
   });
 
 export const WithCaption = () =>
@@ -74,7 +74,7 @@ export const WithCaption = () =>
       };
     },
     template:
-      '<form-field-file-input v-model="file" name="file" label="Content" with-captions />',
+      '<FormFieldFileInput v-model="file" name="file" label="Content" with-captions />',
   });
 
 export const Multiple = () =>
@@ -93,7 +93,7 @@ export const Multiple = () =>
       };
     },
     template:
-      '<form-field-file-input v-model="files" name="files" multiple label="Content" />',
+      '<FormFieldFileInput v-model="files" name="files" multiple label="Content" />',
   });
 
 export const MultipleWithCaptions = () =>
@@ -112,7 +112,7 @@ export const MultipleWithCaptions = () =>
       };
     },
     template:
-      '<form-field-file-input v-model="files" name="files" multiple label="Content" with-captions />',
+      '<FormFieldFileInput v-model="files" name="files" multiple label="Content" with-captions />',
   });
 
 export const WithError = () =>
@@ -131,7 +131,7 @@ export const WithError = () =>
       };
     },
     template:
-      '<form-field-file-input v-model="file" name="file" label="Content"  error="Required field" />',
+      '<FormFieldFileInput v-model="file" name="file" label="Content" error="Required field" />',
   });
 
 export const Disabled = () =>
@@ -150,5 +150,5 @@ export const Disabled = () =>
       };
     },
     template:
-      '<form-field-file-input v-model="file" name="file" label="Content"  disabled />',
+      '<FormFieldFileInput v-model="file" name="file" label="Content" disabled />',
   });
