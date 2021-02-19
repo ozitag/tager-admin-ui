@@ -6,6 +6,7 @@ import { ResponseBody } from '@tager/admin-services/src/common.types';
 import { Modifier, OptionsGeneric } from '@popperjs/core';
 import { TFunction } from 'i18next';
 import ResizeObserver from 'resize-observer-polyfill';
+import { Route } from 'vue-router';
 
 export type LinkType = {
   url: string;
@@ -243,9 +244,11 @@ declare module 'vue/types/vue' {
   // 3. Declare augmentation for Vue
   interface Vue {
     $toast: ToastFunction;
+    $previousRoute: Route | null;
   }
   interface VueConstructor {
     $toast: ToastFunction;
+    $previousRoute: Route | null;
   }
 }
 

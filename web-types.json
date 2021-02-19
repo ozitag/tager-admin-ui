@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.32",
+  "version": "0.8.39",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -2006,6 +2006,14 @@
                 "type": "string"
               },
               "default": "'Search...'"
+            },
+            {
+              "name": "shouldDisplayTags",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
             }
           ],
           "source": {
@@ -2362,7 +2370,7 @@
             }
           ],
           "source": {
-            "module": "./src\\components\\Spinner\\index.vue",
+            "module": "./src\\components\\Spinner\\Spinner.vue",
             "symbol": "default"
           }
         },
@@ -2376,6 +2384,32 @@
           ],
           "source": {
             "module": "./src\\components\\SpinnerContainer.vue",
+            "symbol": "default"
+          }
+        },
+        {
+          "name": "Steps",
+          "description": "",
+          "attributes": [
+            {
+              "name": "steps",
+              "value": {
+                "kind": "expression",
+                "type": "array"
+              },
+              "default": "[]"
+            },
+            {
+              "name": "current",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "0"
+            }
+          ],
+          "source": {
+            "module": "./src\\components\\Steps\\Steps.vue",
             "symbol": "default"
           }
         },
