@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="bottom">
       <BaseButton class="btn-back" variant="secondary" @click="goBack">
-        {{ backLabel }}
+        {{ computedBackLabel }}
       </BaseButton>
 
       <div class="bottom-right">
@@ -77,7 +77,7 @@ export default defineComponent<Props>({
     },
     backLabel: {
       type: String,
-      default: 'Назад',
+      default: '',
     },
     onSubmit: {
       type: Function,
@@ -151,6 +151,12 @@ export default defineComponent<Props>({
       );
     });
 
+    const computedBackLabel = computed(() => {
+      if (props.backLabel) return props.backLabel;
+
+      return t('ui:formFooter.back');
+    });
+
     const isCheckboxVisible = computed(
       () => props.isCreation && props.canCreateAnother
     );
@@ -179,6 +185,7 @@ export default defineComponent<Props>({
       handleSaveClick,
       handleSaveAndExitClick,
       goBack,
+      computedBackLabel,
       computedSubmitLabel,
       computedSubmitAndExitLabel,
       isCheckboxVisible,
