@@ -1,5 +1,6 @@
 const EN = {
   formFooter: {
+    back: 'Back',
     addMore: 'Add more',
     save: 'Save',
     saveAndExit: 'Save & Exit',
