@@ -12,6 +12,7 @@
       :loading="loading"
       :error-message="errorMessage"
       :use-sticky-header="true"
+      :enumerable="enumerable"
     >
       <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
         <slot :name="name" v-bind="data"></slot>
@@ -68,6 +69,7 @@ interface Props {
   useSearch: boolean;
   pagination: PaginationProps;
   usePagination: boolean;
+  enumerable: boolean;
 }
 
 export default defineComponent<Props>({
@@ -106,6 +108,10 @@ export default defineComponent<Props>({
     usePagination: {
       type: Boolean,
       default: true,
+    },
+    enumerable: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, context) {
