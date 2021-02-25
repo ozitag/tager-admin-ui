@@ -9,6 +9,14 @@ const RU: typeof EN = {
     create: 'Создать',
     createAndExit: 'Создать и выйти',
   },
+
+  multiSelect: {
+    noSelected: 'Ничего не выбрано',
+    selectAll: 'Выбрать все',
+    noResultsFound: 'Результатов не найдено',
+    itemsNotFound: 'Ничего не найдено',
+    searchPlaceholder: 'Поиск...',
+  },
 };
 
 export default RU;

@@ -6,7 +6,7 @@
         v-model="searchQuery"
         class="search-control"
         type="text"
-        :placeholder="searchPlaceholder"
+        :placeholder="computedSearchPlaceholder"
       />
 
       <SvgIcon name="search" class="icon-search" />
@@ -21,32 +21,61 @@
       </button>
     </div>
 
-    <draggable
-      v-if="shouldDisplayTags && selectedOptions.length > 0"
-      tag="div"
-      class="tags"
-      :value="selectedOptions"
-      :animation="200"
-      @input="handleDragAndDropInput"
-    >
-      <transition-group type="transition" tag="ul" class="tag-list">
-        <li
-          v-for="option in selectedOptions"
-          :key="option.value"
-          class="tag-item"
+    <div v-if="shouldDisplayTags" class="tags-wrapper">
+      <div v-if="selectedOptions.length > 0" class="scroll-container">
+        <Draggable
+          tag="div"
+          :value="selectedOptions"
+          :animation="200"
+          class="tags"
+          @input="handleDragAndDropInput"
         >
-          <Tag
-            class="tag"
-            :closable="true"
-            @change:close="handleTagCloseClick(option)"
-          >
-            {{ option.label }}
-          </Tag>
-        </li>
-      </transition-group>
-    </draggable>
+          <transition-group type="transition" tag="ul" class="tag-list">
+            <li
+              v-for="option in selectedOptions"
+              :key="option.value"
+              class="tag-item"
+            >
+              <Tag
+                class="tag"
+                :closable="true"
+                @change:close="handleTagCloseClick(option)"
+              >
+                {{ option.label }}
+              </Tag>
+            </li>
+          </transition-group>
+        </Draggable>
+      </div>
+
+      <div v-else class="no-tags">
+        {{ t('ui:multiSelect.noSelected') }}
+      </div>
+    </div>
 
     <ul v-if="options.length > 0" class="option-list" data-multi-select-list>
+      <li
+        :class="[
+          'option',
+          'select-all',
+          {
+            selected: isAllSelected,
+          },
+        ]"
+      >
+        <div class="option-inner">
+          <BaseCheckbox
+            :id="`${name}SelectAll`"
+            :checked="isAllSelected"
+            @change="handleSelectAllChange"
+          />
+          <label :for="`${name}SelectAll`" class="select-all-label">
+            {{ t('ui:multiSelect.selectAll') }}
+            <span>{{ options.length }} items</span>
+          </label>
+        </div>
+      </li>
+
       <li
         v-for="(option, index) in filteredOptions"
         :key="option.value"
@@ -73,11 +102,13 @@
       </li>
 
       <li v-if="filteredOptions.length === 0 && searchQuery" class="no-results">
-        No results found
+        {{ t('ui:multiSelect.noResultsFound') }}
       </li>
     </ul>
     <div v-else class="empty-block">
-      <span>Items not found</span>
+      <span>
+        {{ t('ui:multiSelect.itemsNotFound') }}
+      </span>
     </div>
   </div>
 </template>
@@ -89,7 +120,7 @@ import {
   ref,
   SetupContext,
 } from '@vue/composition-api';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 
 import BaseCheckbox from '../BaseCheckbox/index.vue';
 import Tag from '../Tag';
@@ -97,6 +128,7 @@ import Tag from '../Tag';
 import SvgIcon from '../SvgIcon';
 import { isValidSelectOption } from '../../utils/common';
 import { OptionType } from '../../../typings';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   name: string;
@@ -108,7 +140,7 @@ interface Props {
 
 export default defineComponent<Props>({
   name: 'MultiSelect',
-  components: { BaseCheckbox, SvgIcon, Tag, draggable },
+  components: { BaseCheckbox, SvgIcon, Tag, Draggable },
   model: {
     event: 'change',
     prop: 'selectedOptions',
@@ -138,7 +170,7 @@ export default defineComponent<Props>({
     },
     searchPlaceholder: {
       type: String,
-      default: 'Search...',
+      default: '',
     },
     shouldDisplayTags: {
       type: Boolean,
@@ -149,6 +181,7 @@ export default defineComponent<Props>({
     const searchQuery = ref<string>('');
     const focusedOption = ref<OptionType | null>(null);
     const inputRef = ref<HTMLInputElement | null>(null);
+    const { t } = useTranslation(context);
 
     function isCheckedOption(option: OptionType) {
       return props.selectedOptions.some(
@@ -212,21 +245,39 @@ export default defineComponent<Props>({
       context.emit('change', sortedSelectedOptions);
     }
 
+    const isAllSelected = computed<boolean>(
+      () => props.options.length === props.selectedOptions.length
+    );
+
+    function handleSelectAllChange(shouldSelectAll: boolean) {
+      context.emit('change', shouldSelectAll ? props.options : []);
+    }
+
+    const computedSearchPlaceholder = computed(() => {
+      if (props.searchPlaceholder) {
+        return props.searchPlaceholder;
+      }
+
+      return t('ui:multiSelect.searchPlaceholder');
+    });
+
     return {
+      t,
       inputRef,
       searchQuery,
       filteredOptions,
       handleClear,
-
       focusedOption,
       isCheckedOption,
       isFocusedOption,
       toggleOption,
       handleOptionFocus,
       handleOptionBlur,
-
       handleTagCloseClick,
       handleDragAndDropInput,
+      isAllSelected,
+      handleSelectAllChange,
+      computedSearchPlaceholder,
     };
   },
 });
@@ -373,53 +424,87 @@ export default defineComponent<Props>({
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.tags {
-  padding: 0.5rem;
+.tags-wrapper {
+  --tags-height: 43px;
+
   border-bottom: 1px solid var(--input-border-color);
 
-  /** Custom Scrollbars **/
-  overflow: hidden;
-
-  &:hover {
-    overflow-x: scroll;
-    padding-bottom: 0.125rem;
-  }
-
-  /* Works on Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(144, 147, 153, 0.3) #fff;
-
-  /* Works on Chrome, Edge, and Safari */
-  &::-webkit-scrollbar {
-    width: 0.375rem;
-    height: 0.375rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(144, 147, 153, 0.3);
-
-    &:hover {
-      background-color: rgba(144, 147, 153, 0.5);
-    }
-  }
-
-  .tag-list {
+  .scroll-container {
     display: flex;
     align-items: center;
-    width: 100%;
-  }
+    height: var(--tags-height);
+    padding: 0 0.5rem;
+    overflow: hidden;
+    overflow-x: scroll;
 
-  .tag-item {
-    margin-right: 0.5rem;
+    &:hover {
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(144, 147, 153, 0.3);
 
-    &:last-child {
-      margin-right: 0;
-      padding-right: 0.5rem;
+        &:hover {
+          background-color: rgba(144, 147, 153, 0.5);
+        }
+      }
+    }
+
+    /* Works on Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(144, 147, 153, 0.3) #fff;
+
+    /* Works on Chrome, Edge, and Safari */
+    &::-webkit-scrollbar {
+      width: 0.375rem;
+      height: 0.375rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+
+      &:hover {
+        background-color: transparent;
+      }
     }
   }
+
+  .tags {
+    margin-bottom: -0.375rem;
+
+    .tag-list {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .tag-item {
+      margin-right: 0.5rem;
+
+      &:last-child {
+        margin-right: 0;
+        padding-right: 0.5rem;
+      }
+    }
+  }
+
+  .no-tags {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    height: var(--tags-height);
+    user-select: none;
+  }
+}
+
+.select-all {
+  border-bottom: 1px solid var(--input-border-color);
+}
+
+.select-all-label {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
