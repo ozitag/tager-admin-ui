@@ -10,7 +10,7 @@
   >
     <Draggable
       v-if="savedFileList.length > 0"
-      class="file-grid is-multiple"
+      :class="['file-grid', { 'is-multiple': multiple }]"
       :animation="200"
       :value="savedFileList"
       @input="handleDragAndDropInput"
