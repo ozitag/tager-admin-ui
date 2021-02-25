@@ -55,6 +55,7 @@ import ColorSelect from './components/ColorSelect';
 import FormFooter from './components/FormFooter';
 import Tag from './components/Tag';
 import Steps from './components/Steps';
+import FormFieldMessageTemplate from './components/FormFieldMessageTemplate';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   i18n.addTranslations('en', 'ui', EN);
@@ -89,6 +90,7 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
     FormFieldRecommendedLengthInput
   );
   Vue.component('form-field-combobox', FormFieldComboBox);
+  Vue.component('form-field-message-template', FormFieldMessageTemplate);
 
   Vue.component('multi-select', MultiSelect);
   Vue.component('input-label', InputLabel);

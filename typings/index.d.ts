@@ -277,6 +277,7 @@ export declare const FormFieldMultiSelect: VueConstructor<Vue>;
 export declare const FormFieldSingleSelect: VueConstructor<Vue>;
 export declare const FormFieldUrlAliasInput: VueConstructor<Vue>;
 export declare const FormFieldComboBox: VueConstructor<Vue>;
+export declare const FormFieldMessageTemplate: VueConstructor<Vue>;
 
 export declare const MultiSelect: VueConstructor<Vue>;
 export declare const InputLabel: VueConstructor<Vue>;
@@ -479,3 +480,8 @@ export declare function useLocalStorage<T>(
   key: string,
   defaultValue: T
 ): [Ref<T>, (value: T) => void];
+
+export interface VariableType {
+  key: string;
+  label: string;
+}

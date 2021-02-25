@@ -259,3 +259,8 @@ export interface TagerFormSubmitEvent {
     | 'create_exit'
     | 'create_create-another';
 }
+
+export interface VariableType {
+  key: string;
+  label: string;
+}
