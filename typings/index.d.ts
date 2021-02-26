@@ -7,6 +7,7 @@ import { Modifier, OptionsGeneric } from '@popperjs/core';
 import { TFunction } from 'i18next';
 import ResizeObserver from 'resize-observer-polyfill';
 import { Route } from 'vue-router';
+import { Dictionary } from 'vue-router/types/router';
 
 export type LinkType = {
   url: string;
@@ -307,6 +308,7 @@ export declare const ColorSelect: VueConstructor<Vue>;
 export declare const FormFooter: VueConstructor<Vue>;
 export declare const Tag: VueConstructor<Vue>;
 export declare const Steps: VueConstructor<Vue>;
+export declare const AdvancedSearch: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
@@ -485,3 +487,30 @@ export interface VariableType {
   key: string;
   label: string;
 }
+
+type ParamValue = string | (string | null)[];
+type QueryType = { [key in string]?: ParamValue };
+
+export declare function getFilterParamAsString(
+  query: QueryType,
+  key: string
+): string | null;
+
+export declare function getFilterParamAsNumber(
+  query: QueryType,
+  key: string
+): number | null;
+
+export declare function getFilterParamAsStringArray(
+  query: QueryType,
+  key: string
+): Array<string>;
+
+export declare function getFilterParamAsNumberArray(
+  query: QueryType,
+  key: string
+): Array<number>;
+
+export declare function getFilterParams(
+  filters: Record<string, string | number | Array<string> | Array<number>>
+): Record<string, string | Array<string>>;

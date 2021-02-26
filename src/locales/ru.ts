@@ -21,6 +21,10 @@ const RU: typeof EN = {
   emailTemplate: {
     copy: 'Скопировать',
   },
+
+  advancedSearch: {
+    toggleLabel: 'Расширенный поиск',
+  },
 };
 
 export default RU;

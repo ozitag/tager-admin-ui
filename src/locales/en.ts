@@ -19,6 +19,10 @@ const EN = {
   emailTemplate: {
     copy: 'Copy',
   },
+
+  advancedSearch: {
+    toggleLabel: 'Advanced Search',
+  },
 };
 
 export default EN;

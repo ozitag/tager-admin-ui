@@ -1,10 +1,11 @@
 import DataTable from './DataTable.vue';
 import Vue from 'vue';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import VueRouter from 'vue-router';
 import { ColumnDefinition } from '../../typings/common';
 import { useDataTable } from './DataTable.hooks';
 import { request, ResponseBody } from '@tager/admin-services';
+import AdvancedSearch from './components/AdvancedSearch';
 
 Vue.use(VueRouter);
 const router = new VueRouter({ mode: 'history' });
@@ -78,7 +79,7 @@ export const Default = () =>
   defineComponent({
     router,
     name: 'DataTable_Default',
-    components: { DataTable },
+    components: { DataTable, AdvancedSearch },
     setup(props, context) {
       const {
         isLoading,
@@ -90,8 +91,6 @@ export const Default = () =>
         pageNumber,
         pageCount,
       } = useDataTable({
-        // fetchEntityList: () =>
-        //   Promise.resolve({ data: [], message: '', errors: {} }),
         fetchEntityList: (params) =>
           getProductList({
             query: params.searchQuery,
@@ -104,6 +103,61 @@ export const Default = () =>
         pageSize: 20,
       });
 
+      const tags = ref([
+        { value: 1, label: 'France', name: 'company', title: 'Производитель' },
+        {
+          value: 1,
+          label: 'United States of America',
+          name: 'company',
+          title: 'Производитель',
+        },
+        {
+          value: 1,
+          label: 'United Kingdom',
+          name: 'company',
+          title: 'Производитель',
+        },
+        { value: 1, label: 'Belarus', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Russia', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Spain', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Austria', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Poland', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Germany', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'France', name: 'company', title: 'Производитель' },
+        {
+          value: 1,
+          label: 'United States of America',
+          name: 'company',
+          title: 'Производитель',
+        },
+        {
+          value: 1,
+          label: 'United Kingdom',
+          name: 'company',
+          title: 'Производитель',
+        },
+        { value: 1, label: 'Belarus', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Russia', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Spain', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Austria', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Poland', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'Germany', name: 'company', title: 'Производитель' },
+        { value: 1, label: 'France', name: 'company', title: 'Производитель' },
+        {
+          value: 1,
+          label: 'United States of America',
+          name: 'company',
+          title: 'Производитель',
+        },
+        {
+          value: 1,
+          label: 'United Kingdom',
+          name: 'company',
+          title: 'Производитель',
+        },
+        { value: 1, label: 'Belarus', name: 'company', title: 'Производитель' },
+      ]);
+
       return {
         isLoading,
         errorMessage,
@@ -114,6 +168,7 @@ export const Default = () =>
         pageSize,
         pageNumber,
         pageCount,
+        tags,
       };
     },
     template: `
@@ -127,6 +182,11 @@ export const Default = () =>
           :pagination="{ pageSize, pageNumber, pageCount, disabled: isLoading }"
           @change="handleChange"
         >
+          <template v-slot:filters>
+            <AdvancedSearch :tags="tags">
+              <div>filters content</div>
+            </AdvancedSearch>
+          </template>
           <template v-slot:cell(platforms)="{ row }">
             <ul v-if="row.platforms">
               <li v-for="platform of row.platforms" :key="platform">
