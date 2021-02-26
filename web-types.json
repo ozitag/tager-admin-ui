@@ -1,7 +1,7 @@
 {
   "framework": "vue",
   "name": "@tager/admin-ui",
-  "version": "0.8.41",
+  "version": "0.8.43",
   "contributions": {
     "html": {
       "description-markup": "markdown",
@@ -919,6 +919,14 @@
                 "type": "boolean"
               },
               "default": "true"
+            },
+            {
+              "name": "enumerable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
             }
           ],
           "slots": [

@@ -15,6 +15,10 @@ const EN = {
     itemsNotFound: 'Items not found',
     searchPlaceholder: 'Search...',
   },
+
+  emailTemplate: {
+    copy: 'Copy',
+  },
 };
 
 export default EN;

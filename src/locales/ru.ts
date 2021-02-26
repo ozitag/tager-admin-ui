@@ -17,6 +17,10 @@ const RU: typeof EN = {
     itemsNotFound: 'Ничего не найдено',
     searchPlaceholder: 'Поиск...',
   },
+
+  emailTemplate: {
+    copy: 'Скопировать',
+  },
 };
 
 export default RU;
