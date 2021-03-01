@@ -1,6 +1,6 @@
 {
   "name": "@tager/admin-ui",
-  "version": "0.8.44",
+  "version": "0.8.45",
   "license": "MIT",
   "main": "dist/index.esm.js",
   "module": "dist/index.esm.js",
@@ -45,7 +45,7 @@
     "@rollup/plugin-url": "^5.0.1",
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/vue": "^6.0.21",
-    "@tager/admin-services": "^0.2.20",
+    "@tager/admin-services": "^0.2.22",
     "@types/autosize": "^3.0.7",
     "@types/leaflet": "^1.5.17",
     "@types/lodash.debounce": "^4.0.6",
