@@ -9,7 +9,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
   {
     id: createId(),
     file: {
-      id: 47,
+      id: '47',
       mime: 'image/png',
       name: '2.png',
       size: 29280,
@@ -19,7 +19,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
   {
     id: createId(),
     file: {
-      id: 174,
+      id: '174',
       mime: 'image/jpeg',
       name: 'e0cbc508796c2af24357b5f056aa2bdb0000033333.jpg',
       size: 386793,
@@ -29,7 +29,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
   {
     id: createId(),
     file: {
-      id: 175,
+      id: '175',
       mime: 'ima3ge/jpeg',
       name: 'e0cbc508796c2af24.zip',
       size: 386793,
@@ -39,7 +39,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
   {
     id: createId(),
     file: {
-      id: 171,
+      id: '171',
       mime: 'image/jpeg',
       name: '1213090.jpg',
       size: 423630,

@@ -383,7 +383,7 @@ export default defineComponent<Props>({
       return {
         id: createId(),
         file: {
-          id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER),
+          id: String(Math.round(Math.random() * Number.MAX_SAFE_INTEGER)),
           url: '',
           name: nativeFile.name,
           size: nativeFile.size ?? 0,
