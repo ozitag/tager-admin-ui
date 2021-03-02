@@ -53,7 +53,6 @@ export default defineComponent<Props>({
 input {
   display: block;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
@@ -62,10 +61,28 @@ input {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid var(--input-border-color);
+  appearance: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:focus {
+    color: var(--input-color);
+    background-color: #fff;
+    border-color: var(--input-focus-border-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--input-focus-box-shadow);
+  }
+
   // Placeholder
+  &::-moz-placeholder {
+    color: var(--input-placeholder-color);
+    opacity: 1;
+  }
+
   &::placeholder {
     color: var(--input-placeholder-color);
     // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
@@ -82,14 +99,6 @@ input {
     background-color: var(--input-disabled-bg);
     // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
     opacity: 1;
-  }
-
-  &:focus {
-    color: var(--input-color);
-    background-color: #fff;
-    border-color: var(--input-focus-border-color);
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem var(--input-focus-box-shadow);
   }
 }
 </style>
