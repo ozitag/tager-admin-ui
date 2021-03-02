@@ -25,6 +25,15 @@ const RU: typeof EN = {
   advancedSearch: {
     toggleLabel: 'Расширенный поиск',
   },
+
+  seoFieldGroup: {
+    titleLabel: 'Заголовок страницы',
+    descriptionLabel: 'Описание страницы',
+    imageLabel: 'Картинка страницы',
+    previewAs: 'Предварительный просмотр как',
+    desktopGoogleSnippet: 'Desktop Google snippet',
+    mobileGoogleSnippet: 'Mobile Google snippet',
+  },
 };
 
 export default RU;

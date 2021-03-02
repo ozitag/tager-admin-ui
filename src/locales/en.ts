@@ -23,6 +23,15 @@ const EN = {
   advancedSearch: {
     toggleLabel: 'Advanced Search',
   },
+
+  seoFieldGroup: {
+    titleLabel: 'Page title',
+    descriptionLabel: 'Page description',
+    imageLabel: 'Open graph image',
+    previewAs: 'Preview as',
+    desktopGoogleSnippet: 'Desktop Google snippet',
+    mobileGoogleSnippet: 'Mobile Google snippet',
+  },
 };
 
 export default EN;

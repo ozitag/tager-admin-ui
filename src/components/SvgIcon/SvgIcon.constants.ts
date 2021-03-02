@@ -28,6 +28,7 @@ import SearchIcon from '../../assets/svg/search.svg';
 import WebIcon from '../../assets/svg/web.svg';
 import OpenInBrowserIcon from '../../assets/svg/open_in_browser.svg';
 import DoneIcon from '../../assets/svg/done.svg';
+import LanguageIcon from '../../assets/svg/language.svg';
 
 /** File icons */
 import FileAviIcon from '../../assets/svg/file_avi.svg';
@@ -79,6 +80,7 @@ export const ICON_MAP = {
   web: WebIcon,
   openInBrowser: OpenInBrowserIcon,
   done: DoneIcon,
+  language: LanguageIcon,
 
   fileAvi: FileAviIcon,
   fileCss: FileCssIcon,

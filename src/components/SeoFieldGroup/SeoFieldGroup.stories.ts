@@ -8,7 +8,7 @@ export default { title: 'SeoFieldGroup' };
 const TEST_FILE: SingleFileInputValueType = {
   id: createId(),
   file: {
-    id: 174,
+    id: '174',
     mime: 'image/jpeg',
     name: 'e0cbc508796c2af24357b5f056aa2bdb0000033333.jpg',
     size: 386793,
@@ -29,8 +29,9 @@ export const Default = () =>
     components: { SeoFieldGroup },
     setup() {
       const values = ref<ValuesState>({
-        pageTitle: 'title',
-        pageDescription: 'description',
+        pageTitle: 'Contact Us - Aerovolga',
+        pageDescription:
+          'Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results.',
         openGraphImage: TEST_FILE,
       });
 
