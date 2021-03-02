@@ -27,19 +27,22 @@ const RU: typeof EN = {
     toggleLabel: 'Расширенный поиск',
   },
 
+  seoFieldGroup: {
+    titleLabel: 'Заголовок страницы',
+    descriptionLabel: 'Описание страницы',
+    keywordsLabel: 'Ключевые слова',
+    imageLabel: 'Картинка страницы',
+    previewAs: 'Предварительный просмотр как',
+    desktopGoogleSnippet: 'Desktop Google snippet',
+    mobileGoogleSnippet: 'Mobile Google snippet',
+  },
+
   uploadFileFromUrlForm: {
     placeholder: 'Введите URL-адрес файла, например {{url}}',
     upload: 'Загрузить',
     fileTooLarge: 'Файл слишком большой',
     uploadEndpointIsNotFound: 'Конечная точка загрузки не найдена',
     invalidUrl: 'Неверный URL',
-  },
-
-  seoFieldGroup: {
-    pageTitle: 'Заголовок страницы',
-    pageDescription: 'Описание страницы',
-    keywords: 'Ключевые слова',
-    openGraphImage: 'Картинка страницы',
   },
 
   searchInput: {
