@@ -5,7 +5,7 @@ import {
   Ref,
   SetupContext,
 } from '@vue/composition-api';
-import { Nullable, useResource } from '@tager/admin-services';
+import { FetchStatus, Nullable, useResource } from '@tager/admin-services';
 import { ResponseBody } from '@tager/admin-services/src/common.types';
 import { OptionType } from '../../typings/common';
 
@@ -67,12 +67,12 @@ export function useSelectOptionsResource<
   noOptionsMessage: ComputedRef<string>;
   handleSearchQueryChange: (query: string) => void;
   fetchEntityList: (params: { query: string }) => Promise<void>;
+  status: Ref<FetchStatus>;
 } {
-  const [fetchEntityList, { loading, data: entityList, error }] = useResource<
-    Array<EntityType>,
-    undefined,
-    { query: string }
-  >({
+  const [
+    fetchEntityList,
+    { loading, data: entityList, error, status },
+  ] = useResource<Array<EntityType>, undefined, { query: string }>({
     fetchResource: params.fetchEntityList,
     initialValue: [],
     context: params.context,
@@ -91,6 +91,7 @@ export function useSelectOptionsResource<
   });
 
   return {
+    status,
     loading,
     options,
     error,
