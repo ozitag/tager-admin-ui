@@ -25,7 +25,7 @@
         class="select-trigger"
         :disabled="disabled"
         :class="{ 'is-focus': menuIsOpen }"
-        @focus="handleInputFocus"
+        @click="handleInputFocus"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
         @keydown.enter.prevent="handleKeyEnter"
