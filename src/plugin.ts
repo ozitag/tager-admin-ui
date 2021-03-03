@@ -43,7 +43,7 @@ import MapField from './components/MapField';
 import ShortCodeConstructor from './components/ShortCodeConstructor';
 import CountButton from './components/CountButton';
 import FormFieldRecommendedLengthInput from './components/FormFieldRecommendedLengthInput';
-import DataTable from './components/DataTable';
+import DataTable, { AdvancedSearch } from './components/DataTable';
 import SearchInput from './components/SearchInput';
 import Pagination from './components/Pagination';
 import ComboBox from './components/ComboBox';
@@ -118,4 +118,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('form-footer', FormFooter);
   Vue.component('tag', Tag);
   Vue.component('steps', Steps);
+  Vue.component('advanced-search', AdvancedSearch);
 };

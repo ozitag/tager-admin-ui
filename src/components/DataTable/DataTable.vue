@@ -6,6 +6,8 @@
       @change="handleSearchChange"
     />
 
+    <slot name="filters"></slot>
+
     <BaseTable
       :column-defs="columnDefs"
       :row-data="rowData"

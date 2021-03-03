@@ -1,5 +1,11 @@
 import VueRouter, { Route } from 'vue-router';
-import { isAbsoluteUrl, isNumber } from '@tager/admin-services';
+import {
+  isAbsoluteUrl,
+  isNotNullish,
+  isNumber,
+  Nullable,
+} from '@tager/admin-services';
+import { Dictionary } from 'vue-router/types/router';
 
 /**
  * @param {Date} date
@@ -168,4 +174,92 @@ export class LocalStorageService<T> {
       console.error(error);
     }
   }
+}
+
+type ParamValue = string | (string | null)[];
+type QueryType = { [key in string]?: ParamValue };
+
+function getFilterValue(query: QueryType, key: string): ParamValue | undefined {
+  return query[`filter[${key}]`];
+}
+
+export function getFilterParamAsString(
+  query: QueryType,
+  key: string
+): string | null {
+  const queryValue = getFilterValue(query, key);
+  return typeof queryValue === 'string' ? queryValue : null;
+}
+
+export function getFilterParamAsNumber(
+  query: QueryType,
+  key: string
+): number | null {
+  const queryValue = getFilterValue(query, key);
+  return typeof queryValue === 'string' ? Number(queryValue) : null;
+}
+
+export function getFilterParamAsStringArray(
+  query: QueryType,
+  key: string
+): Array<string> {
+  const queryValue = getFilterValue(query, key);
+
+  if (Array.isArray(queryValue)) {
+    return queryValue.filter(isNotNullish);
+  }
+
+  if (typeof queryValue === 'string') {
+    return [queryValue];
+  }
+
+  return [];
+}
+
+export function getFilterParamAsNumberArray(
+  query: QueryType,
+  key: string
+): Array<number> {
+  const queryValue = getFilterValue(query, key);
+
+  if (Array.isArray(queryValue)) {
+    return queryValue
+      .filter(isNotNullish)
+      .map((item) => Number(item))
+      .filter((item) => !Number.isNaN(item));
+  }
+
+  if (typeof queryValue === 'string' && !Number.isNaN(Number(queryValue))) {
+    return [Number(queryValue)];
+  }
+
+  return [];
+}
+
+function normalizeFilterParam(
+  value: string | number | Array<string> | Array<number>
+): string | Array<string> {
+  if (Array.isArray(value))
+    return (value as Array<string | number>).map((element) => String(element));
+
+  return String(value);
+}
+
+export function getFilterParams(
+  filters: Record<string, string | number | Array<string> | Array<number>>
+): Record<string, string | Array<string>> {
+  const result: Record<string, string | Array<string>> = {};
+
+  Object.keys(filters)
+    .filter((key) => {
+      const value = filters[key];
+      const isEmptyArray = Array.isArray(value) && value.length === 0;
+
+      return !isEmptyArray;
+    })
+    .forEach((key) => {
+      result[`filter[${key}]`] = normalizeFilterParam(filters[key]);
+    });
+
+  return result;
 }
