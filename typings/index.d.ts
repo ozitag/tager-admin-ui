@@ -446,6 +446,7 @@ export declare function useSelectOptionsResource<
   noOptionsMessage: ComputedRef<string>;
   handleSearchQueryChange: (query: string) => void;
   fetchEntityList: (params: { query: string }) => Promise<void>;
+  status: Ref<FetchStatus>;
 };
 
 export declare function useCopyToClipboard(

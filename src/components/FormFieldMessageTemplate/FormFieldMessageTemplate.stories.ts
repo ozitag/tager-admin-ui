@@ -23,7 +23,7 @@ export const TextArea = () =>
       };
     },
     template: `
-      <MessageTemplate
+      <FormFieldMessageTemplate
         label="Label"
         v-model="value"
         :variable-list="variables"
@@ -52,7 +52,7 @@ export const RichText = () =>
       };
     },
     template: `
-      <MessageTemplate
+      <FormFieldMessageTemplate
         label="Label"
         v-model="value"
         :variable-list="variables"
