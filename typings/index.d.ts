@@ -515,3 +515,10 @@ export declare function getFilterParamAsNumberArray(
 export declare function getFilterParams(
   filters: Record<string, string | number | Array<string> | Array<number>>
 ): Record<string, string | Array<string>>;
+
+export interface FilterTagType {
+  value: string;
+  label: string;
+  name: string;
+  title: string;
+}
