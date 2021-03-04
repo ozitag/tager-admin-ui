@@ -20,6 +20,7 @@ const RU: typeof EN = {
 
   emailTemplate: {
     copy: 'Скопировать',
+    copied: 'Скопировано',
   },
 
   advancedSearch: {
