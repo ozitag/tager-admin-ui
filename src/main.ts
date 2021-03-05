@@ -62,6 +62,7 @@ export { default as ColorSelect } from './components/ColorSelect';
 export { default as Tag } from './components/Tag';
 export { default as Steps } from './components/Steps';
 export { default as FormFieldMessageTemplate } from './components/FormFieldMessageTemplate';
+export { default as MiniFileInput } from './components/MiniFileInput';
 
 export { ToastPlugin, ToastProvider } from './components/Toast';
 

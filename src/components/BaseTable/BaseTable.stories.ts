@@ -30,6 +30,7 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
       };
     },
   },
+
   {
     id: 1,
     name: 'ID (10%)',

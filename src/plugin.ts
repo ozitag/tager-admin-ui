@@ -56,6 +56,7 @@ import FormFooter from './components/FormFooter';
 import Tag from './components/Tag';
 import Steps from './components/Steps';
 import FormFieldMessageTemplate from './components/FormFieldMessageTemplate';
+import MiniFileInput from './components/MiniFileInput';
 
 export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   i18n.addTranslations('en', 'ui', EN);
@@ -119,4 +120,5 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('tag', Tag);
   Vue.component('steps', Steps);
   Vue.component('advanced-search', AdvancedSearch);
+  Vue.component('mini-file-input', MiniFileInput);
 };

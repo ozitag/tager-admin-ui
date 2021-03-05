@@ -309,6 +309,7 @@ export declare const FormFooter: VueConstructor<Vue>;
 export declare const Tag: VueConstructor<Vue>;
 export declare const Steps: VueConstructor<Vue>;
 export declare const AdvancedSearch: VueConstructor<Vue>;
+export declare const MiniFileInput: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
   type: 'button' | 'link' | 'divider';
