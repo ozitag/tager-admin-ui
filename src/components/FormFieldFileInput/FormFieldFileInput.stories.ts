@@ -55,7 +55,7 @@ export const Default = () =>
       };
     },
     template:
-      '<FormFieldFileInput v-model="file" name="file" label="Content"   />',
+      '<FormFieldFileInput v-model="file" name="file" label="Content" error="Error message" />',
   });
 
 export const WithCaption = () =>
@@ -74,7 +74,7 @@ export const WithCaption = () =>
       };
     },
     template:
-      '<FormFieldFileInput v-model="file" name="file" label="Content" with-captions />',
+      '<FormFieldFileInput v-model="file" name="file" label="Content" with-captions error="Error message" />',
   });
 
 export const Multiple = () =>
@@ -93,7 +93,7 @@ export const Multiple = () =>
       };
     },
     template:
-      '<FormFieldFileInput v-model="files" name="files" multiple label="Content" />',
+      '<FormFieldFileInput v-model="files" name="files" multiple label="Content" error="Error message" />',
   });
 
 export const MultipleWithCaptions = () =>
@@ -112,7 +112,7 @@ export const MultipleWithCaptions = () =>
       };
     },
     template:
-      '<FormFieldFileInput v-model="files" name="files" multiple label="Content" with-captions />',
+      '<FormFieldFileInput v-model="files" name="files" multiple label="Content" with-captions error="Error message" />',
   });
 
 export const WithError = () =>
@@ -150,5 +150,5 @@ export const Disabled = () =>
       };
     },
     template:
-      '<FormFieldFileInput v-model="file" name="file" label="Content" disabled />',
+      '<FormFieldFileInput v-model="file" name="file" label="Content" disabled error="Error message" />',
   });

@@ -10,7 +10,7 @@
   >
     <Draggable
       v-if="savedFileList.length > 0"
-      class="file-grid is-multiple"
+      :class="['file-grid', { 'is-multiple': multiple }]"
       :animation="200"
       :value="savedFileList"
       @input="handleDragAndDropInput"
@@ -73,7 +73,10 @@
 
     <div
       v-if="uploadingFileList.length > 0"
-      :class="['file-grid', 'is-multiple', { 'is-top-divider': multiple }]"
+      :class="[
+        'file-grid',
+        { 'is-multiple': multiple, 'is-top-divider': multiple },
+      ]"
     >
       <div
         v-for="entry of uploadingFileList"
@@ -119,8 +122,11 @@
       ref="dropbox"
       :class="[
         'drop-zone',
-        isDragOver ? 'highlight' : null,
-        { 'no-hover': selectedTabId === 'url' },
+        {
+          highlight: isDragOver,
+          'no-hover': selectedTabId === 'url',
+          'is-upload-file': selectedTabId === 'file',
+        },
       ]"
       @dragenter="handleDragEnter"
       @dragover="handleDragOver"
@@ -341,7 +347,10 @@ export default defineComponent<Props>({
         return savedFileList.value.length < props.maxFileCount;
       }
       if (!props.multiple) {
-        return savedFileList.value.length === 0;
+        return (
+          savedFileList.value.length === 0 &&
+          uploadingFileList.value.length === 0
+        );
       }
       return true;
     });
@@ -665,6 +674,10 @@ export default defineComponent<Props>({
   &:not(:first-child) {
     margin-top: 1rem;
   }
+
+  &.is-upload-file {
+    border-top-right-radius: 0;
+  }
 }
 
 .upload-message-container {
@@ -845,6 +858,7 @@ export default defineComponent<Props>({
 
   ::v-deep [data-ui-tab] {
     border-top: none;
+    margin-bottom: 0;
 
     [data-ui-tab-button] {
       padding: 7px;
