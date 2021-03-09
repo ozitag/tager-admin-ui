@@ -280,7 +280,7 @@ export default defineComponent<Props>({
           {
             name: 'offset',
             options: {
-              offset: [0, 10],
+              offset: [0, 0],
             },
           },
         ],
