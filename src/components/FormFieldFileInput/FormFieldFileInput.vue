@@ -16,8 +16,8 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import FormGroup from '../FormGroup.vue';
-import FormFieldError from '../FormFieldError/index.vue';
-import InputLabel from '../InputLabel/index.vue';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
 import FileInput from '../FileInput';
 import { SingleFileInputValueType } from '../../typings/common';
 

@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import Spinner from '../Spinner';
 
 type Props = {

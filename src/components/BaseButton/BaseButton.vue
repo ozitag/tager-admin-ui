@@ -19,7 +19,6 @@
 <script lang="js">
 import Vue from 'vue';
 import { isAbsoluteUrl } from '@tager/admin-services';
-
 import Spinner from '../Spinner';
 
 export default Vue.extend({
@@ -29,19 +28,25 @@ export default Vue.extend({
     variant: {
       type: String,
       validator(value) {
-        return ['primary', 'outline-primary', 'secondary', 'outline-secondary', 'icon'].includes(value);
+        return [
+          'primary',
+          'outline-primary',
+          'secondary',
+          'outline-secondary',
+          'icon',
+        ].includes(value);
       },
-      default: 'primary'
+      default: 'primary',
     },
     type: {
       type: String,
-      default: 'button'
+      default: 'button',
     },
     disabled: Boolean,
     loading: Boolean,
     href: {
       type: String,
-      default: null
+      default: null,
     },
   },
   computed: {
@@ -55,12 +60,10 @@ export default Vue.extend({
       if (this.isLink && this.$router && !isAbsoluteUrl(this.href)) {
         return this.$router.resolve(this.href).href;
       }
-
       return this.href;
     },
     buttonListeners() {
       const vm = this;
-
       return {
         ...vm.$listeners,
         click: (event) => {
@@ -68,27 +71,28 @@ export default Vue.extend({
             event.preventDefault();
             return;
           }
-
           if (vm.href && !isAbsoluteUrl(vm.href)) {
             event.preventDefault();
-
             if (vm.$router) {
               vm.$router.push(vm.href);
             } else {
-              console.error(`Vue router is [${String(vm.$router)}]. Cannot make page transition`)
+              console.error(
+                `Vue router is [${String(
+                  vm.$router
+                )}]. Cannot make page transition`
+              );
             }
           }
-
           if (vm.$listeners.click) {
             if (Array.isArray(vm.$listeners.click)) {
-              vm.$listeners.click.forEach(callback => {
+              vm.$listeners.click.forEach((callback) => {
                 callback(event);
-              })
+              });
             } else {
               vm.$listeners.click(event);
             }
           }
-        }
+        },
       };
     },
   },

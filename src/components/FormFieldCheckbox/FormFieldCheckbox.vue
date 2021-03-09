@@ -1,6 +1,6 @@
 <template>
-  <form-group>
-    <base-checkbox
+  <FormGroup>
+    <BaseCheckbox
       :id="name"
       :name="name"
       :value="value"
@@ -8,19 +8,19 @@
       v-bind="$attrs"
       v-on="$listeners"
     />
-    <input-label v-if="Boolean(label)" for-checkbox :for="name">
+    <InputLabel v-if="Boolean(label)" for-checkbox :for="name">
       {{ label }}
-    </input-label>
-    <form-field-error v-if="Boolean(error)">{{ error }}</form-field-error>
-  </form-group>
+    </InputLabel>
+    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
+  </FormGroup>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import BaseCheckbox from '../BaseCheckbox/index.vue';
+import BaseCheckbox from '../BaseCheckbox';
 import FormGroup from '../FormGroup.vue';
-import InputLabel from '../InputLabel/index.vue';
-import FormFieldError from '../FormFieldError/index.vue';
+import InputLabel from '../InputLabel';
+import FormFieldError from '../FormFieldError';
 
 interface Props {
   name: string;
@@ -48,10 +48,22 @@ export default defineComponent<Props>({
       type: String,
       required: true,
     },
-    label: String,
-    checked: Boolean,
-    value: Boolean,
-    error: String,
+    label: {
+      type: String,
+      default: '',
+    },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+    error: {
+      type: String,
+      default: '',
+    },
   },
 });
 </script>

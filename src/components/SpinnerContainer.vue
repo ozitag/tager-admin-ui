@@ -2,10 +2,10 @@
   <div class="spinner-container"><slot></slot></div>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SpinnerContainer',
 });
 </script>

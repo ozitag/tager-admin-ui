@@ -1,6 +1,6 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import Steps from './Steps.vue';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import { StepType } from '../../typings/common';
 
 export default { title: 'Steps' };

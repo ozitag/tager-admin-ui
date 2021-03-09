@@ -6,12 +6,17 @@
       <BaseButton
         v-if="value"
         variant="icon"
-        title="Remove"
+        :title="t('ui:mapField.remove')"
         @click="handleRemoveValue"
       >
         <SvgIcon name="removeCircle" />
       </BaseButton>
-      <BaseButton v-else variant="icon" title="Add" @click="handleAddValue">
+      <BaseButton
+        v-else
+        variant="icon"
+        :title="t('ui:mapField.add')"
+        @click="handleAddValue"
+      >
         <SvgIcon name="addCircle" />
       </BaseButton>
     </div>
@@ -33,17 +38,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  SetupContext,
+} from '@vue/composition-api';
 import type { LatLngLiteral } from 'leaflet';
 
 import SvgIcon from '../SvgIcon';
-import BaseButton from '../BaseButton/index.vue';
-import FormField from '../FormField/index.vue';
-import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
+import BaseButton from '../BaseButton';
+import FormField from '../FormField';
+import FormFieldCheckbox from '../FormFieldCheckbox';
 
 import { MapFieldValueType, MapFieldValueSchema } from './MapField.helpers';
 import CoordinatesForm from './components/CoordinatesForm.vue';
 import Map from './components/Map.vue';
+import useTranslation from '../../hooks/useTranslation';
 
 type NonNullableMapFieldValueType = NonNullable<MapFieldValueType>;
 
@@ -84,7 +95,9 @@ export default defineComponent<Props>({
       default: '',
     },
   },
-  setup(props, context) {
+  setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
+
     const isFormEditing = ref<boolean>(false);
 
     const currentCoords = computed<LatLngLiteral>(() => ({
@@ -111,6 +124,7 @@ export default defineComponent<Props>({
     }
 
     return {
+      t,
       handleRemoveValue,
       handleAddValue,
       handleChange,

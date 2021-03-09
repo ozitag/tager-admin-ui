@@ -41,7 +41,7 @@
           <td :colspan="enhancedColumnDefs.length">
             <div>
               <span v-if="!loading && !errorMessage">
-                {{ notFoundMessage }}
+                {{ computedNotFoundMessage }}
               </span>
               <span v-if="errorMessage" class="error-message">
                 {{ errorMessage }}
@@ -65,12 +65,13 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 import kebabCase from 'lodash.kebabcase';
 
 import Spinner from '../Spinner';
 import BaseTableCell from './components/Cell.vue';
 import { useStickyTableHeader } from './BaseTable.hooks';
+import useTranslation from '../../hooks/useTranslation';
 
 /**
  * Table component.
@@ -121,7 +122,7 @@ export default defineComponent({
      */
     notFoundMessage: {
       type: String,
-      default: 'Items not found',
+      default: '',
     },
     /**
      * Error message, which is displayed if table data request was failed.
@@ -158,14 +159,23 @@ export default defineComponent({
       return this.$scopedSlots[slotName];
     },
   },
-  setup(props) {
+  setup(props, context) {
+    const { t } = useTranslation(context);
     const { tableRef, tableCloneRef } = useStickyTableHeader(
       props.useStickyHeader
     );
 
+    const computedNotFoundMessage = computed(() => {
+      if (props.notFoundMessage) {
+        return props.notFoundMessage;
+      }
+      return t('ui:baseTable.itemsNotFound');
+    });
+
     return {
       tableRef,
       tableCloneRef,
+      computedNotFoundMessage,
     };
   },
 });

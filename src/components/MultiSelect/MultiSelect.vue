@@ -122,7 +122,7 @@ import {
 } from '@vue/composition-api';
 import Draggable from 'vuedraggable';
 
-import BaseCheckbox from '../BaseCheckbox/index.vue';
+import BaseCheckbox from '../BaseCheckbox';
 import Tag from '../Tag';
 
 import SvgIcon from '../SvgIcon';

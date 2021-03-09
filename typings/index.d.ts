@@ -7,7 +7,6 @@ import { Modifier, OptionsGeneric } from '@popperjs/core';
 import { TFunction } from 'i18next';
 import ResizeObserver from 'resize-observer-polyfill';
 import { Route } from 'vue-router';
-import { Dictionary } from 'vue-router/types/router';
 
 export type LinkType = {
   url: string;

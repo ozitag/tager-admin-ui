@@ -33,7 +33,7 @@
 <script lang="ts">
 import { computed, defineComponent, SetupContext } from '@vue/composition-api';
 import TinyColor from 'tinycolor2';
-import BaseCheckbox from '../BaseCheckbox/index.vue';
+import BaseCheckbox from '../BaseCheckbox';
 import SvgIcon from '../SvgIcon';
 import { ColorOptionType } from '../../typings/common';
 import { isNotNullish } from '@tager/admin-services';

@@ -6,31 +6,36 @@
       <BaseButton
         v-if="value"
         variant="icon"
-        title="Remove"
+        :title="t('ui:buttonField.remove')"
         @click="handleRemoveValue"
       >
         <SvgIcon name="removeCircle" />
       </BaseButton>
-      <BaseButton v-else variant="icon" title="Add" @click="handleAddValue">
+      <BaseButton
+        v-else
+        variant="icon"
+        :title="t('ui:buttonField.add')"
+        @click="handleAddValue"
+      >
         <SvgIcon name="addCircle" />
       </BaseButton>
     </div>
 
     <div v-if="value" class="fields">
       <FormField
-        label="Label"
+        :label="t('ui:buttonField.label')"
         :name="addPrefix('label')"
         :value="value.label"
         @input="handleChange('label', $event)"
       />
       <FormField
-        label="Link"
+        :label="t('ui:buttonField.link')"
         :name="addPrefix('link')"
         :value="value.link"
         @input="handleChange('link', $event)"
       />
       <FormFieldCheckbox
-        label="Is new tab?"
+        :label="t('ui:buttonField.isNewTab')"
         :name="addPrefix('isNewTab')"
         :checked="value.isNewTab"
         @change="handleChange('isNewTab', $event)"
@@ -44,13 +49,14 @@ import { defineComponent } from '@vue/composition-api';
 import kebabCase from 'lodash.kebabcase';
 
 import SvgIcon from '../SvgIcon';
-import BaseButton from '../BaseButton/index.vue';
-import FormField from '../FormField/index.vue';
-import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
+import BaseButton from '../BaseButton';
+import FormField from '../FormField';
+import FormFieldCheckbox from '../FormFieldCheckbox';
 import {
   ButtonFieldValueSchema,
   ButtonFieldValueType,
 } from './ButtonField.helpers';
+import useTranslation from '../../hooks/useTranslation';
 
 type NonNullableButtonFieldValueType = NonNullable<ButtonFieldValueType>;
 
@@ -86,6 +92,8 @@ export default defineComponent<Props>({
     },
   },
   setup(props, context) {
+    const { t } = useTranslation(context);
+
     function handleChange<
       FieldName extends keyof NonNullableButtonFieldValueType
     >(
@@ -116,6 +124,7 @@ export default defineComponent<Props>({
     }
 
     return {
+      t,
       addPrefix,
       handleChange,
       handleRemoveValue,

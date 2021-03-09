@@ -48,8 +48,8 @@ import {
   SetupContext,
 } from '@vue/composition-api';
 import { TagerFormSubmitEvent } from '../../typings/common';
-import BaseButton from '../BaseButton/index.vue';
-import FormFieldCheckbox from '../FormFieldCheckbox/index.vue';
+import BaseButton from '../BaseButton';
+import FormFieldCheckbox from '../FormFieldCheckbox';
 import useTranslation from '../../hooks/useTranslation';
 
 interface Props {

@@ -56,7 +56,7 @@ import { RowDataDefaultType } from '../../../../typings';
 import { LinkSchema } from '../../../constants/schema';
 import { cutUrlOrigin } from '../../../utils/common';
 import SvgIcon from '../../SvgIcon';
-import BaseButton from '../../BaseButton/index.vue';
+import BaseButton from '../../BaseButton';
 import useCopyToClipboard from '../../../hooks/useCopyToClipboard';
 
 export const ParamSchema = z.object({ name: z.string(), value: z.string() });

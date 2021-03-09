@@ -13,36 +13,48 @@
   </div>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import {
+  defineComponent,
+  onMounted,
+  ref,
+  SetupContext,
+} from '@vue/composition-api';
 
 import SvgIcon from '../SvgIcon';
+import { ToastParams } from '../../typings/common';
 
-export default Vue.extend({
+interface Props {
+  toast: ToastParams;
+}
+
+export default defineComponent<Props>({
   name: 'Toast',
   components: { SvgIcon },
   props: {
     toast: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data(){
+  setup(props: Props, context: SetupContext) {
+    const timeoutId = ref<number | null>(null);
+
+    function hideToast() {
+      if (timeoutId.value) {
+        clearTimeout(timeoutId.value);
+      }
+      context.emit('hide');
+    }
+
+    onMounted(() => {
+      timeoutId.value = setTimeout(() => hideToast(), 3000);
+    });
+
     return {
-      timeoutId: null
+      hideToast,
     };
   },
-  mounted() {
-    this.timeoutId = setTimeout(() => this.hideToast(), 3000);
-  },
-  methods: {
-    hideToast() {
-      if (this.timeoutId) {
-        clearTimeout();
-      }
-      this.$emit('hide');
-    }
-  }
 });
 </script>
 

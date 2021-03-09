@@ -1,28 +1,32 @@
 <template>
   <div class="upload-from-url">
-    <form-group>
-      <base-input
+    <FormGroup>
+      <BaseInput
         v-model="url"
         class="form-control"
         name="url"
         type="text"
-        placeholder="Type the file URL, example https://site.com/image.jpg"
+        :placeholder="
+          t('ui:uploadFileFromUrlForm.placeholder', {
+            url: 'https://site.com/image.jpg',
+          })
+        "
         :disabled="isLoading"
       />
-      <form-field-error v-if="Boolean(error)">
+      <FormFieldError v-if="Boolean(error)">
         {{ error }}
-      </form-field-error>
-    </form-group>
+      </FormFieldError>
+    </FormGroup>
 
-    <base-button
+    <BaseButton
       class="form-button"
       variant="primary"
       :loading="isLoading"
       :disabled="disabled"
       @click="onSubmit"
     >
-      Upload
-    </base-button>
+      {{ t('ui:uploadFileFromUrlForm.upload') }}
+    </BaseButton>
   </div>
 </template>
 
@@ -38,8 +42,9 @@ import {
 
 import FormGroup from '../FormGroup.vue';
 import BaseInput from '../BaseInput';
-import FormFieldError from '../FormFieldError/index.vue';
-import BaseButton from '../BaseButton/index.vue';
+import FormFieldError from '../FormFieldError';
+import BaseButton from '../BaseButton';
+import useTranslation from '../../hooks/useTranslation';
 
 export default defineComponent({
   name: 'UploadFileFromUrlForm',
@@ -50,6 +55,7 @@ export default defineComponent({
     BaseButton,
   },
   setup(props, context) {
+    const { t } = useTranslation(context);
     const url = ref('');
     const isLoading = ref(false);
     const error = ref('');
@@ -69,9 +75,9 @@ export default defineComponent({
       if (error instanceof RequestError) {
         switch (error.status) {
           case 413:
-            return 'File too large';
+            return t('ui:uploadFileFromUrlForm.fileTooLarge');
           case 404:
-            return 'Upload endpoint is not found';
+            return t('ui:uploadFileFromUrlForm.uploadEndpointIsNotFound');
         }
       }
 
@@ -82,7 +88,7 @@ export default defineComponent({
       error.value = '';
 
       if (!isAbsoluteUrl(url.value)) {
-        error.value = 'Invalid URL';
+        error.value = t('ui:uploadFileFromUrlForm.invalidUrl');
         return;
       }
 
@@ -100,7 +106,14 @@ export default defineComponent({
         });
     }
 
-    return { url, isLoading, error, disabled, onSubmit };
+    return {
+      t,
+      url,
+      isLoading,
+      error,
+      disabled,
+      onSubmit,
+    };
   },
 });
 </script>

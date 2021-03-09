@@ -1,7 +1,7 @@
 <template>
-  <form-group>
-    <input-label v-if="Boolean(label)" :for="name">{{ label }}</input-label>
-    <base-text-area
+  <FormGroup>
+    <InputLabel v-if="Boolean(label)" :for="name">{{ label }}</InputLabel>
+    <BaseTextArea
       v-if="type === 'textarea'"
       :id="name"
       :name="name"
@@ -9,7 +9,7 @@
       v-bind="$attrs"
       v-on="$listeners"
     />
-    <base-input
+    <BaseInput
       v-else
       :id="name"
       :name="name"
@@ -18,17 +18,16 @@
       v-bind="$attrs"
       v-on="$listeners"
     />
-
-    <form-field-error v-if="Boolean(error)">{{ error }}</form-field-error>
-  </form-group>
+    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
+  </FormGroup>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 
 import FormGroup from '../FormGroup.vue';
-import FormFieldError from '../FormFieldError/index.vue';
-import InputLabel from '../InputLabel/index.vue';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
 import BaseInput from '../BaseInput';
 import BaseTextArea from '../BaseTextArea';
 
@@ -55,8 +54,14 @@ export default defineComponent<Props>({
       type: String,
       required: true,
     },
-    label: String,
-    value: String,
+    label: {
+      type: String,
+      default: '',
+    },
+    value: {
+      type: String,
+      default: '',
+    },
     type: {
       type: String,
       default: 'text',
@@ -72,7 +77,10 @@ export default defineComponent<Props>({
         ].includes(value);
       },
     },
-    error: String,
+    error: {
+      type: String,
+      default: '',
+    },
   },
 });
 </script>
