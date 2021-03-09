@@ -264,3 +264,10 @@ export interface VariableType {
   key: string;
   label: string;
 }
+
+export interface FilterTagType {
+  value: string;
+  label: string;
+  name: string;
+  title: string;
+}

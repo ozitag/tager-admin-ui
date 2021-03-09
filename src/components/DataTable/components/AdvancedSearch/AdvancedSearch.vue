@@ -10,7 +10,7 @@
       <div class="tag-grid">
         <div v-for="(tag, index) of tags" :key="index" class="tag-item">
           <div class="tag" :title="tag.title" @click="handleTagClick(tag)">
-            <span class="tag-label">{{ tag.label }}</span>
+            <span class="tag-label"> {{ tag.title }}: {{ tag.label }} </span>
             <SvgIcon class="tag-close" name="close" />
           </div>
         </div>
@@ -32,16 +32,10 @@ import {
 import BaseButton from '../../../BaseButton/index.vue';
 import SvgIcon from '../../../SvgIcon';
 import useTranslation from '../../../../hooks/useTranslation';
-
-interface TagType {
-  value: string;
-  label: string;
-  name: string;
-  title: string;
-}
+import { FilterTagType } from '../../../../typings/common';
 
 interface Props {
-  tags: TagType;
+  tags: FilterTagType;
   toggleLabel: string;
 }
 
@@ -69,7 +63,7 @@ export default defineComponent<Props>({
       isOpen.value = !isOpen.value;
     }
 
-    function handleTagClick(tag: TagType) {
+    function handleTagClick(tag: FilterTagType) {
       context.emit('click:tag', tag);
     }
 
@@ -77,7 +71,6 @@ export default defineComponent<Props>({
       if (props.toggleLabel) {
         return props.toggleLabel;
       }
-
       return t('ui:advancedSearch.toggleLabel');
     });
 
