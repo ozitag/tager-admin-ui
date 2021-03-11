@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 interface Props {
   forCheckbox: boolean;
@@ -16,9 +16,13 @@ export default defineComponent<Props>({
       type: Boolean,
     },
   },
-  data() {
+  setup(props: Props) {
+    const mainClass = computed(() =>
+      props.forCheckbox ? 'checkbox-label' : ''
+    );
+
     return {
-      mainClass: this.forCheckbox ? 'checkbox-label' : '',
+      mainClass,
     };
   },
 });

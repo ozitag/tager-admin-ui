@@ -1,9 +1,7 @@
 <template>
   <FormGroup>
     <InputLabel v-if="Boolean(label)" :for="name">{{ label }}</InputLabel>
-
     <slot></slot>
-
     <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
   </FormGroup>
 </template>
@@ -13,8 +11,8 @@ import { defineComponent } from '@vue/composition-api';
 import { Nullable } from '@tager/admin-services';
 
 import FormGroup from './FormGroup.vue';
-import FormFieldError from './FormFieldError/index.vue';
-import InputLabel from './InputLabel/index.vue';
+import FormFieldError from './FormFieldError';
+import InputLabel from './InputLabel';
 
 type Props = {
   name: string;
@@ -26,9 +24,18 @@ export default defineComponent<Props>({
   name: 'FormFieldWrapper',
   components: { FormGroup, FormFieldError, InputLabel },
   props: {
-    name: { type: String, default: '' },
-    label: { type: String, default: '' },
-    error: { type: String, default: null },
+    name: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    error: {
+      type: String,
+      default: null,
+    },
   },
 });
 </script>

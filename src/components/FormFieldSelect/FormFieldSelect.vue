@@ -19,8 +19,8 @@ import { defineComponent } from '@vue/composition-api';
 
 import ComboBox from '../ComboBox';
 import FormGroup from '../FormGroup.vue';
-import FormFieldError from '../FormFieldError/index.vue';
-import InputLabel from '../InputLabel/index.vue';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
 
 interface Props {
   searchable: boolean;

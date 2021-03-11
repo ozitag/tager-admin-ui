@@ -2,11 +2,15 @@
   <div v-if="shortCodeOptionList.length > 0" class="container">
     <button
       class="title-button"
-      :title="isOpen ? 'Hide' : 'Open'"
+      :title="
+        isOpen
+          ? t('ui:shortCodeConstructor.hide')
+          : t('ui:shortCodeConstructor.open')
+      "
       type="button"
       @click="toggleOpen"
     >
-      <span>{{ label }}</span>
+      <span>{{ computedLabel }}</span>
       <span class="icon-container">
         <SvgIcon :name="isOpen ? 'expandLess' : 'expandMore'" />
       </span>
@@ -15,7 +19,11 @@
     <div v-show="isOpen" class="fields">
       <div class="result">
         <span class="code">{{ result }}</span>
-        <BaseButton variant="icon" title="Copy" @click="copyShortCode">
+        <BaseButton
+          variant="icon"
+          :title="t('ui:shortCodeConstructor.copy')"
+          @click="copyShortCode"
+        >
           <svg-icon name="contentCopy" />
         </BaseButton>
       </div>
@@ -23,7 +31,7 @@
       <FormFieldSelect
         v-model="selectedShortCode"
         name="shortCode"
-        label="Type"
+        :label="t('ui:shortCodeConstructor.type')"
         :options="shortCodeOptionList"
       />
 
@@ -39,7 +47,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  SetupContext,
+  watch,
+} from '@vue/composition-api';
 
 import { Nullable } from '@tager/admin-services';
 
@@ -49,10 +63,11 @@ import {
   ShortCodeParamType,
 } from '../../typings/common';
 
-import BaseButton from '../BaseButton/index.vue';
-import FormField from '../FormField/index.vue';
+import BaseButton from '../BaseButton';
+import FormField from '../FormField';
 import FormFieldSelect from '../FormFieldSelect';
 import SvgIcon from '../SvgIcon';
+import useTranslation from '../../hooks/useTranslation';
 
 function getShortCodeLabel(shortCode: string): string {
   return shortCode.slice(0, 1).toUpperCase() + shortCode.slice(1);
@@ -82,10 +97,11 @@ export default defineComponent<Props>({
     },
     label: {
       type: String,
-      default: 'Shortcode',
+      default: '',
     },
   },
-  setup(props, context) {
+  setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
     const isOpen = ref<boolean>(false);
 
     function toggleOpen() {
@@ -139,7 +155,16 @@ export default defineComponent<Props>({
       navigator.clipboard.writeText(result.value).catch(console.error);
     }
 
+    const computedLabel = computed(() => {
+      if (props.label) {
+        return props.label;
+      }
+      return t('ui:shortCodeConstructor.shortcode');
+    });
+
     return {
+      t,
+      computedLabel,
       shortCodeOptionList,
       selectedShortCode,
       fields,

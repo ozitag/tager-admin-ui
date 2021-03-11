@@ -12,8 +12,8 @@
 import { defineComponent } from '@vue/composition-api';
 
 import FormGroup from '../FormGroup.vue';
-import InputLabel from '../InputLabel/index.vue';
-import FormFieldError from '../FormFieldError/index.vue';
+import InputLabel from '../InputLabel';
+import FormFieldError from '../FormFieldError';
 import ComboBox from '../ComboBox';
 
 interface Props {
@@ -36,8 +36,14 @@ export default defineComponent<Props>({
       type: String,
       required: true,
     },
-    label: String,
-    error: String,
+    label: {
+      type: String,
+      default: '',
+    },
+    error: {
+      type: String,
+      default: '',
+    },
   },
 });
 </script>

@@ -2,9 +2,9 @@
   <img v-if="status === 'SUCCESS'" loading="lazy" v-bind="$attrs" />
 
   <div v-else class="image-container" :style="loadingContainerStyle">
-    <spinner-container v-if="status === 'LOADING'">
+    <SpinnerContainer v-if="status === 'LOADING'">
       <spinner size="40" />
-    </spinner-container>
+    </SpinnerContainer>
 
     <img
       :style="[{ opacity: 0 }]"
@@ -16,14 +16,14 @@
   </div>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent, ref } from '@vue/composition-api';
 import { FETCH_STATUSES } from '@tager/admin-services';
 
 import Spinner from '../Spinner';
-import SpinnerContainer from '../SpinnerContainer';
+import SpinnerContainer from '../SpinnerContainer.vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LoadableImage',
   components: { Spinner, SpinnerContainer },
   inheritAttrs: false,
@@ -31,18 +31,20 @@ export default Vue.extend({
     loadingContainerStyle: {
       type: [Object, String, Array],
       default: null,
-    }
+    },
   },
-  data() {
+  setup() {
+    const status = ref<string>(FETCH_STATUSES.LOADING);
+
+    function setStatus(newStatus: string) {
+      status.value = newStatus;
+    }
+
     return {
-      status: FETCH_STATUSES.LOADING,
-    }
+      status,
+      setStatus,
+    };
   },
-  methods: {
-    setStatus(status) {
-      this.status = status;
-    }
-  }
 });
 </script>
 

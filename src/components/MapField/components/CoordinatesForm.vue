@@ -3,7 +3,7 @@
     <div class="row">
       <FormFieldNumberInput
         :value="values.lat"
-        label="Latitude"
+        :label="t('ui:mapField.latitude')"
         name="lat"
         :error="errors.lat"
         :disabled="!isEditing"
@@ -11,7 +11,7 @@
       />
       <FormFieldNumberInput
         :value="values.lng"
-        label="Longitude"
+        :label="t('ui:mapField.longitude')"
         name="lng"
         :error="errors.lng"
         :disabled="!isEditing"
@@ -24,7 +24,7 @@
           variant="primary"
           @click="handleSubmit"
         >
-          Submit
+          {{ t('ui:mapField.submit') }}
         </BaseButton>
         <BaseButton v-else variant="icon" @click="handleStartEditing">
           <SvgIcon name="edit" />
@@ -35,13 +35,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from '@vue/composition-api';
-import { isNotNullish, isString, z } from '@tager/admin-services';
+import {
+  computed,
+  defineComponent,
+  ref,
+  SetupContext,
+  watch,
+} from '@vue/composition-api';
+import { isNotNullish, isString } from '@tager/admin-services';
 
 import FormFieldNumberInput from '../../FormFieldNumberInput';
 import SvgIcon from '../../SvgIcon';
-import BaseButton from '../../BaseButton/index.vue';
+import BaseButton from '../../BaseButton';
 import { ValuePropSchema, ValueType } from '../MapField.helpers';
+import useTranslation from '../../../hooks/useTranslation';
 
 const validators = {
   required(value: unknown): boolean {
@@ -93,7 +100,9 @@ export default defineComponent<Props>({
     },
     isEditing: Boolean,
   },
-  setup(props, context) {
+  setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
+
     const values = ref<FormValues>(convertValuePropToFormValues(props.value));
 
     watch(
@@ -114,9 +123,9 @@ export default defineComponent<Props>({
 
       function validateField(key: 'lat' | 'lng'): void {
         if (validators.required(values.value[key])) {
-          newErrors[key] = 'Required';
+          newErrors[key] = t('ui:mapField.required');
         } else if (validators.number(values.value[key])) {
-          newErrors[key] = 'Invalid number';
+          newErrors[key] = t('ui:mapField.invalidNumber');
         }
       }
 
@@ -145,6 +154,7 @@ export default defineComponent<Props>({
     }
 
     return {
+      t,
       values,
       handleSubmit,
       handleChange,

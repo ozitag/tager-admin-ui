@@ -7,10 +7,15 @@
   </div>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+interface Props {
+  percent: number;
+  color: string;
+}
+
+export default defineComponent<Props>({
   name: 'ProgressBar',
   props: {
     percent: Number,

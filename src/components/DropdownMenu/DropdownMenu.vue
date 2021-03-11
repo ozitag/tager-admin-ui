@@ -1,28 +1,38 @@
 <template>
   <ul>
     <li v-for="(option, index) of options" :key="index">
-      <dropdown-item :item="option" @click="handleItemClick(option)" />
+      <DropdownItem :item="option" @click="handleItemClick(option)" />
     </li>
   </ul>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
-import DropdownItem from './components/DropdownItem';
-export default Vue.extend({
+<script lang="ts">
+import { defineComponent, SetupContext } from '@vue/composition-api';
+import DropdownItem from './components/DropdownItem.vue';
+import { DropdownMenuItemType } from '../../typings/common';
+
+interface Props {
+  options: Array<DropdownMenuItemType>;
+}
+
+export default defineComponent<Props>({
   name: 'DropdownMenu',
   components: { DropdownItem },
   props: {
     options: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
-  methods: {
-    handleItemClick(option) {
+  setup(props: Props, context: SetupContext) {
+    function handleItemClick(option: DropdownMenuItemType) {
       if (option.type === 'divider') return;
-      this.$emit('dropdown-item:click');
+      context.emit('dropdown-item:click');
     }
+
+    return {
+      handleItemClick,
+    };
   },
 });
 </script>

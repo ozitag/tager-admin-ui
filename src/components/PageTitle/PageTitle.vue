@@ -2,11 +2,11 @@
   <h4 class="page-title"><slot></slot></h4>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
-  name: 'PageTitle'
+export default defineComponent({
+  name: 'PageTitle',
 });
 </script>
 

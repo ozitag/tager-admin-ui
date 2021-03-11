@@ -1,6 +1,6 @@
 import { defineComponent, ref } from '@vue/composition-api';
 
-import FormFieldColorInput from './index.vue';
+import FormFieldColorInput from './FormFieldColorInput.vue';
 
 export default { title: 'FormFieldColorInput' };
 

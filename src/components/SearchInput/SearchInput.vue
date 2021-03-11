@@ -10,7 +10,7 @@
         v-bind="$attrs"
         :disabled="disabled"
         :autocomplete="autocomplete"
-        :placeholder="placeholder"
+        :placeholder="computedPlaceholder"
       />
 
       <span v-if="loading" class="spinner-wrapper">
@@ -29,12 +29,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  SetupContext,
+  watch,
+} from '@vue/composition-api';
 import debounce from 'lodash.debounce';
 
 import BaseInput from '../BaseInput';
 import SvgIcon from '../SvgIcon';
 import Spinner from '../Spinner';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   value: string;
@@ -60,7 +67,7 @@ export default defineComponent<Props>({
     },
     placeholder: {
       type: String,
-      default: 'Search...',
+      default: '',
     },
     disabled: {
       type: Boolean,
@@ -71,7 +78,8 @@ export default defineComponent<Props>({
       default: false,
     },
   },
-  setup(props, context) {
+  setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
     const searchQuery = ref<string>(props.value);
 
     const emitDebouncedChangeEvent = debounce(() => {
@@ -86,8 +94,16 @@ export default defineComponent<Props>({
       searchQuery.value = '';
     }
 
+    const computedPlaceholder = computed(() => {
+      if (props.placeholder) {
+        return props.placeholder;
+      }
+      return `${t('ui:searchInput.search')}...`;
+    });
+
     return {
       searchQuery,
+      computedPlaceholder,
       handleClear,
     };
   },

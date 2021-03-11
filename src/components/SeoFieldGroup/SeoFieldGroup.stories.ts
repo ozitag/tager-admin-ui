@@ -8,7 +8,7 @@ export default { title: 'SeoFieldGroup' };
 const TEST_FILE: SingleFileInputValueType = {
   id: createId(),
   file: {
-    id: 174,
+    id: '174',
     mime: 'image/jpeg',
     name: 'e0cbc508796c2af24357b5f056aa2bdb0000033333.jpg',
     size: 386793,

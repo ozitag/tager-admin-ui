@@ -17,33 +17,34 @@
       <FormField
         :value="date"
         type="date"
-        label="Date"
+        :label="t('ui:dateTimeInput.date')"
         :name="addPrefix('date')"
         @input="handleChange('date', $event)"
       />
       <FormField
         :value="time"
         type="time"
-        label="Time"
+        :label="t('ui:dateTimeInput.time')"
         :name="addPrefix('time')"
         @input="handleChange('time', $event)"
       />
 
       <span>
-        Result: <em>{{ formattedResult }}</em>
+        {{ t('ui:dateTimeInput.result') }}: <em>{{ formattedResult }}</em>
       </span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, SetupContext } from '@vue/composition-api';
 import kebabCase from 'lodash.kebabcase';
 import { isNotFalsy, Nullable } from '@tager/admin-services';
 
 import SvgIcon from '../SvgIcon';
-import FormField from '../FormField/index.vue';
-import BaseButton from '../BaseButton/index.vue';
+import FormField from '../FormField';
+import BaseButton from '../BaseButton';
+import useTranslation from '../../hooks/useTranslation';
 
 type InnerDateTimeValue = {
   date: string;
@@ -73,7 +74,9 @@ export default defineComponent<Props>({
       default: '',
     },
   },
-  setup(props, context) {
+  setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
+
     const currentValue = computed<string>(() => props.value ?? '');
 
     function addLeadingZero(number: number): string {
@@ -138,6 +141,7 @@ export default defineComponent<Props>({
     );
 
     return {
+      t,
       date,
       time,
       formattedResult,

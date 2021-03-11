@@ -34,13 +34,9 @@ export const Default = () =>
       };
     },
     template: `
-    <BaseSelect
-      v-model="selected"
-      :options="options"
-      name="countries"
-      label="Countries"
-      error="Please, select at least 4 countries"
-      no-options-message="No options"
-    />
-  `,
+      <BaseSelect
+        v-model="selected"
+        :options="options"
+      />
+    `,
   });

@@ -19,8 +19,8 @@ import { computed, defineComponent } from '@vue/composition-api';
 
 import { OptionType } from '../../../typings';
 import FormGroup from '../FormGroup.vue';
-import FormFieldError from '../FormFieldError/index.vue';
-import InputLabel from '../InputLabel/index.vue';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
 import MultiSelect from '../MultiSelect';
 
 function isValidSelectOption(option: OptionType) {

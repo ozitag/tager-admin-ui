@@ -11,30 +11,34 @@
   </div>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
+<script lang="ts">
+import { defineComponent, onMounted, ref } from '@vue/composition-api';
 
 import Toast from './Toast.vue';
 import { EventBus } from './Toast.helpers';
+import { ToastItem } from '../../../typings';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Toasts',
   components: { Toast },
-  data() {
+  setup() {
+    const toastList = ref<Array<ToastItem>>([]);
+
+    onMounted(() => {
+      EventBus.$on('toast-show', (newToast: ToastItem) => {
+        toastList.value.push(newToast);
+      });
+    });
+
+    function hideToast(toastId: number) {
+      toastList.value = toastList.value.filter((toast) => toast.id !== toastId);
+    }
+
     return {
-      toastList: []
+      toastList,
+      hideToast,
     };
   },
-  mounted() {
-    EventBus.$on('toast-show', (newToast) => {
-      this.toastList.push(newToast);
-    });
-  },
-  methods: {
-    hideToast(toastId) {
-      this.toastList = this.toastList.filter(toast => toast.id !== toastId);
-    }
-  }
 });
 </script>
 

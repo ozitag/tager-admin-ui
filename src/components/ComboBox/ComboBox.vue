@@ -72,15 +72,15 @@
 
     <ul ref="popperRef" class="select-menu" :class="[{ show: menuIsOpen }]">
       <li v-if="loading">
-        <p class="empty">Loading...</p>
+        <p class="empty">{{ t('ui:comboBox.loading') }}...</p>
       </li>
 
       <li v-else-if="options.length === 0">
-        <p class="empty">{{ noOptionsMessage }}</p>
+        <p class="empty">{{ computedNoOptionsMessage }}</p>
       </li>
 
       <li v-else-if="query && isResultsNotFound">
-        <p class="not-found">{{ notFoundMessage }}</p>
+        <p class="not-found">{{ computedNotFoundMessage }}</p>
       </li>
 
       <li
@@ -116,7 +116,7 @@ import {
 } from '@vue/composition-api';
 
 import BaseInput from '../BaseInput';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import Spinner from '../Spinner';
 import SvgIcon from '../SvgIcon';
 import usePopper from '../../hooks/usePopper';
@@ -125,6 +125,7 @@ import { scrollOptionIntoView } from './ComboBox.helpers';
 
 import debounce from 'lodash/debounce';
 import { OptionType } from '../../typings/common';
+import useTranslation from '../../hooks/useTranslation';
 
 export interface Props {
   value: OptionType | null;
@@ -155,7 +156,7 @@ export default defineComponent<Props>({
     },
     placeholder: {
       type: String,
-      default: 'Select...',
+      default: '',
     },
     autocomplete: {
       type: String,
@@ -179,11 +180,11 @@ export default defineComponent<Props>({
     },
     noOptionsMessage: {
       type: String,
-      default: 'No options',
+      default: '',
     },
     notFoundMessage: {
       type: String,
-      default: 'No results found',
+      default: '',
     },
     loading: {
       type: Boolean,
@@ -191,6 +192,7 @@ export default defineComponent<Props>({
     },
   },
   setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
     const query = ref<string>('');
     const menuIsOpen = ref<boolean>(false);
     const inputContainerRef = ref<HTMLElement | null>(null);
@@ -213,7 +215,11 @@ export default defineComponent<Props>({
     });
 
     const computedPlaceholder = computed(() => {
-      return props.value ? props.value.label : props.placeholder;
+      return props.value
+        ? props.value.label
+        : props.placeholder
+        ? props.placeholder
+        : `${t('ui:comboBox.select')}...`;
     });
 
     const filteredOptions = computed<Array<OptionType>>(() => {
@@ -407,7 +413,24 @@ export default defineComponent<Props>({
       }
     }
 
+    const computedNoOptionsMessage = computed(() => {
+      if (props.noOptionsMessage) {
+        return props.noOptionsMessage;
+      }
+      return t('ui:comboBox.noOptions');
+    });
+
+    const computedNotFoundMessage = computed(() => {
+      if (props.notFoundMessage) {
+        return props.notFoundMessage;
+      }
+      return t('ui:comboBox.noResultsFound');
+    });
+
     return {
+      t,
+      computedNoOptionsMessage,
+      computedNotFoundMessage,
       inputContainerRef,
       popperRef,
       selectRef,

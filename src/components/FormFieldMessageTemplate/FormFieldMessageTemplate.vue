@@ -39,11 +39,11 @@
 import { defineComponent, SetupContext } from '@vue/composition-api';
 
 import FormGroup from '../FormGroup.vue';
-import FormFieldError from '../FormFieldError/index.vue';
-import InputLabel from '../InputLabel/index.vue';
-import BaseRichTextInput from '../BaseRichTextInput/index.vue';
+import FormFieldError from '../FormFieldError';
+import InputLabel from '../InputLabel';
+import BaseRichTextInput from '../BaseRichTextInput';
 import BaseTextArea from '../BaseTextArea';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import SvgIcon from '../SvgIcon';
 import useTranslation from '../../hooks/useTranslation';
 import { VariableType } from '../../typings/common';

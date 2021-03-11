@@ -192,14 +192,15 @@ import {
 import { ARCHIVE_ACCEPT } from '../../constants/common';
 
 import SvgIcon from '../SvgIcon';
-import BaseButton from '../BaseButton/index.vue';
+import BaseButton from '../BaseButton';
 import BaseTextArea from '../BaseTextArea';
-import ProgressBar from '../ProgressBar/index.vue';
+import ProgressBar from '../ProgressBar';
 import LoadableImage from '../LoadableImage';
 import TabList from '../TabList/TabList.vue';
 import UploadFileFromUrlForm from '../UploadFileFromUrlForm';
 
 import { getFileIconName } from './FileInput.helpers';
+import useTranslation from '../../hooks/useTranslation';
 
 const SingleFileInputValueSchema = z.object({
   id: z.string(),
@@ -315,6 +316,8 @@ export default defineComponent<Props>({
     },
   },
   setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
+
     const fileInputRef = ref<HTMLInputElement | null>(null);
     const isDragOver = ref<boolean>(false);
     const uploadingFileList = ref<Array<UploadingSingleFileInputValueType>>([]);
@@ -322,11 +325,11 @@ export default defineComponent<Props>({
     const tabList = ref<Array<TabListType>>([
       {
         id: 'url',
-        label: 'Upload file by URL',
+        label: t('ui:fileInput.uploadFileByURL'),
       },
       {
         id: 'file',
-        label: 'Upload file',
+        label: t('ui:fileInput.uploadFile'),
       },
     ]);
 
@@ -373,11 +376,11 @@ export default defineComponent<Props>({
 
       switch (props.fileType) {
         case 'image':
-          return 'Drag and drop an image here or click';
+          return t('ui:fileInput.dragAndDropAnImageHereOrClick');
         case 'archive':
-          return 'Drag and drop an archive here or click';
+          return t('ui:fileInput.dragAndDropAnArchiveHereOrClick');
         default:
-          return 'Drag and drop a file here or click';
+          return t('ui:fileInput.dragAndDropAFileHereOrClick');
       }
     });
 
@@ -411,9 +414,9 @@ export default defineComponent<Props>({
       if (error instanceof RequestError) {
         switch (error.status) {
           case 413:
-            return 'File too large';
+            return t('ui:fileInput.fileTooLarge');
           case 404:
-            return 'Upload endpoint is not found';
+            return t('ui:fileInput.uploadEndpointIsNotFound');
         }
       }
       return getMessageFromError(error) || 'Error';

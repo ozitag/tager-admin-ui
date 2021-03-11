@@ -42,10 +42,10 @@
 import { computed, defineComponent } from '@vue/composition-api';
 
 import FormGroup from '../FormGroup.vue';
-import InputLabel from '../InputLabel/index.vue';
+import InputLabel from '../InputLabel';
 import BaseInput from '../BaseInput';
 import BaseTextArea from '../BaseTextArea';
-import FormFieldError from '../FormFieldError/index.vue';
+import FormFieldError from '../FormFieldError';
 import Progress from './components/Progress';
 
 interface Props {

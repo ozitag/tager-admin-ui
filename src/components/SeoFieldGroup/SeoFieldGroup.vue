@@ -2,7 +2,7 @@
   <div class="seo-field-group">
     <FormFieldRecommendedLengthInput
       :value="title"
-      :label="titleLabel"
+      :label="computedTitleLabel"
       :error="titleErrorMessage"
       :min="50"
       :max="60"
@@ -12,7 +12,7 @@
 
     <FormFieldRecommendedLengthInput
       :value="description"
-      :label="descriptionLabel"
+      :label="computedDescriptionLabel"
       :error="descriptionErrorMessage"
       :min="115"
       :max="165"
@@ -23,7 +23,7 @@
 
     <FormFieldFileInput
       :value="image"
-      :label="imageLabel"
+      :label="computedImageLabel"
       :error="imageErrorMessage"
       file-type="image"
       name="openGraphImage"
@@ -33,11 +33,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, SetupContext } from '@vue/composition-api';
+import { computed, defineComponent, SetupContext } from '@vue/composition-api';
 import { SeoChangeEvent, SingleFileInputValueType } from '../../typings/common';
 
 import FormFieldRecommendedLengthInput from '../FormFieldRecommendedLengthInput';
 import FormFieldFileInput from '../FormFieldFileInput';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   titleLabel: string;
@@ -57,7 +58,7 @@ export default defineComponent<Props>({
   props: {
     titleLabel: {
       type: String,
-      default: 'Page title',
+      default: '',
     },
     title: {
       type: String,
@@ -69,7 +70,7 @@ export default defineComponent<Props>({
     },
     descriptionLabel: {
       type: String,
-      default: 'Page description',
+      default: '',
     },
     description: {
       type: String,
@@ -81,10 +82,10 @@ export default defineComponent<Props>({
     },
     imageLabel: {
       type: String,
-      default: 'Open graph image',
+      default: '',
     },
     image: {
-      type: Object as PropType<SingleFileInputValueType>,
+      type: Object,
       default: null,
     },
     imageErrorMessage: {
@@ -93,6 +94,8 @@ export default defineComponent<Props>({
     },
   },
   setup(props: Props, context: SetupContext) {
+    const { t } = useTranslation(context);
+
     function handleTitleChange(value: string) {
       context.emit('change:title', value);
       emitChangeEvent({ title: value });
@@ -115,11 +118,34 @@ export default defineComponent<Props>({
         image: props.image,
         ...event,
       };
-
       context.emit('change', value);
     }
 
+    const computedTitleLabel = computed(() => {
+      if (props.titleLabel) {
+        return props.titleLabel;
+      }
+      return t('ui:seoFieldGroup.pageTitle');
+    });
+
+    const computedDescriptionLabel = computed(() => {
+      if (props.descriptionLabel) {
+        return props.descriptionLabel;
+      }
+      return t('ui:seoFieldGroup.pageDescription');
+    });
+
+    const computedImageLabel = computed(() => {
+      if (props.imageLabel) {
+        return props.imageLabel;
+      }
+      return t('ui:seoFieldGroup.openGraphImage');
+    });
+
     return {
+      computedTitleLabel,
+      computedDescriptionLabel,
+      computedImageLabel,
       handleTitleChange,
       handleDescriptionChange,
       handleImageChange,

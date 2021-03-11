@@ -29,7 +29,7 @@ import {
   SetupContext,
 } from '@vue/composition-api';
 
-import BaseButton from '../../../BaseButton/index.vue';
+import BaseButton from '../../../BaseButton';
 import SvgIcon from '../../../SvgIcon';
 import useTranslation from '../../../../hooks/useTranslation';
 import { FilterTagType } from '../../../../typings/common';
