@@ -4,6 +4,35 @@ import { VariableType } from '../../typings/common';
 
 export default { title: 'FormFieldMessageTemplate' };
 
+export const Text = () =>
+  defineComponent({
+    name: 'FormFieldMessageTemplateWithText',
+    components: { FormFieldMessageTemplate },
+    setup() {
+      const value = ref<string>('');
+
+      const variables: Array<VariableType> = [
+        { key: 'name', label: 'Name' },
+        { key: 'email', label: 'E-Mail' },
+        { key: 'message', label: 'Message' },
+      ];
+
+      return {
+        value,
+        variables,
+      };
+    },
+    template: `
+      <FormFieldMessageTemplate
+        label="Label"
+        v-model="value"
+        :variable-list="variables"
+        type="text"
+        error-message="Сейчас тут выводится сообщение об ошибке"
+      />
+    `,
+  });
+
 export const TextArea = () =>
   defineComponent({
     name: 'FormFieldMessageTemplateWithTextArea',
@@ -15,6 +44,20 @@ export const TextArea = () =>
         { key: 'name', label: 'Name' },
         { key: 'email', label: 'E-Mail' },
         { key: 'message', label: 'Message' },
+        { key: 'name', label: 'Name' },
+        { key: 'email', label: 'E-Mail' },
+        { key: 'message', label: 'Message' },
+        { key: 'name', label: 'Name' },
+        { key: 'email', label: 'E-Mail' },
+        { key: 'message', label: 'Message' },
+        { key: 'name', label: 'Name' },
+        { key: 'email', label: 'E-Mail' },
+        { key: 'message', label: 'Message' },
+        { key: 'name', label: 'Name' },
+        { key: 'email', label: 'E-Mail' },
+        { key: 'message', label: 'Message' },
+        { key: 'name', label: 'Name' },
+        { key: 'email', label: 'E-Mail' },
       ];
 
       return {

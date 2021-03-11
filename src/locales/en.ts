@@ -18,6 +18,7 @@ const EN = {
 
   emailTemplate: {
     copy: 'Copy',
+    copied: 'Copied',
   },
 
   advancedSearch: {
