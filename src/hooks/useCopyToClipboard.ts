@@ -6,7 +6,7 @@ function useCopyToClipboard(
   const isCopied = ref<boolean>(false);
 
   function handleCopy(text: string): void {
-    navigator.clipboard
+    window.navigator.clipboard
       .writeText(text)
       .then(() => {
         isCopied.value = true;
