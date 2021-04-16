@@ -12,9 +12,8 @@
           :is="shouldUseRouter ? 'router-link' : 'a'"
           v-else
           class="name-text-link"
-          :href="shouldUseRouter ? undefined : state.adminLink.url"
           :to="shouldUseRouter ? state.adminLink.url : undefined"
-          v-bind="linkAttrs"
+          v-bind="adminLinkAttrs"
         >
           {{ state.adminLink.text }}
           <span v-if="state.adminLink.subtext" class="name-subtext">
@@ -153,19 +152,37 @@ export default defineComponent<Props>({
       return props.column.options?.shouldUseRouter ?? !isAbsoluteLink;
     });
 
-    const linkAttrs = computed<{ target: string | undefined }>(() => {
+    const adminLinkAttrs = computed<{
+      href?: string;
+      target: string | undefined;
+    }>(() => {
       const shouldOpenNewTab =
         props.column.options?.shouldOpenNewTab ?? !shouldUseRouter;
 
-      return {
+      const attrs: { href?: string; target: string | undefined } = {
         target: shouldOpenNewTab ? '_blank' : undefined,
       };
+
+      const href = shouldUseRouter
+        ? undefined
+        : modifiedState.value?.adminLink.url;
+
+      /**
+       * In some cases `href` attr can override `href` attr in `router-link` component,
+       * even if it has value `undefined`.
+       * So we decided to not pass `href` attr at all if we don't need it
+       */
+      if (href) {
+        attrs.href = href;
+      }
+
+      return attrs;
     });
 
     const [isCopied, handleCopy] = useCopyToClipboard(500);
 
     return {
-      linkAttrs,
+      adminLinkAttrs,
       shouldUseRouter,
       state: modifiedState,
       handleCopy,
