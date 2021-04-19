@@ -7,7 +7,8 @@ import CellImage from './CellImage.vue';
 import CellLink from './CellLink.vue';
 import CellHtml from './CellHtml.vue';
 import CellColor from './CellColor.vue';
-import CellName from './CellName.vue'
+import CellName from './CellName.vue';
+import CellFile from './CellFile.vue';
 
 export default Vue.extend({
   props: {
@@ -58,6 +59,8 @@ export default Vue.extend({
           return CellColor;
         case 'name':
           return CellName;
+        case 'file':
+          return CellFile;
 
         default:
           return CellString;

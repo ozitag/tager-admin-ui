@@ -90,6 +90,7 @@ export type NameCellValue =
     }
   | string
   | null;
+export type FileCellValue = Nullable<FileType>;
 
 export type ColumnType =
   | 'string'
@@ -98,7 +99,8 @@ export type ColumnType =
   | 'image'
   | 'link'
   | 'html'
-  | 'color';
+  | 'color'
+  | 'file';
 
 export type RowDataDefaultType = { [key: string]: any };
 
@@ -196,6 +198,11 @@ export interface ColumnDefinitionName<RowData = RowDataDefaultType>
     shouldUseRouter?: boolean;
   };
 }
+export interface ColumnDefinitionFile<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: 'file';
+  format?: (params: ColumnParamsArg<RowData>) => FileCellValue;
+}
 
 export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionDynamic<RowData>
@@ -206,7 +213,8 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionLink<RowData>
   | ColumnDefinitionHtml<RowData>
   | ColumnDefinitionColor<RowData>
-  | ColumnDefinitionName<RowData>;
+  | ColumnDefinitionName<RowData>
+  | ColumnDefinitionFile<RowData>;
 
 export type NavigationGridItem = {
   name: string;
