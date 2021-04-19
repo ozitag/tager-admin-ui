@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BaseTable from './BaseTable.vue';
 import { ColumnDefinition, RowDataDefaultType } from '../../typings/common';
+import { FileType, Nullable } from '@tager/admin-services';
 
 export default { title: 'BaseTable' };
 
@@ -98,6 +99,12 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
     //   text: row.link,
     // }),
   },
+  {
+    id: 6,
+    name: 'File cell',
+    field: 'file',
+    type: 'file',
+  },
 ];
 
 interface TestEntity {
@@ -110,6 +117,7 @@ interface TestEntity {
   date: string;
   link: string;
   description: string;
+  file: Nullable<FileType>;
 }
 
 const defaultRowData: Array<TestEntity> = [
@@ -127,6 +135,13 @@ const defaultRowData: Array<TestEntity> = [
     link: '/presets',
     description:
       'Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description',
+    file: {
+      id: '80d47541-e186-481a-8add-a4a351e62b6d',
+      mime: 'application/zip',
+      name: 'D5rg88TvA1.zip',
+      size: 1059388,
+      url: 'https://presetbox.dev.ozitag.com/uploads/zip/8k/3k/8k3kXkohkb.zip',
+    },
   },
   {
     id: 2,
@@ -142,6 +157,13 @@ const defaultRowData: Array<TestEntity> = [
     date: new Date().toISOString(),
     link: 'https://ozitag.com',
     description: 'Some description',
+    file: {
+      id: '80d47541-e186-481a-8add-a4a351e62b6d',
+      mime: 'application/zip',
+      name: 'D5rg88TvA1.zip',
+      size: 1059388,
+      url: 'https://presetbox.dev.ozitag.com/uploads/zip/8k/3k/8k3kXkohkb.zip',
+    },
   },
 ];
 
