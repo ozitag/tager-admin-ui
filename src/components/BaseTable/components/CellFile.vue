@@ -1,16 +1,8 @@
 <template>
   <td>
-    <a
-      v-if="file"
-      class="zip-archive-link"
-      :href="file.url"
-      target="_blank"
-      download
-    >
+    <a v-if="file" class="file-link" :href="file.url" target="_blank">
       <div>
-        <SvgIcon
-          :name="file.mime === 'application/zip' ? 'fileZip' : 'fileUnknown'"
-        />
+        <SvgIcon :name="getFileIconName(file)" />
       </div>
       <span>{{ file.name }}</span>
     </a>
@@ -22,6 +14,7 @@ import { computed, defineComponent } from '@vue/composition-api';
 import { FileType, Nullable } from '@tager/admin-services';
 import get from 'lodash.get';
 
+import { getFileIconName } from '../../FileInput/FileInput.helpers';
 import SvgIcon from '../../SvgIcon';
 import {
   ColumnDefinitionFile,
@@ -62,13 +55,13 @@ export default defineComponent<Props>({
         : get(props.row, props.column.field, null);
     });
 
-    return { file };
+    return { file, getFileIconName };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.zip-archive-link {
+.file-link {
   max-width: 150px;
   overflow: hidden;
   display: block;
