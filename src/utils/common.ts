@@ -1,11 +1,5 @@
 import VueRouter, { Route } from 'vue-router';
-import {
-  isAbsoluteUrl,
-  isNotNullish,
-  isNumber,
-  Nullable,
-} from '@tager/admin-services';
-import { Dictionary } from 'vue-router/types/router';
+import { isAbsoluteUrl, isNotNullish, isNumber } from '@tager/admin-services';
 
 /**
  * @param {Date} date
