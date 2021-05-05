@@ -20,6 +20,7 @@ const TEST_FILE: SingleFileInputValueType = {
 interface ValuesState {
   pageTitle: string;
   pageDescription: string;
+  keywords: string;
   openGraphImage: SingleFileInputValueType | null;
 }
 
@@ -31,12 +32,14 @@ export const Default = () =>
       const values = ref<ValuesState>({
         pageTitle: 'title',
         pageDescription: 'description',
+        keywords: 'keywords',
         openGraphImage: TEST_FILE,
       });
 
       function handleSearchEngineOptimization({
         title,
         description,
+        keywords,
         image,
       }: SeoChangeEvent) {
         // values.value.pageTitle = title;
@@ -54,6 +57,10 @@ export const Default = () =>
         values.value.pageDescription = value;
       }
 
+      function handleSEOKeywords(value: string) {
+        values.value.keywords = value;
+      }
+
       function handleSEOImage(value: SingleFileInputValueType | null) {
         values.value.openGraphImage = value;
       }
@@ -62,6 +69,7 @@ export const Default = () =>
         values,
         handleSEOTitle,
         handleSEODescription,
+        handleSEOKeywords,
         handleSEOImage,
         handleSearchEngineOptimization,
       };
@@ -72,6 +80,11 @@ export const Default = () =>
         @change:title="handleSEOTitle"
         :description="values.pageDescription"
         @change:description="handleSEODescription"
+
+        :should-display-keywords="true"
+        :keywords="values.keywords"
+        @change:keywords="handleSEOKeywords"
+        
         :image="values.openGraphImage"
         @change:image="handleSEOImage"
         @change="handleSearchEngineOptimization"

@@ -6,7 +6,7 @@
       :error="titleErrorMessage"
       :min="50"
       :max="60"
-      name="pageTitle"
+      :name="titleName"
       @input="handleTitleChange"
     />
 
@@ -17,16 +17,27 @@
       :min="115"
       :max="165"
       type="textarea"
-      name="pageDescription"
+      :name="descriptionName"
       @input="handleDescriptionChange"
     />
 
+    <FormField
+      v-if="shouldDisplayKeywords"
+      :value="keywords"
+      :label="computedKeywordsLabel"
+      :error="keywordsErrorMessage"
+      :name="keywordsName"
+      @input="handleKeywordsChange"
+    />
+
     <FormFieldFileInput
+      v-if="shouldDisplayImage"
       :value="image"
       :label="computedImageLabel"
       :error="imageErrorMessage"
       file-type="image"
-      name="openGraphImage"
+      :name="imageName"
+      :scenario="imageScenario"
       @change="handleImageChange"
     />
   </div>
@@ -36,6 +47,7 @@
 import { computed, defineComponent, SetupContext } from '@vue/composition-api';
 import { SeoChangeEvent, SingleFileInputValueType } from '../../typings/common';
 
+import FormField from '../FormField';
 import FormFieldRecommendedLengthInput from '../FormFieldRecommendedLengthInput';
 import FormFieldFileInput from '../FormFieldFileInput';
 import useTranslation from '../../hooks/useTranslation';
@@ -43,18 +55,35 @@ import useTranslation from '../../hooks/useTranslation';
 interface Props {
   titleLabel: string;
   title: string;
+  titleName: string;
   titleErrorMessage: string;
+
   descriptionLabel: string;
   description: string;
+  descriptionName: string;
   descriptionErrorMessage: string;
+
+  shouldDisplayKeywords: boolean;
+  keywordsLabel: string;
+  keywords: string;
+  keywordsName: string;
+  keywordsErrorMessage: string;
+
+  shouldDisplayImage: boolean;
   imageLabel: string;
   image: SingleFileInputValueType | null;
+  imageName: string;
+  imageScenario: string | null;
   imageErrorMessage: string;
 }
 
 export default defineComponent<Props>({
   name: 'SeoFieldGroup',
-  components: { FormFieldRecommendedLengthInput, FormFieldFileInput },
+  components: {
+    FormFieldRecommendedLengthInput,
+    FormFieldFileInput,
+    FormField,
+  },
   props: {
     titleLabel: {
       type: String,
@@ -64,10 +93,15 @@ export default defineComponent<Props>({
       type: String,
       default: '',
     },
+    titleName: {
+      type: String,
+      default: 'pageTitle',
+    },
     titleErrorMessage: {
       type: String,
       default: '',
     },
+
     descriptionLabel: {
       type: String,
       default: '',
@@ -76,9 +110,39 @@ export default defineComponent<Props>({
       type: String,
       default: '',
     },
+    descriptionName: {
+      type: String,
+      default: 'pageDescription',
+    },
     descriptionErrorMessage: {
       type: String,
       default: '',
+    },
+
+    shouldDisplayKeywords: {
+      type: Boolean,
+      default: false,
+    },
+    keywordsLabel: {
+      type: String,
+      default: '',
+    },
+    keywords: {
+      type: String,
+      default: '',
+    },
+    keywordsName: {
+      type: String,
+      default: 'keywords',
+    },
+    keywordsErrorMessage: {
+      type: String,
+      default: '',
+    },
+
+    shouldDisplayImage: {
+      type: Boolean,
+      default: true,
     },
     imageLabel: {
       type: String,
@@ -88,6 +152,14 @@ export default defineComponent<Props>({
       type: Object,
       default: null,
     },
+    imageName: {
+      type: String,
+      default: 'openGraphImage',
+    },
+    imageScenario: {
+      type: String,
+      default: null,
+    },
     imageErrorMessage: {
       type: String,
       default: '',
@@ -95,31 +167,6 @@ export default defineComponent<Props>({
   },
   setup(props: Props, context: SetupContext) {
     const { t } = useTranslation(context);
-
-    function handleTitleChange(value: string) {
-      context.emit('change:title', value);
-      emitChangeEvent({ title: value });
-    }
-
-    function handleDescriptionChange(value: string) {
-      context.emit('change:description', value);
-      emitChangeEvent({ description: value });
-    }
-
-    function handleImageChange(value: SingleFileInputValueType | null) {
-      context.emit('change:image', value);
-      emitChangeEvent({ image: value });
-    }
-
-    function emitChangeEvent(event: Partial<SeoChangeEvent>) {
-      const value: SeoChangeEvent = {
-        title: props.title,
-        description: props.description,
-        image: props.image,
-        ...event,
-      };
-      context.emit('change', value);
-    }
 
     const computedTitleLabel = computed(() => {
       if (props.titleLabel) {
@@ -135,6 +182,13 @@ export default defineComponent<Props>({
       return t('ui:seoFieldGroup.pageDescription');
     });
 
+    const computedKeywordsLabel = computed(() => {
+      if (props.keywordsLabel) {
+        return props.keywordsLabel;
+      }
+      return t('ui:seoFieldGroup.keywords');
+    });
+
     const computedImageLabel = computed(() => {
       if (props.imageLabel) {
         return props.imageLabel;
@@ -142,12 +196,45 @@ export default defineComponent<Props>({
       return t('ui:seoFieldGroup.openGraphImage');
     });
 
+    function emitChangeEvent(event: Partial<SeoChangeEvent>) {
+      const value: SeoChangeEvent = {
+        title: props.title,
+        description: props.description,
+        keywords: props.keywords,
+        image: props.image,
+        ...event,
+      };
+      context.emit('change', value);
+    }
+
+    function handleTitleChange(value: string) {
+      context.emit('change:title', value);
+      emitChangeEvent({ title: value });
+    }
+
+    function handleDescriptionChange(value: string) {
+      context.emit('change:description', value);
+      emitChangeEvent({ description: value });
+    }
+
+    function handleKeywordsChange(value: string) {
+      context.emit('change:keywords', value);
+      emitChangeEvent({ keywords: value });
+    }
+
+    function handleImageChange(value: SingleFileInputValueType | null) {
+      context.emit('change:image', value);
+      emitChangeEvent({ image: value });
+    }
+
     return {
       computedTitleLabel,
       computedDescriptionLabel,
+      computedKeywordsLabel,
       computedImageLabel,
       handleTitleChange,
       handleDescriptionChange,
+      handleKeywordsChange,
       handleImageChange,
     };
   },

@@ -38,6 +38,7 @@ const RU: typeof EN = {
   seoFieldGroup: {
     pageTitle: 'Заголовок страницы',
     pageDescription: 'Описание страницы',
+    keywords: 'Ключевые слова',
     openGraphImage: 'Картинка страницы',
   },
 

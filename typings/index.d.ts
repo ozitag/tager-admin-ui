@@ -464,6 +464,7 @@ export declare function useCopyToClipboard(
 export interface SeoChangeEvent {
   title: string;
   description: string;
+  keywords: string;
   image: SingleFileInputValueType | null;
 }
 

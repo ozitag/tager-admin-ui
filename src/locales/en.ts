@@ -36,6 +36,7 @@ const EN = {
   seoFieldGroup: {
     pageTitle: 'Page title',
     pageDescription: 'Page description',
+    keywords: 'Keywords',
     openGraphImage: 'Open graph image',
   },
 
