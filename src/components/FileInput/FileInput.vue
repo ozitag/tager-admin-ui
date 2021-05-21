@@ -789,7 +789,7 @@ export default defineComponent<Props>({
 
   img {
     width: auto;
-    height: 100%;
+    max-height: 100%;
   }
 
   .upload-progress {
