@@ -770,6 +770,7 @@ export default defineComponent<Props>({
   text-align: center;
   min-height: 200px;
   border: 1px solid #ccc;
+  background: #f7f7f7;
 
   .clear-button {
     position: absolute;
@@ -811,7 +812,7 @@ export default defineComponent<Props>({
 
 .file-inner {
   width: 100%;
-  height: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
 }
