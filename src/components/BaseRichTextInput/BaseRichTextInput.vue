@@ -1,11 +1,27 @@
 <template>
-  <div class="rich-text-editor-container">
-    <ckeditor
-      :editor="editor"
-      v-bind="$attrs"
-      :config="editorConfig"
-      v-on="$listeners"
-    />
+  <div class="rich-text-editor">
+    <div class="rich-text-editor-container">
+      <ckeditor
+        v-show="mode === 'rich_text'"
+        :editor="editor"
+        v-bind="$attrs"
+        :value="value"
+        :config="editorConfig"
+        v-on="$listeners"
+      />
+      <div v-if="mode === 'source_code'" class="source-code-panel">
+        <textarea v-model="tempSourceCode" class="source-code-input" />
+      </div>
+    </div>
+
+    <div v-if="sourcePanelEnabled">
+      <TabList
+        class="toggle-tab-list"
+        :tab-list="tabList"
+        :selected-tab-id="mode"
+        @tab:update="handleTabChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -15,18 +31,34 @@ import { component as CKEditor } from '@ckeditor/ckeditor5-vue';
 import CustomCKEditor from '@tager/admin-wysiwyg';
 
 import { CustomUploadAdapterPluginFactory } from './RichTextEditor.helpers';
+import TabList from '../TabList';
+
+const TABS = [
+  { id: 'rich_text', label: 'Visual' },
+  { id: 'source_code', label: 'Text' },
+];
 
 export default Vue.extend({
   name: 'BaseRichTextInput',
-  components: { ckeditor: CKEditor },
+  components: { ckeditor: CKEditor, TabList },
   props: {
     getUploadAdapterOptions: {
       type: Function,
       default: null,
     },
+    sourcePanelEnabled: {
+      type: Boolean,
+      default: true,
+    },
+    value: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
+      mode: 'rich_text',
+      tempSourceCode: '',
       editor: CustomCKEditor,
       editorData: '',
       editorConfig: {
@@ -36,11 +68,50 @@ export default Vue.extend({
       },
     };
   },
+  computed: {
+    tabList() {
+      return TABS;
+    },
+  },
+  methods: {
+    handleTabChange(event) {
+      const newMode = event.tabId;
+
+      if (newMode === 'source_code') {
+        console.log('this.value', this.value);
+        this.tempSourceCode = this.value;
+      } else {
+        this.$emit('input', this.tempSourceCode);
+      }
+
+      this.mode = newMode;
+    },
+  },
 });
 </script>
 
 <style lang="scss">
+.rich-text-editor {
+  [data-ui-tab-list] {
+    margin: 0;
+  }
+}
+
+.source-code-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+.source-code-input {
+  width: 100%;
+  height: 100%;
+  border-color: var(--ck-color-base-border);
+}
 .rich-text-editor-container {
+  position: relative;
   color: rgba(64, 81, 102, 0.96);
 
   .ck.ck-editor__main > .ck-editor__editable {

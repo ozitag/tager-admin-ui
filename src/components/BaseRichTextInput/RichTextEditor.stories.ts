@@ -1,5 +1,5 @@
 import BaseRichTextInput from './BaseRichTextInput.vue';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default {
   title: 'BaseRichTextInput',
@@ -13,10 +13,13 @@ export const Default = () =>
         return { uploadScenario: 'custom' };
       }
 
+      const value = ref('');
+
       return {
         getUploadAdapterPluginOptions,
+        value,
       };
     },
     template: `
-      <BaseRichTextInput :get-upload-adapter-options="getUploadAdapterPluginOptions"/>`,
+      <BaseRichTextInput :get-upload-adapter-options="getUploadAdapterPluginOptions" v-model="value"/>`,
   });
