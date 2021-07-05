@@ -18,7 +18,8 @@ interface TableDataRequestParams {
   pageSize?: number;
 }
 
-interface TableState<T> {
+interface TableState<T, M = unknown> {
+  meta: ComputedRef<M>;
   isLoading: ComputedRef<boolean>;
   rowData: Ref<Array<T>>;
   errorMessage: Ref<Nullable<string>>;
@@ -87,6 +88,7 @@ export function useDataTable<T>(params: {
   }
 
   return {
+    meta,
     isLoading,
     rowData,
     errorMessage,
