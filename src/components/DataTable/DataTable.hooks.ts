@@ -19,6 +19,7 @@ interface TableDataRequestParams {
 }
 
 interface TableState<T> {
+  meta: ComputedRef<any>;
   isLoading: ComputedRef<boolean>;
   rowData: Ref<Array<T>>;
   errorMessage: Ref<Nullable<string>>;
@@ -87,6 +88,7 @@ export function useDataTable<T>(params: {
   }
 
   return {
+    meta,
     isLoading,
     rowData,
     errorMessage,
