@@ -1,11 +1,29 @@
 <template>
-  <div class="rich-text-editor-container">
-    <ckeditor
-      :editor="editor"
-      v-bind="$attrs"
-      :config="editorConfig"
-      v-on="$listeners"
-    />
+  <div class="rich-text-editor">
+    <div v-if="sourcePanelEnabled">
+      <TabList
+        class="toggle-tab-list"
+        :tab-list="tabList"
+        :bordered="true"
+        :aligned-right="true"
+        :selected-tab-id="mode"
+        @tab:update="handleTabChange"
+      />
+    </div>
+    <div class="rich-text-editor-container">
+      <div v-if="!sourcePanelEnabled || mode === 'rich_text'">
+        <ckeditor
+          :editor="editor"
+          v-bind="$attrs"
+          :value="value"
+          :config="editorConfig"
+          v-on="$listeners"
+        />
+      </div>
+      <div v-if="mode === 'source_code'" class="source-code-panel">
+        <TextArea v-model="tempSourceCode" class="source-code-input" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,18 +33,35 @@ import { component as CKEditor } from '@ckeditor/ckeditor5-vue';
 import CustomCKEditor from '@tager/admin-wysiwyg';
 
 import { CustomUploadAdapterPluginFactory } from './RichTextEditor.helpers';
+import TabList from '../TabList';
+import TextArea from '../BaseTextArea';
+
+const TABS = [
+  { id: 'rich_text', label: 'Visual' },
+  { id: 'source_code', label: 'Source' },
+];
 
 export default Vue.extend({
   name: 'BaseRichTextInput',
-  components: { ckeditor: CKEditor },
+  components: { ckeditor: CKEditor, TabList, TextArea },
   props: {
     getUploadAdapterOptions: {
       type: Function,
       default: null,
     },
+    sourcePanelEnabled: {
+      type: Boolean,
+      default: true,
+    },
+    value: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
+      mode: 'rich_text',
+      tempSourceCode: '',
       editor: CustomCKEditor,
       editorData: '',
       editorConfig: {
@@ -36,11 +71,59 @@ export default Vue.extend({
       },
     };
   },
+  computed: {
+    tabList() {
+      return TABS;
+    },
+  },
+  methods: {
+    handleTabChange(event) {
+      const newMode = event.tabId;
+
+      if (newMode === 'source_code') {
+        console.log('this.value', this.value);
+        this.tempSourceCode = this.value;
+      } else {
+        this.$emit('input', this.tempSourceCode);
+      }
+
+      this.mode = newMode;
+    },
+  },
 });
 </script>
 
 <style lang="scss">
+.rich-text-editor {
+  [data-ui-tab-list] {
+    margin: 0;
+  }
+
+  .toggle-tab-list {
+    margin-bottom: -1px;
+  }
+
+  textarea {
+    height: 199px;
+  }
+}
+
+.source-code-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.source-code-input {
+  width: 100%;
+  height: 100%;
+}
+
 .rich-text-editor-container {
+  position: relative;
   color: rgba(64, 81, 102, 0.96);
 
   .ck.ck-editor__main > .ck-editor__editable {
@@ -78,62 +161,80 @@ export default Vue.extend({
     display: block;
     unicode-bidi: embed;
   }
+
   li {
     display: list-item;
   }
+
   head {
     display: none;
   }
+
   table {
     display: table;
   }
+
   tr {
     display: table-row;
   }
+
   thead {
     display: table-header-group;
   }
+
   tbody {
     display: table-row-group;
   }
+
   tfoot {
     display: table-footer-group;
   }
+
   col {
     display: table-column;
   }
+
   colgroup {
     display: table-column-group;
   }
+
   td,
   th {
     display: table-cell;
   }
+
   caption {
     display: table-caption;
   }
+
   th {
     font-weight: bolder;
     text-align: center;
   }
+
   caption {
     text-align: center;
   }
+
   body {
     margin: 8px;
   }
+
   h1 {
     font-size: 2em;
     margin: 0.67em 0;
   }
+
   h2 {
     font-size: 1.5em;
     margin: 0.75em 0;
   }
+
   h3 {
     font-size: 1.17em;
     margin: 0.83em 0;
   }
+
   h4,
   p,
   blockquote,
@@ -146,14 +247,17 @@ export default Vue.extend({
   menu {
     margin: 1.12em 0;
   }
+
   h5 {
     font-size: 0.83em;
     margin: 1.5em 0;
   }
+
   h6 {
     font-size: 0.75em;
     margin: 1.67em 0;
   }
+
   h1,
   h2,
   h3,
@@ -164,10 +268,12 @@ export default Vue.extend({
   strong {
     font-weight: bolder;
   }
+
   blockquote {
     margin-left: 40px;
     margin-right: 40px;
   }
+
   i,
   cite,
   em,
@@ -175,6 +281,7 @@ export default Vue.extend({
   address {
     font-style: italic;
   }
+
   pre,
   tt,
   code,
@@ -182,50 +289,62 @@ export default Vue.extend({
   samp {
     font-family: monospace;
   }
+
   pre {
     white-space: pre;
   }
+
   button,
   textarea,
   input,
   select {
     display: inline-block;
   }
+
   big {
     font-size: 1.17em;
   }
+
   small,
   sub,
   sup {
     font-size: 0.83em;
   }
+
   sub {
     vertical-align: sub;
   }
+
   sup {
     vertical-align: super;
   }
+
   table {
     border-spacing: 2px;
   }
+
   thead,
   tbody,
   tfoot {
     vertical-align: middle;
   }
+
   td,
   th,
   tr {
     vertical-align: inherit;
   }
+
   s,
   strike,
   del {
     text-decoration: line-through;
   }
+
   hr {
     border: 1px inset;
   }
+
   ol,
   ul,
   dir,
@@ -233,12 +352,15 @@ export default Vue.extend({
   dd {
     margin-left: 40px;
   }
+
   ul {
     list-style-type: disc;
   }
+
   ol {
     list-style-type: decimal;
   }
+
   ol ul,
   ul ol,
   ul ul,
@@ -246,21 +368,26 @@ export default Vue.extend({
     margin-top: 0;
     margin-bottom: 0;
   }
+
   u,
   ins {
     text-decoration: underline;
   }
+
   br:before {
     content: '\A';
     white-space: pre-line;
   }
+
   center {
     text-align: center;
   }
+
   :link,
   :visited {
     text-decoration: underline;
   }
+
   :focus {
     outline: thin dotted invert;
   }
@@ -270,6 +397,7 @@ export default Vue.extend({
     direction: ltr;
     unicode-bidi: bidi-override;
   }
+
   BDO[DIR='rtl'] {
     direction: rtl;
     unicode-bidi: bidi-override;
@@ -279,6 +407,7 @@ export default Vue.extend({
     direction: ltr;
     unicode-bidi: embed;
   }
+
   *[DIR='rtl'] {
     direction: rtl;
     unicode-bidi: embed;
