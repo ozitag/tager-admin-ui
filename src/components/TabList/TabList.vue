@@ -1,5 +1,14 @@
 <template>
-  <ul class="tab-list" data-ui-tab-list>
+  <ul
+    data-ui-tab-list
+    :class="[
+      'tab-list',
+      {
+        bordered,
+        'aligned-right': alignedRight,
+      },
+    ]"
+  >
     <li
       v-for="tab of tabList"
       :key="tab.id"
@@ -34,6 +43,14 @@ export type TabType = {
 type Props = Readonly<{
   tabList: Array<TabType>;
   selectedTabId: string;
+  bordered: {
+    type: boolean;
+    default: true;
+  };
+  alignedRight: {
+    type: boolean;
+    default: false;
+  };
 }>;
 
 export default defineComponent<Props>({
@@ -46,6 +63,14 @@ export default defineComponent<Props>({
     selectedTabId: {
       type: String,
       required: true,
+    },
+    bordered: {
+      type: Boolean,
+      required: false,
+    },
+    alignedRight: {
+      type: Boolean,
+      required: false,
     },
   },
   setup(props, context) {
@@ -67,13 +92,54 @@ export default defineComponent<Props>({
   display: flex;
   border-bottom: 1px solid #eee;
   margin: -1rem -1rem 1.5rem -1rem;
+
+  &.aligned-right {
+    justify-content: flex-end;
+
+    .tab-button {
+      border-left: 1px solid #eee;
+    }
+
+    .tab:not(:last-child) .tab-button {
+      border-right-color: #eee;
+    }
+
+    .tab.active:before {
+      right: -1px;
+    }
+  }
+
+  &:not(.aligned-right) {
+    .tab-button {
+      border-right: 1px solid #eee;
+    }
+
+    .tab.active:before {
+      left: -1px;
+    }
+
+    .tab:not(:first-child) .tab-button {
+      border-left-color: #eee;
+    }
+
+    &.bordered {
+      .tab:first-child.active:before {
+        left: -1px;
+      }
+    }
+  }
+
+  &.bordered {
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+  }
 }
 
 .tab {
   display: block;
-  border-top: 3px solid transparent;
-
   margin-bottom: -1px;
+  margin-top: -1px;
 
   &:not(.active):not(.invalid):hover {
     color: var(--secondary);
@@ -82,14 +148,21 @@ export default defineComponent<Props>({
   &.active {
     background-color: #fff;
     border-top-color: var(--primary);
+    position: relative;
 
-    &:not(:first-child) .tab-button {
-      border-left-color: #eee;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      display: block;
+      background: var(--primary);
     }
 
     .tab-button {
       cursor: default;
-      border-right-color: #eee;
     }
   }
 
@@ -100,8 +173,6 @@ export default defineComponent<Props>({
 
 .tab-button {
   padding: 0.7rem 2rem;
-  border-right: 1px solid transparent;
-  border-left: 1px solid transparent;
   color: inherit;
   font-weight: inherit;
 }
