@@ -369,7 +369,8 @@ export declare function useSearch(
 
 type TableChangeEvent = { type: 'SEARCH_UPDATE'; payload: string };
 
-interface TableState<T> {
+interface TableState<T, M = unknown> {
+  meta: ComputedRef<M>;
   isLoading: ComputedRef<boolean>;
   rowData: Ref<Array<T>>;
   errorMessage: Ref<Nullable<string>>;
