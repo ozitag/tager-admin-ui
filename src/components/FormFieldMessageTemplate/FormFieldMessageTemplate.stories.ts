@@ -95,12 +95,12 @@ export const RichText = () =>
       };
     },
     template: `
-      <FormFieldMessageTemplate
-        label="Label"
-        v-model="value"
-        :variable-list="variables"
-        type="richText"
-        error-message="Сейчас тут выводится сообщение об ошибке"
-      />
-    `,
+          <FormFieldMessageTemplate
+              label="Label"
+              v-model="value"
+              :variable-list="variables"
+              type="richText"
+              error-message="Сейчас тут выводится сообщение об ошибке"
+          />
+        `,
   });

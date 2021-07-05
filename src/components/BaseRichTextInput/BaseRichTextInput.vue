@@ -81,7 +81,6 @@ export default Vue.extend({
       const newMode = event.tabId;
 
       if (newMode === 'source_code') {
-        console.log('this.value', this.value);
         this.tempSourceCode = this.value;
       } else {
         this.$emit('input', this.tempSourceCode);
@@ -109,17 +108,12 @@ export default Vue.extend({
 }
 
 .source-code-panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
 }
 
 .source-code-input {
   width: 100%;
   height: 100%;
+  display: block !important;
 }
 
 .rich-text-editor-container {
