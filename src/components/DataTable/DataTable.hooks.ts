@@ -18,8 +18,8 @@ interface TableDataRequestParams {
   pageSize?: number;
 }
 
-interface TableState<T> {
-  meta: ComputedRef<any>;
+interface TableState<T, M = unknown> {
+  meta: ComputedRef<M>;
   isLoading: ComputedRef<boolean>;
   rowData: Ref<Array<T>>;
   errorMessage: Ref<Nullable<string>>;
