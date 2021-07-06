@@ -25,19 +25,22 @@ const EN = {
     toggleLabel: 'Advanced Search',
   },
 
+  seoFieldGroup: {
+    titleLabel: 'Page title',
+    descriptionLabel: 'Page description',
+    keywordsLabel: 'Keywords',
+    imageLabel: 'Open graph image',
+    previewAs: 'Preview as',
+    desktopGoogleSnippet: 'Desktop Google snippet',
+    mobileGoogleSnippet: 'Mobile Google snippet',
+  },
+
   uploadFileFromUrlForm: {
     placeholder: 'Type the file URL, example {{url}}',
     upload: 'Upload',
     fileTooLarge: 'File too large',
     uploadEndpointIsNotFound: 'Upload endpoint is not found',
     invalidUrl: 'Invalid URL',
-  },
-
-  seoFieldGroup: {
-    pageTitle: 'Page title',
-    pageDescription: 'Page description',
-    keywords: 'Keywords',
-    openGraphImage: 'Open graph image',
   },
 
   searchInput: {

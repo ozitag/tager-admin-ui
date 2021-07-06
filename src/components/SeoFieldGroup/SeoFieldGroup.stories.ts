@@ -30,8 +30,9 @@ export const Default = () =>
     components: { SeoFieldGroup },
     setup() {
       const values = ref<ValuesState>({
-        pageTitle: 'title',
-        pageDescription: 'description',
+        pageTitle: 'Contact Us - Aerovolga',
+        pageDescription:
+          'Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results.',
         keywords: 'keywords',
         openGraphImage: TEST_FILE,
       });
