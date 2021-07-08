@@ -101,13 +101,12 @@ export default defineComponent<Props>({
     }
 
     .tab:first-child:not(.active) .tab-button {
-      border-left: 0 none;
+      border-left-color: transparent;
     }
 
     .tab:not(:last-child) .tab-button {
       border-right-color: #eee;
     }
-
 
     .tab.active:before {
       right: -1px;

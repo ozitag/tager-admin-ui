@@ -1,43 +1,43 @@
 <template>
-  <div class="upload-from-url">
+  <div class='upload-from-url'>
     <FormGroup>
       <BaseInput
-        v-model="url"
-        class="form-control"
-        name="url"
-        type="text"
+        v-model='url'
+        class='form-control'
+        name='url'
+        type='text'
         :placeholder="
           t('ui:uploadFileFromUrlForm.placeholder', {
             url: 'http://site.com/image.jpg',
           })
         "
-        :disabled="isLoading"
+        :disabled='isLoading'
       />
-      <FormFieldError v-if="Boolean(error)">
+      <FormFieldError v-if='Boolean(error)'>
         {{ error }}
       </FormFieldError>
     </FormGroup>
 
     <BaseButton
-      class="form-button"
-      variant="primary"
-      :loading="isLoading"
-      :disabled="disabled"
-      @click="onSubmit"
+      class='form-button'
+      variant='primary'
+      :loading='isLoading'
+      :disabled='disabled'
+      @click='onSubmit'
     >
       {{ t('ui:uploadFileFromUrlForm.upload') }}
     </BaseButton>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { ref, computed, defineComponent } from '@vue/composition-api';
 import {
   FileType,
   getMessageFromError,
   isAbsoluteUrl,
   request,
-  RequestError,
+  RequestError
 } from '@tager/admin-services';
 
 import FormGroup from '../FormGroup.vue';
@@ -52,7 +52,7 @@ export default defineComponent({
     FormGroup,
     BaseInput,
     FormFieldError,
-    BaseButton,
+    BaseButton
   },
   setup(props, context) {
     const { t } = useTranslation(context);
@@ -67,7 +67,7 @@ export default defineComponent({
 
       return request.post({
         path: '/admin/upload',
-        body: formData,
+        body: formData
       });
     }
 
@@ -112,26 +112,35 @@ export default defineComponent({
       isLoading,
       error,
       disabled,
-      onSubmit,
+      onSubmit
     };
-  },
+  }
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 .upload-from-url {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  justify-content: center;
 
   .form-control {
-    width: 600px;
+    max-width: 600px;
     padding-top: 10px;
     padding-bottom: 10px;
     height: auto;
   }
 
+  .form-group {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
   .form-button {
+    margin-top: 1.5rem;
     padding: 10px 30px;
   }
 }

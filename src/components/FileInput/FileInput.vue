@@ -8,6 +8,20 @@
       },
     ]"
   >
+    <div class='header' v-if='!multiple && fileList.length > 0'>
+      <label class='header-label'>
+        {{ label }}
+      </label>
+      <TabList
+        v-if='urlUploadEnabled && fileList.length === 0'
+        :aligned-right='true'
+        class='file-tab-list'
+        :tab-list='tabList'
+        :selected-tab-id='selectedTabId'
+        @tab:update='handleTabUpdate'
+      />
+    </div>
+
     <div
       v-if='uploadingFileList.length > 0'
       :class="[
@@ -54,11 +68,12 @@
       </div>
     </div>
 
-    <div class='header' v-if='urlUploadEnabled && !multiple'>
+    <div class='header' v-if='!multiple && fileList.length === 0'>
       <label class='header-label'>
         {{ label }}
       </label>
       <TabList
+        v-if='urlUploadEnabled && savedFileList.length === 0'
         :aligned-right='true'
         class='file-tab-list'
         :tab-list='tabList'
@@ -132,11 +147,12 @@
       </div>
     </Draggable>
 
-    <div class='header' v-if='urlUploadEnabled && multiple'>
+    <div class='header' v-if='multiple'>
       <label class='header-label'>
         {{ label }}
       </label>
       <TabList
+        v-if='urlUploadEnabled'
         class='file-tab-list'
         :aligned-right='true'
         :tab-list='tabList'
@@ -854,6 +870,7 @@ export default defineComponent<Props>({
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 .file-link {
@@ -861,7 +878,6 @@ export default defineComponent<Props>({
   justify-content: center;
   flex: 1;
   min-height: 1px;
-  max-height: 100px;
 }
 
 .file-icon {
