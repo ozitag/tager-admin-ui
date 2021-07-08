@@ -9,7 +9,7 @@
     ]"
   >
     <div class='header' v-if='!multiple && fileList.length > 0'>
-      <label class='header-label'>
+      <label class='header-label' v-if='!!label'>
         {{ label }}
       </label>
       <TabList
@@ -69,7 +69,7 @@
     </div>
 
     <div class='header' v-if='!multiple && fileList.length === 0'>
-      <label class='header-label'>
+      <label class='header-label' v-if='!!label'>
         {{ label }}
       </label>
       <TabList
@@ -764,7 +764,6 @@ export default defineComponent<Props>({
 .file-grid {
   display: flex;
   flex-wrap: wrap;
-  margin: -1rem;
 
   &.is-multiple {
     margin-bottom: 1rem;
@@ -774,7 +773,6 @@ export default defineComponent<Props>({
 .file-wrapper {
   flex: 0 0 25%;
   width: 25%;
-  padding: 1rem;
 
   @media (max-width: 1600px) {
     flex: 0 0 33.3333333333%;
@@ -871,6 +869,7 @@ export default defineComponent<Props>({
   flex-direction: column;
   justify-content: center;
   margin-bottom: 10px;
+  max-height: 100%;
 }
 
 .file-link {
