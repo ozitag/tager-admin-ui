@@ -114,6 +114,8 @@ export default Vue.extend({
   width: 100%;
   height: 100%;
   display: block !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
 .rich-text-editor-container {
@@ -122,6 +124,16 @@ export default Vue.extend({
 
   .ck.ck-editor__main > .ck-editor__editable {
     min-height: 10rem;
+  }
+
+  .ck-toolbar{
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-color: var(--input-border-color) !important;
+  }
+
+  .ck-content{
+    border-color: var(--input-border-color) !important;
   }
 
   /* https://www.w3.org/TR/CSS2/sample.html */

@@ -127,6 +127,28 @@ export default defineComponent<Props>({
         right: 0;
       }
     }
+
+    &.bordered {
+      .tab:first-child {
+        &:before {
+          left: 0 !important;
+        }
+
+        .tab-button {
+          border-left: 1px solid #eee;
+        }
+      }
+
+      .tab:last-child {
+        &.active:before {
+          right: -1px;
+        }
+
+        .tab-button {
+          border-right: 0 none;
+        }
+      }
+    }
   }
 
   &:not(.aligned-right) {
