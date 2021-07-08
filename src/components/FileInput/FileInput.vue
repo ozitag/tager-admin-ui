@@ -868,7 +868,6 @@ export default defineComponent<Props>({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 10px;
   max-height: 100%;
 }
 
@@ -957,8 +956,10 @@ export default defineComponent<Props>({
 
   .header-label {
     margin-right: 20px;
-    display: inline-block;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
+    min-height: 35px;
+    display: flex;
+    align-content: flex-end;
   }
 }
 </style>
