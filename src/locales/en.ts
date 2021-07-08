@@ -14,6 +14,9 @@ const EN = {
     noResultsFound: 'No results found',
     itemsNotFound: 'Items not found',
     searchPlaceholder: 'Search...',
+    selected: 'Selected',
+    max: 'Max',
+    items: 'items'
   },
 
   emailTemplate: {

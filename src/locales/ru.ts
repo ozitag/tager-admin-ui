@@ -16,6 +16,9 @@ const RU: typeof EN = {
     noResultsFound: 'Результатов не найдено',
     itemsNotFound: 'Ничего не найдено',
     searchPlaceholder: 'Поиск...',
+    selected: 'Выбрано',
+    max: 'Макс',
+    items: 'элементов'
   },
 
   emailTemplate: {
