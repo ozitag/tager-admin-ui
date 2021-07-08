@@ -839,8 +839,7 @@ export default defineComponent<Props>({
   }
 
   img {
-    width: auto;
-    max-height: 100%;
+    object-fit: scale-down;
   }
 
   .upload-progress {
