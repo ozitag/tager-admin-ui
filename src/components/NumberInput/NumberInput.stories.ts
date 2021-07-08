@@ -25,6 +25,18 @@ export const Integer = () =>
     template: '<NumberInput v-model="value" type="integer" />',
   });
 
+export const WithThousandsSeparator = () =>
+  defineComponent({
+    components: { NumberInput },
+    setup() {
+      const value = ref('');
+
+      return { value };
+    },
+    template:
+      '<NumberInput v-model="value" thousands-separator=" " type="integer" />',
+  });
+
 export const Disabled = () => ({
   components: { NumberInput },
   template: '<NumberInput disabled />',

@@ -5,10 +5,10 @@
       :id="name"
       :name="name"
       :value="value"
+      :thousands-separator="thousandsSeparator"
       v-bind="$attrs"
       v-on="$listeners"
     />
-
     <form-field-error v-if="Boolean(error)">{{ error }}</form-field-error>
   </form-group>
 </template>
@@ -27,6 +27,7 @@ interface Props {
   value: string;
   type: string;
   error: string;
+  thousandsSeparator?: string;
 }
 
 export default defineComponent<Props>({
@@ -44,6 +45,10 @@ export default defineComponent<Props>({
       required: true,
     },
     label: {
+      type: String,
+      default: null,
+    },
+    thousandsSeparator: {
       type: String,
       default: null,
     },

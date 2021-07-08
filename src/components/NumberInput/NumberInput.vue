@@ -11,6 +11,7 @@ import BaseInput from '../BaseInput';
 type Props = {
   value: string;
   type?: Nullable<'integer' | 'float'>;
+  thousandsSeparator?: string;
 };
 
 export default defineComponent<Props>({
@@ -20,6 +21,10 @@ export default defineComponent<Props>({
     value: {
       type: String,
       default: '',
+    },
+    thousandsSeparator: {
+      type: String,
+      default: null,
     },
     type: {
       type: String,
@@ -33,11 +38,12 @@ export default defineComponent<Props>({
       const containsDot = props.value.includes('.');
       const [integer, fraction] = props.value.split('.');
 
-      /** Reference: https://stackoverflow.com/a/16637170 */
-      const regexp = /\B(?=(\d{3})+(?!\d))/g;
-
       /** e.g. "12345678" => "12 345 678" */
-      const formattedInteger = integer ? integer.replace(regexp, ' ') : '';
+      const formattedInteger = props.thousandsSeparator
+        ? integer
+          ? integer.replace(/\B(?=(\d{3})+(?!\d))/g, props.thousandsSeparator)
+          : ''
+        : integer;
 
       return [formattedInteger, containsDot ? '.' : '', fraction]
         .filter(Boolean)
