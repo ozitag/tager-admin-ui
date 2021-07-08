@@ -134,14 +134,15 @@
               </div>
             </div>
 
+            <div class='caption-text-wrapper' v-if='withCaptions'>
             <BaseTextArea
-              v-if='withCaptions'
               class='caption-text-area'
               :rows='2'
               placeholder='Caption'
               :value="entry.caption || ''"
               @input='handleCaptionChange(entry, $event)'
             />
+            </div>
           </div>
         </div>
       </div>
@@ -766,7 +767,13 @@ export default defineComponent<Props>({
   flex-wrap: wrap;
 
   &.is-multiple {
-    margin-bottom: 1rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    margin-top: -0.5rem;
+
+    .file-wrapper{
+      padding: 0.5rem 0.5rem;
+    }
   }
 }
 
@@ -840,10 +847,13 @@ export default defineComponent<Props>({
     width: 90%;
   }
 
+  .caption-text-wrapper{
+    margin-top: auto;
+    padding-top: 0.6rem;
+  }
+
   .caption-text-area {
     resize: none;
-    padding-top: 0.5rem;
-    margin-top: auto;
 
     &::placeholder {
       color: #bbb;
