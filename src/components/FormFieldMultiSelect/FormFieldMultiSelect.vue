@@ -7,6 +7,7 @@
       :name="name"
       :options="options"
       :selected-options="selectedOptions"
+      :max-selected-count="maxSelectedCount"
       v-bind="$attrs"
       v-on="$listeners"
     />
@@ -68,6 +69,10 @@ export default defineComponent<Props>({
       validator(options: Array<OptionType>) {
         return options.every(isValidSelectOption);
       },
+    },
+    maxSelectedCount: {
+      type: Number,
+      required: false,
     },
   },
   setup(props: Props) {

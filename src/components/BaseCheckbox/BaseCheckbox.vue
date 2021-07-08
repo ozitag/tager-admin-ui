@@ -31,7 +31,11 @@ export default defineComponent<Props>({
     const inputListeners = computed(() => ({
       ...context.listeners,
       change: (event: Event) =>
-        context.emit('change', (event.target as HTMLInputElement).checked),
+        context.emit(
+          'change',
+          (event.target as HTMLInputElement).checked,
+          event
+        ),
     }));
 
     function updateCheckedInDOM() {

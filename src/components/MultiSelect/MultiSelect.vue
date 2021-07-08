@@ -53,29 +53,34 @@
       </div>
     </div>
 
-    <ul v-if="options.length > 0" class="option-list" data-multi-select-list>
-      <li
-        :class="[
-          'option',
-          'select-all',
-          {
-            selected: isAllSelected,
-          },
-        ]"
-      >
-        <div class="option-inner">
-          <BaseCheckbox
-            :id="`${name}SelectAll`"
-            :checked="isAllSelected"
-            @change="handleSelectAllChange"
-          />
-          <label :for="`${name}SelectAll`" class="select-all-label">
-            {{ t('ui:multiSelect.selectAll') }}
-            <span>{{ options.length }} items</span>
-          </label>
-        </div>
-      </li>
+    <span v-if="maxSelectedCount" class="selected-info">
+      {{ t('ui:multiSelect.selected') }}: <b>{{ selectedOptions.length }}</b
+      >, {{ t('ui:multiSelect.max') }}: <b>{{ maxSelectedCount }}</b>
+    </span>
 
+    <div
+      :class="[
+        'option',
+        'select-all',
+        {
+          selected: isAllSelected,
+        },
+      ]"
+    >
+      <div v-if="!maxSelectedCount" class="option-inner">
+        <BaseCheckbox
+          :id="`${name}SelectAll`"
+          :checked="isAllSelected"
+          @change="handleSelectAllChange"
+        />
+        <label :for="`${name}SelectAll`" class="select-all-label">
+          {{ t('ui:multiSelect.selectAll') }}
+          <span>{{ options.length }} {{ t('ui:multiSelect.items') }}</span>
+        </label>
+      </div>
+    </div>
+
+    <ul v-if="options.length > 0" class="option-list" data-multi-select-list>
       <li
         v-for="(option, index) in filteredOptions"
         :key="option.value"
@@ -84,14 +89,16 @@
           {
             selected: isCheckedOption(option),
             focused: isFocusedOption(option),
+            disabled: !isCheckedOption(option) && isMaxSelected
           },
         ]"
       >
-        <div class="option-inner">
+        <div class="option-inner"
+        >
           <BaseCheckbox
             :id="`${name}[${index}]`"
             :checked="isCheckedOption(option)"
-            @change="toggleOption(option)"
+            @change="(checked, e) => toggleOption(option, e)"
             @focus="handleOptionFocus(option)"
             @blur="handleOptionBlur(option)"
           />
@@ -136,6 +143,7 @@ interface Props {
   selectedOptions: Array<OptionType>;
   searchable: boolean;
   searchPlaceholder: string;
+  maxSelectedCount: number;
 }
 
 export default defineComponent<Props>({
@@ -176,6 +184,9 @@ export default defineComponent<Props>({
       type: Boolean,
       default: false,
     },
+    maxSelectedCount: {
+      type: Number,
+    },
   },
   setup(props: Props, context: SetupContext) {
     const searchQuery = ref<string>('');
@@ -195,8 +206,17 @@ export default defineComponent<Props>({
         : false;
     }
 
-    function toggleOption(option: OptionType) {
+    function toggleOption(option: OptionType, e: Event) {
       const isChecked = isCheckedOption(option);
+
+      if (
+        props.maxSelectedCount &&
+        props.selectedOptions.length >= props.maxSelectedCount &&
+        !isChecked
+      ) {
+        e.target.checked = false;
+        return;
+      }
 
       const newSelectedOptions = isChecked
         ? props.selectedOptions.filter(
@@ -208,6 +228,13 @@ export default defineComponent<Props>({
     }
 
     function handleOptionFocus(option: OptionType) {
+      if (
+        props.maxSelectedCount &&
+        props.selectedOptions.length >= props.maxSelectedCount
+      ) {
+        return;
+      }
+
       focusedOption.value = option;
     }
 
@@ -249,6 +276,12 @@ export default defineComponent<Props>({
       () => props.options.length === props.selectedOptions.length
     );
 
+    const isMaxSelected = computed<boolean>(
+      () =>
+        props.maxSelectedCount &&
+        props.selectedOptions.length >= props.maxSelectedCount
+    );
+
     function handleSelectAllChange(shouldSelectAll: boolean) {
       context.emit('change', shouldSelectAll ? props.options : []);
     }
@@ -276,6 +309,7 @@ export default defineComponent<Props>({
       handleTagCloseClick,
       handleDragAndDropInput,
       isAllSelected,
+      isMaxSelected,
       handleSelectAllChange,
       computedSearchPlaceholder,
     };
@@ -316,6 +350,7 @@ export default defineComponent<Props>({
   &::-webkit-scrollbar-thumb {
     height: 56px;
     background-color: rgba(144, 147, 153, 0.3);
+
     &:hover {
       background-color: rgba(144, 147, 153, 0.5);
     }
@@ -335,6 +370,11 @@ export default defineComponent<Props>({
 .option {
   cursor: pointer;
   position: relative;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 
   &:hover,
   &.focused {
@@ -506,5 +546,11 @@ export default defineComponent<Props>({
   display: flex !important;
   align-items: center;
   justify-content: space-between;
+}
+
+.selected-info {
+  display: block;
+  text-align: right;
+  padding: 5px;
 }
 </style>

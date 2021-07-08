@@ -32,7 +32,7 @@ export const Default = () => ({
       options,
     };
   },
-  template: `<MultiSelect v-model="selectedOptions" :options="options" name="countries" :should-display-tags="true" style="width: 300px" />`,
+  template: `<MultiSelect v-model="selectedOptions" :options="options"  name="countries" :should-display-tags="true" style="width: 300px" />`,
 });
 
 export const WithSearch = () => ({
@@ -52,4 +52,23 @@ export const WithSearch = () => ({
     };
   },
   template: `<MultiSelect v-model="selectedOptions" :options="options" name="countries" :searchable="true" :should-display-tags="true" />`,
+});
+
+export const WithMaximum = () => ({
+  name: 'MultiSelectWithMaximum',
+  components: { MultiSelect },
+  setup() {
+    const selectedOptions = ref([OPTIONS[3], OPTIONS[6]]);
+    const options = ref(OPTIONS);
+
+    watch(selectedOptions, (selectedOptions) => {
+      console.log('selectedOptions:', selectedOptions);
+    });
+
+    return {
+      selectedOptions,
+      options,
+    };
+  },
+  template: `<MultiSelect v-model="selectedOptions" :options="options" :max-selected-count="5" name="countries" :searchable="true" :should-display-tags="true" />`,
 });
