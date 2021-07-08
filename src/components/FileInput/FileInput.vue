@@ -8,107 +8,44 @@
       },
     ]"
   >
-    <Draggable
-      v-if="savedFileList.length > 0"
-      :class="['file-grid', { 'is-multiple': multiple }]"
-      :animation="200"
-      :value="savedFileList"
-      @input="handleDragAndDropInput"
-    >
-      <div
-        v-for="entry of savedFileList"
-        :key="entry.id"
-        :class="[
-          'file-wrapper',
-          { single: !multiple },
-          { uploading: entry.status === 'UPLOADING' },
-          { error: entry.status === 'ERROR' },
-        ]"
-        :title="getFileHtmlTitle(entry.file)"
-      >
-        <div class="file-container">
-          <BaseButton
-            class="clear-button"
-            variant="icon"
-            title="Clear"
-            @click="clearFile(entry)"
-          >
-            <SvgIcon name="clear" />
-          </BaseButton>
-
-          <div class="file-inner">
-            <a :href="entry.file.url" class="file-link" target="_blank">
-              <LoadableImage
-                v-if="isImage(entry.file)"
-                :src="entry.file.url"
-                :alt="entry.file.name"
-                class="file-image"
-              />
-              <SvgIcon
-                v-else
-                class="file-icon"
-                :name="getFileIcon(entry.file)"
-              />
-            </a>
-
-            <div v-if="!isImage(entry.file)" class="file-caption">
-              <span class="file-name">{{ entry.file.name }}</span>
-              <small class="file-size">
-                ({{ getFileSize(entry.file.size) }})
-              </small>
-            </div>
-
-            <BaseTextArea
-              v-if="withCaptions"
-              class="caption-text-area"
-              :rows="2"
-              placeholder="Caption"
-              :value="entry.caption || ''"
-              @input="handleCaptionChange(entry, $event)"
-            />
-          </div>
-        </div>
-      </div>
-    </Draggable>
-
     <div
-      v-if="uploadingFileList.length > 0"
+      v-if='uploadingFileList.length > 0'
       :class="[
         'file-grid',
         { 'is-multiple': multiple, 'is-top-divider': multiple },
       ]"
     >
       <div
-        v-for="entry of uploadingFileList"
-        :key="entry.id"
+        v-for='entry of uploadingFileList'
+        :key='entry.id'
         :class="[
           'file-wrapper',
           { single: !multiple },
           { uploading: entry.status === 'UPLOADING' },
           { error: entry.status === 'ERROR' },
         ]"
-        :title="getFileHtmlTitle(entry.file)"
+        :title='getFileHtmlTitle(entry.file)'
       >
-        <div class="file-container">
+        <div class='file-container'>
           <BaseButton
-            class="clear-button"
-            variant="icon"
-            title="Clear"
-            @click="clearFile(entry)"
+            class='clear-button'
+            variant='icon'
+            title='Clear'
+            @click='clearFile(entry)'
           >
-            <SvgIcon name="clear" />
+            <SvgIcon name='clear' />
           </BaseButton>
 
           <ProgressBar
             v-if="entry.status === 'UPLOADING'"
-            :percent="entry.progress"
-            class="upload-progress"
+            :percent='entry.progress'
+            class='upload-progress'
           />
-          <div v-else-if="entry.status === 'ERROR'" class="error-message">
+          <div v-else-if="entry.status === 'ERROR'" class='error-message'>
             {{ entry.error }}
-            <div class="file-caption">
-              <span class="file-name">{{ entry.file.name }}</span>
-              <small class="file-size">
+            <div class='file-caption'>
+              <span class='file-name'>{{ entry.file.name }}</span>
+              <small class='file-size'>
                 ({{ getFileSize(entry.file.size) }})
               </small>
             </div>
@@ -117,9 +54,100 @@
       </div>
     </div>
 
+    <div class='header' v-if='urlUploadEnabled && !multiple'>
+      <label class='header-label'>
+        {{ label }}
+      </label>
+      <TabList
+        :aligned-right='true'
+        class='file-tab-list'
+        :tab-list='tabList'
+        :selected-tab-id='selectedTabId'
+        @tab:update='handleTabUpdate'
+      />
+    </div>
+
+    <Draggable
+      v-if='savedFileList.length > 0'
+      :class="['file-grid', { 'is-multiple': multiple }]"
+      :animation='200'
+      :value='savedFileList'
+      @input='handleDragAndDropInput'
+    >
+      <div
+        v-for='entry of savedFileList'
+        :key='entry.id'
+        :class="[
+          'file-wrapper',
+          { single: !multiple },
+          { uploading: entry.status === 'UPLOADING' },
+          { error: entry.status === 'ERROR' },
+        ]"
+        :title='getFileHtmlTitle(entry.file)'
+      >
+        <div class='file-container'>
+          <BaseButton
+            class='clear-button'
+            variant='icon'
+            title='Clear'
+            @click='clearFile(entry)'
+          >
+            <SvgIcon name='clear' />
+          </BaseButton>
+
+          <div class='file-inner'>
+            <div class='file-inner-data'>
+              <a :href='entry.file.url' class='file-link' target='_blank'>
+                <LoadableImage
+                  v-if='isImage(entry.file)'
+                  :src='entry.file.url'
+                  :alt='entry.file.name'
+                  class='file-image'
+                />
+                <SvgIcon
+                  v-else
+                  class='file-icon'
+                  :name='getFileIcon(entry.file)'
+                />
+              </a>
+
+              <div v-if='!isImage(entry.file)' class='file-caption'>
+                <span class='file-name'>{{ entry.file.name }}</span>
+                <small class='file-size'>
+                  ({{ getFileSize(entry.file.size) }})
+                </small>
+              </div>
+            </div>
+
+            <BaseTextArea
+              v-if='withCaptions'
+              class='caption-text-area'
+              :rows='2'
+              placeholder='Caption'
+              :value="entry.caption || ''"
+              @input='handleCaptionChange(entry, $event)'
+            />
+          </div>
+        </div>
+      </div>
+    </Draggable>
+
+    <div class='header' v-if='urlUploadEnabled && multiple'>
+      <label class='header-label'>
+        {{ label }}
+      </label>
+      <TabList
+        class='file-tab-list'
+        :aligned-right='true'
+        :tab-list='tabList'
+        :selected-tab-id='selectedTabId'
+        @tab:update='handleTabUpdate'
+      />
+    </div>
+
     <div
-      v-if="shouldDisplayDropbox"
-      ref="dropbox"
+      v-if='shouldDisplayDropbox'
+      ref='dropbox'
       :class="[
         'drop-zone',
         {
@@ -128,37 +156,31 @@
           'is-upload-file': selectedTabId === 'file',
         },
       ]"
-      @dragenter="handleDragEnter"
-      @dragover="handleDragOver"
-      @drop="handleDrop"
-      @dragleave="handleDragLeave"
+      @dragenter='handleDragEnter'
+      @dragover='handleDragOver'
+      @drop='handleDrop'
+      @dragleave='handleDragLeave'
     >
-      <TabList
-        class="file-tab-list"
-        :tab-list="tabList"
-        :selected-tab-id="selectedTabId"
-        @tab:update="handleTabUpdate"
-      />
 
       <UploadFileFromUrlForm
         v-if="selectedTabId === 'url'"
-        @change="handleUploadFromUrlChange"
+        @change='handleUploadFromUrlChange'
       />
 
       <div v-else-if="selectedTabId === 'file'">
-        <div class="upload-message-container">
-          <svg-icon name="upload" />
+        <div class='upload-message-container'>
+          <svg-icon name='upload' />
           <p>{{ computedPlaceholderMessage }}</p>
         </div>
 
-        <label class="file-input-label">
+        <label class='file-input-label'>
           <input
-            ref="fileInputRef"
-            type="file"
-            class="visually-hidden"
-            :accept="acceptableMimeTypes"
-            :multiple="multiple"
-            @change="handleChange"
+            ref='fileInputRef'
+            type='file'
+            class='visually-hidden'
+            :accept='acceptableMimeTypes'
+            :multiple='multiple'
+            @change='handleChange'
           />
         </label>
       </div>
@@ -166,14 +188,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import Draggable from 'vuedraggable';
 
 import {
   computed,
   defineComponent,
   ref,
-  SetupContext,
+  SetupContext
 } from '@vue/composition-api';
 
 import {
@@ -186,7 +208,7 @@ import {
   Nullable,
   RequestError,
   upload,
-  z,
+  z
 } from '@tager/admin-services';
 
 import { ARCHIVE_ACCEPT } from '../../constants/common';
@@ -205,14 +227,14 @@ import useTranslation from '../../hooks/useTranslation';
 const SingleFileInputValueSchema = z.object({
   id: z.string(),
   file: FileObjectSchema,
-  caption: z.string().nullable().optional(),
+  caption: z.string().nullable().optional()
 });
 
 type SingleFileInputValueType = z.infer<typeof SingleFileInputValueSchema>;
 
 const FileInputValueSchema = z.union([
   SingleFileInputValueSchema,
-  z.array(SingleFileInputValueSchema),
+  z.array(SingleFileInputValueSchema)
 ]);
 
 type FileInputValueType = z.infer<typeof FileInputValueSchema>;
@@ -231,6 +253,7 @@ type TabListType = {
 };
 
 interface Props {
+  required?: string;
   value: FileInputValueType | null;
   multiple: boolean;
   withCaptions: boolean;
@@ -239,6 +262,7 @@ interface Props {
   maxFileCount: number | null;
   fileType: 'image' | 'archive' | null;
   scenario: string | null;
+  urlUploadEnabled: boolean | null;
 }
 
 export default defineComponent<Props>({
@@ -251,11 +275,11 @@ export default defineComponent<Props>({
     BaseTextArea,
     LoadableImage,
     TabList,
-    UploadFileFromUrlForm,
+    UploadFileFromUrlForm
   },
   model: {
     prop: 'value',
-    event: 'change',
+    event: 'change'
   },
   props: {
     value: {
@@ -265,37 +289,45 @@ export default defineComponent<Props>({
       ) {
         return !value || FileInputValueSchema.check(value);
       },
-      default: null,
+      default: null
+    },
+    label: {
+      type: String,
+      required: false
     },
     multiple: {
       type: Boolean,
-      default: false,
+      default: false
     },
     withCaptions: {
       type: Boolean,
-      default: false,
+      default: false
     },
     accept: {
       type: String,
-      default: null,
+      default: null
     },
     placeholderMessage: {
       type: String,
-      default: null,
+      default: null
     },
     maxFileCount: {
       type: Number,
-      default: null,
+      default: null
+    },
+    urlUploadEnabled: {
+      type: Boolean,
+      default: true
     },
     fileType: {
       type: String,
       validator: (value: string) => ['image', 'archive'].includes(value),
-      default: null,
+      default: null
     },
     scenario: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
   watch: {
     $props: {
@@ -312,8 +344,8 @@ export default defineComponent<Props>({
             this.multiple
           );
         }
-      },
-    },
+      }
+    }
   },
   setup(props: Props, context: SetupContext) {
     const { t } = useTranslation(context);
@@ -325,12 +357,12 @@ export default defineComponent<Props>({
     const tabList = ref<Array<TabListType>>([
       {
         id: 'url',
-        label: t('ui:fileInput.uploadFileByURL'),
+        label: t('ui:fileInput.uploadFileByURL')
       },
       {
         id: 'file',
-        label: t('ui:fileInput.uploadFile'),
-      },
+        label: t('ui:fileInput.uploadFile')
+      }
     ]);
 
     const savedFileList = computed<Array<SingleFileInputValueType>>(() => {
@@ -339,9 +371,7 @@ export default defineComponent<Props>({
         : [props.value as SingleFileInputValueType | null].filter(isNotNullish);
     });
 
-    const fileList = computed<
-      Array<SingleFileInputValueType | UploadingSingleFileInputValueType>
-    >(() => {
+    const fileList = computed<Array<SingleFileInputValueType | UploadingSingleFileInputValueType>>(() => {
       return [...savedFileList.value, ...uploadingFileList.value];
     });
 
@@ -399,14 +429,14 @@ export default defineComponent<Props>({
           url: '',
           name: nativeFile.name,
           size: nativeFile.size ?? 0,
-          mime: nativeFile.type ?? '',
+          mime: nativeFile.type ?? ''
         },
         caption: null,
         nativeFile,
         xhr: new XMLHttpRequest(),
         status: 'UPLOADING',
         progress: 1,
-        error: null,
+        error: null
       };
     }
 
@@ -439,18 +469,18 @@ export default defineComponent<Props>({
             onProgress: ({ progress }) => {
               uploadingValue.progress = progress * 100;
             },
-            xhr: uploadingValue.xhr,
+            xhr: uploadingValue.xhr
           })
             .then((savedFile) => {
               const newValue: SingleFileInputValueType = {
                 id: createId(),
                 file: savedFile,
-                caption: removeFileExtension(savedFile.name),
+                caption: removeFileExtension(savedFile.name)
               };
 
               const newValues: Array<SingleFileInputValueType> = [
                 ...savedFileList.value,
-                newValue,
+                newValue
               ].filter(notEmpty);
 
               emitChangeEvent(newValues);
@@ -481,12 +511,12 @@ export default defineComponent<Props>({
       const newValue: SingleFileInputValueType = {
         id: createId(),
         file: savedFile,
-        caption: removeFileExtension(savedFile.name),
+        caption: removeFileExtension(savedFile.name)
       };
 
       const newValues: Array<SingleFileInputValueType> = [
         ...savedFileList.value,
-        newValue,
+        newValue
       ].filter(notEmpty);
 
       emitChangeEvent(newValues);
@@ -566,7 +596,7 @@ export default defineComponent<Props>({
       return [
         `Name: ${file.name}`,
         `Size: ${getFileSize(file.size)} (${file.size} bytes)`,
-        `MIME type: ${file.mime}`,
+        `MIME type: ${file.mime}`
       ].join('\n');
     }
 
@@ -623,16 +653,15 @@ export default defineComponent<Props>({
       handleDragAndDropInput,
 
       savedFileList,
-      uploadingFileList,
+      uploadingFileList
     };
-  },
+  }
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 .file-input-container {
   position: relative;
-  margin-top: 2.125rem;
 
   &.with-captions {
     .drop-zone,
@@ -645,6 +674,7 @@ export default defineComponent<Props>({
     margin-top: 0;
   }
 }
+
 .drop-zone {
   position: relative;
   height: 220px;
@@ -674,10 +704,6 @@ export default defineComponent<Props>({
     background-color: transparent;
   }
 
-  &:not(:first-child) {
-    margin-top: 1rem;
-  }
-
   &.is-upload-file {
     border-top-right-radius: 0;
   }
@@ -697,6 +723,8 @@ export default defineComponent<Props>({
 
   p {
     color: #bbb;
+    display: block;
+    text-align: center;
   }
 }
 
@@ -723,16 +751,18 @@ export default defineComponent<Props>({
   margin: -1rem;
 
   &.is-multiple {
-    margin-bottom: 3.25rem;
+    margin-bottom: 1rem;
   }
 }
 
 .file-wrapper {
   flex: 0 0 25%;
+  width: 25%;
   padding: 1rem;
 
   @media (max-width: 1600px) {
     flex: 0 0 33.3333333333%;
+    width: 33.3333333333%;
   }
 
   &.single {
@@ -749,8 +779,8 @@ export default defineComponent<Props>({
       color: var(--danger);
       border-color: rgba(220, 53, 69, 0.4);
       box-shadow: 0 3px 2px -1px rgba(220, 53, 69, 0.2),
-        0px 1px 5px 0px rgba(220, 53, 69, 0.14),
-        0px 1px 5px 0px rgba(220, 53, 69, 0.12);
+      0px 1px 5px 0px rgba(220, 53, 69, 0.14),
+      0px 1px 5px 0px rgba(220, 53, 69, 0.12);
     }
 
     .file-size {
@@ -783,7 +813,7 @@ export default defineComponent<Props>({
     &:hover {
       transform: scale(1.1);
       box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.2),
-        0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+      0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
     }
   }
 
@@ -798,7 +828,8 @@ export default defineComponent<Props>({
 
   .caption-text-area {
     resize: none;
-    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    margin-top: auto;
 
     &::placeholder {
       color: #bbb;
@@ -815,6 +846,14 @@ export default defineComponent<Props>({
   max-height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.file-inner-data {
+  flex: 1 1 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .file-link {
@@ -822,6 +861,7 @@ export default defineComponent<Props>({
   justify-content: center;
   flex: 1;
   min-height: 1px;
+  max-height: 100px;
 }
 
 .file-icon {
@@ -852,10 +892,8 @@ export default defineComponent<Props>({
 }
 
 .file-tab-list {
-  position: absolute;
-  top: 0;
-  right: -1px;
-  transform: translate(0, -100%);
+  display: flex;
+  justify-content: flex-end;
 
   margin: 0;
   border-bottom: none;
@@ -864,13 +902,10 @@ export default defineComponent<Props>({
     border-top: none;
     margin-bottom: 0;
 
+
     [data-ui-tab-button] {
-      padding: 7px;
-      border: 1px solid transparent;
-      border-bottom: none;
-      border-top-left-radius: 0.25rem;
-      border-top-right-radius: 0.25rem;
-      transition: background-color 0.15s linear;
+      padding: 7px 12px;
+      white-space: nowrap;
     }
 
     &[data-active] {
@@ -878,9 +913,9 @@ export default defineComponent<Props>({
       border-top: none;
 
       [data-ui-tab-button] {
-        border: 1px solid #ccc;
+        // border: 1px solid #ccc;
         border-bottom: none;
-        padding: 7px;
+        padding: 7px 12px;
       }
     }
   }
@@ -897,6 +932,18 @@ export default defineComponent<Props>({
     right: 1rem;
     height: 1px;
     background-color: #eee;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .header-label {
+    margin-right: 20px;
+    display: inline-block;
+    margin-bottom: .5rem;
   }
 }
 </style>

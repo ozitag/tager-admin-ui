@@ -39,7 +39,7 @@ const EN = {
   },
 
   uploadFileFromUrlForm: {
-    placeholder: 'Type the file URL, example {{url}}',
+    placeholder: 'Type the file URL, example: {{- url}}',
     upload: 'Upload',
     fileTooLarge: 'File too large',
     uploadEndpointIsNotFound: 'Upload endpoint is not found',

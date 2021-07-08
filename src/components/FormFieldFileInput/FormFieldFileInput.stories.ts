@@ -13,7 +13,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
       mime: 'image/jpeg',
       name: 'e0cbc508796c2af24357b5f056aa2bdb0000033333.jpg',
       size: 386793,
-      url: 'https://new.ozitag.com/uploads/tmp/zx/0q/Zx0qap7Hvw.jpg',
+      url: 'https://ozitag.com/logo.png',
     },
     caption: 'Caption text',
   },
@@ -24,7 +24,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
       mime: 'ima3ge/jpeg',
       name: 'e0cbc508796c2af24.zip',
       size: 386793,
-      url: 'https://new.ozitag.com/uploads/tmp/zx/0q/Zx0qap7Hvw.jpg',
+      url: 'https://ozitag.com/logo.png',
     },
   },
   {
@@ -34,7 +34,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
       mime: 'image/jpeg',
       name: '1213090.jpg',
       size: 423630,
-      url: 'https://new.ozitag.com/uploads/tmp/xw/s7/xWS75w2A2p.jpg',
+      url: 'https://ozitag.com/logo.png',
     },
   },
 ];

@@ -10,28 +10,28 @@
     ]"
   >
     <li
-      v-for="tab of tabList"
-      :key="tab.id"
+      v-for='tab of tabList'
+      :key='tab.id'
       :class="[
         'tab',
         { active: selectedTabId === tab.id, invalid: tab.hasErrors },
       ]"
       data-ui-tab
-      :data-active="selectedTabId === tab.id ? true : undefined"
+      :data-active='selectedTabId === tab.id ? true : undefined'
     >
       <button
-        class="tab-button"
-        type="button"
+        class='tab-button'
+        type='button'
         data-ui-tab-button
-        @click="handleTabClick(tab.id)"
+        @click='handleTabClick(tab.id)'
       >
-        {{ tab.label }} <span v-if="tab.hasErrors">*</span>
+        {{ tab.label }} <span v-if='tab.hasErrors'>*</span>
       </button>
     </li>
   </ul>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { defineComponent } from '@vue/composition-api';
 
 export type TabType = {
@@ -58,20 +58,20 @@ export default defineComponent<Props>({
   props: {
     tabList: {
       type: Array,
-      required: true,
+      required: true
     },
     selectedTabId: {
       type: String,
-      required: true,
+      required: true
     },
     bordered: {
       type: Boolean,
-      required: false,
+      required: false
     },
     alignedRight: {
       type: Boolean,
-      required: false,
-    },
+      required: false
+    }
   },
   setup(props, context) {
     function handleTabClick(tabId: string): void {
@@ -81,13 +81,13 @@ export default defineComponent<Props>({
     }
 
     return {
-      handleTabClick,
+      handleTabClick
     };
-  },
+  }
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 .tab-list {
   display: flex;
   border-bottom: 1px solid #eee;
@@ -100,12 +100,33 @@ export default defineComponent<Props>({
       border-left: 1px solid #eee;
     }
 
+    .tab:first-child:not(.active) .tab-button {
+      border-left: 0 none;
+    }
+
     .tab:not(:last-child) .tab-button {
       border-right-color: #eee;
     }
 
+
     .tab.active:before {
       right: -1px;
+    }
+
+    .tab:last-child {
+      .tab-button {
+        border-right: 1px solid transparent;
+      }
+    }
+
+    .tab:last-child.active {
+      .tab-button {
+        border-right-color: #eee;
+      }
+
+      &:before {
+        right: 0;
+      }
     }
   }
 
@@ -133,6 +154,14 @@ export default defineComponent<Props>({
     border-top: 1px solid #eee;
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
+
+    .tab:first-child .tab-button {
+      border-left: 0;
+    }
+
+    .tab:first-child.active:before {
+      left: -1px;
+    }
   }
 }
 

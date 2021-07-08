@@ -41,7 +41,7 @@ const RU: typeof EN = {
   },
 
   uploadFileFromUrlForm: {
-    placeholder: 'Введите URL-адрес файла, например {{url}}',
+    placeholder: 'Введите URL-адрес файла, например: {{- url}}',
     upload: 'Загрузить',
     fileTooLarge: 'Файл слишком большой',
     uploadEndpointIsNotFound: 'Конечная точка загрузки не найдена',

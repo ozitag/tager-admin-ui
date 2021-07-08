@@ -8,7 +8,7 @@
         type="text"
         :placeholder="
           t('ui:uploadFileFromUrlForm.placeholder', {
-            url: 'https://site.com/image.jpg',
+            url: 'http://site.com/image.jpg',
           })
         "
         :disabled="isLoading"

@@ -13,7 +13,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
       mime: 'image/png',
       name: '2.png',
       size: 29280,
-      url: 'https://tager.dev.ozitag.com/uploads/tmp/5x/fp/5xFpgWRkl8.png',
+      url: 'https://ozitag.com/logo.png',
     },
   },
   {
@@ -23,7 +23,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
       mime: 'image/jpeg',
       name: 'e0cbc508796c2af24357b5f056aa2bdb0000033333.jpg',
       size: 386793,
-      url: 'https://new.ozitag.com/uploads/tmp/zx/0q/Zx0qap7Hvw.jpg',
+      url: 'https://ozitag.com/logo.png',
     },
   },
   {
@@ -33,7 +33,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
       mime: 'ima3ge/jpeg',
       name: 'e0cbc508796c2af24.zip',
       size: 386793,
-      url: 'https://new.ozitag.com/uploads/tmp/zx/0q/Zx0qap7Hvw.jpg',
+      url: 'https://ozitag.com/logo.png',
     },
   },
   {
@@ -43,7 +43,7 @@ const TEST_FILES: Array<SingleFileInputValueType> = [
       mime: 'image/jpeg',
       name: '1213090.jpg',
       size: 423630,
-      url: 'https://new.ozitag.com/uploads/tmp/xw/s7/xWS75w2A2p.jpg',
+      url: 'https://ozitag.com/logo.png',
     },
   },
 ];
@@ -59,7 +59,7 @@ export const Default = () =>
       };
     },
     template: `
-      <FileInput v-model="image" />
+      <FileInput v-model="image" label='File' />
     `,
   });
 
@@ -75,5 +75,21 @@ export const Multiple = () =>
     },
     template: `
       <FileInput v-model="images" multiple with-captions />
+    `,
+  });
+
+
+export const Simple = () =>
+  defineComponent({
+    components: { FileInput },
+    setup() {
+      const image = ref<SingleFileInputValueType | null>(TEST_FILES[2]);
+
+      return {
+        image,
+      };
+    },
+    template: `
+      <div style='width: 300px;'><FileInput v-model="images" :url-upload-enabled='false' /></div>
     `,
   });
