@@ -34,6 +34,7 @@ interface Props {
   error: string;
   options: Array<OptionType>;
   selectedOptions: Array<OptionType>;
+  maxSelectedCount: number;
 }
 
 export default defineComponent<Props>({

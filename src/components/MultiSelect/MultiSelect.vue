@@ -1,45 +1,45 @@
 <template>
-  <div class="multi-select">
-    <div v-if="searchable" class="search">
+  <div class='multi-select'>
+    <div v-if='searchable' class='search'>
       <input
-        ref="inputRef"
-        v-model="searchQuery"
-        class="search-control"
-        type="text"
-        :placeholder="computedSearchPlaceholder"
+        ref='inputRef'
+        v-model='searchQuery'
+        class='search-control'
+        type='text'
+        :placeholder='computedSearchPlaceholder'
       />
 
-      <SvgIcon name="search" class="icon-search" />
+      <SvgIcon name='search' class='icon-search' />
 
       <button
-        v-if="searchQuery"
-        class="btn-clear"
-        type="button"
-        @click="handleClear"
+        v-if='searchQuery'
+        class='btn-clear'
+        type='button'
+        @click='handleClear'
       >
-        <SvgIcon name="clear" class="icon-clear" />
+        <SvgIcon name='clear' class='icon-clear' />
       </button>
     </div>
 
-    <div v-if="shouldDisplayTags" class="tags-wrapper">
-      <div v-if="selectedOptions.length > 0" class="scroll-container">
+    <div v-if='shouldDisplayTags' class='tags-wrapper'>
+      <div v-if='selectedOptions.length > 0' class='scroll-container'>
         <Draggable
-          tag="div"
-          :value="selectedOptions"
-          :animation="200"
-          class="tags"
-          @input="handleDragAndDropInput"
+          tag='div'
+          :value='selectedOptions'
+          :animation='200'
+          class='tags'
+          @input='handleDragAndDropInput'
         >
-          <transition-group type="transition" tag="ul" class="tag-list">
+          <transition-group type='transition' tag='ul' class='tag-list'>
             <li
-              v-for="option in selectedOptions"
-              :key="option.value"
-              class="tag-item"
+              v-for='option in selectedOptions'
+              :key='option.value'
+              class='tag-item'
             >
               <Tag
-                class="tag"
-                :closable="true"
-                @change:close="handleTagCloseClick(option)"
+                class='tag'
+                :closable='true'
+                @change:close='handleTagCloseClick(option)'
               >
                 {{ option.label }}
               </Tag>
@@ -48,14 +48,14 @@
         </Draggable>
       </div>
 
-      <div v-else class="no-tags">
+      <div v-else class='no-tags'>
         {{ t('ui:multiSelect.noSelected') }}
       </div>
     </div>
 
-    <span v-if="maxSelectedCount" class="selected-info">
+    <span v-if='maxSelectedCount' class='selected-info'>
       {{ t('ui:multiSelect.selected') }}: <b>{{ selectedOptions.length }}</b
-      >, {{ t('ui:multiSelect.max') }}: <b>{{ maxSelectedCount }}</b>
+    >, {{ t('ui:multiSelect.max') }}: <b>{{ maxSelectedCount }}</b>
     </span>
 
     <div
@@ -67,23 +67,23 @@
         },
       ]"
     >
-      <div v-if="!maxSelectedCount" class="option-inner">
+      <div v-if='!maxSelectedCount' class='option-inner'>
         <BaseCheckbox
-          :id="`${name}SelectAll`"
-          :checked="isAllSelected"
-          @change="handleSelectAllChange"
+          :id='`${name}SelectAll`'
+          :checked='isAllSelected'
+          @change='handleSelectAllChange'
         />
-        <label :for="`${name}SelectAll`" class="select-all-label">
+        <label :for='`${name}SelectAll`' class='select-all-label'>
           {{ t('ui:multiSelect.selectAll') }}
           <span>{{ options.length }} {{ t('ui:multiSelect.items') }}</span>
         </label>
       </div>
     </div>
 
-    <ul v-if="options.length > 0" class="option-list" data-multi-select-list>
+    <ul v-if='options.length > 0' class='option-list' data-multi-select-list>
       <li
-        v-for="(option, index) in filteredOptions"
-        :key="option.value"
+        v-for='(option, index) in filteredOptions'
+        :key='option.value'
         :class="[
           'option',
           {
@@ -93,26 +93,26 @@
           },
         ]"
       >
-        <div class="option-inner"
+        <div class='option-inner'
         >
           <BaseCheckbox
-            :id="`${name}[${index}]`"
-            :checked="isCheckedOption(option)"
-            @change="(checked, e) => toggleOption(option, e)"
-            @focus="handleOptionFocus(option)"
-            @blur="handleOptionBlur(option)"
+            :id='`${name}[${index}]`'
+            :checked='isCheckedOption(option)'
+            @change='(checked, e) => toggleOption(option, e)'
+            @focus='handleOptionFocus(option)'
+            @blur='handleOptionBlur(option)'
           />
-          <label :for="`${name}[${index}]`">
+          <label :for='`${name}[${index}]`'>
             {{ option.label }}
           </label>
         </div>
       </li>
 
-      <li v-if="filteredOptions.length === 0 && searchQuery" class="no-results">
+      <li v-if='filteredOptions.length === 0 && searchQuery' class='no-results'>
         {{ t('ui:multiSelect.noResultsFound') }}
       </li>
     </ul>
-    <div v-else class="empty-block">
+    <div v-else class='empty-block'>
       <span>
         {{ t('ui:multiSelect.itemsNotFound') }}
       </span>
@@ -120,12 +120,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import {
   computed,
   defineComponent,
   ref,
-  SetupContext,
+  SetupContext
 } from '@vue/composition-api';
 import Draggable from 'vuedraggable';
 
@@ -151,42 +151,42 @@ export default defineComponent<Props>({
   components: { BaseCheckbox, SvgIcon, Tag, Draggable },
   model: {
     event: 'change',
-    prop: 'selectedOptions',
+    prop: 'selectedOptions'
   },
   props: {
     name: {
       type: String,
-      required: true,
+      required: true
     },
     options: {
       type: Array,
       default: () => [],
       validator(options: Array<OptionType>) {
         return options.every(isValidSelectOption);
-      },
+      }
     },
     selectedOptions: {
       type: Array,
       default: () => [],
       validator(options: Array<OptionType>) {
         return options.every(isValidSelectOption);
-      },
+      }
     },
     searchable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     searchPlaceholder: {
       type: String,
-      default: '',
+      default: ''
     },
     shouldDisplayTags: {
       type: Boolean,
-      default: false,
+      default: false
     },
     maxSelectedCount: {
-      type: Number,
-    },
+      type: Number
+    }
   },
   setup(props: Props, context: SetupContext) {
     const searchQuery = ref<string>('');
@@ -214,7 +214,10 @@ export default defineComponent<Props>({
         props.selectedOptions.length >= props.maxSelectedCount &&
         !isChecked
       ) {
-        e.target.checked = false;
+        if (e && e.target) {
+          (e.target as HTMLInputElement).checked = false;
+        }
+
         return;
       }
 
@@ -278,8 +281,8 @@ export default defineComponent<Props>({
 
     const isMaxSelected = computed<boolean>(
       () =>
-        props.maxSelectedCount &&
-        props.selectedOptions.length >= props.maxSelectedCount
+        props.maxSelectedCount ?
+        props.selectedOptions.length >= props.maxSelectedCount : false
     );
 
     function handleSelectAllChange(shouldSelectAll: boolean) {
@@ -311,13 +314,13 @@ export default defineComponent<Props>({
       isAllSelected,
       isMaxSelected,
       handleSelectAllChange,
-      computedSearchPlaceholder,
+      computedSearchPlaceholder
     };
-  },
+  }
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 .multi-select {
   overflow: hidden;
   border: 1px solid var(--input-border-color);
