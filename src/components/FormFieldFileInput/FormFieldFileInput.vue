@@ -1,20 +1,21 @@
 <template>
   <FormGroup>
     <FileInput
-      :id='name'
-      :label='label'
-      class='file-input'
-      :name='name'
-      :value='value'
-      :url-upload-enabled='urlUploadEnabled'
-      v-bind='$attrs'
-      v-on='$listeners'
+      :id="name"
+      :label="label"
+      class="file-input"
+      :name="name"
+      :value="value"
+      :url-upload-enabled="urlUploadEnabled"
+      v-bind="$attrs"
+      :scenario="scenario"
+      v-on="$listeners"
     />
-    <FormFieldError v-if='Boolean(error)'>{{ error }}</FormFieldError>
+    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
   </FormGroup>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import FormGroup from '../FormGroup.vue';
 import FormFieldError from '../FormFieldError';
@@ -28,6 +29,7 @@ interface Props {
   value: SingleFileInputValueType | Array<SingleFileInputValueType>;
   error: string;
   urlUploadEnabled: boolean | null;
+  scenario: string | null;
 }
 
 export default defineComponent<Props>({
@@ -36,30 +38,34 @@ export default defineComponent<Props>({
     FormGroup,
     FormFieldError,
     InputLabel,
-    FileInput
+    FileInput,
   },
   inheritAttrs: false,
   model: {
-    event: 'change'
+    event: 'change',
   },
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     urlUploadEnabled: {
       type: Boolean,
-      default: true
+      default: true,
     },
     value: [Array, Object],
     error: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+    scenario: {
+      type: String,
+      default: null,
+    },
+  },
 });
 </script>
