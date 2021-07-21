@@ -31,30 +31,31 @@ export default defineComponent<Props>({
   },
   setup(props, context) {
     const mapId = createId();
-    const mapRef = ref<Nullable<Map>>(null);
-    const markerRef = ref<Nullable<Marker>>(null);
+
+    let mapRef: Map;
+    let markerRef: Marker;
 
     watch(
       () => props.value,
       () => {
-        if (markerRef.value) {
-          markerRef.value.setLatLng(props.value);
+        if (markerRef) {
+          markerRef.setLatLng(props.value);
         }
 
-        if (mapRef.value) {
-          mapRef.value.setView(props.value, mapRef.value.getZoom());
+        if (mapRef) {
+          mapRef.setView(props.value, mapRef.getZoom());
         }
       }
     );
 
     onMounted(() => {
-      const map = L.map(mapId).setView(props.value, 16);
+      mapRef = L.map(mapId).setView(props.value, 16);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
+      }).addTo(mapRef);
 
       const googleMapMarkerIcon = L.icon({
         iconUrl:
@@ -63,20 +64,22 @@ export default defineComponent<Props>({
         iconAnchor: [13, 43],
       });
 
-      const marker = L.marker(props.value, {
+      markerRef = L.marker(props.value, {
         icon: googleMapMarkerIcon,
       });
 
-      marker.addTo(map);
+      markerRef.addTo(mapRef);
 
       const clickHandler: LeafletMouseEventHandlerFn = (event) => {
         context.emit('change', event.latlng);
       };
 
-      map.on('click', clickHandler);
+      mapRef.on('click', clickHandler);
 
-      mapRef.value = map;
-      markerRef.value = marker;
+      // TODO: we need to invalidate size when use the form in repeater block and user opens it
+      setInterval(() => {
+        mapRef.invalidateSize();
+      }, 500);
     });
 
     return { mapId };
