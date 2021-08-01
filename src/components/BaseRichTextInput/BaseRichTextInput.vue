@@ -68,6 +68,24 @@ export default Vue.extend({
         extraPlugins: [
           CustomUploadAdapterPluginFactory(this.getUploadAdapterOptions),
         ],
+        link: {
+          decorators: [
+            {
+              mode: 'manual',
+              label: 'Open in a new tab',
+              attributes: {
+                target: '_blank',
+              },
+            },
+            {
+              mode: 'manual',
+              label: 'Downloadable',
+              attributes: {
+                download: 'download',
+              },
+            },
+          ],
+        },
       },
     };
   },
@@ -126,13 +144,13 @@ export default Vue.extend({
     min-height: 10rem;
   }
 
-  .ck-toolbar{
+  .ck-toolbar {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
     border-color: var(--input-border-color) !important;
   }
 
-  .ck-content{
+  .ck-content {
     border-color: var(--input-border-color) !important;
   }
 
