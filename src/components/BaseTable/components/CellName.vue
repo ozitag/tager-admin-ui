@@ -29,18 +29,13 @@
       </div>
 
       <div v-if="state.websiteLink" class="url-block">
-        <span class="label">Web URL:</span>
-
-        <div class="link-wrapper">
-          <a class="url" :href="state.websiteLink.url" target="_blank">
-            {{ state.websiteLink.text }}
-          </a>
-
-          <BaseButton variant="icon" @click="handleCopy(state.websiteLink.url)">
-            <SvgIcon v-if="!isCopied" name="contentCopy" class="icon-copy" />
-            <SvgIcon v-else name="done" class="icon-copy" />
-          </BaseButton>
-        </div>
+        <a class="url" :href="state.websiteLink.url" target="_blank">
+          {{ state.websiteLink.text }}
+        </a>
+        <BaseButton variant="icon" @click="handleCopy(state.websiteLink.url)">
+          <SvgIcon v-if="!isCopied" name="contentCopy" class="icon-copy" />
+          <SvgIcon v-else name="done" class="icon-copy" />
+        </BaseButton>
       </div>
     </div>
   </td>
@@ -232,15 +227,6 @@ export default defineComponent<Props>({
   font-size: 13px;
   border-top: 1px solid #eee;
   padding: 0.5rem 0.75rem;
-
-  .label {
-    display: block;
-  }
-
-  .link-wrapper {
-    display: flex;
-    align-items: center;
-  }
 
   .url {
     color: #007bff;
