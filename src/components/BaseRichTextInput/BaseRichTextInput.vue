@@ -77,13 +77,6 @@ export default Vue.extend({
                 target: '_blank',
               },
             },
-            {
-              mode: 'manual',
-              label: 'Downloadable',
-              attributes: {
-                download: 'download',
-              },
-            },
           ],
         },
       },
