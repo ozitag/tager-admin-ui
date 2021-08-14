@@ -100,7 +100,8 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.button {
+.button,
+a {
   position: relative;
   display: inline-block;
   font-weight: 400;
