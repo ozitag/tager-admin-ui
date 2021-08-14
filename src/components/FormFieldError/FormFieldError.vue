@@ -18,5 +18,9 @@ small {
   display: block;
   margin-top: 0.25rem;
   color: red;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 </style>
