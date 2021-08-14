@@ -123,7 +123,8 @@ a {
     text-decoration: none;
   }
 
-  &:disabled {
+  &:disabled,
+  &[disabled] {
     cursor: not-allowed;
     opacity: 0.3;
   }
