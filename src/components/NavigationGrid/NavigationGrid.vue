@@ -1,10 +1,10 @@
 <template>
   <div class="nav-container">
-    <div v-for="(navItem, index) of navItems" :key="index" class="nav-card">
+    <div v-for="(navItem, index) of navItems" :key="index" class="nav-card" :style="`width: ${navItem.width ? navItem.width : 33.3333333}%`">
       <component
-        :is="navItem.url ? 'router-link' : 'div'"
-        :to="navItem.url || undefined"
-        :class="['inner', { link: navItem.url }]"
+          :is="navItem.url ? 'router-link' : 'div'"
+          :to="navItem.url || undefined"
+          :class="['inner', { link: navItem.url }]"
       >
         <div :class="['top', { 'full-height': hasNameOnly(navItem) }]">
           <span class="name">{{ navItem.name }}</span>
@@ -12,24 +12,24 @@
         <div v-if="!hasNameOnly(navItem)" class="content">
           <div v-if="Boolean(navItem.total)" class="total-block">
             <spinner
-              v-if="navItem.total.status === 'LOADING'"
-              :size="40"
-              :stroke-width="3"
-              class="spinner"
+                v-if="navItem.total.status === 'LOADING'"
+                :size="40"
+                :stroke-width="3"
+                class="spinner"
             />
             <component
-              :is="navItem.total.url ? 'router-link' : 'span'"
-              v-else
-              class="total-value"
-              :to="navItem.total.url || undefined"
+                :is="navItem.total.url ? 'router-link' : 'span'"
+                v-else
+                class="total-value"
+                :to="navItem.total.url || undefined"
             >
               {{ formatNumber(navItem.total.value) }}
             </component>
           </div>
 
           <ul
-            v-if="navItem.linkList && navItem.linkList.length > 0"
-            :class="['link-list', { center: navItem.linkList.length === 1 }]"
+              v-if="navItem.linkList && navItem.linkList.length > 0"
+              :class="['link-list', { center: navItem.linkList.length === 1 }]"
           >
             <li v-for="(link, linkIndex) of navItem.linkList" :key="linkIndex">
               <router-link :to="link.url">
@@ -44,9 +44,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import {defineComponent} from '@vue/composition-api';
 import Spinner from '../Spinner';
-import { NavigationGridItem } from '../../typings/common';
+import {NavigationGridItem} from '../../typings/common';
 
 interface Props {
   navItems: Array<NavigationGridItem>;
@@ -54,7 +54,7 @@ interface Props {
 
 export default defineComponent<Props>({
   name: 'NavigationGrid',
-  components: { Spinner },
+  components: {Spinner},
   props: {
     navItems: {
       type: Array,
@@ -64,7 +64,7 @@ export default defineComponent<Props>({
   setup() {
     function hasNameOnly(navItem: NavigationGridItem): boolean {
       const hasLinkList =
-        Array.isArray(navItem.linkList) && navItem.linkList.length > 0;
+          Array.isArray(navItem.linkList) && navItem.linkList.length > 0;
 
       return Boolean(navItem.name) && !navItem.total && !hasLinkList;
     }
@@ -91,7 +91,6 @@ export default defineComponent<Props>({
 }
 
 .nav-card {
-  width: 33.33%;
   padding: 0.5rem;
   min-height: 150px;
 }
@@ -99,10 +98,10 @@ export default defineComponent<Props>({
 .inner {
   display: block;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.87);
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-    background-color 100ms linear;
+  background-color 100ms linear;
   background-color: #fff;
   border-radius: 4px;
   height: 100%;

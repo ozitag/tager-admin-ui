@@ -221,6 +221,7 @@ export type NavigationGridItem = {
   url?: string;
   total?: { status: FetchStatus; value: number; url?: string };
   linkList?: Array<LinkType>;
+  width?: number;
 };
 
 /** Toast */
