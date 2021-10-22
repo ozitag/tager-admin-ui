@@ -211,15 +211,6 @@ td {
   text-align: inherit;
 }
 
-td {
-  a {
-    text-decoration: underline;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
 tr.empty {
   td {
     div {

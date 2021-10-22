@@ -41,8 +41,8 @@ export default Vue.extend({
     }
 
     const cellType = typeof this.column.type === 'function'
-      ? this.column.type(cellProps)
-      : this.column.type;
+        ? this.column.type(cellProps)
+        : this.column.type;
 
     function appropriateCellComponent() {
       switch (cellType) {
@@ -68,29 +68,37 @@ export default Vue.extend({
     }
 
     const scopedSlotNode = this.scopedSlot
-      ? this.scopedSlot(cellProps)
-      : null;
+        ? this.scopedSlot(cellProps)
+        : null;
 
     const slotVNode = Array.isArray(scopedSlotNode)
-      ? scopedSlotNode[0]
-      : scopedSlotNode;
+        ? scopedSlotNode[0]
+        : scopedSlotNode;
 
     const customCellElement = this.column.useCustomDataCell
-      ? scopedSlotNode
-      : createElement('td', { style: this.column.style, class: this.column.class }, scopedSlotNode);
+        ? scopedSlotNode
+        : createElement('td', {style: this.column.style, class: this.column.class}, scopedSlotNode);
 
     return (
-      slotVNode
-        ? customCellElement
-        : createElement(appropriateCellComponent(), {
-            props: cellProps,
-            attrs: cellAttrs,
-            style: this.column.style,
-            class: this.column.class,
-          })
+        slotVNode
+            ? customCellElement
+            : createElement(appropriateCellComponent(), {
+              props: cellProps,
+              attrs: cellAttrs,
+              style: this.column.style,
+              class: this.column.class,
+            })
     );
   }
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+td a {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+</style>
