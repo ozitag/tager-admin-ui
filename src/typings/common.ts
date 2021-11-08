@@ -181,6 +181,9 @@ export interface ColumnDefinitionDateTime<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
   type: 'datetime';
   format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
+  options?: {
+    ignoreStartOfDayTime?: boolean;
+  };
 }
 
 export interface ColumnDefinitionColor<RowData = RowDataDefaultType>
