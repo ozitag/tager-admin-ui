@@ -29,12 +29,12 @@ export default Vue.extend({
           ? this.column.format({row: this.row, column: this.column, rowIndex: this.rowIndex})
           : get(this.row, this.column.field, null);
 
-      if (!date) return '';
+      if (!date) return ' ';
 
       if (this.column.type === 'date') {
         return formatDate(new Date(date));
       } else {
-        const ignoreStartOfDayTime = props.column.options?.ignoreStartOfDayTime ?? true;
+        const ignoreStartOfDayTime = this.column.options?.ignoreStartOfDayTime ?? true;
         return formatDateTime(new Date(date), ignoreStartOfDayTime);
       }
     }
