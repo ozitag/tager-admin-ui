@@ -1,6 +1,6 @@
 import Vue, { PluginFunction, VueConstructor } from 'vue';
 import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
-import { ShortCodeParamType } from '../src/typings/common';
+import {KeyValueCellValue, ShortCodeParamType} from '../src/typings/common';
 import { ComputedRef, Ref, SetupContext } from '@vue/composition-api';
 import { ResponseBody } from '@tager/admin-services/src/common.types';
 import { Modifier, OptionsGeneric } from '@popperjs/core';
@@ -209,6 +209,11 @@ export interface ColumnDefinitionFile<RowData = RowDataDefaultType>
   format?: (params: ColumnParamsArg<RowData>) => FileCellValue;
 }
 
+export interface ColumnDefinitionKeyValue<RowData = RowDataDefaultType> extends ColumnDefinitionCommon<RowData> {
+  type: 'key-value';
+  format?: (params: ColumnParamsArg<RowData>) => KeyValueCellValue;
+}
+
 export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionDynamic<RowData>
   | ColumnDefinitionString<RowData>
@@ -219,6 +224,7 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionHtml<RowData>
   | ColumnDefinitionColor<RowData>
   | ColumnDefinitionName<RowData>
+  | ColumnDefinitionKeyValue<RowData>
   | ColumnDefinitionFile<RowData>;
 
 export type NavigationGridItem = {
