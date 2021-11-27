@@ -90,6 +90,7 @@ export type NameCellValue =
     }
   | string
   | null;
+export type KeyValueCellValue =  Array<{key: string, value: string}> | null;
 export type FileCellValue = Nullable<FileType>;
 
 export type ColumnType =
@@ -100,6 +101,7 @@ export type ColumnType =
   | 'link'
   | 'html'
   | 'color'
+  | 'key-value'
   | 'file';
 
 export type RowDataDefaultType = { [key: string]: any };
@@ -193,7 +195,7 @@ export interface ColumnDefinitionColor<RowData = RowDataDefaultType>
 }
 
 export interface ColumnDefinitionName<RowData = RowDataDefaultType>
-  extends ColumnDefinitionCommon<RowData> {
+    extends ColumnDefinitionCommon<RowData> {
   type: 'name';
   format?: (params: ColumnParamsArg<RowData>) => NameCellValue;
   options?: {
@@ -201,6 +203,12 @@ export interface ColumnDefinitionName<RowData = RowDataDefaultType>
     shouldUseRouter?: boolean;
   };
 }
+
+export interface ColumnDefinitionKeyValue<RowData = RowDataDefaultType> extends ColumnDefinitionCommon<RowData> {
+  type: 'key-value';
+  format?: (params: ColumnParamsArg<RowData>) => KeyValueCellValue;
+}
+
 export interface ColumnDefinitionFile<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
   type: 'file';
@@ -217,6 +225,7 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionHtml<RowData>
   | ColumnDefinitionColor<RowData>
   | ColumnDefinitionName<RowData>
+  | ColumnDefinitionKeyValue<RowData>
   | ColumnDefinitionFile<RowData>;
 
 export type NavigationGridItem = {

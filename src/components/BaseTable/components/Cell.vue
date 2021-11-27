@@ -9,6 +9,7 @@ import CellHtml from './CellHtml.vue';
 import CellColor from './CellColor.vue';
 import CellName from './CellName.vue';
 import CellFile from './CellFile.vue';
+import CellKeyValue from './CellKeyValue.vue';
 
 export default Vue.extend({
   props: {
@@ -59,6 +60,8 @@ export default Vue.extend({
           return CellColor;
         case 'name':
           return CellName;
+        case 'key-value':
+          return CellKeyValue;
         case 'file':
           return CellFile;
 
