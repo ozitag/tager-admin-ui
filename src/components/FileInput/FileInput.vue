@@ -8,8 +8,8 @@
       },
     ]"
   >
-    <div class="header" v-if="!multiple && fileList.length > 0">
-      <label class="header-label" v-if="!!label">
+    <div v-if="!multiple && fileList.length > 0" class="header">
+      <label v-if="!!label" class="header-label">
         {{ label }}
       </label>
       <TabList
@@ -68,8 +68,8 @@
       </div>
     </div>
 
-    <div class="header" v-if="!multiple && fileList.length === 0">
-      <label class="header-label" v-if="!!label">
+    <div v-if="!multiple && fileList.length === 0" class="header">
+      <label v-if="!!label" class="header-label">
         {{ label }}
       </label>
       <TabList
@@ -134,7 +134,7 @@
               </div>
             </div>
 
-            <div class="caption-text-wrapper" v-if="withCaptions">
+            <div v-if="withCaptions" class="caption-text-wrapper">
               <BaseTextArea
                 class="caption-text-area"
                 :rows="2"
@@ -148,7 +148,7 @@
       </div>
     </Draggable>
 
-    <div class="header" v-if="multiple">
+    <div v-if="multiple" class="header">
       <label class="header-label">
         {{ label }}
       </label>

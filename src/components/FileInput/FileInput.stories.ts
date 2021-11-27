@@ -78,7 +78,6 @@ export const Multiple = () =>
     `,
   });
 
-
 export const Simple = () =>
   defineComponent({
     components: { FileInput },
