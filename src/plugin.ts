@@ -92,6 +92,7 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   );
   Vue.component('form-field-combobox', FormFieldComboBox);
   Vue.component('form-field-message-template', FormFieldMessageTemplate);
+  Vue.component('form-field-code', Code);
 
   Vue.component('multi-select', MultiSelect);
   Vue.component('input-label', InputLabel);
@@ -120,5 +121,4 @@ export const AdminUiPlugin: PluginFunction<any> = (Vue) => {
   Vue.component('tag', Tag);
   Vue.component('steps', Steps);
   Vue.component('advanced-search', AdvancedSearch);
-  Vue.component('code', Code);
 };
