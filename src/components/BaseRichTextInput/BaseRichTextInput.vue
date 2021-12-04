@@ -21,7 +21,11 @@
         />
       </div>
       <div v-if="mode === 'source_code'" class="source-code-panel">
-        <TextArea v-model="tempSourceCode" class="source-code-input" />
+        <TextArea
+          :value="value"
+          class="source-code-input"
+          @input="handleSourceChange"
+        />
       </div>
     </div>
   </div>
@@ -89,15 +93,10 @@ export default Vue.extend({
   },
   methods: {
     handleTabChange(event) {
-      const newMode = event.tabId;
-
-      if (newMode === 'source_code') {
-        this.tempSourceCode = this.value;
-      } else {
-        this.$emit('input', this.tempSourceCode);
-      }
-
-      this.mode = newMode;
+      this.mode = event.tabId;
+    },
+    handleSourceChange(value) {
+      this.$emit('input', value);
     },
   },
 });
