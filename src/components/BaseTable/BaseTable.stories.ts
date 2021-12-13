@@ -30,6 +30,10 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
         },
       };
     },
+    options: {
+      shouldOpenNewTab: false,
+      // shouldUseRouter: false,
+    },
   },
   {
     id: 1,
@@ -90,7 +94,7 @@ const defaultColumnDefs: Array<ColumnDefinition> = [
     field: 'link',
     type: 'link',
     options: {
-      // shouldOpenNewTab: false,
+      shouldOpenNewTab: true,
       // shouldUseRouter: false,
     },
     style: { width: '10%' },

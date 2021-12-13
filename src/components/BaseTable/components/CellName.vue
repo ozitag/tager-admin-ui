@@ -113,7 +113,9 @@ export default defineComponent<Props>({
           })
         : get(props.row, props.column.field, null);
 
-      if (!isValidNameCellValue(value) || !value) return null;
+      if (!isValidNameCellValue(value) || !value) {
+        return null;
+      }
 
       /** from `field` */
       if (isString(value)) {
@@ -128,7 +130,9 @@ export default defineComponent<Props>({
     });
 
     const modifiedState = computed<NameCellValueObjectType | null>(() => {
-      if (!state.value || !state.value.websiteLink) return state.value;
+      if (!state.value || !state.value.websiteLink) {
+        return state.value;
+      }
 
       return {
         ...state.value,
@@ -158,7 +162,7 @@ export default defineComponent<Props>({
         target: shouldOpenNewTab ? '_blank' : undefined,
       };
 
-      const href = shouldUseRouter
+      const href = !shouldUseRouter
         ? undefined
         : modifiedState.value?.adminLink.url;
 

@@ -90,7 +90,7 @@ export type NameCellValue =
     }
   | string
   | null;
-export type KeyValueCellValue =  Array<{key: string, value: string}> | null;
+export type KeyValueCellValue = Array<{ key: string; value: string }> | null;
 export type FileCellValue = Nullable<FileType>;
 
 export type ColumnType =
@@ -195,7 +195,7 @@ export interface ColumnDefinitionColor<RowData = RowDataDefaultType>
 }
 
 export interface ColumnDefinitionName<RowData = RowDataDefaultType>
-    extends ColumnDefinitionCommon<RowData> {
+  extends ColumnDefinitionCommon<RowData> {
   type: 'name';
   format?: (params: ColumnParamsArg<RowData>) => NameCellValue;
   options?: {
@@ -204,7 +204,8 @@ export interface ColumnDefinitionName<RowData = RowDataDefaultType>
   };
 }
 
-export interface ColumnDefinitionKeyValue<RowData = RowDataDefaultType> extends ColumnDefinitionCommon<RowData> {
+export interface ColumnDefinitionKeyValue<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
   type: 'key-value';
   format?: (params: ColumnParamsArg<RowData>) => KeyValueCellValue;
 }
