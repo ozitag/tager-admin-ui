@@ -337,7 +337,7 @@ export type DropdownMenuItemType = {
 export declare const AdminUiPlugin: PluginFunction<undefined>;
 
 export declare function formatDate(date: Date): string;
-export declare function formatDateTime(date: Date): string;
+export declare function formatDateTime(date: Date, ignoreStartOfDayTime: boolean): string;
 export declare function formatTime(date: Date): string;
 export declare function formatBoolean(value: any): string;
 export declare function createTabErrorFinder(
