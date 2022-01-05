@@ -94,7 +94,8 @@ export default Vue.extend({
 <style scoped lang="scss">
 .url {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: flex-start;
 
   button {
     padding: 0.25rem;
