@@ -5,12 +5,12 @@
       :to="link.url"
       v-bind="linkAttrs"
     >
-      {{ link.text }}
+      {{ decodeURI(link.text) }}
     </router-link>
 
     <div v-if="Boolean(link) && !shouldUseRouter" class="url">
       <a :href="link.url" v-bind="linkAttrs">
-        {{ link.text }}
+        {{ decodeURI(link.text) }}
       </a>
       <BaseButton
         variant="icon"
@@ -93,13 +93,17 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .url {
+  display: flex;
+  align-items: flex-start;
+
   button {
     padding: 0.25rem;
+    margin-left: 0.5rem;
   }
 
   svg {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
   }
 }
 
