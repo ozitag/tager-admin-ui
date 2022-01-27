@@ -1628,10 +1628,10 @@
     nanoid "^3.1.12"
     zod "^1.11.9"
 
-"@tager/admin-wysiwyg@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@tager/admin-wysiwyg/-/admin-wysiwyg-0.1.2.tgz#5355d3b9c0aa140696743e2e68e58904a67af7db"
-  integrity sha512-w+Ker+vXQ9JHi7Z+jLqSsD7vWfyyccqSfSDMjgGrSGm80FP3LT1vRkWajqyasxKiw2P6P9woqqqDi/+MEjaY/w==
+"@tager/admin-wysiwyg@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@tager/admin-wysiwyg/-/admin-wysiwyg-0.1.3.tgz#9c2bd5150375df2eb1275033aaf626a332a9c2c6"
+  integrity sha512-6rIInBXAWIfInMXSjC+9xiUvjVe6Spt3AFFCW6Fsd2NtNn3CdDy7vCiaRe+Gk7tGZdaYcfoTj16aCWHf5SavnQ==
 
 "@types/anymatch@*":
   version "1.3.1"
