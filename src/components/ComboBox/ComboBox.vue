@@ -3,10 +3,10 @@
     <div ref="inputContainerRef" class="select-control-wrapper">
       <BaseInput
         v-if="searchable"
-        v-model="query"
+        v-model:value="query"
         v-bind="$attrs"
         class="select-control"
-        :placeholder="computedPlaceholder"
+        :placeholder="$"
         :disabled="disabled"
         :autocomplete="autocomplete"
         :class="{ 'is-focus': menuIsOpen }"
@@ -35,9 +35,8 @@
         {{ computedPlaceholder }}
       </BaseButton>
 
-      <SvgIcon
+      <SearchIcon
         v-if="searchable && menuIsOpen && !loading"
-        name="search"
         class="icon-search"
         focusable="false"
         aria-hidden="true"
@@ -49,21 +48,15 @@
         type="button"
         @click="handleClearClick"
       >
-        <SvgIcon
-          name="clear"
-          class="icon-clear"
-          focusable="false"
-          aria-hidden="true"
-        />
+        <CloseIcon class="icon-clear" focusable="false" aria-hidden="true" />
       </button>
 
       <span v-else-if="loading" class="icon-expand-more">
-        <Spinner size="20" />
+        <BaseSpinner size="20" />
       </span>
 
-      <SvgIcon
+      <ExpandMoreIcon
         v-else
-        name="expandMore"
         class="icon-expand-more"
         focusable="false"
         aria-hidden="true"
@@ -72,7 +65,7 @@
 
     <ul ref="popperRef" class="select-menu" :class="[{ show: menuIsOpen }]">
       <li v-if="loading">
-        <p class="empty">{{ t('ui:comboBox.loading') }}...</p>
+        <p class="empty">{{ $i18n.t("ui:comboBox.loading") }}...</p>
       </li>
 
       <li v-else-if="options.length === 0">
@@ -110,57 +103,67 @@ import {
   defineComponent,
   onMounted,
   onUnmounted,
+  PropType,
   ref,
-  SetupContext,
   watch,
-} from '@vue/composition-api';
+} from "vue";
+import debounce from "lodash/debounce";
 
-import BaseInput from '../BaseInput';
-import BaseButton from '../BaseButton';
-import Spinner from '../Spinner';
-import SvgIcon from '../SvgIcon';
-import usePopper from '../../hooks/usePopper';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
-import { scrollOptionIntoView } from './ComboBox.helpers';
+import { useI18n } from "@tager/admin-services";
 
-import debounce from 'lodash/debounce';
-import { OptionType } from '../../typings/common';
-import useTranslation from '../../hooks/useTranslation';
+import BaseInput from "../BaseInput";
+import BaseButton from "../BaseButton";
+import BaseSpinner from "../BaseSpinner";
+import usePopper from "../../hooks/usePopper";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { OptionType } from "../../typings/common";
+import SearchIcon from "../../icons/SearchIcon.vue";
+import CloseIcon from "../../icons/CloseIcon.vue";
+import ExpandMoreIcon from "../../icons/ExpandMoreIcon.vue";
+
+import { scrollOptionIntoView } from "./ComboBox.helpers";
 
 export interface Props {
   value: OptionType | null;
   options: Array<OptionType>;
-  autocomplete: string;
   placeholder: string;
+  autocomplete: string;
   disabled: boolean;
   clearable: boolean;
-  noOptionsMessage: string;
-  notFoundMessage: string;
   searchable: boolean;
   filterable: boolean;
+  noOptionsMessage: string;
+  notFoundMessage: string;
   loading: boolean;
 }
 
-export default defineComponent<Props>({
-  name: 'ComboBox',
+export default defineComponent({
+  name: "ComboBox",
+  components: {
+    ExpandMoreIcon,
+    BaseSpinner,
+    CloseIcon,
+    SearchIcon,
+    BaseInput,
+    BaseButton,
+  },
   inheritAttrs: false,
-  components: { BaseInput, BaseButton, SvgIcon, Spinner },
   props: {
     value: {
-      type: Object,
-      default: () => null,
+      type: Object as PropType<OptionType | null>,
+      default: null,
     },
     options: {
-      type: Array,
+      type: Array as PropType<Array<OptionType>>,
       default: () => [],
     },
     placeholder: {
       type: String,
-      default: '',
+      default: "",
     },
     autocomplete: {
       type: String,
-      default: 'off',
+      default: "off",
     },
     disabled: {
       type: Boolean,
@@ -180,20 +183,21 @@ export default defineComponent<Props>({
     },
     noOptionsMessage: {
       type: String,
-      default: '',
+      default: "",
     },
     notFoundMessage: {
       type: String,
-      default: '',
+      default: "",
     },
     loading: {
       type: Boolean,
       default: false,
     },
   },
-  setup(props: Props, context: SetupContext) {
-    const { t } = useTranslation(context);
-    const query = ref<string>('');
+  emits: ["change:query", "input", "change", "update:value"],
+  setup(props: Props, context) {
+    const i18n = useI18n();
+    const query = ref<string>("");
     const menuIsOpen = ref<boolean>(false);
     const inputContainerRef = ref<HTMLElement | null>(null);
     const popperRef = ref<HTMLElement | null>(null);
@@ -207,7 +211,7 @@ export default defineComponent<Props>({
     });
 
     const emitDebouncedChangeEvent = debounce(() => {
-      context.emit('change:query', query.value);
+      context.emit("change:query", query.value);
     }, 300);
 
     watch(query, () => {
@@ -215,11 +219,13 @@ export default defineComponent<Props>({
     });
 
     const computedPlaceholder = computed(() => {
-      return props.value
+      const placeholder = props.value
         ? props.value.label
         : props.placeholder
         ? props.placeholder
-        : `${t('ui:comboBox.select')}...`;
+        : `${i18n.t("ui:comboBox.select")}...`;
+      console.log("placeholder", placeholder);
+      return placeholder;
     });
 
     const filteredOptions = computed<Array<OptionType>>(() => {
@@ -250,7 +256,7 @@ export default defineComponent<Props>({
 
         if (popperRef.value && inputContainerRef.value) {
           popperRef.value.style.width =
-            inputContainerRef.value.offsetWidth + 'px';
+            inputContainerRef.value.offsetWidth + "px";
         }
 
         /** Scroll to selected option */
@@ -258,9 +264,8 @@ export default defineComponent<Props>({
           const selectedOptionIndex = filteredOptions.value.findIndex(
             (filteredOption) => filteredOption.value === props.value?.value
           );
-          const selectedOptionElement = getOptionElementByIndex(
-            selectedOptionIndex
-          );
+          const selectedOptionElement =
+            getOptionElementByIndex(selectedOptionIndex);
 
           if (selectedOptionElement) {
             /** Scroll option into view **/
@@ -268,7 +273,7 @@ export default defineComponent<Props>({
           }
         }
       } else {
-        query.value = '';
+        query.value = "";
         blurSelect();
         hideMenu();
       }
@@ -284,7 +289,7 @@ export default defineComponent<Props>({
       {
         modifiers: [
           {
-            name: 'offset',
+            name: "offset",
             options: {
               offset: [0, 0],
             },
@@ -301,9 +306,9 @@ export default defineComponent<Props>({
       if (!inputContainerRef.value) return null;
 
       if (props.searchable) {
-        return inputContainerRef.value.querySelector('input');
+        return inputContainerRef.value.querySelector("input");
       } else {
-        return inputContainerRef.value.querySelector('button');
+        return inputContainerRef.value.querySelector("button");
       }
     }
 
@@ -316,8 +321,9 @@ export default defineComponent<Props>({
     }
 
     function handleChange(newValue: OptionType | null): void {
-      context.emit('input', newValue);
-      context.emit('change', newValue);
+      context.emit("input", newValue);
+      context.emit("change", newValue);
+      context.emit("update:value", newValue);
     }
 
     function handleMenuClose() {
@@ -347,7 +353,7 @@ export default defineComponent<Props>({
         return;
       }
 
-      query.value = '';
+      query.value = "";
       highlightedIndex.value = index;
       handleMenuClose();
       handleChange(option);
@@ -371,7 +377,7 @@ export default defineComponent<Props>({
           handleMenuClose();
         }
       },
-      'custom'
+      "custom"
     );
 
     function handleMouseEnter(index: number) {
@@ -417,18 +423,17 @@ export default defineComponent<Props>({
       if (props.noOptionsMessage) {
         return props.noOptionsMessage;
       }
-      return t('ui:comboBox.noOptions');
+      return i18n.t("ui:comboBox.noOptions");
     });
 
     const computedNotFoundMessage = computed(() => {
       if (props.notFoundMessage) {
         return props.notFoundMessage;
       }
-      return t('ui:comboBox.noResultsFound');
+      return i18n.t("ui:comboBox.noResultsFound");
     });
 
     return {
-      t,
       computedNoOptionsMessage,
       computedNotFoundMessage,
       inputContainerRef,

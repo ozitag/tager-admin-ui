@@ -3,12 +3,13 @@
     :value="value"
     :type="type"
     :autocomplete="autocomplete"
-    v-on="inputListeners"
+    @input="handleInput"
+    @change="handleChange"
   />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, SetupContext } from '@vue/composition-api';
+import { defineComponent } from "vue";
 
 interface Props {
   value: string;
@@ -16,35 +17,43 @@ interface Props {
   autocomplete: string;
 }
 
-export default defineComponent<Props>({
-  name: 'BaseInput',
+export default defineComponent({
+  name: "BaseInput",
+
   props: {
     value: {
       type: String,
-      default: '',
+      default: "",
     },
     type: {
       type: String,
-      default: 'text',
+      default: "text",
       validator(value: string) {
-        return ['text', 'email', 'password', 'date', 'time'].includes(value);
+        return ["text", "email", "password", "date", "time"].includes(value);
       },
     },
     autocomplete: {
       type: String,
-      default: 'off',
+      default: "off",
     },
   },
-  setup(props: Props, context: SetupContext) {
-    const inputListeners = computed(() => ({
-      ...context.listeners,
-      input: (event: Event) =>
-        context.emit('input', (event.target as HTMLInputElement).value),
-      change: (event: Event) =>
-        context.emit('change', (event.target as HTMLInputElement).value),
-    }));
+  emits: ["input", "change", "update:value"],
+  setup(props: Props, context) {
+    function getInputValueFromEvent(event: Event): string {
+      return (event.target as HTMLInputElement).value;
+    }
 
-    return { inputListeners };
+    function handleInput(event: Event) {
+      const value = getInputValueFromEvent(event);
+      context.emit("input", value);
+      context.emit("update:value", value);
+    }
+
+    function handleChange(event: Event) {
+      context.emit("change", getInputValueFromEvent(event));
+    }
+
+    return { handleInput, handleChange };
   },
 });
 </script>

@@ -4,25 +4,20 @@
     <span class="count">
       <span :class="{ 'hide-number': loading }">{{ count }}</span>
       <div v-if="loading" class="loading">
-        <Spinner />
+        <BaseSpinner />
       </div>
     </span>
   </BaseButton>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import BaseButton from '../BaseButton';
-import Spinner from '../Spinner';
+import { defineComponent } from "vue";
+import BaseButton from "../BaseButton";
+import BaseSpinner from "../BaseSpinner";
 
-type Props = {
-  count: number | string;
-  loading: boolean;
-};
-
-export default defineComponent<Props>({
-  name: 'CountButton',
-  components: { BaseButton, Spinner },
+export default defineComponent({
+  name: "CountButton",
+  components: { BaseButton, BaseSpinner },
   props: {
     count: {
       type: [Number, String],

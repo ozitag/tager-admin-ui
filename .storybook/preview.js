@@ -1,25 +1,38 @@
-import { configStore, i18n, setAccessToken } from '@tager/admin-services';
-import '../src/assets/css/index.css';
-import EN from '../src/locales/en';
-import RU from '../src/locales/ru';
-import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
+import { app } from "@storybook/vue3";
+import vueRouter from "storybook-vue3-router";
+import {
+  configStore,
+  i18n,
+  i18nPlugin,
+  initializeEnvironment,
+  LOCAL_ENV,
+} from "@tager/admin-services";
 
-import config from '../src/constants/config.json';
+import config from "../src/constants/config.json";
+import "../src/assets/css/index.css";
+import { AdminUiPlugin } from "../src/plugin";
 
-const accessToken = process.env.VUE_APP_ACCESS_TOKEN;
+export const decorators = [vueRouter()];
 
-if (accessToken) {
-  setAccessToken(accessToken);
-}
+export const parameters = {
+  /**
+   * Hide `Docs` tab
+   * Reference: {@link https://github.com/storybookjs/storybook/issues/13111#issuecomment-730741560}
+   */
+  previewTabs: {
+    "storybook/docs/panel": { hidden: true },
+  },
+};
+
+initializeEnvironment({
+  accessToken: process.env.STORYBOOK_ACCESS_TOKEN,
+  apiUrl: process.env.STORYBOOK_API_URL,
+  appEnv: LOCAL_ENV,
+});
+
+app.use(AdminUiPlugin);
+app.use(i18nPlugin);
 
 configStore.setConfig(config);
 
-i18n.addTranslations('en', 'ui', EN);
-i18n.addTranslations('ru', 'ui', RU);
-
-Vue.use(VueCompositionApi);
-
-i18n.init({ debug: false, lng: 'ru' }).then(() => {
-  Vue.use(i18n.getPlugin());
-});
+i18n.init({ debug: false, lng: "ru" });

@@ -1,5 +1,4 @@
-import { onMounted, onUnmounted, Ref, ref } from '@vue/composition-api';
-import ResizeObserver from 'resize-observer-polyfill';
+import { onMounted, onUnmounted, Ref, ref } from "vue";
 
 function useResizeObserver<T extends Element>(
   element: Ref<T | null>,

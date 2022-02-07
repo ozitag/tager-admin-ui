@@ -1,13 +1,13 @@
+import { computed, ComputedRef, ref, Ref, SetupContext } from "vue";
+
 import {
-  computed,
-  ComputedRef,
-  ref,
-  Ref,
-  SetupContext,
-} from '@vue/composition-api';
-import { FetchStatus, Nullable, useResource } from '@tager/admin-services';
-import { ResponseBody } from '@tager/admin-services/src/common.types';
-import { OptionType } from '../../typings/common';
+  FetchStatus,
+  Nullable,
+  ResponseBody,
+  useResource,
+} from "@tager/admin-services";
+
+import { OptionType } from "../../typings/common";
 
 export function useSelectOptions<
   EntityType,
@@ -22,7 +22,7 @@ export function useSelectOptions<
   noOptionsMessage: ComputedRef<string>;
   handleSearchQueryChange: (query: string) => void;
 } {
-  const searchQuery = ref('');
+  const searchQuery = ref("");
   const minQueryLength = params.minQueryLength ?? 3;
 
   const options = computed<Array<Option>>(() => {
@@ -35,7 +35,7 @@ export function useSelectOptions<
   const noOptionsMessage = computed<string>(() => {
     return searchQuery.value.length < minQueryLength
       ? `The query must be at least ${minQueryLength} characters.`
-      : 'No results found';
+      : "No results found";
   });
 
   function handleSearchQueryChange(query: string): void {
@@ -69,26 +69,21 @@ export function useSelectOptionsResource<
   fetchEntityList: (params: { query: string }) => Promise<void>;
   status: Ref<FetchStatus>;
 } {
-  const [
-    fetchEntityList,
-    { loading, data: entityList, error, status },
-  ] = useResource<Array<EntityType>, undefined, { query: string }>({
-    fetchResource: params.fetchEntityList,
-    initialValue: [],
-    context: params.context,
-    resourceName: params.resourceName,
-  });
+  const [fetchEntityList, { loading, data: entityList, error, status }] =
+    useResource<Array<EntityType>, undefined, { query: string }>({
+      fetchResource: params.fetchEntityList,
+      initialValue: [],
+      context: params.context,
+      resourceName: params.resourceName,
+    });
 
-  const {
-    options,
-    noOptionsMessage,
-    handleSearchQueryChange,
-  } = useSelectOptions<EntityType, Option>({
-    entityList,
-    fetchEntityList,
-    convertEntityToOption: params.convertEntityToOption,
-    minQueryLength: params.minQueryLength,
-  });
+  const { options, noOptionsMessage, handleSearchQueryChange } =
+    useSelectOptions<EntityType, Option>({
+      entityList,
+      fetchEntityList,
+      convertEntityToOption: params.convertEntityToOption,
+      minQueryLength: params.minQueryLength,
+    });
 
   return {
     status,

@@ -1,1 +1,1 @@
-export { default } from './BaseButton.vue';
+export { default } from "./BaseButton.vue";

@@ -11,8 +11,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "preserveValueImports": true,
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
+    "declarationDir": "dist",
     "types": [
       "webpack-env"
     ],
@@ -21,16 +23,15 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx",
     "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "custom-types"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/**/*.stories.ts"
   ]
 }

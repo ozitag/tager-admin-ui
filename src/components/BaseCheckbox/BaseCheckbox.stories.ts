@@ -1,30 +1,40 @@
-import BaseCheckbox from './BaseCheckbox.vue';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent } from "vue";
+import { StoryFn } from "@storybook/vue3";
 
-export default { title: 'BaseCheckbox' };
+import BaseCheckbox from "./BaseCheckbox.vue";
 
-export const Default = () =>
+export default {
+  title: "BaseCheckbox",
+};
+
+export const Default: StoryFn = () =>
   defineComponent({
     components: { BaseCheckbox },
-    setup() {
-      const checked = ref<boolean>(false);
-
-      return {
-        checked,
-      };
-    },
-    template: '<BaseCheckbox v-model="checked"></BaseCheckbox>',
+    template: "<BaseCheckbox></BaseCheckbox>",
   });
 
-export const Disabled = () =>
+export const Playground: StoryFn = (args) =>
   defineComponent({
     components: { BaseCheckbox },
     setup() {
-      const checked = ref<boolean>(false);
-
-      return {
-        checked,
-      };
+      return { args };
     },
-    template: '<BaseCheckbox v-mode="checked" disabled></BaseCheckbox>',
+    template: '<BaseCheckbox v-bind="args"></BaseCheckbox>',
+  });
+
+Playground.args = {
+  checked: true,
+  disabled: false,
+};
+
+export const Checked: StoryFn = () =>
+  defineComponent({
+    components: { BaseCheckbox },
+    template: '<BaseCheckbox :checked="true"></BaseCheckbox>',
+  });
+
+export const Disabled: StoryFn = () =>
+  defineComponent({
+    components: { BaseCheckbox },
+    template: '<BaseCheckbox :disabled="true"></BaseCheckbox>',
   });

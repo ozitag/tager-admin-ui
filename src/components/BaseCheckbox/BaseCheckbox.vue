@@ -1,42 +1,34 @@
 <template>
-  <input ref="checkboxRef" type="checkbox" v-on="inputListeners" />
+  <input
+    ref="checkboxRef"
+    type="checkbox"
+    value="value"
+    @change="handleChange"
+  />
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  onUpdated,
-  ref,
-  SetupContext,
-} from '@vue/composition-api';
+import { defineComponent, ref, watchEffect } from "vue";
 
 interface Props {
   checked: boolean;
 }
 
-export default defineComponent<Props>({
-  name: 'BaseCheckbox',
+export default defineComponent({
+  name: "BaseCheckbox",
   model: {
-    prop: 'checked',
-    event: 'change',
+    prop: "checked",
+    event: "change",
   },
   props: {
-    checked: Boolean,
+    checked: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props: Props, context: SetupContext) {
+  emits: ["change"],
+  setup(props: Props, context) {
     const checkboxRef = ref<HTMLInputElement | null>(null);
-
-    const inputListeners = computed(() => ({
-      ...context.listeners,
-      change: (event: Event) =>
-        context.emit(
-          'change',
-          (event.target as HTMLInputElement).checked,
-          event
-        ),
-    }));
 
     function updateCheckedInDOM() {
       /** Issue: https://github.com/vuejs/vue/issues/3523 */
@@ -45,17 +37,17 @@ export default defineComponent<Props>({
       }
     }
 
-    onMounted(() => {
+    function handleChange(event: Event) {
+      const checked = (event.target as HTMLInputElement).checked;
       updateCheckedInDOM();
-    });
+      context.emit("change", checked, event);
+    }
 
-    onUpdated(() => {
-      updateCheckedInDOM();
-    });
+    watchEffect(updateCheckedInDOM);
 
     return {
       checkboxRef,
-      inputListeners,
+      handleChange,
     };
   },
 });

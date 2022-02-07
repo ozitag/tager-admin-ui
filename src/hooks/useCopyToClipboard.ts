@@ -1,4 +1,4 @@
-import { onUnmounted, ref, Ref, watch } from '@vue/composition-api';
+import { onUnmounted, ref, Ref, watch } from "vue";
 
 function useCopyToClipboard(
   timeout = 300

@@ -1,100 +1,135 @@
 <template>
+  <a
+    v-if="isLink"
+    :class="className"
+    :href="resolvedHref"
+    data-ui-base-button
+    @click="handleClick"
+  >
+    <slot>Navigate</slot>
+  </a>
   <button
-    :is="isLink ? 'a' : 'button'"
-    :class="['button', variant, { loading: loading }]"
+    v-else
+    :class="className"
     :type="isLink ? undefined : type"
     :disabled="isDisabled"
-    :href="isLink ? resolvedHref : undefined"
     data-ui-base-button
-    v-on="buttonListeners"
+    @click="handleClick"
   >
     <span v-if="loading" class="spinner-wrapper">
-      <spinner class="button-spinner" size="28" />
+      <BaseSpinner class="button-spinner" size="28" />
     </span>
 
     <slot>Submit</slot>
   </button>
 </template>
 
-<script lang="js">
-import Vue from 'vue';
-import { isAbsoluteUrl } from '@tager/admin-services';
-import Spinner from '../Spinner';
+<script lang="ts">
+import { computed, defineComponent, PropType } from "vue";
+import { isAbsoluteUrl } from "@tager/admin-services";
+import { useRouter } from "vue-router";
+import BaseSpinner from "../BaseSpinner";
 
-export default Vue.extend({
-  name: 'BaseButton',
-  components: { Spinner },
+type ButtonVariant =
+  | "primary"
+  | "outline-primary"
+  | "secondary"
+  | "outline-secondary"
+  | "icon";
+
+interface Props {
+  variant: ButtonVariant;
+  type: string;
+  disabled: boolean;
+  loading: boolean;
+  href: string;
+}
+
+export default defineComponent({
+  name: "BaseButton",
+  components: { BaseSpinner },
   props: {
     variant: {
-      type: String,
-      validator(value) {
+      type: String as PropType<ButtonVariant>,
+      validator(value: string) {
         return [
-          'primary',
-          'outline-primary',
-          'secondary',
-          'outline-secondary',
-          'icon',
+          "primary",
+          "outline-primary",
+          "secondary",
+          "outline-secondary",
+          "icon",
         ].includes(value);
       },
-      default: 'primary',
+      default: "primary",
     },
     type: {
       type: String,
-      default: 'button',
+      default: "button",
     },
-    disabled: Boolean,
-    loading: Boolean,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
     href: {
       type: String,
-      default: null,
+      default: "",
     },
   },
-  computed: {
-    isLink() {
-      return Boolean(this.href);
-    },
-    isDisabled() {
-      return this.disabled || this.loading;
-    },
-    resolvedHref() {
-      if (this.isLink && this.$router && !isAbsoluteUrl(this.href)) {
-        return this.$router.resolve(this.href).href;
+  emits: ["click"],
+  setup(props: Props, context) {
+    const router = useRouter();
+
+    const isLink = computed<boolean>(() => Boolean(props.href));
+
+    const isDisabled = computed<boolean>(() =>
+      Boolean(props.disabled || props.loading)
+    );
+
+    const resolvedHref = computed<string>(() => {
+      if (isLink.value && router && !isAbsoluteUrl(props.href)) {
+        return router.resolve(props.href).href;
       }
-      return this.href;
-    },
-    buttonListeners() {
-      const vm = this;
-      return {
-        ...vm.$listeners,
-        click: (event) => {
-          if (this.isDisabled) {
-            event.preventDefault();
-            return;
-          }
-          if (vm.href && !isAbsoluteUrl(vm.href)) {
-            event.preventDefault();
-            if (vm.$router) {
-              vm.$router.push(vm.href);
-            } else {
-              console.error(
-                `Vue router is [${String(
-                  vm.$router
-                )}]. Cannot make page transition`
-              );
-            }
-          }
-          if (vm.$listeners.click) {
-            if (Array.isArray(vm.$listeners.click)) {
-              vm.$listeners.click.forEach((callback) => {
-                callback(event);
-              });
-            } else {
-              vm.$listeners.click(event);
-            }
-          }
-        },
-      };
-    },
+      return props.href;
+    });
+
+    const className = computed(() => [
+      "button",
+      props.variant,
+      { loading: props.loading },
+    ]);
+
+    function handleClick(event: Event) {
+      if (isDisabled.value) {
+        event.preventDefault();
+        return;
+      }
+
+      if (props.href && !isAbsoluteUrl(props.href)) {
+        event.preventDefault();
+
+        if (router) {
+          router.push(props.href);
+        } else {
+          console.error(
+            `Vue router is [${String(router)}]. Cannot make page transition`
+          );
+        }
+      }
+
+      context.emit("click", event);
+    }
+
+    return {
+      isLink,
+      isDisabled,
+      resolvedHref,
+      handleClick,
+      className,
+    };
   },
 });
 </script>
@@ -242,7 +277,7 @@ a {
   border-radius: 50%;
   color: var(--secondary);
 
-  ::v-deep svg {
+  :deep(svg) {
     display: block;
     fill: currentColor;
     transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;

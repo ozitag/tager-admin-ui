@@ -1,5 +1,6 @@
-import { onMounted, Ref, ref } from '@vue/composition-api';
-import { LocalStorageService } from '../utils/common';
+import { onMounted, Ref, ref } from "vue";
+
+import { LocalStorageService } from "../utils/common.js";
 
 function useLocalStorage<T>(
   key: string,

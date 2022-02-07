@@ -1,4 +1,4 @@
-import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
+import { FetchStatus, FileType, Nullable } from "@tager/admin-services";
 
 export type ShortCodeParamType = {
   readonly name: string;
@@ -16,48 +16,48 @@ export type ShortCodeItemType = {
 };
 
 export type IconName =
-  | 'article'
-  | 'home'
-  | 'group'
-  | 'viewList'
-  | 'expandLess'
-  | 'expandMore'
-  | 'edit'
-  | 'delete'
-  | 'upload'
-  | 'clear'
-  | 'close'
-  | 'menu'
-  | 'settings'
-  | 'assignment'
-  | 'chevronRight'
-  | 'description'
-  | 'arrowDownward'
-  | 'arrowUpward'
-  | 'north'
-  | 'south'
-  | 'email'
-  | 'removeCircle'
-  | 'sms'
-  | 'contentCopy'
-  | 'openInNew'
-  | 'addCircle'
-  | 'fileAvi'
-  | 'fileCss'
-  | 'fileCsv'
-  | 'fileDoc'
-  | 'fileHtml'
-  | 'fileJs'
-  | 'fileMp3'
-  | 'fileMp4'
-  | 'filePdf'
-  | 'filePpt'
-  | 'filePsd'
-  | 'fileTxt'
-  | 'fileUnknown'
-  | 'fileXls'
-  | 'fileXml'
-  | 'fileZip';
+  | "article"
+  | "home"
+  | "group"
+  | "viewList"
+  | "expandLess"
+  | "expandMore"
+  | "edit"
+  | "delete"
+  | "upload"
+  | "clear"
+  | "close"
+  | "menu"
+  | "settings"
+  | "assignment"
+  | "chevronRight"
+  | "description"
+  | "arrowDownward"
+  | "arrowUpward"
+  | "north"
+  | "south"
+  | "email"
+  | "removeCircle"
+  | "sms"
+  | "contentCopy"
+  | "openInNew"
+  | "addCircle"
+  | "fileAvi"
+  | "fileCss"
+  | "fileCsv"
+  | "fileDoc"
+  | "fileHtml"
+  | "fileJs"
+  | "fileMp3"
+  | "fileMp4"
+  | "filePdf"
+  | "filePpt"
+  | "filePsd"
+  | "fileTxt"
+  | "fileUnknown"
+  | "fileXls"
+  | "fileXml"
+  | "fileZip";
 
 export type OptionType<V = string> = {
   value: V;
@@ -94,15 +94,15 @@ export type KeyValueCellValue = Array<{ key: string; value: string }> | null;
 export type FileCellValue = Nullable<FileType>;
 
 export type ColumnType =
-  | 'string'
-  | 'date'
-  | 'datetime'
-  | 'image'
-  | 'link'
-  | 'html'
-  | 'color'
-  | 'key-value'
-  | 'file';
+  | "string"
+  | "date"
+  | "datetime"
+  | "image"
+  | "link"
+  | "html"
+  | "color"
+  | "key-value"
+  | "file";
 
 export type RowDataDefaultType = { [key: string]: any };
 
@@ -144,13 +144,13 @@ export interface ColumnDefinitionDynamic<RowData = RowDataDefaultType> {
 
 export interface ColumnDefinitionString<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type?: 'string';
+  type?: "string";
   format?: (params: ColumnParamsArg<RowData>) => StringCellValue;
 }
 
 export interface ColumnDefinitionLink<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'link';
+  type: "link";
   format?: (params: ColumnParamsArg<RowData>) => LinkCellValue;
   options?: {
     shouldOpenNewTab?: boolean;
@@ -160,13 +160,13 @@ export interface ColumnDefinitionLink<RowData = RowDataDefaultType>
 
 export interface ColumnDefinitionHtml<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'html';
+  type: "html";
   format?: (params: ColumnParamsArg<RowData>) => StringCellValue;
 }
 
 export interface ColumnDefinitionImage<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'image';
+  type: "image";
   format?: (params: ColumnParamsArg<RowData>) => ImageCellValue;
   options?: {
     justifyContent?: string;
@@ -175,13 +175,13 @@ export interface ColumnDefinitionImage<RowData = RowDataDefaultType>
 
 export interface ColumnDefinitionDate<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'date';
+  type: "date";
   format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
 }
 
 export interface ColumnDefinitionDateTime<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'datetime';
+  type: "datetime";
   format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
   options?: {
     ignoreStartOfDayTime?: boolean;
@@ -190,13 +190,13 @@ export interface ColumnDefinitionDateTime<RowData = RowDataDefaultType>
 
 export interface ColumnDefinitionColor<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'color';
+  type: "color";
   format?: (params: ColumnParamsArg<RowData>) => ColorCellValue;
 }
 
 export interface ColumnDefinitionName<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'name';
+  type: "name";
   format?: (params: ColumnParamsArg<RowData>) => NameCellValue;
   options?: {
     shouldOpenNewTab?: boolean;
@@ -206,13 +206,13 @@ export interface ColumnDefinitionName<RowData = RowDataDefaultType>
 
 export interface ColumnDefinitionKeyValue<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'key-value';
+  type: "key-value";
   format?: (params: ColumnParamsArg<RowData>) => KeyValueCellValue;
 }
 
 export interface ColumnDefinitionFile<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'file';
+  type: "file";
   format?: (params: ColumnParamsArg<RowData>) => FileCellValue;
 }
 
@@ -237,23 +237,8 @@ export type NavigationGridItem = {
   width?: number;
 };
 
-/** Toast */
-export type ToastVariant =
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'primary'
-  | 'secondary'
-  | 'info';
-
-export type ToastParams = {
-  variant: ToastVariant;
-  title: string;
-  body: string;
-};
-
 export type DropdownMenuItemType = {
-  type: 'button' | 'link' | 'divider';
+  type: "button" | "link" | "divider";
   text?: string;
   url?: string;
   onClick?: (event: Event) => void;
@@ -276,11 +261,11 @@ export interface SeoChangeEvent {
 
 export interface TagerFormSubmitEvent {
   type:
-    | 'save'
-    | 'save_exit'
-    | 'create'
-    | 'create_exit'
-    | 'create_create-another';
+    | "save"
+    | "save_exit"
+    | "create"
+    | "create_exit"
+    | "create_create-another";
 }
 
 export interface VariableType {
@@ -294,3 +279,5 @@ export interface FilterTagType {
   name: string;
   title: string;
 }
+
+export type EventListener<E extends Event = Event> = (event: E) => void;
