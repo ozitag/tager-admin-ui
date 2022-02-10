@@ -6,7 +6,7 @@
         v-model:value="query"
         v-bind="$attrs"
         class="select-control"
-        :placeholder="$"
+        :placeholder="computedPlaceholder"
         :disabled="disabled"
         :autocomplete="autocomplete"
         :class="{ 'is-focus': menuIsOpen }"
@@ -104,6 +104,7 @@ import {
   onMounted,
   onUnmounted,
   PropType,
+  Ref,
   ref,
   watch,
 } from "vue";
@@ -199,9 +200,9 @@ export default defineComponent({
     const i18n = useI18n();
     const query = ref<string>("");
     const menuIsOpen = ref<boolean>(false);
-    const inputContainerRef = ref<HTMLElement | null>(null);
-    const popperRef = ref<HTMLElement | null>(null);
-    const selectRef = ref<HTMLElement | null>(null);
+    const inputContainerRef: Ref<HTMLElement | null> = ref(null);
+    const popperRef: Ref<HTMLElement | null> = ref(null);
+    const selectRef: Ref<HTMLElement | null> = ref(null);
     const highlightedIndex = ref<number>(-1);
 
     onMounted(() => {
@@ -219,13 +220,11 @@ export default defineComponent({
     });
 
     const computedPlaceholder = computed(() => {
-      const placeholder = props.value
+      return props.value
         ? props.value.label
         : props.placeholder
         ? props.placeholder
         : `${i18n.t("ui:comboBox.select")}...`;
-      console.log("placeholder", placeholder);
-      return placeholder;
     });
 
     const filteredOptions = computed<Array<OptionType>>(() => {
