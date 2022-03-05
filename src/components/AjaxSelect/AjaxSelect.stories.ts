@@ -6,12 +6,13 @@ import AjaxSelect from "./AjaxSelect.vue";
 
 export default { title: "AjaxSelect" };
 
+const url = "/admin/brands";
+
 export const Default = () =>
   defineComponent({
     name: "DefaultAjaxSelect",
     components: { AjaxSelect },
     setup() {
-      const url = ref<string>("/admin/brands");
       const selected = ref<OptionType<number> | null>(null);
 
       return {
@@ -19,5 +20,12 @@ export const Default = () =>
         selected,
       };
     },
-    template: `<AjaxSelect v-model:value="selected" :request-url="url" value-field="id" label-field="name" />`,
+    template: `
+      <AjaxSelect
+          v-model:value="selected"
+          :request-url="url"
+          value-field="id"
+          label-field="name"
+      />
+    `,
   });

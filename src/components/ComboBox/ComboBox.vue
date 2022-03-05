@@ -63,37 +63,39 @@
       />
     </div>
 
-    <ul ref="popperRef" class="select-menu" :class="[{ show: menuIsOpen }]">
-      <li v-if="loading">
-        <p class="empty">{{ $i18n.t("ui:comboBox.loading") }}...</p>
-      </li>
+    <Teleport to="#popup-target">
+      <ul ref="menuRef" class="select-menu" :class="[{ show: menuIsOpen }]">
+        <li v-if="loading">
+          <p class="empty">{{ $i18n.t("ui:comboBox.loading") }}...</p>
+        </li>
 
-      <li v-else-if="options.length === 0">
-        <p class="empty">{{ computedNoOptionsMessage }}</p>
-      </li>
+        <li v-else-if="options.length === 0">
+          <p class="empty">{{ computedNoOptionsMessage }}</p>
+        </li>
 
-      <li v-else-if="query && isResultsNotFound">
-        <p class="not-found">{{ computedNotFoundMessage }}</p>
-      </li>
+        <li v-else-if="query && isResultsNotFound">
+          <p class="not-found">{{ computedNotFoundMessage }}</p>
+        </li>
 
-      <li
-        v-for="(option, index) in filteredOptions"
-        v-else
-        :key="index"
-        :class="[
-          'select-item',
-          {
-            selected: isOptionSelected(option),
-            disabled: option.disabled,
-            highlighted: highlightedIndex === index,
-          },
-        ]"
-        @click="handleOptionSelect(option, index)"
-        @mouseenter="handleMouseEnter(index)"
-      >
-        {{ option.label }}
-      </li>
-    </ul>
+        <li
+          v-for="(option, index) in filteredOptions"
+          v-else
+          :key="index"
+          :class="[
+            'select-item',
+            {
+              selected: isOptionSelected(option),
+              disabled: option.disabled,
+              highlighted: highlightedIndex === index,
+            },
+          ]"
+          @click="handleOptionSelect(option, index)"
+          @mouseenter="handleMouseEnter(index)"
+        >
+          {{ option.label }}
+        </li>
+      </ul>
+    </Teleport>
   </div>
 </template>
 
@@ -101,6 +103,7 @@
 import {
   computed,
   defineComponent,
+  nextTick,
   onMounted,
   onUnmounted,
   PropType,
@@ -109,13 +112,13 @@ import {
   watch,
 } from "vue";
 import debounce from "lodash/debounce";
+import { autoUpdate, computePosition, flip, offset } from "@floating-ui/dom";
 
 import { useI18n } from "@tager/admin-services";
 
 import BaseInput from "../BaseInput";
 import BaseButton from "../BaseButton";
 import BaseSpinner from "../BaseSpinner";
-import usePopper from "../../hooks/usePopper";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { OptionType } from "../../typings/common";
 import SearchIcon from "../../icons/SearchIcon.vue";
@@ -132,7 +135,6 @@ export interface Props {
   disabled: boolean;
   clearable: boolean;
   searchable: boolean;
-  filterable: boolean;
   noOptionsMessage: string;
   notFoundMessage: string;
   loading: boolean;
@@ -178,10 +180,6 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    filterable: {
-      type: Boolean,
-      default: true,
-    },
     noOptionsMessage: {
       type: String,
       default: "",
@@ -201,13 +199,59 @@ export default defineComponent({
     const query = ref<string>("");
     const menuIsOpen = ref<boolean>(false);
     const inputContainerRef: Ref<HTMLElement | null> = ref(null);
-    const popperRef: Ref<HTMLElement | null> = ref(null);
+    const menuRef: Ref<HTMLElement | null> = ref(null);
     const selectRef: Ref<HTMLElement | null> = ref(null);
     const highlightedIndex = ref<number>(-1);
+
+    let stopPositionAutoUpdate: null | (() => void) = null;
 
     onMounted(() => {
       if (props.value) {
         highlightedIndex.value = props.options.indexOf(props.value);
+      }
+    });
+
+    function updatePosition() {
+      if (inputContainerRef.value && menuRef.value) {
+        computePosition(inputContainerRef.value, menuRef.value, {
+          strategy: "absolute",
+          middleware: [flip(), offset(5)],
+        }).then((position) => {
+          if (!menuRef.value) return;
+
+          Object.assign(menuRef.value?.style, {
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+          });
+        });
+      }
+    }
+
+    async function showMenu() {
+      menuIsOpen.value = true;
+
+      await nextTick().then(updatePosition);
+
+      if (inputContainerRef.value && menuRef.value) {
+        stopPositionAutoUpdate = autoUpdate(
+          inputContainerRef.value,
+          menuRef.value,
+          updatePosition
+        );
+      }
+    }
+
+    function hideMenu() {
+      menuIsOpen.value = false;
+
+      if (stopPositionAutoUpdate) {
+        stopPositionAutoUpdate();
+      }
+    }
+
+    onUnmounted(() => {
+      if (stopPositionAutoUpdate) {
+        stopPositionAutoUpdate();
       }
     });
 
@@ -228,7 +272,7 @@ export default defineComponent({
     });
 
     const filteredOptions = computed<Array<OptionType>>(() => {
-      if (!props.filterable) {
+      if (!props.searchable) {
         return props.options;
       }
 
@@ -242,9 +286,9 @@ export default defineComponent({
     });
 
     function getOptionElementByIndex(index: number): HTMLElement | null {
-      if (!popperRef.value) return null;
+      if (!menuRef.value) return null;
 
-      return popperRef.value.querySelector<HTMLElement>(
+      return menuRef.value.querySelector<HTMLElement>(
         `li:nth-child(${index + 1})`
       );
     }
@@ -253,13 +297,13 @@ export default defineComponent({
       if (currentMenuIsOpen) {
         showMenu();
 
-        if (popperRef.value && inputContainerRef.value) {
-          popperRef.value.style.width =
+        if (menuRef.value && inputContainerRef.value) {
+          menuRef.value.style.width =
             inputContainerRef.value.offsetWidth + "px";
         }
 
         /** Scroll to selected option */
-        if (popperRef.value) {
+        if (menuRef.value) {
           const selectedOptionIndex = filteredOptions.value.findIndex(
             (filteredOption) => filteredOption.value === props.value?.value
           );
@@ -280,25 +324,6 @@ export default defineComponent({
 
     const isResultsNotFound = computed(() => {
       return filteredOptions.value.length === 0;
-    });
-
-    const { show: showMenu, hide: hideMenu } = usePopper(
-      inputContainerRef,
-      popperRef,
-      {
-        modifiers: [
-          {
-            name: "offset",
-            options: {
-              offset: [0, 0],
-            },
-          },
-        ],
-      }
-    );
-
-    onUnmounted(() => {
-      hideMenu();
     });
 
     function getSelectControlElement(): HTMLElement | null {
@@ -361,16 +386,16 @@ export default defineComponent({
     useOnClickOutside(
       selectRef,
       (event: Event) => {
-        if (!selectRef.value || !popperRef.value) return;
+        if (!selectRef.value || !menuRef.value) return;
 
         const clickedNode = event.target as Node;
         const isSameElement =
-          selectRef.value === clickedNode && popperRef.value === clickedNode;
+          selectRef.value === clickedNode && menuRef.value === clickedNode;
 
         const isClickedOutside =
           !isSameElement &&
           !selectRef.value.contains(clickedNode) &&
-          !popperRef.value.contains(clickedNode);
+          !menuRef.value.contains(clickedNode);
 
         if (isClickedOutside) {
           handleMenuClose();
@@ -412,7 +437,7 @@ export default defineComponent({
         highlightedIndex.value
       );
 
-      if (highlightedOptionElement && popperRef.value) {
+      if (highlightedOptionElement && menuRef.value) {
         /** Scroll option into view **/
         scrollOptionIntoView(highlightedOptionElement);
       }
@@ -436,7 +461,7 @@ export default defineComponent({
       computedNoOptionsMessage,
       computedNotFoundMessage,
       inputContainerRef,
-      popperRef,
+      menuRef,
       selectRef,
       filteredOptions,
       isResultsNotFound,
@@ -552,7 +577,7 @@ export default defineComponent({
   position: absolute;
   width: 100%;
   max-height: 300px;
-  margin-top: 10px;
+  //margin-top: 10px;
   display: none;
   background-color: #fff;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),

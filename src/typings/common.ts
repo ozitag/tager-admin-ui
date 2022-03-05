@@ -59,11 +59,16 @@ export type IconName =
   | "fileXml"
   | "fileZip";
 
-export type OptionType<V = string> = {
-  value: V;
+export interface BaseOptionType {
+  value: string | number;
   label: string;
   disabled?: boolean;
-};
+}
+
+export interface OptionType<V extends string | number = string>
+  extends BaseOptionType {
+  value: V;
+}
 
 export interface ColorOptionType<V = number> {
   value: V;

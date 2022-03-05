@@ -26,10 +26,14 @@ export function useSelectOptions<
   const minQueryLength = params.minQueryLength ?? 3;
 
   const options = computed<Array<Option>>(() => {
+    console.log("params.entityList.value", params.entityList.value);
     if (searchQuery.value.length < minQueryLength) {
       return [];
     }
-    return params.entityList.value.map(params.convertEntityToOption);
+
+    const result = params.entityList.value.map(params.convertEntityToOption);
+    console.log("result", result);
+    return result;
   });
 
   const noOptionsMessage = computed<string>(() => {
@@ -39,6 +43,7 @@ export function useSelectOptions<
   });
 
   function handleSearchQueryChange(query: string): void {
+    console.log("query", query);
     searchQuery.value = query.trim();
 
     if (searchQuery.value.length >= minQueryLength) {

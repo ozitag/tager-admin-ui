@@ -1,3 +1,4 @@
+import { initialize as initializeMSW, mswDecorator } from "msw-storybook-addon";
 import { app } from "@storybook/vue3";
 import vueRouter from "storybook-vue3-router";
 import {
@@ -11,8 +12,9 @@ import {
 import config from "../src/constants/config.json";
 import "../src/assets/css/index.css";
 import { AdminUiPlugin } from "../src/plugin";
+import { mswHandlers } from "../src/msw/handlers";
 
-export const decorators = [vueRouter()];
+export const decorators = [vueRouter(), mswDecorator];
 
 export const parameters = {
   /**
@@ -22,7 +24,12 @@ export const parameters = {
   previewTabs: {
     "storybook/docs/panel": { hidden: true },
   },
+  msw: {
+    handlers: mswHandlers,
+  },
 };
+
+initializeMSW();
 
 initializeEnvironment({
   accessToken: process.env.STORYBOOK_ACCESS_TOKEN,
