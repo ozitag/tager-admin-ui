@@ -1,0 +1,455 @@
+<template>
+  <div class="rich-text-editor">
+    <div v-if="sourcePanelEnabled">
+      <TabList
+        v-model:tab-id="mode"
+        class="toggle-tab-list"
+        :tab-list="tabList"
+        :bordered="true"
+        :aligned-right="true"
+      />
+    </div>
+    <div class="rich-text-editor-container">
+      <div v-if="!sourcePanelEnabled || mode === 'rich_text'">
+        <ckeditor
+          :editor="editor"
+          :config="editorConfig"
+          :model-value="value"
+          v-bind="$attrs"
+          @update:model-value="handleSourceChange"
+          @input="handleSourceChange"
+        />
+      </div>
+      <div v-if="mode === 'source_code'" class="source-code-panel">
+        <TextArea
+          :value="value"
+          class="source-code-input"
+          @input="handleSourceChange"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { component as CKEditor } from "@ckeditor/ckeditor5-vue";
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import CustomCKEditor from "@tager/admin-wysiwyg";
+
+import TabList from "../TabList/TabList.vue";
+import TextArea from "../BaseTextArea/BaseTextArea.vue";
+
+import { CustomUploadAdapterPluginFactory } from "./RichTextEditor.helpers";
+
+const TABS = [
+  { id: "rich_text", label: "Visual" },
+  { id: "source_code", label: "Source" },
+];
+
+// TODO update `vue` to make it work
+export default defineComponent({
+  name: "BaseRichTextInput",
+  components: { ckeditor: CKEditor, TabList, TextArea },
+  props: {
+    getUploadAdapterOptions: {
+      type: Function,
+      default: null,
+    },
+    sourcePanelEnabled: {
+      type: Boolean,
+      default: true,
+    },
+    value: {
+      type: String,
+      default: "",
+    },
+  },
+  emits: ["input", "update:value"],
+  setup(props, context) {
+    const mode = ref("rich_text");
+
+    function handleSourceChange(value: string) {
+      console.log("value", value);
+      context.emit("input", value);
+      context.emit("update:value", value);
+    }
+
+    return {
+      tabList: TABS,
+      mode,
+      handleSourceChange,
+      // ckeditor related data
+      editor: CustomCKEditor,
+      editorConfig: {
+        extraPlugins: [
+          CustomUploadAdapterPluginFactory(props.getUploadAdapterOptions),
+        ],
+        link: {
+          decorators: [
+            {
+              mode: "manual",
+              label: "Open in a new tab",
+              attributes: {
+                target: "_blank",
+              },
+            },
+          ],
+        },
+      },
+    };
+  },
+});
+</script>
+
+<style lang="scss">
+.rich-text-editor {
+  [data-ui-tab-list] {
+    margin: 0;
+  }
+
+  .toggle-tab-list {
+    margin-bottom: -1px;
+  }
+
+  textarea {
+    height: 199px;
+  }
+}
+
+.source-code-panel {
+}
+
+.source-code-input {
+  width: 100%;
+  height: 100%;
+  display: block !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.rich-text-editor-container {
+  position: relative;
+  color: rgba(64, 81, 102, 0.96);
+
+  .ck.ck-editor__main > .ck-editor__editable {
+    min-height: 10rem;
+  }
+
+  .ck-toolbar {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-color: var(--input-border-color) !important;
+  }
+
+  .ck-content {
+    border-color: var(--input-border-color) !important;
+  }
+
+  /* https://www.w3.org/TR/CSS2/sample.html */
+  html,
+  address,
+  blockquote,
+  body,
+  dd,
+  div,
+  dl,
+  dt,
+  fieldset,
+  form,
+  frame,
+  frameset,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  noframes,
+  ol,
+  p,
+  ul,
+  center,
+  dir,
+  hr,
+  menu,
+  pre {
+    display: block;
+    unicode-bidi: embed;
+  }
+
+  li {
+    display: list-item;
+  }
+
+  head {
+    display: none;
+  }
+
+  table {
+    display: table;
+  }
+
+  tr {
+    display: table-row;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tbody {
+    display: table-row-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  col {
+    display: table-column;
+  }
+
+  colgroup {
+    display: table-column-group;
+  }
+
+  td,
+  th {
+    display: table-cell;
+  }
+
+  caption {
+    display: table-caption;
+  }
+
+  th {
+    font-weight: bolder;
+    text-align: center;
+  }
+
+  caption {
+    text-align: center;
+  }
+
+  body {
+    margin: 8px;
+  }
+
+  h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin: 0.75em 0;
+  }
+
+  h3 {
+    font-size: 1.17em;
+    margin: 0.83em 0;
+  }
+
+  h4,
+  p,
+  blockquote,
+  ul,
+  fieldset,
+  form,
+  ol,
+  dl,
+  dir,
+  menu {
+    margin: 1.12em 0;
+  }
+
+  h5 {
+    font-size: 0.83em;
+    margin: 1.5em 0;
+  }
+
+  h6 {
+    font-size: 0.75em;
+    margin: 1.67em 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  b,
+  strong {
+    font-weight: bolder;
+  }
+
+  blockquote {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  i,
+  cite,
+  em,
+  var,
+  address {
+    font-style: italic;
+  }
+
+  pre,
+  tt,
+  code,
+  kbd,
+  samp {
+    font-family: monospace;
+  }
+
+  pre {
+    white-space: pre;
+  }
+
+  button,
+  textarea,
+  input,
+  select {
+    display: inline-block;
+  }
+
+  big {
+    font-size: 1.17em;
+  }
+
+  small,
+  sub,
+  sup {
+    font-size: 0.83em;
+  }
+
+  sub {
+    vertical-align: sub;
+  }
+
+  sup {
+    vertical-align: super;
+  }
+
+  table {
+    border-spacing: 2px;
+  }
+
+  thead,
+  tbody,
+  tfoot {
+    vertical-align: middle;
+  }
+
+  td,
+  th,
+  tr {
+    vertical-align: inherit;
+  }
+
+  s,
+  strike,
+  del {
+    text-decoration: line-through;
+  }
+
+  hr {
+    border: 1px inset;
+  }
+
+  ol,
+  ul,
+  dir,
+  menu,
+  dd {
+    margin-left: 40px;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ol ul,
+  ul ol,
+  ul ul,
+  ol ol {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  u,
+  ins {
+    text-decoration: underline;
+  }
+
+  br:before {
+    content: "\A";
+    white-space: pre-line;
+  }
+
+  center {
+    text-align: center;
+  }
+
+  :link,
+  :visited {
+    text-decoration: underline;
+  }
+
+  :focus {
+    outline: thin dotted invert;
+  }
+
+  /* Begin bidirectionality settings (do not change) */
+  BDO[DIR="ltr"] {
+    direction: ltr;
+    unicode-bidi: bidi-override;
+  }
+
+  BDO[DIR="rtl"] {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+  }
+
+  *[DIR="ltr"] {
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+
+  *[DIR="rtl"] {
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+
+  @media print {
+    h1 {
+      page-break-before: always;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      page-break-after: avoid;
+    }
+    ul,
+    ol,
+    dl {
+      page-break-before: avoid;
+    }
+  }
+}
+</style>
