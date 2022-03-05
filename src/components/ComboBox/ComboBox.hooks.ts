@@ -1,4 +1,19 @@
-import { computed, ComputedRef, ref, Ref, SetupContext } from "vue";
+import {
+  computed,
+  ComputedRef,
+  nextTick,
+  onUnmounted,
+  ref,
+  Ref,
+  SetupContext,
+} from "vue";
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  size,
+} from "@floating-ui/dom";
 
 import {
   FetchStatus,
@@ -26,14 +41,11 @@ export function useSelectOptions<
   const minQueryLength = params.minQueryLength ?? 3;
 
   const options = computed<Array<Option>>(() => {
-    console.log("params.entityList.value", params.entityList.value);
     if (searchQuery.value.length < minQueryLength) {
       return [];
     }
 
-    const result = params.entityList.value.map(params.convertEntityToOption);
-    console.log("result", result);
-    return result;
+    return params.entityList.value.map(params.convertEntityToOption);
   });
 
   const noOptionsMessage = computed<string>(() => {
@@ -43,7 +55,6 @@ export function useSelectOptions<
   });
 
   function handleSearchQueryChange(query: string): void {
-    console.log("query", query);
     searchQuery.value = query.trim();
 
     if (searchQuery.value.length >= minQueryLength) {
@@ -99,4 +110,80 @@ export function useSelectOptionsResource<
     handleSearchQueryChange,
     fetchEntityList,
   };
+}
+
+export function useFloatingPopup(
+  referenceRef: Ref<HTMLElement | null>,
+  floatingRef: Ref<HTMLElement | null>
+): {
+  showPopup: () => void;
+  hidePopup: () => void;
+  popupIsOpen: Ref<boolean>;
+} {
+  const popupIsOpen = ref(false);
+
+  let stopPositionAutoUpdate: null | (() => void) = null;
+
+  function updatePosition() {
+    const referenceElement = referenceRef.value;
+    const floatingElement = floatingRef.value;
+
+    if (referenceElement && floatingElement) {
+      computePosition(referenceElement, floatingElement, {
+        strategy: "absolute",
+        middleware: [
+          offset(10),
+          flip(),
+          size({
+            apply({ reference }) {
+              Object.assign(floatingElement.style, {
+                width: `${reference.width}px`,
+              });
+            },
+          }),
+        ],
+      }).then((position) => {
+        const x = Math.round(position.x);
+        const y = Math.round(position.y);
+
+        Object.assign(floatingElement.style, {
+          left: 0,
+          top: 0,
+          transform: `translate3d(${x}px,${y}px,0)`,
+        });
+      });
+    }
+  }
+
+  async function showPopup() {
+    popupIsOpen.value = true;
+
+    await nextTick().then(updatePosition);
+
+    if (referenceRef.value && floatingRef.value) {
+      stopPositionAutoUpdate = autoUpdate(
+        referenceRef.value,
+        floatingRef.value,
+        updatePosition
+      );
+    }
+  }
+
+  function hidePopup() {
+    popupIsOpen.value = false;
+
+    if (stopPositionAutoUpdate) {
+      stopPositionAutoUpdate();
+    }
+  }
+
+  onUnmounted(() => {
+    if (stopPositionAutoUpdate) {
+      stopPositionAutoUpdate();
+    }
+  });
+
+  const popupIsOpenComputed = computed(() => popupIsOpen.value);
+
+  return { showPopup, hidePopup, popupIsOpen: popupIsOpenComputed };
 }

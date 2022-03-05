@@ -9,7 +9,7 @@
         :placeholder="computedPlaceholder"
         :disabled="disabled"
         :autocomplete="autocomplete"
-        :class="{ 'is-focus': menuIsOpen }"
+        :class="{ 'is-focus': popupIsOpen }"
         @input="handleInput"
         @focus="handleInputFocus"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
@@ -24,7 +24,7 @@
         v-bind="$attrs"
         class="select-trigger"
         :disabled="disabled"
-        :class="{ 'is-focus': menuIsOpen }"
+        :class="{ 'is-focus': popupIsOpen }"
         @click="handleInputFocus"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
@@ -36,7 +36,7 @@
       </BaseButton>
 
       <SearchIcon
-        v-if="searchable && menuIsOpen && !loading"
+        v-if="searchable && popupIsOpen && !loading"
         class="icon-search"
         focusable="false"
         aria-hidden="true"
@@ -64,7 +64,7 @@
     </div>
 
     <Teleport to="#popup-target">
-      <ul ref="menuRef" class="select-menu" :class="[{ show: menuIsOpen }]">
+      <ul v-show="popupIsOpen" ref="menuRef" class="select-menu">
         <li v-if="loading">
           <p class="empty">{{ $i18n.t("ui:comboBox.loading") }}...</p>
         </li>
@@ -103,16 +103,13 @@
 import {
   computed,
   defineComponent,
-  nextTick,
   onMounted,
-  onUnmounted,
   PropType,
   Ref,
   ref,
   watch,
 } from "vue";
 import debounce from "lodash/debounce";
-import { autoUpdate, computePosition, flip, offset } from "@floating-ui/dom";
 
 import { useI18n } from "@tager/admin-services";
 
@@ -126,6 +123,7 @@ import CloseIcon from "../../icons/CloseIcon.vue";
 import ExpandMoreIcon from "../../icons/ExpandMoreIcon.vue";
 
 import { scrollOptionIntoView } from "./ComboBox.helpers";
+import { useFloatingPopup } from "./ComboBox.hooks";
 
 export interface Props {
   value: OptionType | null;
@@ -197,61 +195,19 @@ export default defineComponent({
   setup(props: Props, context) {
     const i18n = useI18n();
     const query = ref<string>("");
-    const menuIsOpen = ref<boolean>(false);
     const inputContainerRef: Ref<HTMLElement | null> = ref(null);
     const menuRef: Ref<HTMLElement | null> = ref(null);
     const selectRef: Ref<HTMLElement | null> = ref(null);
     const highlightedIndex = ref<number>(-1);
 
-    let stopPositionAutoUpdate: null | (() => void) = null;
+    const { showPopup, hidePopup, popupIsOpen } = useFloatingPopup(
+      inputContainerRef,
+      menuRef
+    );
 
     onMounted(() => {
       if (props.value) {
         highlightedIndex.value = props.options.indexOf(props.value);
-      }
-    });
-
-    function updatePosition() {
-      if (inputContainerRef.value && menuRef.value) {
-        computePosition(inputContainerRef.value, menuRef.value, {
-          strategy: "absolute",
-          middleware: [flip(), offset(5)],
-        }).then((position) => {
-          if (!menuRef.value) return;
-
-          Object.assign(menuRef.value?.style, {
-            left: `${position.x}px`,
-            top: `${position.y}px`,
-          });
-        });
-      }
-    }
-
-    async function showMenu() {
-      menuIsOpen.value = true;
-
-      await nextTick().then(updatePosition);
-
-      if (inputContainerRef.value && menuRef.value) {
-        stopPositionAutoUpdate = autoUpdate(
-          inputContainerRef.value,
-          menuRef.value,
-          updatePosition
-        );
-      }
-    }
-
-    function hideMenu() {
-      menuIsOpen.value = false;
-
-      if (stopPositionAutoUpdate) {
-        stopPositionAutoUpdate();
-      }
-    }
-
-    onUnmounted(() => {
-      if (stopPositionAutoUpdate) {
-        stopPositionAutoUpdate();
       }
     });
 
@@ -293,38 +249,28 @@ export default defineComponent({
       );
     }
 
-    watch(menuIsOpen, (currentMenuIsOpen) => {
+    watch(popupIsOpen, (currentMenuIsOpen) => {
       if (currentMenuIsOpen) {
-        showMenu();
-
-        if (menuRef.value && inputContainerRef.value) {
-          menuRef.value.style.width =
-            inputContainerRef.value.offsetWidth + "px";
-        }
-
         /** Scroll to selected option */
-        if (menuRef.value) {
-          const selectedOptionIndex = filteredOptions.value.findIndex(
-            (filteredOption) => filteredOption.value === props.value?.value
-          );
-          const selectedOptionElement =
-            getOptionElementByIndex(selectedOptionIndex);
+        const selectedOptionIndex = filteredOptions.value.findIndex(
+          (filteredOption) => filteredOption.value === props.value?.value
+        );
+        const selectedOptionElement =
+          getOptionElementByIndex(selectedOptionIndex);
 
-          if (selectedOptionElement) {
-            /** Scroll option into view **/
-            scrollOptionIntoView(selectedOptionElement);
-          }
+        if (selectedOptionElement) {
+          /** Scroll option into view **/
+          scrollOptionIntoView(selectedOptionElement);
         }
       } else {
         query.value = "";
         blurSelect();
-        hideMenu();
       }
     });
 
-    const isResultsNotFound = computed(() => {
-      return filteredOptions.value.length === 0;
-    });
+    const isResultsNotFound = computed(
+      () => filteredOptions.value.length === 0
+    );
 
     function getSelectControlElement(): HTMLElement | null {
       if (!inputContainerRef.value) return null;
@@ -351,11 +297,11 @@ export default defineComponent({
     }
 
     function handleMenuClose() {
-      menuIsOpen.value = false;
+      hidePopup();
     }
 
     function handleInputFocus() {
-      menuIsOpen.value = true;
+      showPopup();
     }
 
     function isOptionSelected(option: OptionType) {
@@ -469,7 +415,7 @@ export default defineComponent({
       handleInputFocus,
       handleOptionSelect,
       query,
-      menuIsOpen,
+      popupIsOpen,
       isOptionSelected,
       computedPlaceholder,
       handleClearClick,
@@ -575,18 +521,11 @@ export default defineComponent({
 
 .select-menu {
   position: absolute;
-  width: 100%;
   max-height: 300px;
-  //margin-top: 10px;
-  display: none;
   background-color: #fff;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
   z-index: 1;
-
-  &.show {
-    display: block;
-  }
 
   /** Custom Scrollbars **/
   overflow: hidden;

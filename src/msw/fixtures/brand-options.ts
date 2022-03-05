@@ -1,7 +1,7 @@
 import { BaseOptionType } from "../../typings/common";
 
 export const brandOptions: ReadonlyArray<BaseOptionType> = Object.freeze([
-  { value: "null", label: "Нет родительской категории", disabled: true },
+  { value: "null", label: "disabled brand", disabled: true },
   { value: 1, label: "chrysler" },
   { value: 2, label: "honda" },
   { value: 3, label: "mercedes-benz" },
