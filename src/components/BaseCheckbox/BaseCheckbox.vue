@@ -16,17 +16,13 @@ interface Props {
 
 export default defineComponent({
   name: "BaseCheckbox",
-  model: {
-    prop: "checked",
-    event: "change",
-  },
   props: {
     checked: {
       type: Boolean,
       default: false,
     },
   },
-  emits: ["change"],
+  emits: ["change", "update:checked"],
   setup(props: Props, context) {
     const checkboxRef: Ref<HTMLInputElement | null> = ref(null);
 
@@ -41,6 +37,7 @@ export default defineComponent({
       const checked = (event.target as HTMLInputElement).checked;
       updateCheckedInDOM();
       context.emit("change", checked, event);
+      context.emit("update:checked", checked);
     }
 
     watchEffect(updateCheckedInDOM);

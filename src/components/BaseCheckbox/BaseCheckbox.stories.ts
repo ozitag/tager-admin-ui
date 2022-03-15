@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { StoryFn } from "@storybook/vue3";
 
 import BaseCheckbox from "./BaseCheckbox.vue";
@@ -10,7 +10,11 @@ export default {
 export const Default: StoryFn = () =>
   defineComponent({
     components: { BaseCheckbox },
-    template: "<BaseCheckbox></BaseCheckbox>",
+    setup() {
+      const isChecked = ref(false);
+      return { isChecked };
+    },
+    template: `<BaseCheckbox v-model:checked="isChecked"></BaseCheckbox>`,
   });
 
 export const Playground: StoryFn = (args) =>

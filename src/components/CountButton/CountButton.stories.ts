@@ -1,6 +1,7 @@
-import CountButton from "./CountButton.vue";
 import { defineComponent } from "vue";
 import { StoryFn } from "@storybook/vue3";
+
+import CountButton from "./CountButton.vue";
 
 export default { title: "CountButton" };
 
