@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from "vue";
+import { defineComponent, Ref, ref, watchEffect } from "vue";
 
 interface Props {
   checked: boolean;
@@ -28,7 +28,7 @@ export default defineComponent({
   },
   emits: ["change"],
   setup(props: Props, context) {
-    const checkboxRef = ref<HTMLInputElement | null>(null);
+    const checkboxRef: Ref<HTMLInputElement | null> = ref(null);
 
     function updateCheckedInDOM() {
       /** Issue: https://github.com/vuejs/vue/issues/3523 */

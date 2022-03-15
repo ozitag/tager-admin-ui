@@ -6,6 +6,7 @@
 
 <script>
 import { defineComponent } from "vue";
+
 import IconBase from "../components/IconBase";
 
 export default defineComponent({
