@@ -1,12 +1,14 @@
-import Vue, { PluginFunction, VueConstructor } from 'vue';
-import { FetchStatus, FileType, Nullable } from '@tager/admin-services';
-import {KeyValueCellValue, ShortCodeParamType} from '../src/typings/common';
-import { ComputedRef, Ref, SetupContext } from '@vue/composition-api';
-import { ResponseBody } from '@tager/admin-services/src/common.types';
-import { Modifier, OptionsGeneric } from '@popperjs/core';
-import { TFunction } from 'i18next';
-import ResizeObserver from 'resize-observer-polyfill';
-import { Route } from 'vue-router';
+import Vue, { PluginFunction, VueConstructor } from "vue";
+import { ComputedRef, Ref, SetupContext } from "@vue/composition-api";
+import { Modifier, OptionsGeneric } from "@popperjs/core";
+import { TFunction } from "i18next";
+import ResizeObserver from "resize-observer-polyfill";
+import { Route } from "vue-router";
+
+import { ResponseBody } from "@tager/admin-services/src/common.types";
+import { FetchStatus, FileType, Nullable } from "@tager/admin-services";
+
+import { KeyValueCellValue, ShortCodeParamType } from "../src/typings/common";
 
 export type LinkType = {
   url: string;
@@ -19,53 +21,53 @@ export type ShortCodeItemType = {
 };
 
 export type IconName =
-  | 'article'
-  | 'home'
-  | 'group'
-  | 'viewList'
-  | 'expandLess'
-  | 'expandMore'
-  | 'edit'
-  | 'delete'
-  | 'upload'
-  | 'clear'
-  | 'close'
-  | 'menu'
-  | 'search'
-  | 'settings'
-  | 'assignment'
-  | 'chevronLeft'
-  | 'chevronRight'
-  | 'description'
-  | 'arrowDownward'
-  | 'arrowUpward'
-  | 'north'
-  | 'south'
-  | 'email'
-  | 'removeCircle'
-  | 'sms'
-  | 'contentCopy'
-  | 'openInNew'
-  | 'addCircle'
-  | 'fileAvi'
-  | 'fileCss'
-  | 'fileCsv'
-  | 'fileDoc'
-  | 'fileHtml'
-  | 'fileJs'
-  | 'fileMp3'
-  | 'fileMp4'
-  | 'filePdf'
-  | 'filePpt'
-  | 'filePsd'
-  | 'fileTxt'
-  | 'fileUnknown'
-  | 'fileXls'
-  | 'fileXml'
-  | 'fileZip'
-  | 'web'
-  | 'openInBrowser'
-  | 'done';
+  | "article"
+  | "home"
+  | "group"
+  | "viewList"
+  | "expandLess"
+  | "expandMore"
+  | "edit"
+  | "delete"
+  | "upload"
+  | "clear"
+  | "close"
+  | "menu"
+  | "search"
+  | "settings"
+  | "assignment"
+  | "chevronLeft"
+  | "chevronRight"
+  | "description"
+  | "arrowDownward"
+  | "arrowUpward"
+  | "north"
+  | "south"
+  | "email"
+  | "removeCircle"
+  | "sms"
+  | "contentCopy"
+  | "openInNew"
+  | "addCircle"
+  | "fileAvi"
+  | "fileCss"
+  | "fileCsv"
+  | "fileDoc"
+  | "fileHtml"
+  | "fileJs"
+  | "fileMp3"
+  | "fileMp4"
+  | "filePdf"
+  | "filePpt"
+  | "filePsd"
+  | "fileTxt"
+  | "fileUnknown"
+  | "fileXls"
+  | "fileXml"
+  | "fileZip"
+  | "web"
+  | "openInBrowser"
+  | "done";
 
 export type OptionType<V = string> = {
   value: V;
@@ -101,14 +103,14 @@ export type NameCellValue =
 export type FileCellValue = Nullable<FileType>;
 
 export type ColumnType =
-  | 'string'
-  | 'date'
-  | 'datetime'
-  | 'image'
-  | 'link'
-  | 'html'
-  | 'color'
-  | 'file';
+  | "string"
+  | "date"
+  | "datetime"
+  | "image"
+  | "link"
+  | "html"
+  | "color"
+  | "file";
 
 type RowDataDefaultType = { [key: string]: any };
 
@@ -146,13 +148,13 @@ export interface ColumnDefinitionDynamic<RowData = RowDataDefaultType> {
 
 export interface ColumnDefinitionString<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type?: 'string';
+  type?: "string";
   format?: (params: ColumnParamsArg<RowData>) => StringCellValue;
 }
 
 export interface ColumnDefinitionLink<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'link';
+  type: "link";
   format?: (params: ColumnParamsArg<RowData>) => LinkCellValue;
   options?: {
     shouldOpenNewTab?: boolean;
@@ -162,13 +164,13 @@ export interface ColumnDefinitionLink<RowData = RowDataDefaultType>
 
 export interface ColumnDefinitionHtml<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'html';
+  type: "html";
   format?: (params: ColumnParamsArg<RowData>) => StringCellValue;
 }
 
 export interface ColumnDefinitionImage<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'image';
+  type: "image";
   format?: (params: ColumnParamsArg<RowData>) => ImageCellValue;
   options?: {
     justifyContent?: string;
@@ -177,25 +179,25 @@ export interface ColumnDefinitionImage<RowData = RowDataDefaultType>
 
 export interface ColumnDefinitionDate<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'date';
+  type: "date";
   format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
 }
 
 export interface ColumnDefinitionDateTime<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'datetime';
+  type: "datetime";
   format?: (params: ColumnParamsArg<RowData>) => DateCellValue;
 }
 
 export interface ColumnDefinitionColor<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'color';
+  type: "color";
   format?: (params: ColumnParamsArg<RowData>) => ColorCellValue;
 }
 
 export interface ColumnDefinitionName<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'name';
+  type: "name";
   format?: (params: ColumnParamsArg<RowData>) => NameCellValue;
   options?: {
     shouldOpenNewTab?: boolean;
@@ -205,12 +207,13 @@ export interface ColumnDefinitionName<RowData = RowDataDefaultType>
 
 export interface ColumnDefinitionFile<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
-  type: 'file';
+  type: "file";
   format?: (params: ColumnParamsArg<RowData>) => FileCellValue;
 }
 
-export interface ColumnDefinitionKeyValue<RowData = RowDataDefaultType> extends ColumnDefinitionCommon<RowData> {
-  type: 'key-value';
+export interface ColumnDefinitionKeyValue<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type: "key-value";
   format?: (params: ColumnParamsArg<RowData>) => KeyValueCellValue;
 }
 
@@ -227,21 +230,14 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionKeyValue<RowData>
   | ColumnDefinitionFile<RowData>;
 
-export type NavigationGridItem = {
-  name: string;
-  url?: string;
-  total?: { status: FetchStatus; value: number; url?: string };
-  linkList?: Array<LinkType>;
-};
-
 /** Toast */
 export type ToastVariant =
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'primary'
-  | 'secondary'
-  | 'info';
+  | "success"
+  | "warning"
+  | "danger"
+  | "primary"
+  | "secondary"
+  | "info";
 
 export type ToastParams = {
   variant: ToastVariant;
@@ -255,7 +251,7 @@ export type ToastItem = ToastParams & {
 
 export type ToastFunction = (params: ToastParams) => void;
 
-declare module 'vue/types/vue' {
+declare module "vue/types/vue" {
   // 3. Declare augmentation for Vue
   interface Vue {
     $toast: ToastFunction;
@@ -326,7 +322,7 @@ export declare const AdvancedSearch: VueConstructor<Vue>;
 export declare const Code: VueConstructor<Vue>;
 
 export type DropdownMenuItemType = {
-  type: 'button' | 'link' | 'divider';
+  type: "button" | "link" | "divider";
   text?: string;
   url?: string;
   onClick?: (event: Event) => void;
@@ -337,7 +333,10 @@ export type DropdownMenuItemType = {
 export declare const AdminUiPlugin: PluginFunction<undefined>;
 
 export declare function formatDate(date: Date): string;
-export declare function formatDateTime(date: Date, ignoreStartOfDayTime: boolean): string;
+export declare function formatDateTime(
+  date: Date,
+  ignoreStartOfDayTime: boolean
+): string;
 export declare function formatTime(date: Date): string;
 export declare function formatBoolean(value: any): string;
 export declare function createTabErrorFinder(
@@ -374,7 +373,7 @@ export declare function useSearch(
   context: SetupContext
 ): [Ref<string>, (newQuery: string) => void];
 
-type TableChangeEvent = { type: 'SEARCH_UPDATE'; payload: string };
+type TableChangeEvent = { type: "SEARCH_UPDATE"; payload: string };
 
 interface TableState<T, M = unknown> {
   meta: ComputedRef<M>;
@@ -478,11 +477,11 @@ export interface SeoChangeEvent {
 
 export interface TagerFormSubmitEvent {
   type:
-    | 'save'
-    | 'save_exit'
-    | 'create'
-    | 'create_exit'
-    | 'create_create-another';
+    | "save"
+    | "save_exit"
+    | "create"
+    | "create_exit"
+    | "create_create-another";
 }
 
 export declare function useTranslation(context: SetupContext): { t: TFunction };

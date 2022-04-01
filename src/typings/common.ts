@@ -234,14 +234,6 @@ export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionKeyValue<RowData>
   | ColumnDefinitionFile<RowData>;
 
-export type NavigationGridItem = {
-  name: string;
-  url?: string;
-  total?: { status: FetchStatus; value: number; url?: string };
-  linkList?: Array<LinkType>;
-  width?: number;
-};
-
 export type DropdownMenuItemType = {
   type: "button" | "link" | "divider";
   text?: string;
