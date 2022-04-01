@@ -1,6 +1,7 @@
-import { defineComponent, ref } from "vue";
-import BaseInput from "./BaseInput.vue";
+import { defineComponent } from "vue";
 import { StoryFn } from "@storybook/vue3";
+
+import BaseInput from "./BaseInput.vue";
 
 export default { title: "BaseInput" };
 
