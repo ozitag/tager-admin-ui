@@ -78,10 +78,6 @@ export interface ColorOptionType<V = number> {
   disabled?: boolean;
 }
 
-export interface StepType {
-  title: string;
-}
-
 export type DateCellValue = Date | null;
 export type ColorCellValue = string | null;
 export type StringCellValue = string | null;

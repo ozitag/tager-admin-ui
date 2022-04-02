@@ -1,5 +1,5 @@
 import Vue, { PluginFunction, VueConstructor } from "vue";
-import { ComputedRef, Ref, SetupContext } from "@vue/composition-api";
+import { ComputedRef, Ref, SetupContext } from "vue";
 import { Modifier, OptionsGeneric } from "@popperjs/core";
 import { TFunction } from "i18next";
 import ResizeObserver from "resize-observer-polyfill";
@@ -19,55 +19,6 @@ export type ShortCodeItemType = {
   readonly name: string;
   readonly params: Array<ShortCodeParamType>;
 };
-
-export type IconName =
-  | "article"
-  | "home"
-  | "group"
-  | "viewList"
-  | "expandLess"
-  | "expandMore"
-  | "edit"
-  | "delete"
-  | "upload"
-  | "clear"
-  | "close"
-  | "menu"
-  | "search"
-  | "settings"
-  | "assignment"
-  | "chevronLeft"
-  | "chevronRight"
-  | "description"
-  | "arrowDownward"
-  | "arrowUpward"
-  | "north"
-  | "south"
-  | "email"
-  | "removeCircle"
-  | "sms"
-  | "contentCopy"
-  | "openInNew"
-  | "addCircle"
-  | "fileAvi"
-  | "fileCss"
-  | "fileCsv"
-  | "fileDoc"
-  | "fileHtml"
-  | "fileJs"
-  | "fileMp3"
-  | "fileMp4"
-  | "filePdf"
-  | "filePpt"
-  | "filePsd"
-  | "fileTxt"
-  | "fileUnknown"
-  | "fileXls"
-  | "fileXml"
-  | "fileZip"
-  | "web"
-  | "openInBrowser"
-  | "done";
 
 export type OptionType<V = string> = {
   value: V;
