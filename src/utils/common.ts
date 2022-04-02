@@ -1,7 +1,11 @@
 import type { Router } from "vue-router";
 
-import { isAbsoluteUrl, isNotNullish, isNumber } from "@tager/admin-services";
-import { environment } from "@tager/admin-services/dist/services/environment.js";
+import {
+  environment,
+  isAbsoluteUrl,
+  isNotNullish,
+  isNumber,
+} from "@tager/admin-services";
 
 /**
  * @param {Date} date
