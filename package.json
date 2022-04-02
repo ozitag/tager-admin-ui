@@ -46,7 +46,7 @@
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/vue3": "^6.4.19",
     "@svgr/rollup": "^6.2.1",
-    "@tager/admin-services": "^1.0.0-rc.22",
+    "@tager/admin-services": "^1.0.0-rc.24",
     "@types/autosize": "^4.0.1",
     "@types/leaflet": "^1.7.9",
     "@types/lodash.debounce": "^4.0.6",

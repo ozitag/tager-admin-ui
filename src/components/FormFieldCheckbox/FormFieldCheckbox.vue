@@ -1,5 +1,5 @@
 <template>
-  <FormGroup>
+  <FormGroup :class="containerClass">
     <BaseCheckbox
       :id="name"
       :name="name"
@@ -57,6 +57,10 @@ export default defineComponent({
       default: "",
     },
     error: {
+      type: String,
+      default: "",
+    },
+    containerClass: {
       type: String,
       default: "",
     },

@@ -391,7 +391,7 @@ export default defineComponent({
 }
 
 .size-select {
-  ::v-deep [data-ui-base-button] {
+  :deep([data-ui-base-button]) {
     height: 32px;
     padding-top: 0;
     padding-bottom: 0;
