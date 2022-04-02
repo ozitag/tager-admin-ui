@@ -1,6 +1,9 @@
 <template>
   <div ref="selectRef" class="select">
-    <div ref="inputContainerRef" class="select-control-wrapper">
+    <div
+      ref="inputContainerRef"
+      :class="['select-control-wrapper', { disabled }]"
+    >
       <BaseInput
         v-if="searchable"
         v-model:value="query"
@@ -437,6 +440,12 @@ export default defineComponent({
 
 .select-control-wrapper {
   position: relative;
+
+  &.disabled {
+    .icon-expand-more {
+      opacity: 0.3;
+    }
+  }
 }
 
 .select-control {
