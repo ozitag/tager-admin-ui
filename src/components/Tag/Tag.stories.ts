@@ -19,10 +19,10 @@ export const Playground: StoryFn = (args) =>
     setup() {
       return { args };
     },
-    template: `<Tag v-bind="args">{{args.text}}</Tag>`,
+    template: `<Tag v-bind="args">{{args.content}}</Tag>`,
   });
 
 Playground.args = {
-  text: "Tag",
+  content: "Tag",
   closable: true,
 };
