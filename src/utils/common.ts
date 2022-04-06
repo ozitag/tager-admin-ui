@@ -287,3 +287,6 @@ export function getFilterParams(
 
   return result;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+export function assertType<T extends true>() {}
