@@ -240,6 +240,7 @@ import TabList from "../TabList";
 import UploadFileFromUrlForm from "../UploadFileFromUrlForm";
 import CloudUploadIcon from "../../icons/CloudUploadIcon.vue";
 import CloseIcon from "../../icons/CloseIcon.vue";
+import { useSortable } from "../../hooks/useSortable";
 
 import { getFileIconComponent } from "./FileInput.helpers";
 import {
@@ -332,33 +333,6 @@ export default defineComponent({
     const i18n = useI18n();
     const fileGridRef: Ref<HTMLDivElement | null> = ref(null);
 
-    let sortable: Sortable | null = null;
-
-    function handleDragEnd(fromIndex: number, toIndex: number) {
-      const movedElement = savedFileList.value[fromIndex];
-      savedFileList.value.splice(fromIndex, 1);
-      savedFileList.value.splice(toIndex, 0, movedElement);
-    }
-
-    onMounted(() => {
-      if (!fileGridRef.value) return;
-
-      sortable = new Sortable(fileGridRef.value, {
-        animation: 200,
-        onEnd: (event) => {
-          if (!isNumber(event.oldIndex) || !isNumber(event.newIndex)) return;
-
-          handleDragEnd(event.oldIndex, event.newIndex);
-        },
-      });
-    });
-
-    onBeforeUnmount(() => {
-      if (sortable) {
-        sortable.destroy();
-      }
-    });
-
     const fileInputRef: Ref<HTMLInputElement | null> = ref(null);
     const isDragOver = ref<boolean>(false);
     const uploadingFileList: Ref<Array<UploadingSingleFileInputValueType>> =
@@ -379,6 +353,17 @@ export default defineComponent({
       return props.multiple
         ? (props.value as Array<SingleFileInputValueType>)
         : [props.value as SingleFileInputValueType | null].filter(isNotNullish);
+    });
+
+    function emitChangeEvent(newFiles: Array<SingleFileInputValueType>) {
+      const newValue = props.multiple ? newFiles : newFiles[0];
+      context.emit("update:value", newValue ?? null);
+    }
+
+    useSortable({
+      elementRef: fileGridRef,
+      entityList: savedFileList,
+      onChange: emitChangeEvent,
     });
 
     const fileList = computed<
@@ -423,11 +408,6 @@ export default defineComponent({
           return i18n.t("ui:fileInput.dragAndDropAFileHereOrClick");
       }
     });
-
-    function emitChangeEvent(newFiles: Array<SingleFileInputValueType>) {
-      const newValue = props.multiple ? newFiles : newFiles[0];
-      context.emit("update:value", newValue ?? null);
-    }
 
     function createUploadingFile(
       nativeFile: File
@@ -630,12 +610,6 @@ export default defineComponent({
       selectedTabId.value = tabId;
     }
 
-    function handleDragAndDropInput(
-      sortedFileList: Array<SingleFileInputValueType>
-    ) {
-      emitChangeEvent(sortedFileList);
-    }
-
     return {
       tabList,
       fileList,
@@ -659,8 +633,6 @@ export default defineComponent({
       getFileHtmlTitle,
       clearFile,
       emitChangeEvent,
-
-      handleDragAndDropInput,
 
       savedFileList,
       uploadingFileList,
