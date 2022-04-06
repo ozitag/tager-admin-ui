@@ -47,6 +47,10 @@ import BaseButton from "../BaseButton";
 
 import { uploadFileWithUrl } from "./UploadFileFromUrlForm.helpers";
 
+interface Props {
+  disabled: boolean;
+}
+
 export default defineComponent({
   name: "UploadFileFromUrlForm",
   components: {
@@ -55,13 +59,21 @@ export default defineComponent({
     FormFieldError,
     BaseButton,
   },
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ["change"],
-  setup(props, context) {
+  setup(props: Props, context) {
     const i18n = useI18n();
     const url = ref("");
     const isLoading = ref(false);
     const error = ref("");
-    const disabled = computed(() => !url.value || isLoading.value);
+    const disabled = computed(
+      () => !url.value || isLoading.value || props.disabled
+    );
 
     function getUploadErrorMessage(error: Error) {
       if (error instanceof RequestError) {

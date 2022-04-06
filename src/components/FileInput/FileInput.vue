@@ -179,6 +179,7 @@
     >
       <UploadFileFromUrlForm
         v-if="selectedTabId === 'url'"
+        :disabled="disabled"
         @change="handleUploadFromUrlChange"
       />
 
@@ -195,6 +196,7 @@
             class="visually-hidden"
             :accept="acceptableMimeTypes"
             :multiple="multiple"
+            :disabled="disabled"
             @change="handleChange"
           />
         </label>
@@ -259,6 +261,7 @@ interface Props {
   fileType: "image" | "archive" | "";
   scenario: string | null;
   urlUploadEnabled: boolean | null;
+  disabled: boolean;
 }
 
 export default defineComponent({
@@ -318,6 +321,10 @@ export default defineComponent({
     scenario: {
       type: String,
       default: null,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ["update:value"],
