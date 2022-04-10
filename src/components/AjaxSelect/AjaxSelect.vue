@@ -64,7 +64,6 @@ export default defineComponent({
     const { loading, options, noOptionsMessage, handleSearchQueryChange } =
       useSelectOptionsResource<EntityType, OptionType<number | string>>({
         fetchEntityList,
-        context,
         resourceName: "Option list",
         minQueryLength: 3,
         convertEntityToOption: (entity) => {

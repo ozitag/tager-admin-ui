@@ -18,7 +18,7 @@ function useCopyToClipboard(
 
   watch(isCopied, (newIsCopied) => {
     if (newIsCopied) {
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         isCopied.value = false;
       }, timeout);
     }

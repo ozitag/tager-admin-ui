@@ -73,7 +73,6 @@ export function useSelectOptionsResource<
     query: string;
   }) => Promise<ResponseBody<Array<EntityType>>>;
   resourceName?: string;
-  context: SetupContext;
   convertEntityToOption: (entity: EntityType) => Option;
   minQueryLength?: number;
 }): {
@@ -89,7 +88,6 @@ export function useSelectOptionsResource<
     useResource<Array<EntityType>, undefined, { query: string }>({
       fetchResource: params.fetchEntityList,
       initialValue: [],
-      context: params.context,
       resourceName: params.resourceName,
     });
 
