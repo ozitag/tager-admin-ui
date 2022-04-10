@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 import get from "lodash.get";
 
 import LoadableImage from "../../LoadableImage";
-import {
+import type {
   ColumnDefinitionImage,
   ImageCellValue,
   RowDataDefaultType,

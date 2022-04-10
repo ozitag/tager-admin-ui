@@ -1,6 +1,6 @@
 import { defineComponent, ref } from "vue";
 
-import { VariableType } from "../../typings/common";
+import type { VariableType } from "../../typings/common";
 
 import FormFieldMessageTemplate from "./FormFieldMessageTemplate.vue";
 

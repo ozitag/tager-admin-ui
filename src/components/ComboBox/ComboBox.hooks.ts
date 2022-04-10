@@ -1,11 +1,10 @@
 import {
   computed,
-  ComputedRef,
+  type ComputedRef,
   nextTick,
   onUnmounted,
   ref,
-  Ref,
-  SetupContext,
+  type Ref,
 } from "vue";
 import {
   autoUpdate,
@@ -16,13 +15,13 @@ import {
 } from "@floating-ui/dom";
 
 import {
-  FetchStatus,
-  Nullable,
-  ResponseBody,
+  type FetchStatus,
+  type Nullable,
+  type ResponseBody,
   useResource,
 } from "@tager/admin-services";
 
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 
 export function useSelectOptions<
   EntityType,

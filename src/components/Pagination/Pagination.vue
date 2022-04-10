@@ -61,12 +61,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import ChevronLeftIcon from "../../icons/ChevronLeftIcon.vue";
 import ChevronRightIcon from "../../icons/ChevronRightIcon.vue";
 import ComboBox from "../ComboBox";
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 
 interface Page {
   value: string;

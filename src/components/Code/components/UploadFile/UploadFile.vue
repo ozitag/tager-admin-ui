@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, SetupContext } from "vue";
+import { computed, defineComponent, ref, type SetupContext } from "vue";
 
-import { Nullable } from "@tager/admin-services";
+import type { Nullable } from "@tager/admin-services";
 
 import BaseButton from "../../../BaseButton";
 

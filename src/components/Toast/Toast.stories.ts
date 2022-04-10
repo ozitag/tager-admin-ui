@@ -1,7 +1,7 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { StoryFn } from "@storybook/vue3";
 
-import { ToastParams, useToast } from "@tager/admin-services";
+import { type ToastParams, useToast } from "@tager/admin-services";
 
 import BaseButton from "../BaseButton/BaseButton.vue";
 

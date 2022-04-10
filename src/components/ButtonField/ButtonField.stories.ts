@@ -1,7 +1,7 @@
 import { ref } from "vue";
 
 import ButtonField from "./ButtonField.vue";
-import { ButtonFieldValueType } from "./ButtonField.helpers";
+import type { ButtonFieldValueType } from "./ButtonField.helpers";
 
 export default { title: "ButtonField" };
 

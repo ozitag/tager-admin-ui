@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, SetupContext } from "vue";
+import { defineComponent, type PropType, type SetupContext } from "vue";
 
-import { DropdownMenuItemType } from "../../typings/common";
+import type { DropdownMenuItemType } from "../../typings/common";
 
 import DropdownItem from "./components/DropdownItem.vue";
 

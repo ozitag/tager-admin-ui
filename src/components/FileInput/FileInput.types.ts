@@ -1,4 +1,4 @@
-import { FileObjectSchema, Nullable, z } from "@tager/admin-services";
+import { FileObjectSchema, type Nullable, z } from "@tager/admin-services";
 
 export const SingleFileInputValueSchema = z.object({
   id: z.string(),

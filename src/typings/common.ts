@@ -1,4 +1,4 @@
-import { FetchStatus, FileType, Nullable } from "@tager/admin-services";
+import type { FileType, Nullable } from "@tager/admin-services";
 
 export type ShortCodeParamType = {
   readonly name: string;

@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { DOT_REGEXP, SPACE_REGEXP } from "../../utils/common";
 import BaseInput from "../BaseInput";

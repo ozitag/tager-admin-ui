@@ -15,13 +15,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import FormGroup from "../FormGroup.vue";
 import FormFieldError from "../FormFieldError";
 import InputLabel from "../InputLabel";
 import MultiSelect from "../MultiSelect";
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 
 function isValidSelectOption(option: OptionType) {
   return typeof option === "object" && "value" in option && "label" in option;

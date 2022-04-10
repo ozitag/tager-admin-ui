@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, Ref, ref } from "vue";
+import { onMounted, onUnmounted, ref, type Ref } from "vue";
 
 function useResizeObserver<T extends Element>(
   element: Ref<T | null>,

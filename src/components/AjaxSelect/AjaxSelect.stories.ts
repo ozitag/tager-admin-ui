@@ -1,6 +1,6 @@
 import { defineComponent, ref } from "vue";
 
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 
 import AjaxSelect from "./AjaxSelect.vue";
 

@@ -30,13 +30,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, SetupContext } from "vue";
+import {
+  computed,
+  defineComponent,
+  type PropType,
+  type SetupContext,
+} from "vue";
 import TinyColor from "tinycolor2";
 
 import { isNotNullish } from "@tager/admin-services";
 
 import DoneIcon from "../../icons/DoneIcon.vue";
-import { ColorOptionType } from "../../typings/common";
+import type { ColorOptionType } from "../../typings/common";
 
 type ValueType = ColorOptionType | Array<ColorOptionType> | null;
 

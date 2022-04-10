@@ -42,12 +42,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from "vue";
+import { defineComponent, computed, type PropType } from "vue";
 import get from "lodash.get";
 
 import { isAbsoluteUrl, isString, z } from "@tager/admin-services";
 
-import {
+import type {
   ColumnDefinitionName,
   NameCellValue,
   RowDataDefaultType,

@@ -17,9 +17,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, SetupContext } from "vue";
+import { defineComponent, type PropType, type SetupContext } from "vue";
 
-import { ToastParams } from "@tager/admin-services";
+import type { ToastParams } from "@tager/admin-services";
 
 import CloseIcon from "../../icons/CloseIcon.vue";
 

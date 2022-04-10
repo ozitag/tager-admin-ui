@@ -1,4 +1,4 @@
-import { Plugin } from "vue";
+import { type Plugin } from "vue";
 
 import { i18n } from "@tager/admin-services";
 

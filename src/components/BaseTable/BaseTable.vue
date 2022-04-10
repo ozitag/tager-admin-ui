@@ -66,13 +66,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 import kebabCase from "lodash.kebabcase";
 
 import { useI18n } from "@tager/admin-services";
 
 import Spinner from "../BaseSpinner";
-import { ColumnDefinition, ColumnDefinitionCommon } from "../../typings/common";
+import type {
+  ColumnDefinition,
+  ColumnDefinitionCommon,
+} from "../../typings/common";
 
 import BaseTableCell from "./components/Cell.vue";
 import { useStickyTableHeader } from "./BaseTable.hooks";

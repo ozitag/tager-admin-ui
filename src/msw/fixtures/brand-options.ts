@@ -1,4 +1,4 @@
-import { BaseOptionType } from "../../typings/common";
+import type { BaseOptionType } from "../../typings/common";
 
 export const brandOptions: ReadonlyArray<BaseOptionType> = Object.freeze([
   { value: "null", label: "disabled brand", disabled: true },

@@ -15,12 +15,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import FormGroup from "../FormGroup.vue";
 import FormFieldError from "../FormFieldError";
 import FileInput from "../FileInput";
-import { FileInputValueType } from "../FileInput/FileInput.types";
+import type { FileInputValueType } from "../FileInput/FileInput.types";
 
 interface Props {
   name: string;

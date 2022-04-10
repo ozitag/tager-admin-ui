@@ -15,7 +15,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, SetupContext } from "vue";
+import {
+  computed,
+  defineComponent,
+  type PropType,
+  type SetupContext,
+} from "vue";
 
 import { notEmpty } from "@tager/admin-services";
 
@@ -23,7 +28,7 @@ import FormGroup from "../FormGroup.vue";
 import FormFieldError from "../FormFieldError";
 import InputLabel from "../InputLabel";
 import MultiSelect from "../MultiSelect";
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 
 interface Props {
   name: string;

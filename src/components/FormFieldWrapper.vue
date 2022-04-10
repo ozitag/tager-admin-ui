@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { Nullable } from "@tager/admin-services";
+import type { Nullable } from "@tager/admin-services";
 
 import FormGroup from "./FormGroup.vue";
 import FormFieldError from "./FormFieldError";

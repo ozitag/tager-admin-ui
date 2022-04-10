@@ -38,9 +38,9 @@
 import {
   computed,
   defineComponent,
-  PropType,
+  type PropType,
   ref,
-  SetupContext,
+  type SetupContext,
   watch,
 } from "vue";
 
@@ -49,7 +49,7 @@ import { isNotNullish, isString, useI18n } from "@tager/admin-services";
 import EditIcon from "../../../icons/EditIcon.vue";
 import FormFieldNumberInput from "../../FormFieldNumberInput";
 import BaseButton from "../../BaseButton";
-import { MapValueType, ValuePropSchema } from "../MapField.helpers";
+import { type MapValueType, ValuePropSchema } from "../MapField.helpers";
 
 const validators = {
   required(value: unknown): boolean {

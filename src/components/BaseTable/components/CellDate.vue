@@ -4,10 +4,10 @@
 
 <script lang="ts">
 import get from "lodash.get";
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { formatDate, formatDateTime } from "../../../utils/common";
-import {
+import type {
   ColumnDefinitionDate,
   ColumnDefinitionDateTime,
   DateCellValue,

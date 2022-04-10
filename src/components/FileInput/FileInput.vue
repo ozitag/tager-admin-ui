@@ -206,26 +206,16 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onBeforeUnmount,
-  onMounted,
-  PropType,
-  Ref,
-  ref,
-} from "vue";
-import { Component } from "@vue/runtime-core";
-import Sortable from "sortablejs";
+import { computed, defineComponent, type PropType, type Ref, ref } from "vue";
+import type { Component } from "@vue/runtime-core";
 
 import {
   createId,
-  FileType,
+  type FileType,
   getMessageFromError,
   isNotNullish,
-  isNumber,
   notEmpty,
-  Nullable,
+  type Nullable,
   RequestError,
   upload,
   useI18n,
@@ -243,13 +233,13 @@ import CloseIcon from "../../icons/CloseIcon.vue";
 import { useSortable } from "../../hooks/useSortable";
 
 import { getFileIconComponent } from "./FileInput.helpers";
-import {
-  FileInputValueSchema,
+import type {
   FileInputValueType,
   SingleFileInputValueType,
   TabListType,
   UploadingSingleFileInputValueType,
 } from "./FileInput.types";
+import { FileInputValueSchema } from "./FileInput.types";
 
 interface Props {
   required?: string;
@@ -674,7 +664,7 @@ export default defineComponent({
   &:hover {
     background-color: rgba(62, 69, 81, 0.05);
 
-    :deep(&:not(.no-hover) [data-ui-tab][data-active] [data-ui-tab-button]) {
+    &:not(.no-hover) :deep([data-ui-tab][data-active] [data-ui-tab-button]) {
       background-color: rgba(62, 69, 81, 0.05);
     }
   }

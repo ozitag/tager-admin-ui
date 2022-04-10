@@ -40,7 +40,7 @@
 import { computed, defineComponent } from "vue";
 import kebabCase from "lodash.kebabcase";
 
-import { isNotFalsy, Nullable } from "@tager/admin-services";
+import { isNotFalsy, type Nullable } from "@tager/admin-services";
 
 import FormField from "../FormField";
 import BaseButton from "../BaseButton";

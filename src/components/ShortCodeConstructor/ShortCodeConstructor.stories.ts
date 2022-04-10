@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 
-import { ShortCodeItemType } from "../../typings/common";
+import type { ShortCodeItemType } from "../../typings/common";
 
 import ShortCodeConstructor from "./ShortCodeConstructor.vue";
 

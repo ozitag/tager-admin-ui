@@ -1,12 +1,16 @@
-import { computed, ComputedRef, onMounted, Ref, watch } from "vue";
+import { computed, type ComputedRef, onMounted, type Ref, watch } from "vue";
 
-import { ResponseBody } from "@tager/admin-services";
-import { Nullable, PaginationMeta, useResource } from "@tager/admin-services";
+import type { ResponseBody } from "@tager/admin-services";
+import {
+  type Nullable,
+  type PaginationMeta,
+  useResource,
+} from "@tager/admin-services";
 
 import { useSearch } from "../SearchInput";
 import { usePagination } from "../Pagination";
 
-import { TableChangeEvent } from "./DataTable.types";
+import type { TableChangeEvent } from "./DataTable.types";
 
 interface TableDataRequestParams {
   searchQuery?: string;

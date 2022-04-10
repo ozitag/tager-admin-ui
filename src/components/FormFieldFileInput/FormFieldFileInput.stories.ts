@@ -2,7 +2,7 @@ import { defineComponent, ref, watch } from "vue";
 
 import { createId } from "@tager/admin-services";
 
-import { SingleFileInputValueType } from "../FileInput/FileInput.types";
+import type { SingleFileInputValueType } from "../FileInput/FileInput.types";
 
 import FormFieldFileInput from "./FormFieldFileInput.vue";
 

@@ -43,7 +43,7 @@ import {
   computed,
   defineComponent,
   onMounted,
-  PropType,
+  type PropType,
   ref,
   watch,
 } from "vue";
@@ -51,11 +51,14 @@ import {
 import BaseTable from "../BaseTable";
 import SearchInput from "../SearchInput";
 import Pagination from "../Pagination";
-import { ColumnDefinition, RowDataDefaultType } from "../../typings/common";
+import type {
+  ColumnDefinition,
+  RowDataDefaultType,
+} from "../../typings/common";
 import { getScrollableParent } from "../../utils/common";
 import useResizeObserver from "../../hooks/useResizeObserver";
 
-import { TableChangeEvent } from "./DataTable.types";
+import type { TableChangeEvent } from "./DataTable.types";
 
 interface PaginationProps {
   pageNumber: number;

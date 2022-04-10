@@ -1,4 +1,4 @@
-import { FileType, request } from "@tager/admin-services";
+import { type FileType, request } from "@tager/admin-services";
 
 export function uploadFileWithUrl(url: string): Promise<FileType> {
   const formData = new FormData();

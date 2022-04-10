@@ -1,11 +1,11 @@
 import { defineComponent, ref } from "vue";
 import { StoryFn } from "@storybook/vue3";
 
-import { ResponseBody } from "@tager/admin-services";
+import type { ResponseBody } from "@tager/admin-services";
 
-import { BaseOptionType } from "../../typings/common";
+import type { BaseOptionType } from "../../typings/common";
 import { brandOptions } from "../../msw/fixtures/brand-options";
-import { BrandType } from "../../msw/fixtures/brand-list";
+import type { BrandType } from "../../msw/fixtures/brand-list";
 
 import ComboBox from "./ComboBox.vue";
 

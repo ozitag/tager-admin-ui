@@ -2,7 +2,7 @@ import { defineComponent, ref } from "vue";
 
 import { createId } from "@tager/admin-services";
 
-import { SingleFileInputValueType } from "../../typings/common";
+import type { SingleFileInputValueType } from "../../typings/common";
 
 import FileInput from "./FileInput.vue";
 

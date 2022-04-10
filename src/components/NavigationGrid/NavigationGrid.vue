@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import Spinner from "../BaseSpinner";
 
@@ -58,7 +58,7 @@ import {
   hasContent,
   hasNameOnly,
 } from "./NavigationGrid.helpers";
-import { NavigationGridItem } from "./NavigationGrid.types";
+import type { NavigationGridItem } from "./NavigationGrid.types";
 import GridItemWrapper from "./components/GridItemWrapper.vue";
 
 interface Props {

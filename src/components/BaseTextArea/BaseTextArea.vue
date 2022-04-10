@@ -15,7 +15,7 @@ import {
   onMounted,
   onUnmounted,
   onUpdated,
-  Ref,
+  type Ref,
   ref,
 } from "vue";
 import autosize from "autosize";

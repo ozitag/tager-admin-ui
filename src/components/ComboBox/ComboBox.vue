@@ -107,8 +107,8 @@ import {
   computed,
   defineComponent,
   onMounted,
-  PropType,
-  Ref,
+  type PropType,
+  type Ref,
   ref,
   watch,
 } from "vue";
@@ -120,7 +120,7 @@ import BaseInput from "../BaseInput";
 import BaseButton from "../BaseButton";
 import BaseSpinner from "../BaseSpinner";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 import SearchIcon from "../../icons/SearchIcon.vue";
 import CloseIcon from "../../icons/CloseIcon.vue";
 import ExpandMoreIcon from "../../icons/ExpandMoreIcon.vue";

@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 import get from "lodash.get";
 
 import { isAbsoluteUrl } from "@tager/admin-services";
@@ -29,7 +29,7 @@ import { isAbsoluteUrl } from "@tager/admin-services";
 import { LinkSchema } from "../../../constants/schema";
 import useCopyToClipboard from "../../../hooks/useCopyToClipboard";
 import BaseButton from "../../BaseButton";
-import {
+import type {
   ColumnDefinitionLink,
   LinkCellValue,
   LinkType,

@@ -1,6 +1,6 @@
-import { FileType, Nullable } from "@tager/admin-services";
+import type { FileType, Nullable } from "@tager/admin-services";
 
-import {
+import type {
   ColumnDefinitionColor,
   ColumnDefinitionCommon,
   ColumnDefinitionDate,

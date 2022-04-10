@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from "vue";
+import { defineComponent, onMounted, ref, type Ref, watch } from "vue";
 import Picker from "vanilla-picker/csp";
 import debounce from "lodash.debounce";
 import "vanilla-picker/dist/vanilla-picker.csp.css";

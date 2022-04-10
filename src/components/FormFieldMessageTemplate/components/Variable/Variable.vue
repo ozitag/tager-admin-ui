@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import useCopyToClipboard from "../../../../hooks/useCopyToClipboard";
-import { VariableType } from "../../../../typings/common";
+import type { VariableType } from "../../../../typings/common";
 
 interface Props {
   variable: VariableType;

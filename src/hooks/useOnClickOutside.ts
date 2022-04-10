@@ -1,14 +1,14 @@
-import { onMounted, onUnmounted, Ref } from 'vue';
+import { onMounted, onUnmounted, type Ref } from "vue";
 
 function useOnClickOutside(
   elementRef: Ref<HTMLElement | null>,
   handler: (event: Event) => void,
-  type?: 'custom'
+  type?: "custom"
 ): void {
   function handleEvent(event: Event): void {
     if (!elementRef.value) return;
 
-    if (type === 'custom') {
+    if (type === "custom") {
       handler(event);
       return;
     }
@@ -24,13 +24,13 @@ function useOnClickOutside(
   }
 
   onMounted(() => {
-    document.addEventListener('mousedown', handleEvent);
-    document.addEventListener('touchstart', handleEvent);
+    document.addEventListener("mousedown", handleEvent);
+    document.addEventListener("touchstart", handleEvent);
   });
 
   onUnmounted(() => {
-    document.removeEventListener('mousedown', handleEvent);
-    document.removeEventListener('touchstart', handleEvent);
+    document.removeEventListener("mousedown", handleEvent);
+    document.removeEventListener("touchstart", handleEvent);
   });
 }
 

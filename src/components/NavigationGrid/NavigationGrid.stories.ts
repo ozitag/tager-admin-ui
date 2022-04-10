@@ -1,7 +1,7 @@
 import { FETCH_STATUSES } from "@tager/admin-services";
 
 import NavigationGrid from "./NavigationGrid.vue";
-import { NavigationGridItem } from "./NavigationGrid.types";
+import type { NavigationGridItem } from "./NavigationGrid.types";
 
 export default { title: "NavigationGrid" };
 

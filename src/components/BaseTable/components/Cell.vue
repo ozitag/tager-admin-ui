@@ -1,8 +1,11 @@
 <script lang="ts">
-import { DefineComponent, defineComponent, h, PropType, Slot } from "vue";
-import { ConcreteComponent, VNode } from "@vue/runtime-core";
+import { defineComponent, h, type PropType, type Slot } from "vue";
+import type { VNode } from "@vue/runtime-core";
 
-import { ColumnDefinition, RowDataDefaultType } from "../../../typings/common";
+import type {
+  ColumnDefinition,
+  RowDataDefaultType,
+} from "../../../typings/common";
 
 import CellDate from "./CellDate.vue";
 import CellString from "./CellString.vue";

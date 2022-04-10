@@ -1,7 +1,7 @@
 import { ref, watch } from "vue";
 
 import { brandOptions } from "../../msw/fixtures/brand-options";
-import { BaseOptionType } from "../../typings/common";
+import type { BaseOptionType } from "../../typings/common";
 
 import FormFieldSelect from "./FormFieldSelect.vue";
 

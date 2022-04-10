@@ -120,10 +120,10 @@
 import {
   computed,
   defineComponent,
-  PropType,
-  Ref,
+  type PropType,
+  type Ref,
   ref,
-  SetupContext,
+  type SetupContext,
 } from "vue";
 
 import { useI18n } from "@tager/admin-services";
@@ -131,7 +131,7 @@ import { useI18n } from "@tager/admin-services";
 import BaseCheckbox from "../BaseCheckbox";
 import Tag from "../Tag";
 import { isValidSelectOption } from "../../utils/common";
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 import CloseIcon from "../../icons/CloseIcon.vue";
 import SearchIcon from "../../icons/SearchIcon.vue";
 import { useSortable } from "../../hooks/useSortable";

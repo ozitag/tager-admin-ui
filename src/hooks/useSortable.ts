@@ -1,5 +1,6 @@
 import Sortable from "sortablejs";
-import { onBeforeUnmount, onMounted, Ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, watch } from "vue";
+import type { Ref } from "vue";
 
 import { isNumber } from "@tager/admin-services";
 

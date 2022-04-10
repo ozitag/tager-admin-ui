@@ -1,6 +1,6 @@
 import { defineComponent, ref } from "vue";
 
-import { ColorOptionType } from "../../typings/common";
+import type { ColorOptionType } from "../../typings/common";
 
 import ColorSelect from "./ColorSelect.vue";
 

@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext } from "vue";
+import { defineComponent, type SetupContext } from "vue";
 
 import CloseIcon from "../../icons/CloseIcon.vue";
 

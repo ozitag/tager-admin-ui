@@ -2,7 +2,10 @@ import { defineComponent, ref } from "vue";
 
 import { createId } from "@tager/admin-services";
 
-import { SeoChangeEvent, SingleFileInputValueType } from "../../typings/common";
+import type {
+  SeoChangeEvent,
+  SingleFileInputValueType,
+} from "../../typings/common";
 
 import SeoFieldGroup from "./SeoFieldGroup.vue";
 

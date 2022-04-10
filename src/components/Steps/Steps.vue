@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { PropType } from "vue";
+import { type PropType } from "vue";
 
 import DoneIcon from "../../icons/DoneIcon.vue";
 

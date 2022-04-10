@@ -4,9 +4,9 @@
 
 <script lang="ts">
 import get from "lodash.get";
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import {
+import type {
   ColumnDefinitionHtml,
   RowDataDefaultType,
   StringCellValue,

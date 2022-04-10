@@ -13,12 +13,12 @@
   </button>
 </template>
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 import { useRouter } from "vue-router";
 
 import { isAbsoluteUrl } from "@tager/admin-services";
 
-import { DropdownMenuItemType } from "../../../typings/common";
+import type { DropdownMenuItemType } from "../../../typings/common";
 
 interface Props {
   item: DropdownMenuItemType;

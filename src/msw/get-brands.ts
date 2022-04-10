@@ -1,6 +1,6 @@
 import { DefaultRequestBody, rest } from "msw";
 
-import { ResponseBody } from "@tager/admin-services";
+import type { ResponseBody } from "@tager/admin-services";
 
 import { brandList, BrandType } from "./fixtures/brand-list";
 

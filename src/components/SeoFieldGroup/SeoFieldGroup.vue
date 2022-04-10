@@ -98,18 +98,24 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, SetupContext } from "vue";
+import {
+  computed,
+  defineComponent,
+  type PropType,
+  ref,
+  type SetupContext,
+} from "vue";
 
 import { useI18n } from "@tager/admin-services";
 
-import { SeoChangeEvent } from "../../typings/common";
+import type { SeoChangeEvent } from "../../typings/common";
 import { getWebsiteOrigin } from "../../utils/common";
 import FormField from "../FormField";
 import FormFieldRecommendedLengthInput from "../FormFieldRecommendedLengthInput";
 import FormFieldFileInput from "../FormFieldFileInput";
 import FormGroup from "../FormGroup.vue";
 import InputLabel from "../InputLabel";
-import { SingleFileInputValueType } from "../FileInput/FileInput.types";
+import type { SingleFileInputValueType } from "../FileInput/FileInput.types";
 
 interface Props {
   titleLabel: string;

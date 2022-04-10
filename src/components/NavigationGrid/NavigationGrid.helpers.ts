@@ -1,4 +1,4 @@
-import { NavigationGridItem } from "./NavigationGrid.types";
+import type { NavigationGridItem } from "./NavigationGrid.types";
 
 export function hasContent(navItem: NavigationGridItem): boolean {
   const hasLinkList =

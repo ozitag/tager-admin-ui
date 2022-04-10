@@ -1,6 +1,6 @@
 import { defineComponent, ref } from "vue";
 
-import { BaseOptionType } from "../../typings/common";
+import type { BaseOptionType } from "../../typings/common";
 import { brandOptions } from "../../msw/fixtures/brand-options";
 
 import BaseSelect from "./BaseSelect.vue";

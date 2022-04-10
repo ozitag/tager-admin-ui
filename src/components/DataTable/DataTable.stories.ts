@@ -1,8 +1,8 @@
 import { defineComponent, ref } from "vue";
 
-import { request, ResponseBody } from "@tager/admin-services";
+import { request, type ResponseBody } from "@tager/admin-services";
 
-import { ColumnDefinition, FilterTagType } from "../../typings/common";
+import type { ColumnDefinition, FilterTagType } from "../../typings/common";
 
 import { useDataTable } from "./DataTable.hooks";
 import DataTable from "./DataTable.vue";

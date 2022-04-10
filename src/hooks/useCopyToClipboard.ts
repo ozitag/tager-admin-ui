@@ -1,4 +1,4 @@
-import { onUnmounted, ref, Ref, watch } from "vue";
+import { onUnmounted, ref, watch, type Ref } from "vue";
 
 function useCopyToClipboard(
   timeout = 300

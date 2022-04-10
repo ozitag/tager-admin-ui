@@ -38,14 +38,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, SetupContext } from "vue";
+import {
+  computed,
+  defineComponent,
+  type PropType,
+  ref,
+  type SetupContext,
+} from "vue";
 import type { LatLngLiteral } from "leaflet";
 
 import BaseButton from "../BaseButton";
 import RemoveCircleIcon from "../../icons/RemoveCircleIcon.vue";
 import AddCircleIcon from "../../icons/AddCircleIcon.vue";
 
-import { MapFieldValueType, MapFieldValueSchema } from "./MapField.helpers";
+import {
+  type MapFieldValueType,
+  MapFieldValueSchema,
+} from "./MapField.helpers";
 import CoordinatesForm from "./components/CoordinatesForm.vue";
 import Map from "./components/Map.vue";
 

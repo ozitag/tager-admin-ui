@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, Ref, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, type Ref, ref, watch } from "vue";
 import round from "lodash.round";
 
 import { getScrollParentElements } from "./BaseTable.utils";

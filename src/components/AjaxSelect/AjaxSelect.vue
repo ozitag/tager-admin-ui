@@ -11,16 +11,16 @@
 
 <script lang="ts">
 import get from "lodash.get";
-import { defineComponent, SetupContext } from "vue";
+import { defineComponent, type SetupContext } from "vue";
 
 import {
   isAbsoluteUrl,
   isNullish,
   request,
-  ResponseBody,
+  type ResponseBody,
 } from "@tager/admin-services";
 
-import { OptionType } from "../../typings/common";
+import type { OptionType } from "../../typings/common";
 import ComboBox, { useSelectOptionsResource } from "../ComboBox";
 
 interface Props {

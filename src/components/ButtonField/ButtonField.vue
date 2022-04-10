@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 import kebabCase from "lodash.kebabcase";
 
 import BaseButton from "../BaseButton";
@@ -56,7 +56,7 @@ import AddCircleIcon from "../../icons/AddCircleIcon.vue";
 
 import {
   ButtonFieldValueSchema,
-  ButtonFieldValueType,
+  type ButtonFieldValueType,
 } from "./ButtonField.helpers";
 
 type NonNullableButtonFieldValueType = NonNullable<ButtonFieldValueType>;

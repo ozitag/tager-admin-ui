@@ -33,7 +33,6 @@ export default {
     "@popperjs/core",
     "tinycolor2",
     "lodash.round",
-    "vuedraggable",
   ],
   plugins: [
     /**

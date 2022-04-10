@@ -1,5 +1,3 @@
-import { OptionType } from "../../typings/common";
-
 export interface BrandType {
   id: number;
   name: string;

@@ -1,6 +1,6 @@
-import { Component } from "@vue/runtime-core";
+import type { Component } from "@vue/runtime-core";
 
-import { FileType } from "@tager/admin-services";
+import type { FileType } from "@tager/admin-services";
 
 import FileAviIcon from "../../icons/file-extensions/FileAviIcon.vue";
 import FileCssIcon from "../../icons/file-extensions/FileCssIcon.vue";

@@ -1,6 +1,6 @@
 import { defineComponent, ref } from "vue";
 
-import { DropdownMenuItemType } from "../../typings/common";
+import type { DropdownMenuItemType } from "../../typings/common";
 
 import DropdownMenu from "./DropdownMenu.vue";
 

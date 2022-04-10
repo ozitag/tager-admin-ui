@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, watchEffect } from "vue";
+import { defineComponent, type Ref, ref, watchEffect } from "vue";
 
 interface Props {
   checked: boolean;

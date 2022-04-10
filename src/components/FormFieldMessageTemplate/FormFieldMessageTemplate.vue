@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import FormGroup from "../FormGroup.vue";
 import FormFieldError from "../FormFieldError";
@@ -31,7 +31,7 @@ import InputLabel from "../InputLabel";
 import BaseInput from "../BaseInput";
 import BaseRichTextInput from "../BaseRichTextInput";
 import BaseTextArea from "../BaseTextArea";
-import { VariableType } from "../../typings/common";
+import type { VariableType } from "../../typings/common";
 
 import Variable from "./components/Variable";
 

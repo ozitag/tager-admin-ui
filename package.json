@@ -34,8 +34,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "sortablejs": "^1.15.0",
     "tinycolor2": "^1.4.2",
-    "vanilla-picker": "^2.12.1",
-    "vuedraggable": "^2.24.3"
+    "vanilla-picker": "^2.12.1"
   },
   "devDependencies": {
     "@rollup/plugin-url": "^6.1.0",

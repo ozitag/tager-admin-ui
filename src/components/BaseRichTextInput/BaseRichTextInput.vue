@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 import { component as CKEditor } from "@ckeditor/ckeditor5-vue";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

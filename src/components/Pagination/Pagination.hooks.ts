@@ -1,4 +1,4 @@
-import { Ref, ref, watch } from "vue";
+import { type Ref, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { getSearchParamByKey, updateSearchParam } from "../../utils/common";

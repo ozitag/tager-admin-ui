@@ -6,12 +6,12 @@
 
 <script lang="ts">
 import * as L from "leaflet";
-import { LeafletMouseEventHandlerFn, Map, Marker } from "leaflet";
-import { defineComponent, onMounted, PropType, watch } from "vue";
+import type { LeafletMouseEventHandlerFn, Map, Marker } from "leaflet";
+import { defineComponent, onMounted, type PropType, watch } from "vue";
 
 import { createId } from "@tager/admin-services";
 
-import { MapValueType, ValuePropSchema } from "../MapField.helpers";
+import { type MapValueType, ValuePropSchema } from "../MapField.helpers";
 
 type Props = {
   value: MapValueType;

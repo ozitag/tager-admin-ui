@@ -48,11 +48,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
-import { Nullable, useI18n } from "@tager/admin-services";
+import { type Nullable, useI18n } from "@tager/admin-services";
 
-import {
+import type {
   OptionType,
   ShortCodeItemType,
   ShortCodeParamType,

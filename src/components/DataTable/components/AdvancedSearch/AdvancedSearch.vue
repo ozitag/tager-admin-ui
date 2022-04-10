@@ -22,12 +22,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, SetupContext } from "vue";
+import {
+  computed,
+  defineComponent,
+  type PropType,
+  ref,
+  type SetupContext,
+} from "vue";
 
 import { useI18n } from "@tager/admin-services";
 
 import BaseButton from "../../../BaseButton";
-import { FilterTagType } from "../../../../typings/common";
+import type { FilterTagType } from "../../../../typings/common";
 import ExpandMoreIcon from "../../../../icons/ExpandMoreIcon.vue";
 import ExpandLessIcon from "../../../../icons/ExpandLessIcon.vue";
 import CloseIcon from "../../../../icons/CloseIcon.vue";
