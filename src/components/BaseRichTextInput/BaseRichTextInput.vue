@@ -1,87 +1,45 @@
 <template>
-  <div class="rich-text-editor">
-    <div v-if="sourcePanelEnabled">
-      <TabList
-        v-model:tab-id="mode"
-        class="toggle-tab-list"
-        :tab-list="tabList"
-        :bordered="true"
-        :aligned-right="true"
-      />
-    </div>
-    <div class="rich-text-editor-container">
-      <div v-if="!sourcePanelEnabled || mode === 'rich_text'">
-        <ckeditor
-          :editor="editor"
-          :config="editorConfig"
-          :model-value="value"
-          v-bind="$attrs"
-          @update:model-value="handleSourceChange"
-          @input="handleSourceChange"
-        />
-      </div>
-      <div v-if="mode === 'source_code'" class="source-code-panel">
-        <TextArea
-          :value="value"
-          class="source-code-input"
-          @input="handleSourceChange"
-        />
-      </div>
-    </div>
+  <div class="rich-text-editor-container">
+    <ckeditor
+      :editor="editor"
+      :config="editorConfig"
+      :model-value="value"
+      v-bind="$attrs"
+      @update:model-value="handleSourceChange"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { defineComponent, PropType } from "vue";
 import { component as CKEditor } from "@ckeditor/ckeditor5-vue";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import CustomCKEditor from "@tager/admin-wysiwyg";
 
-import TabList from "../TabList/TabList.vue";
-import TextArea from "../BaseTextArea/BaseTextArea.vue";
-
 import { CustomUploadAdapterPluginFactory } from "./RichTextEditor.helpers";
 
-const TABS = [
-  { id: "rich_text", label: "Visual" },
-  { id: "source_code", label: "Source" },
-];
-
-// TODO update `vue` to make it work
 export default defineComponent({
   name: "BaseRichTextInput",
-  components: { ckeditor: CKEditor, TabList, TextArea },
+  components: { ckeditor: CKEditor },
   props: {
     getUploadAdapterOptions: {
-      type: Function,
+      type: Function as PropType<() => { uploadScenario: string }>,
       default: null,
-    },
-    sourcePanelEnabled: {
-      type: Boolean,
-      default: true,
     },
     value: {
       type: String,
       default: "",
     },
   },
-  emits: ["input", "update:value"],
+  emits: ["update:value"],
   setup(props, context) {
-    const mode = ref("rich_text");
-
     function handleSourceChange(value: string) {
-      console.log("value", value);
-      context.emit("input", value);
       context.emit("update:value", value);
     }
 
     return {
-      tabList: TABS,
-      mode,
       handleSourceChange,
       // ckeditor related data
       editor: CustomCKEditor,
@@ -107,31 +65,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.rich-text-editor {
-  [data-ui-tab-list] {
-    margin: 0;
-  }
-
-  .toggle-tab-list {
-    margin-bottom: -1px;
-  }
-
-  textarea {
-    height: 199px;
-  }
-}
-
-.source-code-panel {
-}
-
-.source-code-input {
-  width: 100%;
-  height: 100%;
-  display: block !important;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-}
-
 .rich-text-editor-container {
   position: relative;
   color: rgba(64, 81, 102, 0.96);
