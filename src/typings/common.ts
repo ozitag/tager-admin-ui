@@ -105,7 +105,7 @@ export type ColumnType =
   | "key-value"
   | "file";
 
-export type RowDataDefaultType = { [key: string]: any };
+export type RowDataDefaultType = { [key: string]: unknown };
 
 export type ColumnParamsArg<RowData> = {
   row: RowData;

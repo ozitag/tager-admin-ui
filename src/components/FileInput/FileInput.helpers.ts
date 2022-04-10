@@ -35,7 +35,9 @@ function createTypeValidator(file: FileType) {
  * Reference:
  * https://github.com/nginx/nginx/blob/master/conf/mime.types
  */
-export function getFileIconComponent(file: FileType): Component {
+export function getFileIconComponent(file: FileType | null): Component {
+  if (!file) return FileUnknownIcon;
+
   const isValidType = createTypeValidator(file);
 
   if (isValidType(["video/x-msvideo"], [".avi"])) {
