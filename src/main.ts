@@ -81,3 +81,5 @@ export { default as useOnClickOutside } from "./hooks/useOnClickOutside";
 export { default as useResizeObserver } from "./hooks/useResizeObserver";
 export { default as useLocalStorage } from "./hooks/useLocalStorage";
 export { useSortable } from "./hooks/useSortable";
+
+export * from "./icons/mod";
