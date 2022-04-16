@@ -1,10 +1,10 @@
 {
   "name": "@tager/admin-ui",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.3",
   "license": "MIT",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "typings/index.d.ts",
+  "types": "dist/main.d.ts",
   "exports": {
     ".": "./dist/index.mjs"
   },
@@ -15,11 +15,13 @@
   ],
   "web-types": "./web-types.json",
   "scripts": {
-    "build": "rimraf ./dist && vite build",
-    "emit-declarations": "tsc --project tsconfig.json --emitDeclarationOnly",
+    "build:js": "rimraf ./dist && vite build",
+    "build:package": "concurrently --success first \"yarn build:js\" \"yarn emit-declarations\"",
+    "emit-declarations": "vue-tsc --project tsconfig.json --emitDeclarationOnly",
     "storybook": "start-storybook --port 3000",
     "tager:update": "yarn upgrade --latest --scope @tager",
-    "yalc:clean": "yalc remove --all"
+    "yalc:clean": "yalc remove --all",
+    "prepare": "yarn build:package"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-vue": "^3.0.0",
@@ -60,12 +62,13 @@
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "@vitejs/plugin-vue": "^2.3.1",
-    "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",
     "babel-eslint": "^10.1.0",
+    "concurrently": "^7.1.0",
     "core-js": "^3.21.1",
     "css-loader": "^6.7.1",
     "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.6.0",

@@ -11,8 +11,9 @@ import {
 
 import config from "../src/constants/config.json";
 import "../src/assets/css/index.css";
-import { AdminUiPlugin } from "../src/plugin";
 import { mswHandlers } from "../src/msw/handlers";
+import EN from "../src/locales/en";
+import RU from "../src/locales/ru";
 
 export const decorators = [vueRouter(), mswDecorator];
 
@@ -37,7 +38,9 @@ initializeEnvironment({
   appEnv: LOCAL_ENV,
 });
 
-app.use(AdminUiPlugin);
+i18n.addTranslations("en", "ui", EN);
+i18n.addTranslations("ru", "ui", RU);
+
 app.use(i18nPlugin);
 
 configStore.setConfig(config);

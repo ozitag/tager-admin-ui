@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import get from "lodash.get";
-import { defineComponent, type SetupContext } from "vue";
+import { defineComponent } from "vue";
 
 import {
   isAbsoluteUrl,
@@ -50,7 +50,7 @@ export default defineComponent({
       default: "label",
     },
   },
-  setup(props: Props, context: SetupContext) {
+  setup(props: Props) {
     function fetchEntityList(params?: {
       query?: string;
     }): Promise<ResponseBody<Array<EntityType>>> {

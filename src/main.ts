@@ -1,7 +1,15 @@
 import "./assets/css/index.css";
 
 import smoothscroll from "smoothscroll-polyfill";
+
+import { i18n } from "@tager/admin-services";
+
+import EN from "./locales/en";
+import RU from "./locales/ru";
 smoothscroll.polyfill();
+
+i18n.addTranslations("en", "ui", EN);
+i18n.addTranslations("ru", "ui", RU);
 
 export { default as BaseButton } from "./components/BaseButton";
 export { default as BaseCheckbox } from "./components/BaseCheckbox";
@@ -65,9 +73,8 @@ export { default as Code } from "./components/Code";
 
 export { default as ToastList } from "./components/Toast/ToastList.vue";
 
-export { AdminUiPlugin } from "./plugin";
-
 export * from "./utils/common";
+export * from "./typings/common";
 
 export { default as useCopyToClipboard } from "./hooks/useCopyToClipboard";
 export { default as useOnClickOutside } from "./hooks/useOnClickOutside";

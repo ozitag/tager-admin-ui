@@ -11,10 +11,9 @@ module.exports = {
     "eslint:recommended",
     "plugin:vue/vue3-recommended",
     "@vue/eslint-config-typescript/recommended",
-    /** @deprecated */
-    "@vue/eslint-config-prettier",
+    "plugin:prettier/recommended",
   ],
-  plugins: ["import"],
+  plugins: ["prettier","import"],
   parser: "vue-eslint-parser",
   parserOptions: {
     parser: "@typescript-eslint/parser",
@@ -33,6 +32,7 @@ module.exports = {
     },
   },
   rules: {
+    "prettier/prettier": "warn",
     "import/extensions": [
       "warn",
       "ignorePackages",
