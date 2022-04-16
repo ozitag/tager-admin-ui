@@ -47,6 +47,7 @@ export default defineComponent<Props>({
   border-left: 1px solid currentColor;
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
+  white-space: nowrap;
 
   .hide-number {
     opacity: 0;
