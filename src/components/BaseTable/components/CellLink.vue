@@ -28,7 +28,7 @@ import { isAbsoluteUrl } from "@tager/admin-services";
 
 import { LinkSchema } from "../../../constants/schema";
 import useCopyToClipboard from "../../../hooks/useCopyToClipboard";
-import BaseButton from "../../BaseButton";
+import { BaseButton } from "../../BaseButton";
 import type {
   ColumnDefinitionLink,
   LinkCellValue,

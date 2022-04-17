@@ -43,7 +43,7 @@ import {
 import FormGroup from "../FormGroup.vue";
 import BaseInput from "../BaseInput";
 import FormFieldError from "../FormFieldError";
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 
 import { uploadFileWithUrl } from "./UploadFileFromUrlForm.helpers";
 

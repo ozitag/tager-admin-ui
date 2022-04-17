@@ -43,7 +43,7 @@ import kebabCase from "lodash.kebabcase";
 import { isNotFalsy, type Nullable } from "@tager/admin-services";
 
 import FormField from "../FormField";
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 import RemoveCircleIcon from "../../icons/RemoveCircleIcon.vue";
 
 type InnerDateTimeValue = {

@@ -48,7 +48,7 @@ import { isNotNullish, isString, useI18n } from "@tager/admin-services";
 
 import EditIcon from "../../../icons/EditIcon.vue";
 import FormFieldNumberInput from "../../FormFieldNumberInput";
-import BaseButton from "../../BaseButton";
+import { BaseButton } from "../../BaseButton";
 import { type MapValueType, ValuePropSchema } from "../MapField.helpers";
 
 const validators = {

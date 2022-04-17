@@ -11,7 +11,7 @@ smoothscroll.polyfill();
 i18n.addTranslations("en", "ui", EN);
 i18n.addTranslations("ru", "ui", RU);
 
-export { default as BaseButton } from "./components/BaseButton";
+export * from "./components/BaseButton";
 export { default as BaseCheckbox } from "./components/BaseCheckbox";
 export { default as FormFieldCheckbox } from "./components/FormFieldCheckbox";
 export { default as FormField } from "./components/FormField/FormField.vue";

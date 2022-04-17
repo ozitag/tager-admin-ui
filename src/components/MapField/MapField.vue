@@ -47,7 +47,7 @@ import {
 } from "vue";
 import type { LatLngLiteral } from "leaflet";
 
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 import RemoveCircleIcon from "../../icons/RemoveCircleIcon.vue";
 import AddCircleIcon from "../../icons/AddCircleIcon.vue";
 

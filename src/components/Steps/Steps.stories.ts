@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { StoryFn } from "@storybook/vue3";
 
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 
 import Steps, { StepType } from "./Steps.vue";
 

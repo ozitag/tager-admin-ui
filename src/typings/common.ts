@@ -15,50 +15,6 @@ export type ShortCodeItemType = {
   readonly params: Array<ShortCodeParamType>;
 };
 
-export type IconName =
-  | "article"
-  | "home"
-  | "group"
-  | "viewList"
-  | "expandLess"
-  | "expandMore"
-  | "edit"
-  | "delete"
-  | "upload"
-  | "clear"
-  | "close"
-  | "menu"
-  | "settings"
-  | "assignment"
-  | "chevronRight"
-  | "description"
-  | "arrowDownward"
-  | "arrowUpward"
-  | "north"
-  | "south"
-  | "email"
-  | "removeCircle"
-  | "sms"
-  | "contentCopy"
-  | "openInNew"
-  | "addCircle"
-  | "fileAvi"
-  | "fileCss"
-  | "fileCsv"
-  | "fileDoc"
-  | "fileHtml"
-  | "fileJs"
-  | "fileMp3"
-  | "fileMp4"
-  | "filePdf"
-  | "filePpt"
-  | "filePsd"
-  | "fileTxt"
-  | "fileUnknown"
-  | "fileXls"
-  | "fileXml"
-  | "fileZip";
-
 export interface BaseOptionType {
   value: string | number;
   label: string;

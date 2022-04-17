@@ -32,7 +32,7 @@ import {
 
 import { useI18n } from "@tager/admin-services";
 
-import BaseButton from "../../../BaseButton";
+import { BaseButton } from "../../../BaseButton";
 import type { FilterTagType } from "../../../../typings/common";
 import ExpandMoreIcon from "../../../../icons/ExpandMoreIcon.vue";
 import ExpandLessIcon from "../../../../icons/ExpandLessIcon.vue";

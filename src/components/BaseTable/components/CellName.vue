@@ -54,7 +54,7 @@ import type {
 } from "../../../typings/common";
 import { LinkSchema } from "../../../constants/schema";
 import { cutUrlOrigin } from "../../../utils/common";
-import BaseButton from "../../BaseButton";
+import { BaseButton } from "../../BaseButton";
 import useCopyToClipboard from "../../../hooks/useCopyToClipboard";
 import ContentCopyIcon from "../../../icons/ContentCopyIcon.vue";
 import DoneIcon from "../../../icons/DoneIcon.vue";

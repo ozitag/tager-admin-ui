@@ -19,7 +19,7 @@ import { computed, defineComponent, ref, type SetupContext } from "vue";
 
 import type { Nullable } from "@tager/admin-services";
 
-import BaseButton from "../../../BaseButton";
+import { BaseButton } from "../../../BaseButton";
 
 interface Props {
   accept: string;

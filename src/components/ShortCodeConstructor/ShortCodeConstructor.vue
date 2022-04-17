@@ -57,7 +57,7 @@ import type {
   ShortCodeItemType,
   ShortCodeParamType,
 } from "../../typings/common";
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 import FormField from "../FormField";
 import FormFieldSelect from "../FormFieldSelect";
 import ExpandMoreIcon from "../../icons/ExpandMoreIcon.vue";

@@ -32,7 +32,7 @@ import { isAbsoluteUrl } from "@tager/admin-services";
 
 import BaseSpinner from "../BaseSpinner";
 
-type ButtonVariant =
+export type ButtonVariant =
   | "primary"
   | "outline-primary"
   | "secondary"

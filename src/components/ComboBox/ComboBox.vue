@@ -117,7 +117,7 @@ import debounce from "lodash/debounce";
 import { useI18n } from "@tager/admin-services";
 
 import BaseInput from "../BaseInput";
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 import BaseSpinner from "../BaseSpinner";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import type { OptionType } from "../../typings/common";

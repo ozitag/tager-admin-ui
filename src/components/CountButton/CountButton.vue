@@ -12,7 +12,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import BaseButton from "../BaseButton";
+
+import { BaseButton } from "../BaseButton";
 import BaseSpinner from "../BaseSpinner";
 
 export default defineComponent({

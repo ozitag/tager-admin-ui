@@ -48,7 +48,7 @@
 import { defineComponent, type PropType } from "vue";
 import kebabCase from "lodash.kebabcase";
 
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 import FormField from "../FormField";
 import FormFieldCheckbox from "../FormFieldCheckbox";
 import RemoveCircleIcon from "../../icons/RemoveCircleIcon.vue";

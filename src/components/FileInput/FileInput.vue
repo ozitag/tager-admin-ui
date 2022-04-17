@@ -222,7 +222,7 @@ import {
 } from "@tager/admin-services";
 
 import { ARCHIVE_ACCEPT } from "../../constants/common";
-import BaseButton from "../BaseButton";
+import { BaseButton } from "../BaseButton";
 import BaseTextArea from "../BaseTextArea";
 import ProgressBar from "../ProgressBar";
 import LoadableImage from "../LoadableImage";
