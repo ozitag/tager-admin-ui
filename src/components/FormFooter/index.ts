@@ -1,1 +1,4 @@
-export { default } from './FormFooter.vue';
+export {
+  default as FormFooter,
+  type TagerFormSubmitEvent,
+} from "./FormFooter.vue";

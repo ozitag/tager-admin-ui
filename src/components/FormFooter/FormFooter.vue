@@ -46,9 +46,17 @@ import { useRouter } from "vue-router";
 
 import { navigateBack, useI18n } from "@tager/admin-services";
 
-import type { TagerFormSubmitEvent } from "../../typings/common";
 import { BaseButton } from "../BaseButton";
 import FormFieldCheckbox from "../FormFieldCheckbox";
+
+export interface TagerFormSubmitEvent {
+  type:
+    | "save"
+    | "save_exit"
+    | "create"
+    | "create_exit"
+    | "create_create-another";
+}
 
 interface Props {
   backHref: string;

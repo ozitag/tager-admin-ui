@@ -208,15 +208,6 @@ export interface SeoChangeEvent {
   image: SingleFileInputValueType | null;
 }
 
-export interface TagerFormSubmitEvent {
-  type:
-    | "save"
-    | "save_exit"
-    | "create"
-    | "create_exit"
-    | "create_create-another";
-}
-
 export interface VariableType {
   key: string;
   label: string;
