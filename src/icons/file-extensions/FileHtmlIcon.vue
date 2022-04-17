@@ -46,8 +46,9 @@
   </IconBase>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
+
 import IconBase from "../../components/IconBase";
 
 export default defineComponent({
