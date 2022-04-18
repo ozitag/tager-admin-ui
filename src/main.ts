@@ -35,7 +35,7 @@ export { default as FormFieldColorInput } from "./components/FormFieldColorPicke
 export { default as MultiSelect } from "./components/MultiSelect";
 export { default as FormFieldMultiSelect } from "./components/FormFieldMultiSelect";
 export { default as FormFieldUrlAliasInput } from "./components/FormFieldUrlAliasInput";
-export { default as NavigationGrid } from "./components/NavigationGrid";
+export * from "./components/NavigationGrid";
 export { default as LoadableImage } from "./components/LoadableImage";
 export { default as DropdownMenu } from "./components/DropdownMenu";
 export { default as BaseSelect } from "./components/BaseSelect";
