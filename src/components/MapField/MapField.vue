@@ -116,6 +116,7 @@ export default defineComponent({
     }
 
     function handleRemoveValue() {
+      isFormEditing.value = false;
       emitUpdateEvent(null);
     }
 

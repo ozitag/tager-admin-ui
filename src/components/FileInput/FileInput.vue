@@ -14,11 +14,10 @@
       </label>
       <TabList
         v-if="urlUploadEnabled && fileList.length === 0"
+        v-model:tab-id="selectedTabId"
         :aligned-right="true"
         class="file-tab-list"
         :tab-list="tabList"
-        :tab-id="selectedTabId"
-        @tab:update="handleTabUpdate"
       />
     </div>
 
@@ -74,11 +73,10 @@
       </label>
       <TabList
         v-if="urlUploadEnabled && savedFileList.length === 0"
+        v-model:tab-id="selectedTabId"
         :aligned-right="true"
         class="file-tab-list"
         :tab-list="tabList"
-        :tab-id="selectedTabId"
-        @tab:update="handleTabUpdate"
       />
     </div>
 
@@ -153,11 +151,10 @@
       </label>
       <TabList
         v-if="urlUploadEnabled"
+        v-model:tab-id="selectedTabId"
         class="file-tab-list"
         :aligned-right="true"
         :tab-list="tabList"
-        :tab-id="selectedTabId"
-        @tab:update="handleTabUpdate"
       />
     </div>
 
@@ -596,7 +593,8 @@ export default defineComponent({
       isDragOver.value = false;
     }
 
-    function handleTabUpdate({ tabId }: { tabId: string }): void {
+    function handleTabUpdate(tabId: string): void {
+      console.log("tabId", tabId);
       selectedTabId.value = tabId;
     }
 
