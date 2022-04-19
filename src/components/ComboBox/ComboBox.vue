@@ -112,7 +112,7 @@ import {
   ref,
   watch,
 } from "vue";
-import debounce from "lodash/debounce";
+import debounce from "lodash.debounce";
 
 import { useI18n } from "@tager/admin-services";
 

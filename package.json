@@ -1,6 +1,6 @@
 {
   "name": "@tager/admin-ui",
-  "version": "1.0.0-rc.11",
+  "version": "1.0.0-rc.12",
   "license": "MIT",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
@@ -10,11 +10,8 @@
     ".": "./dist/index.mjs"
   },
   "files": [
-    "dist",
-    "typings",
-    "web-types.json"
+    "dist"
   ],
-  "web-types": "./web-types.json",
   "scripts": {
     "build:js": "vite build",
     "build:package": "concurrently --success first \"yarn build:js\" \"yarn emit-declarations\"",
@@ -40,7 +37,6 @@
     "vanilla-picker": "^2.12.1"
   },
   "devDependencies": {
-    "@rollup/plugin-url": "^6.1.0",
     "@rushstack/eslint-patch": "^1.1.2",
     "@storybook/addon-essentials": "^6.4.21",
     "@storybook/addon-links": "^6.4.21",
@@ -63,7 +59,6 @@
     "@typescript-eslint/parser": "^5.18.0",
     "@vitejs/plugin-vue": "^2.3.1",
     "@vue/eslint-config-typescript": "^10.0.0",
-    "babel-eslint": "^10.1.0",
     "concurrently": "^7.1.0",
     "core-js": "^3.21.1",
     "css-loader": "^6.7.1",
