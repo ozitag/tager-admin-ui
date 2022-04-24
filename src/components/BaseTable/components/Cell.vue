@@ -1,6 +1,5 @@
 <script lang="ts">
-import { defineComponent, h, type PropType, type Slot } from "vue";
-import type { VNode } from "@vue/runtime-core";
+import { computed, defineComponent, h, type PropType, type Slot } from "vue";
 
 import type {
   ColumnDefinition,
@@ -16,6 +15,36 @@ import CellColor from "./CellColor.vue";
 import CellName from "./CellName.vue";
 import CellFile from "./CellFile.vue";
 import CellKeyValue from "./CellKeyValue.vue";
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+type CellComponentType = Exclude<ColumnDefinition["type"], Function>;
+
+function getCellComponentByColumnType(
+  cellType: CellComponentType
+): ReturnType<typeof defineComponent> {
+  switch (cellType) {
+    case "datetime":
+    case "date":
+      return CellDate;
+    case "image":
+      return CellImage;
+    case "link":
+      return CellLink;
+    case "html":
+      return CellHtml;
+    case "color":
+      return CellColor;
+    case "name":
+      return CellName;
+    case "key-value":
+      return CellKeyValue;
+    case "file":
+      return CellFile;
+
+    default:
+      return CellString;
+  }
+}
 
 interface Props {
   column: ColumnDefinition;
@@ -45,55 +74,23 @@ export default defineComponent({
     },
   },
   setup(props: Props) {
-    const cellProps = {
+    const cellProps = computed(() => ({
       column: props.column,
       row: props.row,
       rowIndex: props.rowIndex,
-    };
+    }));
 
-    const cellAttrs = {
-      "data-table-body-cell": props.column.field,
-    };
+    const customCellElement = computed(() => {
+      const scopedSlotNode = props.scopedSlot
+        ? props.scopedSlot(cellProps.value)
+        : null;
 
-    const cellType =
-      typeof props.column.type === "function"
-        ? props.column.type(cellProps)
-        : props.column.type;
+      const children = Array.isArray(scopedSlotNode)
+        ? scopedSlotNode[0]
+        : scopedSlotNode;
 
-    function appropriateCellComponent(): ReturnType<typeof defineComponent> {
-      switch (cellType) {
-        case "datetime":
-        case "date":
-          return CellDate;
-        case "image":
-          return CellImage;
-        case "link":
-          return CellLink;
-        case "html":
-          return CellHtml;
-        case "color":
-          return CellColor;
-        case "name":
-          return CellName;
-        case "key-value":
-          return CellKeyValue;
-        case "file":
-          return CellFile;
+      if (!children) return null;
 
-        default:
-          return CellString;
-      }
-    }
-
-    const scopedSlotNode = props.scopedSlot
-      ? props.scopedSlot(cellProps)
-      : null;
-
-    const slotVNode = Array.isArray(scopedSlotNode)
-      ? scopedSlotNode[0]
-      : scopedSlotNode;
-
-    function getCustomCellElement(children: VNode) {
       return props.column.useCustomDataCell
         ? children
         : h(
@@ -101,17 +98,32 @@ export default defineComponent({
             { style: props.column.style, class: props.column.class },
             children
           );
-    }
+    });
+
+    const cellElement = computed(() => {
+      const cellAttrs = {
+        "data-table-body-cell": props.column.field,
+      };
+
+      const cellType =
+        typeof props.column.type === "function"
+          ? props.column.type(cellProps.value)
+          : props.column.type;
+
+      const cellComponent = getCellComponentByColumnType(
+        cellType as CellComponentType
+      );
+
+      return h(cellComponent, {
+        ...cellProps.value,
+        attrs: cellAttrs,
+        style: props.column.style,
+        class: props.column.class,
+      });
+    });
 
     function renderFunction() {
-      return slotVNode
-        ? getCustomCellElement(slotVNode)
-        : h(appropriateCellComponent(), {
-            ...cellProps,
-            attrs: cellAttrs,
-            style: props.column.style,
-            class: props.column.class,
-          });
+      return customCellElement.value || cellElement.value;
     }
 
     return renderFunction;

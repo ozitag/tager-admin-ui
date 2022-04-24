@@ -1,5 +1,4 @@
-import type { LocationQuery, Router } from "vue-router";
-import { LocationQueryValue } from "vue-router";
+import type { LocationQuery, Router, LocationQueryValue } from "vue-router";
 
 import {
   environment,
