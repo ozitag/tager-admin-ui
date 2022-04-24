@@ -1,6 +1,10 @@
 <template>
-  <FormGroup>
-    <InputLabel v-if="Boolean(label)" :for="name">{{ label }}</InputLabel>
+  <FormFieldWrapper
+    :class="containerClass"
+    :label="label"
+    :label-for="name"
+    :error="error"
+  >
     <NumberInput
       :id="name"
       :name="name"
@@ -8,17 +12,14 @@
       :thousands-separator="thousandsSeparator"
       v-bind="$attrs"
     />
-    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
-  </FormGroup>
+  </FormFieldWrapper>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import FormGroup from "../FormGroup.vue";
-import FormFieldError from "../FormFieldError";
-import InputLabel from "../InputLabel";
 import NumberInput from "../NumberInput";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 interface Props {
   name: string;
@@ -32,10 +33,8 @@ interface Props {
 export default defineComponent({
   name: "FormFieldNumberInput",
   components: {
-    FormGroup,
-    FormFieldError,
-    InputLabel,
     NumberInput,
+    FormFieldWrapper,
   },
   inheritAttrs: false,
   props: {
@@ -62,6 +61,10 @@ export default defineComponent({
     error: {
       type: String,
       default: null,
+    },
+    containerClass: {
+      type: String,
+      default: "",
     },
   },
 });

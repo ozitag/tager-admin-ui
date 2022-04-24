@@ -1,6 +1,10 @@
 <template>
-  <FormGroup>
-    <InputLabel :for="id">{{ label }}</InputLabel>
+  <FormFieldWrapper
+    :class="containerClass"
+    :label="label"
+    :label-for="id"
+    :error="error"
+  >
     <div class="field-inner">
       <span ref="measureTextRef" class="measure">{{ value }}</span>
       <small>{{ urlParts[0] }}</small>
@@ -13,10 +17,7 @@
       />
       <small>{{ urlParts[1] }}</small>
     </div>
-    <FormFieldError v-if="Boolean(error)">
-      {{ error }}
-    </FormFieldError>
-  </FormGroup>
+  </FormFieldWrapper>
 </template>
 
 <script lang="ts">
@@ -31,25 +32,21 @@ import {
 
 import type { Nullable } from "@tager/admin-services";
 
-import FormGroup from "../FormGroup.vue";
-import FormFieldError from "../FormFieldError";
-import InputLabel from "../InputLabel";
 import BaseInput from "../BaseInput";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 interface Props {
   label: string;
   value: string;
-  id?: Nullable<string>;
+  id: string;
   urlTemplate: string;
-  error?: Nullable<string>;
+  error: string;
 }
 
 export default defineComponent({
   name: "FormFieldUrlAliasInput",
   components: {
-    FormGroup,
-    FormFieldError,
-    InputLabel,
+    FormFieldWrapper,
     BaseInput,
   },
   inheritAttrs: false,
@@ -71,6 +68,10 @@ export default defineComponent({
       default: "",
     },
     error: {
+      type: String,
+      default: "",
+    },
+    containerClass: {
       type: String,
       default: "",
     },

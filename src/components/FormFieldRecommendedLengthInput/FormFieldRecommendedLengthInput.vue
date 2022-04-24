@@ -1,7 +1,10 @@
 <template>
-  <FormGroup>
-    <InputLabel v-if="Boolean(label)" :for="name">{{ label }}</InputLabel>
-
+  <FormFieldWrapper
+    :class="containerClass"
+    :label="label"
+    :label-for="name"
+    :error="error"
+  >
     <BaseInput
       v-if="type !== 'textarea'"
       :id="name"
@@ -31,19 +34,15 @@
 
       <span v-if="max" class="count-upper-limit">{{ max }}</span>
     </div>
-
-    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
-  </FormGroup>
+  </FormFieldWrapper>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-import FormGroup from "../FormGroup.vue";
-import InputLabel from "../InputLabel";
 import BaseInput from "../BaseInput";
 import BaseTextArea from "../BaseTextArea";
-import FormFieldError from "../FormFieldError";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 import Progress from "./components/Progress";
 
@@ -60,12 +59,10 @@ interface Props {
 export default defineComponent({
   name: "FormFieldRecommendedLengthInput",
   components: {
-    FormGroup,
-    InputLabel,
     BaseInput,
     BaseTextArea,
-    FormFieldError,
     Progress,
+    FormFieldWrapper,
   },
   inheritAttrs: false,
   props: {
@@ -107,6 +104,10 @@ export default defineComponent({
     max: {
       type: Number,
       default: 0,
+    },
+    containerClass: {
+      type: String,
+      default: "",
     },
   },
   setup(props: Props) {

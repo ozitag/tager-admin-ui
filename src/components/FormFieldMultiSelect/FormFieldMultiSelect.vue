@@ -1,5 +1,5 @@
 <template>
-  <FormGroup>
+  <FormGroup :class="containerClass">
     <InputLabel v-if="Boolean(label)" :for="name">
       {{ fieldLabel }}
     </InputLabel>
@@ -75,6 +75,10 @@ export default defineComponent({
     maxSelectedCount: {
       type: Number,
       default: 0,
+    },
+    containerClass: {
+      type: String,
+      default: "",
     },
   },
   setup(props: Props) {

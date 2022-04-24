@@ -1,5 +1,5 @@
 <template>
-  <FormGroup>
+  <FormGroup :class="containerClass">
     <FileInput
       :id="name"
       :label="label"
@@ -60,6 +60,10 @@ export default defineComponent({
     scenario: {
       type: String,
       default: null,
+    },
+    containerClass: {
+      type: String,
+      default: "",
     },
   },
 });

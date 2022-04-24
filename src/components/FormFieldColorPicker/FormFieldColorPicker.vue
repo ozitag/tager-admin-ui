@@ -1,5 +1,5 @@
 <template>
-  <FormFieldWrapper :name="name" :label="label" :error="error">
+  <FormFieldWrapper :label-for="name" :label="label" :error="error">
     <ColorPicker :value="value" v-bind="$attrs" />
   </FormFieldWrapper>
 </template>

@@ -1,18 +1,19 @@
 <template>
-  <FormGroup>
-    <InputLabel v-if="Boolean(label)" :for="name">{{ label }}</InputLabel>
+  <FormFieldWrapper
+    :class="containerClass"
+    :label="label"
+    :label-for="name"
+    :error="error"
+  >
     <BaseRichTextInput :id="name" :name="name" :value="value" v-bind="$attrs" />
-    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
-  </FormGroup>
+  </FormFieldWrapper>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import FormGroup from "../FormGroup.vue";
-import FormFieldError from "../FormFieldError";
-import InputLabel from "../InputLabel";
 import BaseRichTextInput from "../BaseRichTextInput";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 interface Props {
   name: string;
@@ -24,9 +25,7 @@ interface Props {
 export default defineComponent({
   name: "FormFieldRichTextInput",
   components: {
-    FormGroup,
-    FormFieldError,
-    InputLabel,
+    FormFieldWrapper,
     BaseRichTextInput,
   },
   inheritAttrs: false,
@@ -44,6 +43,10 @@ export default defineComponent({
       default: "",
     },
     error: {
+      type: String,
+      default: "",
+    },
+    containerClass: {
       type: String,
       default: "",
     },

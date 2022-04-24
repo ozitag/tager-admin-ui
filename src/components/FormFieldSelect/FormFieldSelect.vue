@@ -1,25 +1,24 @@
 <template>
-  <FormGroup>
-    <InputLabel v-if="Boolean(label)" :for="name">
-      {{ label }}
-    </InputLabel>
+  <FormFieldWrapper
+    :class="containerClass"
+    :label="label"
+    :label-for="name"
+    :error="error"
+  >
     <ComboBox
       :id="name"
       :searchable="searchable"
       :name="name"
       v-bind="$attrs"
     />
-    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
-  </FormGroup>
+  </FormFieldWrapper>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 import ComboBox from "../ComboBox";
-import FormGroup from "../FormGroup.vue";
-import FormFieldError from "../FormFieldError";
-import InputLabel from "../InputLabel";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 interface Props {
   searchable: boolean;
@@ -31,9 +30,7 @@ interface Props {
 export default defineComponent({
   name: "FormFieldSelect",
   components: {
-    FormGroup,
-    FormFieldError,
-    InputLabel,
+    FormFieldWrapper,
     ComboBox,
   },
   inheritAttrs: false,
@@ -48,6 +45,10 @@ export default defineComponent({
     },
     label: String,
     error: String,
+    containerClass: {
+      type: String,
+      default: "",
+    },
   },
 });
 </script>

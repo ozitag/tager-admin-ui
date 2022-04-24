@@ -1,7 +1,6 @@
 <template>
-  <div class="form-field-message-template">
-    <FormGroup>
-      <InputLabel v-if="label">{{ label }}</InputLabel>
+  <div class="form-field-message-template" :class="containerClass">
+    <FormFieldWrapper :label="label" :error="errorMessage">
       <BaseRichTextInput
         v-if="type === 'richText'"
         :value="value"
@@ -9,8 +8,7 @@
       />
       <BaseTextArea v-if="type === 'textArea'" :value="value" v-bind="$attrs" />
       <BaseInput v-if="type === 'text'" :value="value" v-bind="$attrs" />
-      <FormFieldError v-if="errorMessage">{{ errorMessage }}</FormFieldError>
-    </FormGroup>
+    </FormFieldWrapper>
 
     <div class="variables">
       <Variable
@@ -25,13 +23,11 @@
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
 
-import FormGroup from "../FormGroup.vue";
-import FormFieldError from "../FormFieldError";
-import InputLabel from "../InputLabel";
 import BaseInput from "../BaseInput";
 import BaseRichTextInput from "../BaseRichTextInput";
 import BaseTextArea from "../BaseTextArea";
 import type { VariableType } from "../../typings/common";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 import Variable from "./components/Variable";
 
@@ -46,11 +42,9 @@ interface Props {
 export default defineComponent({
   name: "FormFieldMessageTemplate",
   components: {
-    FormGroup,
-    InputLabel,
     BaseRichTextInput,
     BaseTextArea,
-    FormFieldError,
+    FormFieldWrapper,
     BaseInput,
     Variable,
   },
@@ -77,6 +71,10 @@ export default defineComponent({
     variableList: {
       type: Array as PropType<Array<VariableType>>,
       default: () => [],
+    },
+    containerClass: {
+      type: String,
+      default: "",
     },
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <FormGroup>
-    <InputLabel v-if="Boolean(label)" :for="name">{{ label }}</InputLabel>
+    <InputLabel v-if="Boolean(label)" :for="labelFor">{{ label }}</InputLabel>
     <slot></slot>
     <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
   </FormGroup>
@@ -25,7 +25,7 @@ export default defineComponent({
   name: "FormFieldWrapper",
   components: { FormGroup, FormFieldError, InputLabel },
   props: {
-    name: {
+    labelFor: {
       type: String,
       default: "",
     },
@@ -35,7 +35,7 @@ export default defineComponent({
     },
     error: {
       type: String,
-      default: null,
+      default: "",
     },
   },
 });

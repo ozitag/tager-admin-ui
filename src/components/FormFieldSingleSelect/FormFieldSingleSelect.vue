@@ -1,8 +1,10 @@
 <template>
-  <FormGroup>
-    <InputLabel v-if="Boolean(label)" :for="name">
-      {{ label }}
-    </InputLabel>
+  <FormFieldWrapper
+    :class="containerClass"
+    :label="label"
+    :label-for="name"
+    :error="error"
+  >
     <MultiSelect
       :name="name"
       :options="options"
@@ -10,8 +12,7 @@
       v-bind="$attrs"
       @update:selected-options="handleChange"
     />
-    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
-  </FormGroup>
+  </FormFieldWrapper>
 </template>
 
 <script lang="ts">
@@ -24,11 +25,9 @@ import {
 
 import { notEmpty } from "@tager/admin-services";
 
-import FormGroup from "../FormGroup.vue";
-import FormFieldError from "../FormFieldError";
-import InputLabel from "../InputLabel";
 import MultiSelect from "../MultiSelect";
 import type { OptionType } from "../../typings/common";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 interface Props {
   name: string;
@@ -41,10 +40,8 @@ interface Props {
 export default defineComponent({
   name: "FormFieldSingleSelect",
   components: {
-    FormGroup,
-    FormFieldError,
-    InputLabel,
     MultiSelect,
+    FormFieldWrapper,
   },
   inheritAttrs: false,
   props: {
@@ -67,6 +64,10 @@ export default defineComponent({
     value: {
       type: Object as PropType<OptionType | null>,
       default: null,
+    },
+    containerClass: {
+      type: String,
+      default: "",
     },
   },
   emits: ["update:value"],

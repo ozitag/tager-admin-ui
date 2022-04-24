@@ -1,6 +1,10 @@
 <template>
-  <FormGroup>
-    <InputLabel v-if="Boolean(label)" :for="name">{{ label }}</InputLabel>
+  <FormFieldWrapper
+    :class="containerClass"
+    :label="label"
+    :label-for="name"
+    :error="error"
+  >
     <BaseTextArea
       v-if="type === 'textarea'"
       :id="name"
@@ -16,18 +20,15 @@
       :value="value"
       v-bind="$attrs"
     />
-    <FormFieldError v-if="Boolean(error)">{{ error }}</FormFieldError>
-  </FormGroup>
+  </FormFieldWrapper>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import FormGroup from "../FormGroup.vue";
-import FormFieldError from "../FormFieldError";
-import InputLabel from "../InputLabel";
 import BaseInput from "../BaseInput";
 import BaseTextArea from "../BaseTextArea";
+import FormFieldWrapper from "../FormFieldWrapper.vue";
 
 interface Props {
   name: string;
@@ -40,11 +41,9 @@ interface Props {
 export default defineComponent({
   name: "FormField",
   components: {
-    FormGroup,
-    FormFieldError,
-    InputLabel,
     BaseInput,
     BaseTextArea,
+    FormFieldWrapper,
   },
   inheritAttrs: false,
   props: {
@@ -76,6 +75,10 @@ export default defineComponent({
       },
     },
     error: {
+      type: String,
+      default: "",
+    },
+    containerClass: {
       type: String,
       default: "",
     },
