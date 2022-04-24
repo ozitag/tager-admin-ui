@@ -1,4 +1,5 @@
-import type { Router } from "vue-router";
+import type { LocationQuery, Router } from "vue-router";
+import { LocationQueryValue } from "vue-router";
 
 import {
   environment,
@@ -200,15 +201,15 @@ export class LocalStorageService<T> {
   }
 }
 
-type ParamValue = string | (string | null)[];
-type QueryType = { [key in string]?: ParamValue };
-
-function getFilterValue(query: QueryType, key: string): ParamValue | undefined {
+function getFilterValue(
+  query: LocationQuery,
+  key: string
+): LocationQueryValue | LocationQueryValue[] {
   return query[`filter[${key}]`];
 }
 
 export function getFilterParamAsString(
-  query: QueryType,
+  query: LocationQuery,
   key: string
 ): string | null {
   const queryValue = getFilterValue(query, key);
@@ -216,7 +217,7 @@ export function getFilterParamAsString(
 }
 
 export function getFilterParamAsNumber(
-  query: QueryType,
+  query: LocationQuery,
   key: string
 ): number | null {
   const queryValue = getFilterValue(query, key);
@@ -224,7 +225,7 @@ export function getFilterParamAsNumber(
 }
 
 export function getFilterParamAsStringArray(
-  query: QueryType,
+  query: LocationQuery,
   key: string
 ): Array<string> {
   const queryValue = getFilterValue(query, key);
@@ -241,7 +242,7 @@ export function getFilterParamAsStringArray(
 }
 
 export function getFilterParamAsNumberArray(
-  query: QueryType,
+  query: LocationQuery,
   key: string
 ): Array<number> {
   const queryValue = getFilterValue(query, key);
@@ -287,6 +288,3 @@ export function getFilterParams(
 
   return result;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-export function assertType<T extends true>() {}
