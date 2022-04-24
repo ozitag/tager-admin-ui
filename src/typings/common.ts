@@ -15,13 +15,15 @@ export type ShortCodeItemType = {
   readonly params: Array<ShortCodeParamType>;
 };
 
+export type BaseOptionValue = string | number | null;
+
 export interface BaseOptionType {
-  value: string | number;
+  value: BaseOptionValue;
   label: string;
   disabled?: boolean;
 }
 
-export interface OptionType<V extends string | number = string>
+export interface OptionType<V extends BaseOptionValue = string>
   extends BaseOptionType {
   value: V;
 }
