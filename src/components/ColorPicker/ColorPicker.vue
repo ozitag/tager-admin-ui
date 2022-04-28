@@ -23,7 +23,6 @@ export default defineComponent({
     const currentValue = ref(props.value);
 
     function handleChange(hexColor: string) {
-      console.log("color change: ", hexColor);
       context.emit("change", hexColor);
       context.emit("update:value", hexColor);
     }
@@ -49,8 +48,6 @@ export default defineComponent({
       () => props.value,
       () => {
         if (!picker || props.value === currentValue.value) return;
-
-        console.log("color set: ", props.value);
 
         picker.setColor(props.value, true);
       }

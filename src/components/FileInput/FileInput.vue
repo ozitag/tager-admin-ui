@@ -594,7 +594,6 @@ export default defineComponent({
     }
 
     function handleTabUpdate(tabId: string): void {
-      console.log("tabId", tabId);
       selectedTabId.value = tabId;
     }
 
