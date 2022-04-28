@@ -42,7 +42,7 @@
       <div v-if="modeSwitcher === 'mobile'" class="snippet-preview-mobile">
         <div class="snippet-preview-mobile-top">
           <div class="url-wrapper">
-            <SvgIcon class="icon" name="language" />
+            <LanguageIcon class="icon" />
             <div class="url">{{ getWebsiteOrigin() }}</div>
           </div>
           <div class="title">{{ shorten(title, 60) }}</div>
@@ -115,6 +115,7 @@ import FormFieldRecommendedLengthInput from "../FormFieldRecommendedLengthInput"
 import FormFieldFileInput from "../FormFieldFileInput";
 import FormGroup from "../FormGroup.vue";
 import InputLabel from "../InputLabel";
+import LanguageIcon from "../../icons/LanguageIcon.vue";
 import type { SingleFileInputValueType } from "../FileInput/FileInput.types";
 
 interface Props {
@@ -150,6 +151,7 @@ export default defineComponent({
     FormGroup,
     InputLabel,
     FormField,
+    LanguageIcon,
   },
   props: {
     titleLabel: {

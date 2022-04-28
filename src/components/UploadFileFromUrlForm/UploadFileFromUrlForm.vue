@@ -22,7 +22,7 @@
       class="form-button"
       variant="primary"
       :loading="isLoading"
-      :disabled="disabled"
+      :disabled="isSubmitButtonDisabled"
       @click="onSubmit"
     >
       {{ $i18n.t("ui:uploadFileFromUrlForm.upload") }}
@@ -71,7 +71,7 @@ export default defineComponent({
     const url = ref("");
     const isLoading = ref(false);
     const error = ref("");
-    const disabled = computed(
+    const isSubmitButtonDisabled = computed(
       () => !url.value || isLoading.value || props.disabled
     );
 
@@ -114,7 +114,7 @@ export default defineComponent({
       url,
       isLoading,
       error,
-      disabled,
+      isSubmitButtonDisabled,
       onSubmit,
     };
   },
