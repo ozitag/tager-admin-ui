@@ -92,7 +92,7 @@
       file-type="image"
       :name="imageName"
       :scenario="imageScenario"
-      @change="handleImageChange"
+      @update:value="handleImageChange"
     />
   </div>
 </template>
