@@ -114,6 +114,7 @@ export interface ColumnDefinitionLink<RowData = RowDataDefaultType>
   options?: {
     shouldOpenNewTab?: boolean;
     shouldUseRouter?: boolean;
+    disableCopyButton?: boolean;
   };
 }
 
