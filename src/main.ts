@@ -42,7 +42,7 @@ export {default as DropdownMenu} from "./components/DropdownMenu";
 export {default as BaseSelect} from "./components/BaseSelect";
 export {default as FormFieldSelect} from "./components/FormFieldSelect";
 export {default as FormFieldSingleSelect} from "./components/FormFieldSingleSelect/FormFieldSingleSelect.vue";
-export {default as TabList, TabType} from "./components/TabList";
+export { default as TabList, type TabType} from "./components/TabList";
 export {default as ButtonField} from "./components/ButtonField";
 export {default as DateTimeInput} from "./components/DateTimeInput";
 export {default as MapField} from "./components/MapField";
