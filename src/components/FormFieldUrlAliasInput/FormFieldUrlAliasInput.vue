@@ -1,19 +1,19 @@
 <template>
   <FormFieldWrapper
-    :class="containerClass"
-    :label="label"
-    :label-for="id"
-    :error="error"
+      :class="containerClass"
+      :label="label"
+      :label-for="id"
+      :error="error"
   >
     <div class="field-inner">
       <span ref="measureTextRef" class="measure">{{ value }}</span>
       <small>{{ urlParts[0] }}</small>
       <BaseInput
-        :id="id"
-        :style="inputStyle"
-        :value="value"
-        v-bind="$attrs"
-        class="alias-input"
+          :id="id"
+          :style="inputStyle"
+          :value="value"
+          v-bind="$attrs"
+          class="alias-input"
       />
       <small>{{ urlParts[1] }}</small>
     </div>
@@ -30,7 +30,7 @@ import {
   ref,
 } from "vue";
 
-import type { Nullable } from "@tager/admin-services";
+import type {Nullable} from "@tager/admin-services";
 
 import BaseInput from "../BaseInput";
 import FormFieldWrapper from "../FormFieldWrapper.vue";
@@ -77,42 +77,32 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const inputStyle = ref<{ width: string }>({ width: "0px" });
+    const inputStyle = ref<{ width: string }>({width: "0px"});
     const measureTextRef: Ref<Nullable<HTMLSpanElement>> = ref(null);
 
     function updateInputWidth() {
       if (!measureTextRef.value) return;
-
       const newWidth = measureTextRef.value.offsetWidth;
-      inputStyle.value = { width: newWidth + 2 + "px" };
+      inputStyle.value = {width: newWidth + 2 + "px"};
     }
 
     const mutationObserver = new MutationObserver(() => {
       updateInputWidth();
     });
 
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (entry.intersectionRatio === 1) {
-        updateInputWidth();
-      }
-    });
 
     onMounted(() => {
       if (!measureTextRef.value) return;
-      mutationObserver.observe(measureTextRef.value, {
-        subtree: true,
-        characterData: true,
-      });
 
-      intersectionObserver.observe(measureTextRef.value);
+      mutationObserver.observe(measureTextRef.value, {
+        childList: true
+      });
 
       updateInputWidth();
     });
 
     onBeforeUnmount(() => {
       mutationObserver.disconnect();
-      intersectionObserver.disconnect();
     });
 
     const urlParts = computed<Array<string>>(() => {
@@ -127,7 +117,7 @@ export default defineComponent({
       ];
     });
 
-    return { inputStyle, urlParts, measureTextRef };
+    return {inputStyle, urlParts, measureTextRef};
   },
 });
 </script>
