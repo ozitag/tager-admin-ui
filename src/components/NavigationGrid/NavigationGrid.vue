@@ -1,7 +1,7 @@
 <template>
   <div class="nav-container">
     <div
-      v-for="(navItem, index) of navItems"
+      v-for="(navItem, index) of navItemsFiltered"
       :key="index"
       class="nav-card"
       :style="`width: ${getWidth(navItem)}`"
@@ -48,7 +48,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
+
+import { useUserStore } from "@tager/admin-services";
 
 import Spinner from "../BaseSpinner";
 
@@ -70,16 +72,43 @@ export default defineComponent({
   components: { Spinner, GridItemWrapper },
   props: {
     navItems: {
-      type: Array,
-      default: () => [] as PropType<Array<NavigationGridItem>>,
+      type: Array as PropType<Props["navItems"]>,
+      default: () => [] as PropType<Props["navItems"]>,
     },
   },
-  setup() {
+  setup(props: Props) {
+    const userStore = useUserStore();
+
+    const navItemsFiltered = computed(() =>
+      props.navItems
+        .filter((item) => {
+          if (!item.scopes) {
+            return true;
+          }
+
+          return userStore.checkScopes(item.scopes);
+        })
+        .map((item) => {
+          if (item.linkList) {
+            item.linkList = item.linkList.filter((link) => {
+              if (link.scopes) {
+                return userStore.checkScopes(link.scopes);
+              } else {
+                return true;
+              }
+            });
+          }
+
+          return item;
+        })
+    );
+
     return {
       hasContent,
       hasNameOnly,
       formatNumber,
       getWidth,
+      navItemsFiltered,
     };
   },
 });

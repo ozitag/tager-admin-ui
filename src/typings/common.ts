@@ -1,4 +1,4 @@
-import type { FileType, Nullable } from "@tager/admin-services";
+import type { FileType, Nullable, Scopes } from "@tager/admin-services";
 
 export type ShortCodeParamType = {
   readonly name: string;
@@ -8,6 +8,10 @@ export type ShortCodeParamType = {
 export type LinkType = {
   url: string;
   text: string;
+};
+
+export type LinkTypeWithScopes = LinkType & {
+  scopes?: Scopes;
 };
 
 export type ShortCodeItemType = {
