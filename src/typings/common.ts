@@ -111,6 +111,11 @@ export interface ColumnDefinitionString<RowData = RowDataDefaultType>
   format?: (params: ColumnParamsArg<RowData>) => StringCellValue;
 }
 
+export interface ColumnDefinitionList<RowData = RowDataDefaultType>
+  extends ColumnDefinitionCommon<RowData> {
+  type?: "list";
+}
+
 export interface ColumnDefinitionLink<RowData = RowDataDefaultType>
   extends ColumnDefinitionCommon<RowData> {
   type: "link";
@@ -182,6 +187,7 @@ export interface ColumnDefinitionFile<RowData = RowDataDefaultType>
 
 export type ColumnDefinition<RowData = RowDataDefaultType> =
   | ColumnDefinitionDynamic<RowData>
+  | ColumnDefinitionList<RowData>
   | ColumnDefinitionString<RowData>
   | ColumnDefinitionDate<RowData>
   | ColumnDefinitionDateTime<RowData>
