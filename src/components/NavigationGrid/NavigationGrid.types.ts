@@ -1,7 +1,11 @@
 import type { FetchStatus } from "@tager/admin-services";
-import { Scopes } from "@tager/admin-services";
+import { type Scopes } from "@tager/admin-services";
 
-import { LinkTypeWithScopes } from "../../typings/common";
+import { type LinkType } from "../../typings/common";
+
+type LinkTypeWithScopes = LinkType & {
+  scopes?: Scopes;
+};
 
 export interface NavigationGridItem {
   name: string;

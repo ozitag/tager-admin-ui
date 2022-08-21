@@ -354,7 +354,7 @@ export default defineComponent({
     border: 1px solid rgba(0, 0, 0, 0.25);
     appearance: none;
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    print-color-adjust: exact;
 
     &[type="radio"] {
       border-radius: 50%;
