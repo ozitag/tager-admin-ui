@@ -27,15 +27,13 @@
       class="data-table-footer"
     >
       <div ref="footerInnerRef" class="footer-inner">
-        <div v-if="sort" class="sort-container">
-          <span>{{ $i18n.t("ui:sortBy") }}:</span>
-          <ComboBox
-            :searchable="false"
-            :options="sort.options"
-            :value="sort.value"
-            @change="handleSortChange"
-          />
-        </div>
+        <SortComponent
+          v-if="sort"
+          :options="sort.options"
+          :value="sort.options.find((item) => item.value === sort.value)"
+          :disabled="loading"
+          @change="handleSortChange"
+        />
         <div v-if="displayPagination" class="pagination-container">
           <Pagination
             v-bind="computedPagination"
@@ -74,6 +72,8 @@ import useResizeObserver from "../../hooks/useResizeObserver";
 import ComboBox from "../ComboBox/ComboBox.vue";
 
 import type { TableChangeEvent } from "./DataTable.types";
+import SortComponent from "./components/Sort/Sort.vue";
+import sort from "./components/Sort";
 
 interface PaginationProps {
   pageNumber: number;
@@ -84,7 +84,7 @@ interface PaginationProps {
 
 interface SortProps {
   options: Array<OptionType>;
-  value: OptionType;
+  value: string;
 }
 
 interface Props {
@@ -102,7 +102,14 @@ interface Props {
 
 export default defineComponent({
   name: "DataTable",
-  components: { ComboBox, BaseTable, SearchInput, Pagination, BaseSelect },
+  components: {
+    SortComponent,
+    ComboBox,
+    BaseTable,
+    SearchInput,
+    Pagination,
+    BaseSelect,
+  },
   props: {
     columnDefs: {
       type: Array as PropType<Props["columnDefs"]>,
@@ -234,8 +241,9 @@ export default defineComponent({
     }
 
     function handleSortChange(sort: OptionType): void {
-      context.emit("change:sort", sort.value);
-      dispatchChangeEvent({ type: "SORT_UPDATE", payload: sort.value });
+      context.emit("change:sort", sort);
+      dispatchChangeEvent({ type: "SORT_UPDATE", payload: sort });
+      scrollToTop();
     }
 
     const displayPagination = computed<boolean>(() => {
@@ -286,18 +294,6 @@ export default defineComponent({
     margin-left: auto;
     align-items: center;
     min-height: 55px;
-  }
-
-  .sort-container {
-    display: flex;
-    align-items: center;
-    min-width: 250px;
-
-    > span {
-      display: block;
-      margin-right: 5px;
-      white-space: nowrap;
-    }
   }
 }
 </style>
