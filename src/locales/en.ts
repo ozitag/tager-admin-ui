@@ -57,6 +57,8 @@ const EN = {
     loading: "Loading",
   },
 
+  sortBy: "Sort by",
+
   buttonField: {
     isNewTab: "Is new tab?",
     link: "Link",

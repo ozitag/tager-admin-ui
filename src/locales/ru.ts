@@ -59,6 +59,8 @@ const RU: typeof EN = {
     loading: "Загрузка",
   },
 
+  sortBy: "Сортировать по",
+
   buttonField: {
     isNewTab: "Новая вкладка?",
     link: "Ссылка",

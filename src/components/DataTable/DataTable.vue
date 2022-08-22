@@ -21,12 +21,22 @@
       </template>
     </BaseTable>
 
-    <div ref="footerRef" class="data-table-footer">
+    <div
+      v-if="sort || displayPagination"
+      ref="footerRef"
+      class="data-table-footer"
+    >
       <div ref="footerInnerRef" class="footer-inner">
-        <div
-          v-if="usePagination && computedPagination.pageCount > 1"
-          class="pagination-container"
-        >
+        <div v-if="sort" class="sort-container">
+          <span>{{ $i18n.t("ui:sortBy") }}:</span>
+          <ComboBox
+            :searchable="false"
+            :options="sort.options"
+            :value="sort.value"
+            @change="handleSortChange"
+          />
+        </div>
+        <div v-if="displayPagination" class="pagination-container">
           <Pagination
             v-bind="computedPagination"
             @change:page-number="handlePageNumberChange"
@@ -48,15 +58,20 @@ import {
   watch,
 } from "vue";
 
+import { Nullable } from "@tager/admin-services";
+
 import BaseTable from "../BaseTable";
+import BaseSelect from "../BaseSelect";
 import SearchInput from "../SearchInput";
 import Pagination from "../Pagination";
 import type {
   ColumnDefinition,
+  OptionType,
   RowDataDefaultType,
 } from "../../typings/common";
 import { getScrollableParent } from "../../utils/common";
 import useResizeObserver from "../../hooks/useResizeObserver";
+import ComboBox from "../ComboBox/ComboBox.vue";
 
 import type { TableChangeEvent } from "./DataTable.types";
 
@@ -67,6 +82,11 @@ interface PaginationProps {
   usePageSize?: boolean;
 }
 
+interface SortProps {
+  options: Array<OptionType>;
+  value: OptionType;
+}
+
 interface Props {
   columnDefs: Array<ColumnDefinition>;
   rowData: Array<RowDataDefaultType>;
@@ -75,13 +95,14 @@ interface Props {
   searchQuery: string;
   useSearch: boolean;
   pagination: PaginationProps;
+  sort?: Nullable<SortProps>;
   usePagination: boolean;
   enumerable: boolean;
 }
 
 export default defineComponent({
   name: "DataTable",
-  components: { BaseTable, SearchInput, Pagination },
+  components: { ComboBox, BaseTable, SearchInput, Pagination, BaseSelect },
   props: {
     columnDefs: {
       type: Array as PropType<Props["columnDefs"]>,
@@ -105,7 +126,11 @@ export default defineComponent({
     },
     pagination: {
       type: Object as PropType<Props["pagination"]>,
-      default: () => ({}),
+      default: null,
+    },
+    sort: {
+      type: Object as PropType<Props["sort"]>,
+      default: null,
     },
     useSearch: {
       type: Boolean,
@@ -120,7 +145,13 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["change", "change:search", "change:page-number", "change:page-size"],
+  emits: [
+    "change",
+    "change:search",
+    "change:page-number",
+    "change:page-size",
+    "change:sort",
+  ],
   setup(props: Props, context) {
     const dataTableRef = ref<HTMLElement | null>(null);
     const scrollContainerRef = ref<HTMLElement | null>(null);
@@ -202,14 +233,29 @@ export default defineComponent({
       dispatchChangeEvent({ type: "PAGE_SIZE_UPDATE", payload: pageSize });
     }
 
+    function handleSortChange(sort: OptionType): void {
+      context.emit("change:sort", sort.value);
+      dispatchChangeEvent({ type: "SORT_UPDATE", payload: sort.value });
+    }
+
+    const displayPagination = computed<boolean>(() => {
+      return (
+        props.usePagination &&
+        props.pagination &&
+        computedPagination.value.pageCount > 1
+      );
+    });
+
     return {
       handleSearchChange,
       handlePageNumberChange,
       handlePageSizeChange,
+      handleSortChange,
       dataTableRef,
       footerRef,
       footerInnerRef,
       computedPagination,
+      displayPagination,
     };
   },
 });
@@ -227,17 +273,31 @@ export default defineComponent({
 
   .footer-inner {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     border-top: 1px solid #eee;
     background: #fff;
     font-size: 14px;
+    min-height: 56px;
   }
 
   .pagination-container {
     display: flex;
+    margin-left: auto;
     align-items: center;
     min-height: 55px;
+  }
+
+  .sort-container {
+    display: flex;
+    align-items: center;
+    min-width: 250px;
+
+    > span {
+      display: block;
+      margin-right: 5px;
+      white-space: nowrap;
+    }
   }
 }
 </style>

@@ -13,7 +13,7 @@
     "resolveJsonModule": true,
     "preserveValueImports": true,
     "sourceMap": true,
-    "declaration": true,
+    "declaration": false,
     "declarationDir": "dist",
     "types": [
       "webpack-env"

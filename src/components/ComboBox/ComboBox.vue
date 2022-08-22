@@ -308,7 +308,7 @@ export default defineComponent({
     }
 
     function isOptionSelected(option: OptionType) {
-      return props.value?.value === option.value;
+      return option.value !== undefined && props.value?.value === option.value;
     }
 
     function handleInput(value: string) {
