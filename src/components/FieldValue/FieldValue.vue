@@ -9,6 +9,14 @@
       {{ text }}
     </div>
 
+    <div v-if="type === 'json' && text">
+      <VueJsonPretty
+        :data="JSON.parse(text)"
+        :show-line-number="true"
+        :virtual="true"
+      />
+    </div>
+
     <template v-if="type === 'link' && (text || src)">
       <router-link
         v-if="shouldUseRouter"
@@ -17,7 +25,12 @@
       >
         {{ text || src }}
       </router-link>
-      <a v-else :class="['link', { 'no-label': !label }]" :href="src">
+      <a
+        v-else
+        :class="['link', { 'no-label': !label }]"
+        :href="src"
+        target="_blank"
+      >
         {{ text || src }}
       </a>
     </template>
@@ -62,6 +75,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import VueJsonPretty from "vue-json-pretty";
+import "vue-json-pretty/lib/styles.css";
 
 import LoadableImage from "../LoadableImage";
 
@@ -79,7 +94,7 @@ interface Props {
 
 export default defineComponent({
   name: "FieldValue",
-  components: { LoadableImage },
+  components: { LoadableImage, VueJsonPretty },
   props: {
     label: {
       type: String,
@@ -89,7 +104,7 @@ export default defineComponent({
       type: String,
       default: "text",
       validator: (value: string) =>
-        ["text", "link", "video", "image", "list"].includes(value),
+        ["text", "link", "video", "image", "list", "json"].includes(value),
     },
     text: {
       type: String,
