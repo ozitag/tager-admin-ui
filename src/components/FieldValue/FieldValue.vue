@@ -10,11 +10,7 @@
     </div>
 
     <div v-if="type === 'json' && text">
-      <VueJsonPretty
-        :data="JSON.parse(text)"
-        :show-line-number="true"
-        :virtual="true"
-      />
+      <FieldValueJson :data="text" />
     </div>
 
     <template v-if="type === 'link' && (text || src)">
@@ -75,10 +71,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import VueJsonPretty from "vue-json-pretty";
-import "vue-json-pretty/lib/styles.css";
 
 import LoadableImage from "../LoadableImage";
+
+import FieldValueJson from "./сomponents/FieldValueJson.vue";
 
 interface Props {
   type: "text" | "link" | "video" | "image" | "list";
@@ -94,7 +90,7 @@ interface Props {
 
 export default defineComponent({
   name: "FieldValue",
-  components: { LoadableImage, VueJsonPretty },
+  components: { FieldValueJson, LoadableImage },
   props: {
     label: {
       type: String,
@@ -216,6 +212,16 @@ export default defineComponent({
     &.no-label {
       margin-top: 0;
     }
+  }
+}
+
+.field-json {
+  label {
+    margin-bottom: 0.5rem;
+  }
+
+  :deep(.jv-code) {
+    padding: 15px;
   }
 }
 </style>
