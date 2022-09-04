@@ -34,6 +34,7 @@ const RU: typeof EN = {
     titleLabel: "Заголовок страницы",
     descriptionLabel: "Описание страницы",
     keywordsLabel: "Ключевые слова",
+    h1Label: "H1",
     imageLabel: "Картинка страницы",
     previewAs: "Предварительный просмотр как",
     desktopGoogleSnippet: "Desktop Google snippet",

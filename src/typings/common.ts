@@ -214,6 +214,7 @@ export interface SeoChangeEvent {
   title: string;
   description: string;
   keywords: string;
+  h1: string;
   image: SingleFileInputValueType | null;
 }
 
